@@ -1,6 +1,6 @@
 using Sources.InfrastructureInterfaces.StateMachines.States;
 
-namespace Sources.Infrastructure.StateMachines.SceneStateMachines
+namespace Sources.InfrastructureInterfaces.StateMachines.SceneStateMachine
 {
     public interface ISceneStateMachine : IUpdatable, ILateUpdatable, IFixedUpdatable, IExitable
     {

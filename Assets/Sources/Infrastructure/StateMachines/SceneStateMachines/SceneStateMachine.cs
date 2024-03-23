@@ -1,4 +1,5 @@
 ﻿using System;
+using Sources.InfrastructureInterfaces.StateMachines.SceneStateMachine;
 using Sources.InfrastructureInterfaces.StateMachines.States;
 
 namespace Sources.Infrastructure.StateMachines.SceneStateMachines
