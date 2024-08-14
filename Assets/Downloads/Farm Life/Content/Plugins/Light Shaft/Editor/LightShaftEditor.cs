@@ -67,7 +67,7 @@ public class LightShaftEditor : Editor
 	{
 		// HEADER
 		// Get texture and its aspect ratio
-		var tex = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Farm Life/Content/Plugins/Light Shaft/Editor/beffio_logo.png");
+		var tex = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Downloads/Farm Life/Content/Plugins/Light Shaft/Editor/beffio_logo.png");
 		float imageAspect = tex.height/tex.width;
 
 		// Make GUIContent from texture
