@@ -10,12 +10,13 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Domain
     {
         [HideInInspector] public string componentName;
         [SerializeReference] public object Component;
-        public ComponentContainer EntityView { get; private set; }
+        
+        public EntityView EntityView { get; private set; }
         public Type ComponentType { get; private set; }
 
         // public int Entity => EntityView.Entity;
 
-        public ComponentView(ComponentContainer entityView)
+        public ComponentView(EntityView entityView)
         {
             EntityView = entityView;
         }

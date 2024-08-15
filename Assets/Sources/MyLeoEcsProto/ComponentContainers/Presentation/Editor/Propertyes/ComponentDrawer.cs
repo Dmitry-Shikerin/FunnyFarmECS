@@ -11,26 +11,34 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
     [CustomPropertyDrawer(typeof(ComponentView), useForChildren: true)]
     public class ComponentDrawer : PropertyDrawer
     { 
-       private const string _COMPONENT_NAME_FIELD = nameof(ComponentView.componentName);
-      private const string _COMPONENT_FIELD = nameof(ComponentView.Component);
+       private const string ComponentNameField = nameof(ComponentView.componentName); 
+       private const string ComponentField = nameof(ComponentView.Component);
 
       private Box _root;
       private VisualElement _header;
+      private Button _delButton;
       private Label _label;
       private VisualElement _main;
       private VisualElement _fields;
 
       private SerializedProperty _property;
+      private SerializedProperty ComponentProperty
+         => _property.FindPropertyRelative(ComponentField);
+      private string ComponentName =>
+         ComponentNameProperty.stringValue;
+      private SerializedProperty ComponentNameProperty =>
+         _property.FindPropertyRelative(ComponentNameField);
+      
       private ComponentView _target;
 
       private object Component => _target.Component;
       private Type ComponentType => _target.ComponentType;
-
-
+      
       public override VisualElement CreatePropertyGUI(SerializedProperty property) 
       {
          _property = property;
          _target = (ComponentView)property.GetUnderlyingValue();
+         // _target = property.serializedObject.targetObject as ComponentView;
 
          CreateElements();
          StructureElements();
@@ -43,6 +51,7 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
       {
          _root = new Box();
          _header = new VisualElement();
+         _delButton = new Button() { text = "-" };
          _label = new Label();
          _main = new VisualElement();
          _fields = new VisualElement();
@@ -50,10 +59,24 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
 
       private void StructureElements()
       {
+         _delButton.clicked -= OnClick;
+         _delButton.clicked += OnClick;
+         _header
+            .AddChild(_label)
+            .AddChild(_delButton);
+         _fields
+            .AddChildPropertiesOf(ComponentProperty);
+         _main
+            .AddChild(_fields);
          _root
-           .AddChild(_header.AddChild(_label))
-           .AddChild(_main.AddChild(_fields.AddChildPropertiesOf(ComponentProperty())));
-         // AddPackedEntities();
+           .AddChild(_header)
+           .AddChild(_main);
+      }
+
+      private void OnClick()
+      {
+         _target.EntityView.Components.Remove(_target);
+         _target.EntityView.ComponentsCount--;
       }
 
       private void InitElements() {
@@ -64,102 +87,11 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
            .BorderRadius(StyleConsts.REM_05);
 
          _label
-           .SetText(ComponentName())
+           .SetText(ComponentName)
            .style
            .FontStyle(FontStyle.Bold);
 
          _main.style.paddingLeft = StyleConsts.REM;
       }
-      
-      // private void AddPackedEntities()
-      // {
-      //    if (!ComponentsWithPackedEntities.Contains(ComponentType))
-      //       return;
-      //
-      //    foreach (FieldInfo field in ComponentType.GetFields()) {
-      //       if (!field.HasAttribute<PackedEntityAttribute>())
-      //          continue;
-      //
-      //       string title      = field.HumanName();
-      //       object fieldValue = field.GetValueOptimized(Component);
-      //
-      //       switch (fieldValue) {
-      //          case EcsPackedEntity packed:
-      //             _main.Add(
-      //                new EntityField(
-      //                   packed,
-      //                   _target.World,
-      //                   view => {
-      //                      field.SetValueOptimized(Component, view.PackedEntity());
-      //                      _target.SetValue(Component);
-      //                   },
-      //                   title
-      //                )
-      //             );
-      //             break;
-      //          case EcsPackedEntityWithWorld packedWithWorld:
-      //             _main.Add(
-      //                new EntityField(
-      //                   packedWithWorld,
-      //                   view => {
-      //                      field.SetValueOptimized(Component, view.PackedEntityWithWorld());
-      //                      _target.SetValue(Component);
-      //                   },
-      //                   title
-      //                )
-      //             );
-      //             break;
-      //          case IList collection:
-      //             var entitiesContainer = new Foldout { text = title };
-      //
-      //             switch (collection) {
-      //                case IList<EcsPackedEntity> packedEntities:
-      //                   for (var i = 0; i < packedEntities.Count; i++) {
-      //                      IList<EcsPackedEntity> entities = packedEntities;
-      //                      int                    index    = i;
-      //
-      //                      entitiesContainer.Add(
-      //                         new EntityField(
-      //                            packedEntities[i],
-      //                            _target.World,
-      //                            view => entities[index] = view.PackedEntity(),
-      //                            title
-      //                         )
-      //                      );
-      //                   }
-      //
-      //                   break;
-      //                case IList<EcsPackedEntityWithWorld> packedWithWorldEntities:
-      //                   for (var i = 0; i < packedWithWorldEntities.Count; i++) {
-      //                      IList<EcsPackedEntityWithWorld> entities = packedWithWorldEntities;
-      //                      int                             index    = i;
-      //
-      //                      entitiesContainer.Add(
-      //                         new EntityField(
-      //                            packedWithWorldEntities[i],
-      //                            view => entities[index] = view.PackedEntityWithWorld(),
-      //                            title
-      //                         )
-      //                      );
-      //                   }
-      //
-      //                   break;
-      //             }
-      //
-      //             _main.Add(entitiesContainer);
-      //             break;
-      //       }
-      //    }
-      // }
-      //
-
-      private string ComponentName() =>
-         ComponentNameProperty().stringValue;
-      
-      private SerializedProperty ComponentNameProperty() =>
-         _property.FindPropertyRelative(_COMPONENT_NAME_FIELD);
-      
-      private SerializedProperty ComponentProperty()
-         => _property.FindPropertyRelative(_COMPONENT_FIELD);
     }
 }

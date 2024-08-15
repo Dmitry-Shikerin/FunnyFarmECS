@@ -30,7 +30,6 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Extencio
             int maxAmount = int.MaxValue) 
         {
             List<SerializedProperty> properties = new List<SerializedProperty>();
-            Debug.Log(property);
             SerializedProperty prop = property.Copy();
             SerializedProperty nextProp = Next(property);
 
