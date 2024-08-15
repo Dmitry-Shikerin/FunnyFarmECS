@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33131259959521018}
   - component: {fileID: 23034544456622928}
   - component: {fileID: 64073725247055782}
+  - component: {fileID: 4529282754160544766}
   m_Layer: 0
   m_Name: Tree_2_Medium
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.94918025, y: 0.949178, z: 0.94918025}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4792fa2509a701248b3a18aa58410f9e, type: 2}
+  - {fileID: 2100000, guid: 5709a124b01d90c40ba289a6334bb770, type: 2}
   - {fileID: 2100000, guid: 10c6cd4e3b63e2a4caf84ec253d7d57b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -107,3 +108,36 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: fc8fd64850f228749a54e7f48f81c274, type: 3}
+--- !u!114 &4529282754160544766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794638788859170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2e3b9377ea4b6b9d83eb1bc17d15a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldName: 
+  _authoringType: 0
+  _destroyAfterAuthoring: 0
+  Components:
+  - rid: 4755881819627847892
+  - rid: 4755881819627847893
+  references:
+    version: 2
+    RefIds:
+    - rid: 4755881819627847892
+      type: {class: TreeTag, ns: Sources.Trees.Components, asm: Assembly-CSharp}
+      data: 
+    - rid: 4755881819627847893
+      type: {class: SweengingTreeComponent, ns: Sources.SwingingTrees.Domain, asm: Assembly-CSharp}
+      data:
+        Tree: {fileID: 4232900054182078}
+        SpeedX: 0
+        SpeedY: 0
+        MaxAngleX: 0
+        MaxAngleY: 0
+        Direction: 0

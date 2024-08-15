@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33927266692654976}
   - component: {fileID: 23538019125702570}
   - component: {fileID: 64762378500599606}
+  - component: {fileID: 1399009550739851972}
   m_Layer: 0
   m_Name: Tree_3_High
   m_TagString: Untagged
@@ -107,3 +108,36 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 6116b8a665402f947bcc2fea31d4cfdf, type: 3}
+--- !u!114 &1399009550739851972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969065102569716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2e3b9377ea4b6b9d83eb1bc17d15a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldName: 
+  _authoringType: 0
+  _destroyAfterAuthoring: 0
+  Components:
+  - rid: 4755881819627847906
+  - rid: 4755881819627847907
+  references:
+    version: 2
+    RefIds:
+    - rid: 4755881819627847906
+      type: {class: TreeTag, ns: Sources.Trees.Components, asm: Assembly-CSharp}
+      data: 
+    - rid: 4755881819627847907
+      type: {class: SweengingTreeComponent, ns: Sources.SwingingTrees.Domain, asm: Assembly-CSharp}
+      data:
+        Tree: {fileID: 4152276967179006}
+        SpeedX: 0
+        SpeedY: 0
+        MaxAngleX: 0
+        MaxAngleY: 0
+        Direction: 0
