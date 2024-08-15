@@ -36,25 +36,20 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Extencio
             if (HasChildren() == false)
                 return properties;
 
-            do 
+            do
             {
-                StoreChild();
+                properties.Add(prop.Copy());
             } while (HasNextChild());
 
             return properties;
-
-
-            void StoreChild() =>
-                properties.Add(prop.Copy());
-
+            
             bool HasChildren() =>
                 prop.NextVisible(enterChildren: true)
-                && !EqualNextProperty();
-
-
+                && EqualNextProperty() == false;
+            
             bool HasNextChild() =>
                 prop.NextVisible(enterChildren: false)
-                && !EqualNextProperty()
+                && EqualNextProperty() == false
                 && properties.Count < maxAmount;
 
             bool EqualNextProperty() =>

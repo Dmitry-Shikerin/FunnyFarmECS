@@ -16,21 +16,16 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
 
       private Box _root;
       private VisualElement _header;
-      private Button _delButton;
+      // private Button _delButton;
       private Label _label;
       private VisualElement _main;
       private VisualElement _fields;
 
       private SerializedProperty _property;
-      private SerializedProperty ComponentProperty
-         => _property.FindPropertyRelative(ComponentField);
-      private string ComponentName =>
-         ComponentNameProperty.stringValue;
-      private SerializedProperty ComponentNameProperty =>
-         _property.FindPropertyRelative(ComponentNameField);
-      
+      private SerializedProperty ComponentProperty { get; set; }
+      private string ComponentName { get; set; }
+      private SerializedProperty ComponentNameProperty { get; set; }
       private ComponentView _target;
-
       private object Component => _target.Component;
       private Type ComponentType => _target.ComponentType;
       
@@ -38,8 +33,12 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
       {
          _property = property;
          _target = (ComponentView)property.GetUnderlyingValue();
-         // _target = property.serializedObject.targetObject as ComponentView;
-
+         ComponentProperty = _property.FindPropertyRelative(ComponentField);
+         ComponentNameProperty = _property.FindPropertyRelative(ComponentNameField);
+         ComponentName = ComponentNameProperty.stringValue;
+         
+         // Debug.Log(Component.GetType().Name);
+         //
          CreateElements();
          StructureElements();
          InitElements();
@@ -51,7 +50,7 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
       {
          _root = new Box();
          _header = new VisualElement();
-         _delButton = new Button() { text = "-" };
+         // _delButton = new Button() { text = "-" };
          _label = new Label();
          _main = new VisualElement();
          _fields = new VisualElement();
@@ -59,11 +58,11 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
 
       private void StructureElements()
       {
-         _delButton.clicked -= OnClick;
-         _delButton.clicked += OnClick;
+         // _delButton.clicked -= OnClick;
+         // _delButton.clicked += OnClick;
          _header
-            .AddChild(_label)
-            .AddChild(_delButton);
+            .AddChild(_label);
+            // .AddChild(_delButton);
          _fields
             .AddChildPropertiesOf(ComponentProperty);
          _main
@@ -75,8 +74,8 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Property
 
       private void OnClick()
       {
-         _target.EntityView.Components.Remove(_target);
-         _target.EntityView.ComponentsCount--;
+         _target.EntityView.Remove(_target);
+         _property.Dispose();
       }
 
       private void InitElements() {

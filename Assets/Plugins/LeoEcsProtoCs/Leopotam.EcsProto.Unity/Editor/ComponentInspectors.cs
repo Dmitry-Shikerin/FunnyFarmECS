@@ -19,7 +19,8 @@ namespace Leopotam.EcsProto.Unity.Editor {
         public ProtoWorldDebugSystem System;
     }
 
-    public static class ComponentInspectors {
+    public static class ComponentInspectors 
+    {
         const int MaxFieldToStringLength = 128;
 
         static readonly Slice<object> _componentsCache = new ();
@@ -30,29 +31,38 @@ namespace Leopotam.EcsProto.Unity.Editor {
         static readonly Dictionary<Type, FieldInfo[]> _typesCache = new ();
         static readonly Dictionary<Type, IProtoComponentInspector> _userInspectors = new ();
 
-        static ComponentInspectors () {
+        static ComponentInspectors () 
+        {
             var authAttrType = typeof (ProtoUnityAuthoringAttribute);
 
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ()) {
-                foreach (var type in assembly.GetTypes ()) {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ()) 
+            {
+                foreach (var type in assembly.GetTypes ()) 
+                {
                     // сканируем инспекторы.
-                    if (!type.IsInterface && !type.IsAbstract && typeof (IProtoComponentInspector).IsAssignableFrom (type)) {
+                    if (!type.IsInterface && !type.IsAbstract && typeof (IProtoComponentInspector).IsAssignableFrom (type)) 
+                    {
                         var ins = (IProtoComponentInspector) Activator.CreateInstance (type);
                         var cType = ins.ItemType ();
-                        if (!_userInspectors.TryGetValue (cType, out var prevIns) || ins.Priority () > prevIns.Priority ()) {
+                        if (!_userInspectors.TryGetValue (cType, out var prevIns) || ins.Priority () > prevIns.Priority ()) 
+                        {
                             _userInspectors[cType] = ins;
                         }
                         continue;
                     }
                     // сканируем компоненты.
-                    if (type.IsValueType && Attribute.IsDefined (type, authAttrType)) {
+                    if (type.IsValueType && Attribute.IsDefined (type, authAttrType)) 
+                    {
                         _userComponentTypesCache.Add (type);
                         var name = ((ProtoUnityAuthoringAttribute) Attribute.GetCustomAttribute (type, authAttrType)).Name;
-                        if (string.IsNullOrEmpty (name)) {
+                        
+                        if (string.IsNullOrEmpty (name)) 
+                        {
                             // ReSharper disable once PossibleNullReferenceException
                             name = type.FullName.Replace ('.', '/').Replace ('+', '/');
                         }
-                        if (_userComponentNamesCache.Contains (name)) {
+                        if (_userComponentNamesCache.Contains (name)) 
+                        {
                             Debug.LogWarning ($"[ProtoUnityAuthoring] компонент с именем \"{name}\" уже зарегистрирован, тип \"{type}\" проигнорирован");
                             continue;
                         }
@@ -70,101 +80,133 @@ namespace Leopotam.EcsProto.Unity.Editor {
             return _userComponentNamesCache;
         }
 
-        public static void RenderEntity (in EntityDebugInfo debugInfo) {
+        public static void RenderEntity (in EntityDebugInfo debugInfo) 
+        {
             debugInfo.World.EntityComponents (debugInfo.Entity, _componentsCache);
             RenderEntityComponents (_componentsCache, debugInfo);
             _componentsCache.Clear ();
         }
 
-        public static (bool changed, object newValue) RenderComponent (object component, in EntityDebugInfo debugInfo) {
+        public static (bool changed, object newValue) RenderComponent (object component, in EntityDebugInfo debugInfo) 
+        {
             var type = component.GetType ();
             GUILayout.BeginVertical (GUI.skin.box, GUILayout.MaxWidth (float.MaxValue));
             var typeName = EditorExtensions.CleanTypeNameCached (type);
             var changed = false;
             object newValue = default;
             var (found, cChanged, cNewValue) = RenderCustom (typeName, type, component, debugInfo);
-            if (found) {
-                if (cChanged) {
+            
+            if (found) 
+            {
+                if (cChanged) 
+                {
                     changed = true;
                     newValue = cNewValue;
                 }
-            } else {
+            } 
+            else 
+            {
                 EditorGUILayout.LabelField (typeName, EditorStyles.boldLabel);
                 var indent = EditorGUI.indentLevel;
                 EditorGUI.indentLevel++;
-                foreach (var field in GetCachedType (type)) {
+                foreach (var field in GetCachedType (type)) 
+                {
                     var (defChanged, defNewValue) = RenderField (component, field, debugInfo);
-                    if (defChanged) {
+                    
+                    if (defChanged) 
+                    {
                         changed = true;
                         field.SetValue (component, defNewValue);
                         newValue = component;
                     }
                 }
+                
                 EditorGUI.indentLevel = indent;
             }
             GUILayout.EndVertical ();
             EditorGUILayout.Space ();
+            
             return (changed, newValue);
         }
 
-        static void RenderEntityComponents (Slice<object> components, in EntityDebugInfo debugInfo) {
-            for (int i = 0, iMax = components.Len (); i < iMax; i++) {
+        static void RenderEntityComponents (Slice<object> components, in EntityDebugInfo debugInfo) 
+        {
+            for (int i = 0, iMax = components.Len (); i < iMax; i++) 
+            {
                 var component = components.Get (i);
                 var type = component.GetType ();
                 GUILayout.BeginVertical (GUI.skin.box, GUILayout.MaxWidth (float.MaxValue));
                 var typeName = EditorExtensions.CleanTypeNameCached (type);
                 var pool = debugInfo.World.Pool (type);
                 var (found, changed, newValue) = RenderCustom (typeName, type, component, debugInfo);
-                if (found) {
-                    if (changed) {
+                
+                if (found) 
+                {
+                    if (changed) 
+                    {
                         pool.SetRaw (debugInfo.Entity, newValue);
                     }
-                } else {
+                } 
+                else 
+                {
                     EditorGUILayout.LabelField (typeName, EditorStyles.boldLabel);
                     var indent = EditorGUI.indentLevel;
                     EditorGUI.indentLevel++;
-                    foreach (var field in GetCachedType (type)) {
+                    
+                    foreach (var field in GetCachedType (type)) 
+                    {
                         var (defChanged, defNewValue) = RenderField (component, field, debugInfo);
-                        if (defChanged) {
+                        
+                        if (defChanged) 
+                        {
                             field.SetValue (component, defNewValue);
                             pool.SetRaw (debugInfo.Entity, component);
                         }
                     }
                     EditorGUI.indentLevel = indent;
                 }
+                
                 GUILayout.EndVertical ();
                 EditorGUILayout.Space ();
             }
         }
 
-        static (bool changed, object newValue) RenderField (object component, FieldInfo field, in EntityDebugInfo debugInfo) {
+        static (bool changed, object newValue) RenderField (object component, FieldInfo field, in EntityDebugInfo debugInfo) 
+        {
             var fieldValue = field.GetValue (component);
             var fieldType = field.FieldType;
             var (found, changed, newValue) = RenderCustom (field.Name, fieldType, fieldValue, debugInfo);
-            if (found) {
+            if (found) 
+            {
                 return (changed, newValue);
             }
-            if (fieldType == _uObjectType || fieldType.IsSubclassOf (_uObjectType)) {
+            if (fieldType == _uObjectType || fieldType.IsSubclassOf (_uObjectType)) 
+            {
                 GUILayout.BeginHorizontal ();
                 EditorGUILayout.PrefixLabel (field.Name);
                 var newObjValue = EditorGUILayout.ObjectField ((Object) fieldValue, fieldType, true);
                 GUILayout.EndHorizontal ();
                 return (newObjValue != (Object) fieldValue, newObjValue);
             }
-            if (fieldType.IsEnum) {
+            if (fieldType.IsEnum) 
+            {
                 var isFlags = Attribute.IsDefined (fieldType, _flagsType);
                 var (eChanged, eNewValue) = RenderEnum (field.Name, fieldValue, isFlags);
                 return (eChanged, eNewValue);
             }
             var strVal = fieldValue != null ? string.Format (CultureInfo.InvariantCulture, "{0}", fieldValue) : "null";
-            if (strVal.Length > MaxFieldToStringLength) {
+            
+            if (strVal.Length > MaxFieldToStringLength) 
+            {
                 strVal = strVal.Substring (0, MaxFieldToStringLength);
             }
+            
             RenderSelectableText (field.Name, strVal);
             return (false, default);
         }
 
-        public static void RenderSelectableText (string label, string text) {
+        public static void RenderSelectableText (string label, string text) 
+        {
             GUILayout.BeginHorizontal ();
             EditorGUILayout.PrefixLabel (label);
             EditorGUILayout.SelectableLabel (text, GUILayout.MaxHeight (EditorGUIUtility.singleLineHeight));

@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6001361594393993537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea57dfca67264224bf072dd51ab3bf11, type: 3}
+  m_Name: Grass_TreeSwingerConfig
+  m_EditorClassIdentifier: 
+  _swingSpeedX: 0.58
+  _swingSpeedRandomnessX: 0.168
+  _swingSpeedY: 0.52
+  _swingSpeedRandomnessY: 0.32
+  _swingMaxAngleX: 7.16
+  _swingMaxAngleRandomnessX: 1.05
+  _swingMaxAngleY: 73
+  _swingMaxAngleRandomnessY: 3.95
+  _direction: 25.1
+  _directionRandomness: 21.7
+  _enableYAxisSwinging: 0
+  Parent: {fileID: 11400000}
+  Id: Grass
+--- !u!114 &-3432343095623893515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea57dfca67264224bf072dd51ab3bf11, type: 3}
+  m_Name: Tree_TreeSwingerConfig
+  m_EditorClassIdentifier: 
+  _swingSpeedX: 0.39
+  _swingSpeedRandomnessX: 0.14
+  _swingSpeedY: 0.36
+  _swingSpeedRandomnessY: 0.101
+  _swingMaxAngleX: 4.6
+  _swingMaxAngleRandomnessX: 1.05
+  _swingMaxAngleY: 38
+  _swingMaxAngleRandomnessY: 3.95
+  _direction: 25.1
+  _directionRandomness: 21.7
+  _enableYAxisSwinging: 0
+  Parent: {fileID: 11400000}
+  Id: Tree
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8117468481dd4c909a7a7a45daca38bc, type: 3}
+  m_Name: TreeSwingerCollector
+  m_EditorClassIdentifier: 
+  <Configs>k__BackingField:
+  - {fileID: -6001361594393993537}
+  - {fileID: -3432343095623893515}
+  - {fileID: 5412743168267944296}
+  - {fileID: 996797144644976050}
+  _configId: Flowers
+--- !u!114 &996797144644976050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea57dfca67264224bf072dd51ab3bf11, type: 3}
+  m_Name: Flowers_TreeSwingerConfig
+  m_EditorClassIdentifier: 
+  _swingSpeedX: 0.69
+  _swingSpeedRandomnessX: 0.292
+  _swingSpeedY: 1.08
+  _swingSpeedRandomnessY: 0.32
+  _swingMaxAngleX: 7.16
+  _swingMaxAngleRandomnessX: 1.05
+  _swingMaxAngleY: 73
+  _swingMaxAngleRandomnessY: 1.74
+  _direction: 134.6
+  _directionRandomness: 180
+  _enableYAxisSwinging: 0
+  Parent: {fileID: 11400000}
+  Id: Flowers
+--- !u!114 &5412743168267944296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea57dfca67264224bf072dd51ab3bf11, type: 3}
+  m_Name: Bush_TreeSwingerConfig
+  m_EditorClassIdentifier: 
+  _swingSpeedX: 0.22
+  _swingSpeedRandomnessX: 0.101
+  _swingSpeedY: 0.42
+  _swingSpeedRandomnessY: 0.23
+  _swingMaxAngleX: 7.16
+  _swingMaxAngleRandomnessX: 1.05
+  _swingMaxAngleY: 73
+  _swingMaxAngleRandomnessY: 3.95
+  _direction: 25.1
+  _directionRandomness: 21.7
+  _enableYAxisSwinging: 0
+  Parent: {fileID: 11400000}
+  Id: Bush

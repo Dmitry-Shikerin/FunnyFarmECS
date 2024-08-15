@@ -1,6 +1,8 @@
 using System;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
+using Leopotam.EcsProto.Unity;
+using Sources.SwingingTrees.Infrastructure;
 using UnityEngine;
 
 namespace Sources
@@ -8,19 +10,21 @@ namespace Sources
     public class EcsGameStartUp : MonoBehaviour
     {
         private ProtoWorld _world;
-        private ProtoAspect _aspect;
+        private MainAspect _aspect;
         private ProtoSystems _systems;
 
         private void Awake()
         {
-            _aspect = new ProtoAspect();
+            _aspect = new MainAspect();
             _world = new ProtoWorld(_aspect);
             _systems = new ProtoSystems(_world);
         }
 
         private void Start()
         {
-            _systems.AddModule(new AutoInjectModule());
+            _systems
+                .AddModule(new AutoInjectModule())
+                .AddModule(new UnityModule());
             AddInit();
             AddRun();
             AddOneFrame();
@@ -40,6 +44,9 @@ namespace Sources
 
         private IProtoSystems AddInit()
         {
+            _systems
+                .AddSystem(new TreeSwingerSystem());
+            
             return _systems;
         }
 

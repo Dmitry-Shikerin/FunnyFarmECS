@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TreeSwinger : MonoBehaviour {
+public class TreeSwinger : MonoBehaviour 
+{
 
 	#region Public variables
 		[HeaderAttribute("Speed settings")]
@@ -52,8 +53,10 @@ public class TreeSwinger : MonoBehaviour {
 		Vector3 swingDirection;
 	#endregion
 
-	void OnValidate() {
-		for(int i = 0; i < trees.Count; i++){
+	void OnValidate() 
+	{
+		for(int i = 0; i < trees.Count; i++)
+		{
 			trees[i].tree.rotation = Quaternion.identity;
 			trees[i].speedX = swingSpeedX+Random.Range(-swingSpeedRandomnessX,swingSpeedRandomnessX);
 			trees[i].speedY = swingSpeedY + Random.Range(-swingSpeedRandomnessY,swingMaxAngleRandomnessY);
@@ -63,16 +66,20 @@ public class TreeSwinger : MonoBehaviour {
 		}
 	}
 	
-	void Start(){
-		foreach(Transform tree in transform){
+	void Start()
+	{
+		foreach(Transform tree in transform)
+		{
 			trees.Add(new SwingingTree(tree, swingSpeedX+Random.Range(-swingSpeedRandomnessX,swingSpeedRandomnessX),swingSpeedY+Random.Range(-swingSpeedRandomnessY,swingSpeedRandomnessY),
 				swingMaxAngleX + Random.Range(-swingMaxAngleRandomnessX,swingMaxAngleRandomnessX),swingMaxAngleY+Random.Range(-swingMaxAngleRandomnessY,swingMaxAngleRandomnessY),
 					direction+Random.Range(-directionRandomness,directionRandomness)));
 		}
 	}
 
-	void Update () {
-		for(int i = 0; i < trees.Count; i++){
+	void Update () 
+	{
+		for(int i = 0; i < trees.Count; i++)
+		{
 			 trees[i].tree.rotation = Quaternion.Euler(trees[i].maxAngleX * Mathf.Sin(Time.time * trees[i].speedX), 
 			 	(enableYAxisSwinging) ? trees[i].maxAngleY * Mathf.Sin(Time.time * trees[i].speedY) : trees[i].direction, 0f);
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Sources.MyLeoEcsProto.ComponentContainers.Domain;
 using Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor.Extencions;
@@ -17,11 +18,8 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor
     public class EcsComponentContainerEditor : UnityEditor.Editor
     {
         private const string ComponentsField = "_components";
-        // private const string _COMPONENTS_COUNT_FIELD = nameof(ComponentContainer.componentsCount);
 
         private const string _ADD_BTN_TEXT = "Add";
-        private const string _DEL_BTN_TEXT = "Del";
-        private const string _KILL_BTN_TEXT = "Kill";
 
         private VisualElement _root;
         private VisualElement _header;
@@ -33,21 +31,17 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor
         private Button _addBtn;
         private Type _selectedType;
 
-        // private Button          _killBtn;
         private Button _delBtn;
         private VisualElement _componentsContainer;
         private PropertyField[] _componentsDrawers = Array.Empty<PropertyField>();
+        private Button _refreshBtn;
 
         private EntityView EntityView { get; set; }
 
-        // private EcsWorld   World           => Target.World;
-        // private int        Entity          => Target.Entity;
-        // private string Label => Target.BakedIndex;
         private int ComponentsCount => EntityView.Components.Count;
         private SerializedProperty ComponentsProperty { get; set; }
         private SerializedProperty ComponentsCountProperty { get; set; }
-
-
+        
         public override VisualElement CreateInspectorGUI()
         {
             CreateElements();
@@ -72,6 +66,7 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor
                 // RefreshComponents();
             }) { text = _ADD_BTN_TEXT };
             _delBtn = new Button(ClearComponents) { text = "Clear Components" };
+            _refreshBtn = new Button(RefreshComponents) { text = "Refresh" };
             _componentsContainer = new VisualElement();
             _addContainerTitle = new Label();
             _addContainerDropdown = new DropdownField(
@@ -82,27 +77,31 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor
 
         private void AddComponent()
         {
+            List<Type> types = EntityView.Components.Select(component => component.Component.GetType()).ToList();
+            
+            if (types.Any(type => type == _selectedType))
+                return;
+            
             if (_selectedType != null)
             {
                 object component = Activator.CreateInstance(_selectedType);
                 ComponentView componentView = new ComponentView(EntityView);
+                componentView.Init(_selectedType);
                 componentView.Component = component;
-                componentView.componentName = component.GetType().Name;
-                EntityView.Components.Add(componentView);
-                EntityView.ComponentsCount++;
+                EntityView.Add(componentView);
             }
         }
 
         private void ClearComponents()
         {
-            EntityView.Components.Clear();
-            EntityView.ComponentsCount = 0;
+            EntityView.Clear();
         }
 
         private void StructureElements()
         {
             _header
                 .AddChild(_title)
+                .AddChild(_refreshBtn)
                 .AddChild(_delBtn);
             _addContainer
                 .AddChild(_addContainerTitle)
@@ -146,73 +145,87 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor
                 .style
                 .FlexGrow();
 
-            // _addBtn.style.width = _delBtn.style.width = _killBtn.style.width = StyleConsts.REM * 5;
-            // EntityView.Components.Clear();
-            // EntityView.ComponentsCount = 0;
-            
-            if (EntityView.Components.Count <= 0)
-                return;
+            // _addBtn.style.width = _delBtn.style.width = StyleConsts.REM * 5;
+            _root.TrackPropertyValue(ComponentsCountProperty, _ =>
+            {
+                RefreshComponents();
+                serializedObject.Update();
+            });
             
             RefreshComponents();
-            _root.TrackPropertyValue(ComponentsCountProperty, _ => RefreshComponents());
+            serializedObject.Update();
         }
 
+        private void MyRefreshComponents()
+        {
+            IList<SerializedProperty> properties =
+                ComponentsProperty.GetChildren(ComponentsCount + 1); // "0" - "Size" property => shift by 1
 
+            _componentsContainer.Clear();
+
+            foreach (SerializedProperty property in properties)
+            {
+                _componentsContainer.AddChild(new PropertyField(property));
+            }
+        }
+        
         private void RefreshComponents()
         {
             IList<SerializedProperty> properties =
                     ComponentsProperty.GetChildren(ComponentsCount + 1); // "0" - "Size" property => shift by 1
             
-            if (NotEnoughDrawers())
-                ResizeForNewDrawers();
+            if (ComponentsCount > _componentsDrawers.Length)
+                Array.Resize(ref _componentsDrawers, ComponentsCount);
 
             for (var i = 0; i < ComponentsCount; i++)
             {
-                PropertyField drawer = GetField(i);
-                SerializedProperty component = GetProperty(i);
+                SerializedProperty component = properties[i + 1]; // "0" - "Size" property => shift by 1
+                PropertyField drawer = GetField(i, component);
 
-                if (AlreadyBinded(drawer, component))
+                if (component.propertyPath == drawer.bindingPath)
                     continue;
 
                 drawer.BindProperty(component);
-                drawer.RegisterValueChangeCallback(_ => ((ComponentView)component.GetUnderlyingValue()).SetValue());
+                drawer.RegisterValueChangeCallback(_ => 
+                    ((ComponentView)component
+                    .GetUnderlyingValue())
+                    .SetValue());
             }
 
             for (int i = ComponentsCount; i < _componentsDrawers.Length; i++)
-            {
-                DisableDrawer(i);
-            }
-
-            return;
-
-            PropertyField GetField(int i)
-            {
-                if (_componentsDrawers[i] != null)
-                    return _componentsDrawers[i];
-
-                var newField = new PropertyField();
-                _componentsContainer.AddChild(newField);
-                _componentsDrawers[i] = newField;
-
-                return newField;
-            }
-
-            bool AlreadyBinded(IBindable drawer, SerializedProperty component) =>
-                component.propertyPath == drawer.bindingPath;
-
-            SerializedProperty GetProperty(int i) =>
-                properties[i + 1]; // "0" - "Size" property => shift by 1
+                _componentsDrawers[i].style.display = DisplayStyle.None;
         }
-        
-        private void DisableDrawer(int i) =>
-            _componentsDrawers[i].style.display = DisplayStyle.None;
 
-        private void ResizeForNewDrawers() =>
-            Array.Resize(ref _componentsDrawers, ComponentsCount);
+        private PropertyField GetField(int i, SerializedProperty component)
+        {
+            if (_componentsDrawers[i] != null)
+                return _componentsDrawers[i];
 
-        private bool NotEnoughDrawers() =>
-            ComponentsCount > _componentsDrawers.Length;
-        
+            PropertyField newField = new PropertyField();
+            Box box = new Box();
+            box
+                .style
+                .Margin(hor: 0, StyleConsts.REM_025)
+                .Padding(StyleConsts.REM_05)
+                .BorderRadius(StyleConsts.REM_05);
+            Button delBtn = new Button(() =>
+            {
+                box.RemoveFromHierarchy();
+                var componentView = (ComponentView)component.GetUnderlyingValue();
+                componentView.EntityView.Remove(componentView);
+            });
+            delBtn.SetText("-");
+            delBtn.style.minHeight = StyleConsts.REM * 1;
+            box
+                .AddChild(newField)
+                .AddChild(delBtn);
+            // _componentsContainer.AddChild(newField);
+            _componentsContainer.AddChild(box);
+            _componentsDrawers[i] = newField;
+
+            return newField;
+        }
+
         private List<string> GetComponentsNames()
         {
             List<string> types = new List<string>();
@@ -236,8 +249,6 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor
         
         private string SetComponentType(string name)
         {
-            Type componentType = null;
-        
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (Type type in assembly.GetTypes())
@@ -247,14 +258,11 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Presentation.Editor
                     {
                         if (type.Name == name)
                         {
-                            componentType = type;
+                            _selectedType = type;
                         }
                     }
                 }
             }
-
-            if (componentType != null)
-                _selectedType = componentType;
         
             return name;
         }

@@ -28,18 +28,15 @@ namespace Sources.MyLeoEcsProto.ComponentContainers.Domain
 
             ComponentType = componentType;
             componentName = componentType.Name;
-            // Pool = World.GetPoolByType(componentType);
             return this;
         }
 
         public void SetValue()
         {
-            // if (EntityView.IsAlive) Pool.SetRaw(Entity, Component);
         }
 
         public void SetValue(object value)
         {
-            // if (EntityView.IsAlive) Pool.SetRaw(Entity, Component = value);
         }
 
         public void Refresh()

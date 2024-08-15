@@ -9,7 +9,8 @@ using Unity.IL2CPP.CompilerServices;
 #endif
 
 namespace Leopotam.EcsProto.Unity {
-    public sealed class UnityModule : IProtoModule {
+    public sealed class UnityModule : IProtoModule 
+    {
         readonly string _updatePointName;
         readonly bool _disableDebugSystems;
         readonly string _systemsName;
@@ -24,15 +25,19 @@ namespace Leopotam.EcsProto.Unity {
             _entityNameFormat = entityNameFormat;
         }
 
-        public void Init (IProtoSystems systems) {
+        public void Init (IProtoSystems systems) 
+        {
             systems
                 .AddSystem (new UnityWorldsSystem ())
                 .AddSystem (new UnityLinkSystem ());
 #if UNITY_EDITOR
-            if (!_disableDebugSystems) {
+            if (!_disableDebugSystems) 
+            {
                 systems.AddSystem (new ProtoSystemsDebugSystem (_systemsName), _updatePointName);
                 systems.AddSystem (new ProtoWorldDebugSystem (default, _bakeComponentsInName, _entityNameFormat), _updatePointName);
-                foreach (var kv in systems.NamedWorlds ()) {
+                
+                foreach (var kv in systems.NamedWorlds ()) 
+                {
                     systems.AddSystem (new ProtoWorldDebugSystem (kv.Key, _bakeComponentsInName, _entityNameFormat), _updatePointName);
                 }
             }

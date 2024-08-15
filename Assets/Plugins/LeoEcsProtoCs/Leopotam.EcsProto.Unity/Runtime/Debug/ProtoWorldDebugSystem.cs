@@ -10,7 +10,8 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Leopotam.EcsProto.Unity {
-    public sealed class ProtoEntityDebugView : MonoBehaviour {
+    public sealed class ProtoEntityDebugView : MonoBehaviour 
+    {
         [NonSerialized]
         public ProtoWorld World;
         [NonSerialized]
@@ -31,7 +32,8 @@ namespace Leopotam.EcsProto.Unity {
         readonly Slice<Type> _typesCache;
         Dictionary<int, string> _intsCache;
 
-        public ProtoWorldDebugSystem (string worldName = default, bool bakeComponentsInName = true, string entityNameFormat = "D6") {
+        public ProtoWorldDebugSystem (string worldName = default, bool bakeComponentsInName = true, string entityNameFormat = "D6") 
+        {
             _bakeComponentsInName = bakeComponentsInName;
             _worldName = worldName;
             _entityNameFormat = entityNameFormat;
@@ -44,42 +46,57 @@ namespace Leopotam.EcsProto.Unity {
             _typesCache = new Slice<Type> ();
         }
 
-        public void Init (IProtoSystems systems) {
+        public void Init (IProtoSystems systems) 
+        {
             _world = systems.World (_worldName);
             _entities = new ProtoEntityDebugView[_world.EntityGens ().Cap ()];
             _dirtyEntities = new (_entities.Length);
             _intsCache = new (_entities.Length);
             _world.AddEventListener (this);
             var gens = _world.EntityGens ();
-            for (int i = 0, iMax = gens.Len (); i < iMax; i++) {
-                if (gens.Get (i) > 0) {
+            
+            for (int i = 0, iMax = gens.Len (); i < iMax; i++) 
+            {
+                if (gens.Get (i) > 0) 
+                {
                     OnEntityCreated ((ProtoEntity) i);
                 }
             }
         }
 
         public void Run () {
-            foreach (var pair in _dirtyEntities) {
+            foreach (var pair in _dirtyEntities) 
+            {
                 var entity = pair.Value;
                 var entityName = Entity2Str (entity);
-                if (_world.EntityGen (entity) > 0) {
+                
+                if (_world.EntityGen (entity) > 0) 
+                {
                     GetComponentTypes (_world, entity, _typesCache);
-                    for (int i = 0, iMax = _typesCache.Len (); i < iMax; i++) {
+                    
+                    for (int i = 0, iMax = _typesCache.Len (); i < iMax; i++) 
+                    {
                         entityName = $"{entityName}:{EditorExtensions.CleanTypeNameCached (_typesCache.Get (i))}";
                     }
                 }
+                
                 _entities[pair.Key].name = entityName;
             }
+            
             _dirtyEntities.Clear ();
         }
 
-        public void Destroy () {
+        public void Destroy () 
+        {
             OnWorldDestroyed ();
         }
 
-        public void OnEntityCreated (ProtoEntity entity) {
+        public void OnEntityCreated (ProtoEntity entity) 
+        {
             var idx = entity.GetHashCode ();
-            if (!_entities[idx]) {
+            
+            if (!_entities[idx]) 
+            {
                 var go = new GameObject ();
                 go.transform.SetParent (_entitiesRoot, false);
                 var entityObserver = go.AddComponent<ProtoEntityDebugView> ();
@@ -87,73 +104,101 @@ namespace Leopotam.EcsProto.Unity {
                 entityObserver.World = _world;
                 entityObserver.DebugSystem = this;
                 _entities[idx] = entityObserver;
-                if (_bakeComponentsInName) {
+                
+                if (_bakeComponentsInName) 
+                {
                     _dirtyEntities[idx] = entity;
-                } else {
+                } 
+                else 
+                {
                     go.name = Entity2Str (entity);
                 }
             }
+            
             _entities[idx].gameObject.SetActive (true);
         }
 
-        public void OnEntityDestroyed (ProtoEntity entity) {
+        public void OnEntityDestroyed (ProtoEntity entity) 
+        {
             var idx = entity.GetHashCode ();
-            if (_entities[idx]) {
+            
+            if (_entities[idx]) 
+            {
                 _entities[idx].gameObject.SetActive (false);
             }
         }
 
-        public void OnEntityChanged (ProtoEntity entity, ushort poolId, bool added) {
-            if (_bakeComponentsInName) {
+        public void OnEntityChanged (ProtoEntity entity, ushort poolId, bool added) 
+        {
+            if (_bakeComponentsInName) 
+            {
                 _dirtyEntities[entity.GetHashCode ()] = entity;
             }
         }
 
-        public void OnWorldResized (int capacity) {
+        public void OnWorldResized (int capacity) 
+        {
             Array.Resize (ref _entities, capacity);
         }
 
-        public void OnWorldDestroyed () {
+        public void OnWorldDestroyed () 
+        {
             _world.RemoveEventListener (this);
-            if (Application.isPlaying) {
+            
+            if (Application.isPlaying) 
+            {
                 Object.Destroy (_rootGo);
-            } else {
+            } else 
+            {
                 Object.DestroyImmediate (_rootGo);
             }
+            
             _rootGo = null;
         }
 
-        public ProtoEntityDebugView GetEntityView (ProtoEntity entity) {
+        public ProtoEntityDebugView GetEntityView (ProtoEntity entity) 
+        {
             return _entities[entity.GetHashCode ()];
         }
 
-        public GameObject GetGameObject () {
+        public GameObject GetGameObject () 
+        {
             return _rootGo;
         }
 
-        static void GetComponentTypes (ProtoWorld world, ProtoEntity entity, Slice<Type> result) {
+        static void GetComponentTypes (ProtoWorld world, ProtoEntity entity, Slice<Type> result) 
+        {
             result.Clear (false);
             if (world.EntityGen (entity) < 0) { return; }
             var pools = world.Pools ();
             var maskData = world.EntityMasks ().Data ();
             var maskLen = world.EntityMaskItemLen ();
             var maskOffset = world.EntityMaskOffset (entity);
-            for (int i = 0, offset = 0; i < maskLen; i++, offset += 64, maskOffset++) {
+            
+            for (int i = 0, offset = 0; i < maskLen; i++, offset += 64, maskOffset++) 
+            {
                 var v = maskData[maskOffset];
-                for (var j = 0; v != 0 && j < 64; j++) {
-                    if ((v & (1UL << j)) != 0) {
+                
+                for (var j = 0; v != 0 && j < 64; j++) 
+                {
+                    if ((v & (1UL << j)) != 0) 
+                    {
                         result.Add (pools.Get (offset + j).ItemType ());
                     }
                 }
             }
         }
 
-        string Entity2Str (ProtoEntity entity) {
+        string Entity2Str (ProtoEntity entity) 
+        {
             var id = entity.GetHashCode ();
-            if (!_intsCache.TryGetValue (id, out var entityName)) {
+            
+            if (!_intsCache.TryGetValue (id, out var entityName)) 
+            {
                 entityName = id.ToString (_entityNameFormat);
                 _intsCache[id] = entityName;
             }
+            
             return entityName;
         }
     }

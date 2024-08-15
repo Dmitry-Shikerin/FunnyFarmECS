@@ -16,7 +16,8 @@ namespace Leopotam.EcsProto.Unity {
     [Il2CppSetOption (Option.NullChecks, false)]
     [Il2CppSetOption (Option.ArrayBoundsChecks, false)]
 #endif
-    public static class ProtoUnityLinks {
+    public static class ProtoUnityLinks 
+    {
         static readonly Dictionary<string, LinkItem> _objects = new ();
         static readonly Slice<string> _clearKeysCache = new ();
 
@@ -88,14 +89,18 @@ namespace Leopotam.EcsProto.Unity {
             }
         }
 
-        void OnDisable () {
-            if (_registrationType == RegistrationType.OnEnable) {
+        void OnDisable () 
+        {
+            if (_registrationType == RegistrationType.OnEnable) 
+            {
                 ProtoUnityLinks.Del (_linkName);
             }
         }
 
-        void OnDestroy () {
-            if (_registrationType == RegistrationType.OnAwake) {
+        void OnDestroy () 
+        {
+            if (_registrationType == RegistrationType.OnAwake) 
+            {
                 ProtoUnityLinks.Del (_linkName);
             }
         }
