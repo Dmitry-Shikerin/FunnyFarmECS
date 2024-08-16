@@ -36,8 +36,8 @@ namespace Sources.SwingingTrees.Infrastructure
 
         public void Run()
         {
-            Init(null);
-            
+            // Init(null);
+            //
             foreach (ProtoEntity entity in _swingingTreeInc)
             {
                 ref SweengingTreeComponent treeSwinger = ref _mainAspect.TreeSwingerPool.Get(entity);

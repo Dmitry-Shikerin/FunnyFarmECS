@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Leopotam.EcsProto.Unity;
@@ -7,39 +8,42 @@ using UnityEngine;
 
 namespace Sources
 {
+    // [DefaultExecutionOrder(-9999)]
     public class EcsGameStartUp : MonoBehaviour
     {
         private ProtoWorld _world;
         private MainAspect _aspect;
         private ProtoSystems _systems;
+        private ProtoSystems _unitySystems;
 
-        private void Awake()
+        private async void Awake()
         {
             _aspect = new MainAspect();
             _world = new ProtoWorld(_aspect);
-            _systems = new ProtoSystems(_world);
-        }
-
-        private void Start()
-        {
-            _systems
+            _unitySystems = new ProtoSystems(_world);
+            _unitySystems
                 .AddModule(new AutoInjectModule())
-                .AddModule(new UnityModule());
+                .AddModule(new UnityModule())
+                .Init();
+            await UniTask.Yield();
+            _systems = new ProtoSystems(_world);
+            _systems.AddModule(new AutoInjectModule());
             AddInit();
             AddRun();
             AddOneFrame();
-            
             _systems.Init();
         }
 
         private void Update()
         {
-            _systems.Run();
+            _unitySystems?.Run();
+            _systems?.Run();
         }
 
         private void OnDestroy()
         {
-            _systems.Destroy();
+            _systems?.Destroy();
+            _unitySystems?.Destroy();
         }
 
         private IProtoSystems AddInit()
