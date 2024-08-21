@@ -10,8 +10,8 @@ namespace Sources.SwingingTrees.Infrastructure
 {
     public class TreeSwingerSystem : IProtoRunSystem, IProtoInitSystem
     {
-        [DI] private MainAspect _mainAspect = default;
-        [DI] private ProtoIt _swingingTreeInc = new (It.Inc<TreeTag, SweengingTreeComponent>());
+        [DI] private readonly MainAspect _mainAspect = default;
+        [DI] private readonly ProtoIt _swingingTreeInc = new (It.Inc<TreeTag, SweengingTreeComponent>());
         private TreeSwingerCollector _configCollector;
         private bool _enableYAxisSwingingTree;
         private bool _isInitialized;
