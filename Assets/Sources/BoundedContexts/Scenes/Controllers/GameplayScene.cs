@@ -104,12 +104,12 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _achievementService.Initialize();
             _signalControllersCollector.Initialize();
             _soundyService.Initialize();
-            _advertisingAfterWaveService.Initialize();
             _skyAndWeatherService.Initialize();
+            await _curtainView.HideAsync();
+            _advertisingAfterWaveService.Initialize();
             _gameOverService.Initialize();
             _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
-            await _curtainView.HideAsync();
             _tutorialService.Initialize();
             _enemySpawnerView.StartSpawn();
             _soundyService.PlaySequence(

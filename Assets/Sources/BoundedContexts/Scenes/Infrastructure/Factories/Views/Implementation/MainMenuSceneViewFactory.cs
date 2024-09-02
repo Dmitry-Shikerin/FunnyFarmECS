@@ -63,36 +63,36 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
     
         public void Create(IScenePayload payload)
         {
-            MainMenuModel mainMenuModel = Load(payload);
-            
-            //Volume
-            _volumeViewFactory.Create(mainMenuModel.MusicVolume, _mainMenuHud.MusicVolumeView);
-            _volumeViewFactory.Create(mainMenuModel.SoundsVolume, _mainMenuHud.SoundVolumeView);
-            
-            //DailyReward
-            _dailyRewardViewFactory.Create(_mainMenuHud.DailyRewardView);
-            
-            //HealthBooster
-            _mainMenuHud.HealthBoosterView.Construct(_entityRepository);
-            
-            //Achievements
-            List<Achievement> achievements = _entityRepository
-                .GetAll<Achievement>(ModelId.GetIds<Achievement>()).ToList();
-
-            if (achievements.Count != _mainMenuHud.AchievementViews.Count)
-                throw new IndexOutOfRangeException(nameof(achievements));
-
-            for (int i = 0; i < achievements.Count; i++)
-            {
-                AchievementConfig config = _assetCollector
-                    .Get<AchievementConfigCollector>()
-                    .Configs
-                    .First(config => config.Id == achievements[i].Id);
-                _mainMenuHud.AchievementViews[i].Construct(achievements[i], config);
-            }
-            
-            //leaderboard
-            _leaderboardInitializeService.Construct(_mainMenuHud.LeaderBoardElementViews);
+            // MainMenuModel mainMenuModel = Load(payload);
+            //
+            // //Volume
+            // _volumeViewFactory.Create(mainMenuModel.MusicVolume, _mainMenuHud.MusicVolumeView);
+            // _volumeViewFactory.Create(mainMenuModel.SoundsVolume, _mainMenuHud.SoundVolumeView);
+            //
+            // //DailyReward
+            // _dailyRewardViewFactory.Create(_mainMenuHud.DailyRewardView);
+            //
+            // //HealthBooster
+            // _mainMenuHud.HealthBoosterView.Construct(_entityRepository);
+            //
+            // //Achievements
+            // List<Achievement> achievements = _entityRepository
+            //     .GetAll<Achievement>(ModelId.GetIds<Achievement>()).ToList();
+            //
+            // if (achievements.Count != _mainMenuHud.AchievementViews.Count)
+            //     throw new IndexOutOfRangeException(nameof(achievements));
+            //
+            // for (int i = 0; i < achievements.Count; i++)
+            // {
+            //     AchievementConfig config = _assetCollector
+            //         .Get<AchievementConfigCollector>()
+            //         .Configs
+            //         .First(config => config.Id == achievements[i].Id);
+            //     _mainMenuHud.AchievementViews[i].Construct(achievements[i], config);
+            // }
+            //
+            // //leaderboard
+            // _leaderboardInitializeService.Construct(_mainMenuHud.LeaderBoardElementViews);
             
             ActivateLoadGameButton();
         }

@@ -116,64 +116,64 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         {
             GameplayModel gameplayModel = Load(payload);
             
-            //PlayerWallet
-            _playerWalletViewFactory.Create(_gameplayHud.PlayerWalletView);
-            
-            //Upgrades
-            _upgradeViewFactory.Create(
-                ModelId.HealthUpgrade, _gameplayHud.CharacterHealthUpgradeView);
-            _upgradeViewFactory.Create(
-                ModelId.AttackUpgrade, _gameplayHud.CharacterAttackUpgradeView);
-            _upgradeViewFactory.Create(
-                ModelId.NukeUpgrade, _gameplayHud.NukeAbilityUpgradeView);
-            _upgradeViewFactory.Create(
-                ModelId.FlamethrowerUpgrade, _gameplayHud.FlamethrowerAbilityUpgradeView);
-            
-            //Bunker
-            IBunkerView bunkerView = _bunkerViewFactory.Create(_rootGameObject.BunkerView);
-            _bunkerUiFactory.Create(_gameplayHud.BunkerUi);
-            
-            //Abilities
-            _characterSpawnAbilityViewFactory.Create(_rootGameObject.CharacterSpawnAbilityView);
-            _abilityApplierViewFactory.Create(ModelId.SpawnAbility, _gameplayHud.SpawnAbilityApplier);
-            
-            _nukeAbilityViewFactory.Create(_rootGameObject.NukeAbilityView);
-            _abilityApplierViewFactory.Create(ModelId.NukeAbility, _gameplayHud.NukeAbilityApplier);
-
-            _flamethrowerAbilityViewFactory.Create(_rootGameObject.FlamethrowerAbilityView);
-            _abilityApplierViewFactory.Create(ModelId.FlamethrowerAbility, _gameplayHud.FlamethrowerAbilityApplier);
-
-            //Enemies
-            _rootGameObject.EnemySpawnerView.SetBunkerView(bunkerView);
-            _enemySpawnerViewFactory.Create(_rootGameObject.EnemySpawnerView);
-            _enemySpawnerUiFactory.Create(_gameplayHud.EnemySpawnerUi);
-
-            //UiCollector
-            _uiCollectorFactory.Create();
-
-            //Volume
-            _volumeViewFactory.Create(gameplayModel.MusicVolume, _gameplayHud.MusicVolumeView);
-            _volumeViewFactory.Create(gameplayModel.SoundsVolume, _gameplayHud.SoundVolumeView);
-            
-            //HealthBooster
-            _gameplayHud.HealthBoosterView.Construct(_entityRepository);
-            
-            //Achievements
-            List<Achievement> achievements = _entityRepository
-                .GetAll<Achievement>(ModelId.GetIds<Achievement>())
-                .ToList();
-
-            if (achievements.Count != _gameplayHud.AchievementViews.Count)
-                throw new IndexOutOfRangeException(nameof(achievements));
-
-            for (int i = 0; i < achievements.Count; i++)
-            {
-                AchievementConfig config = _assetCollector
-                    .Get<AchievementConfigCollector>()
-                    .Configs
-                    .First(config => config.Id == achievements[i].Id);
-                _gameplayHud.AchievementViews[i].Construct(achievements[i], config);
-            }
+            // //PlayerWallet
+            // _playerWalletViewFactory.Create(_gameplayHud.PlayerWalletView);
+            //
+            // //Upgrades
+            // _upgradeViewFactory.Create(
+            //     ModelId.HealthUpgrade, _gameplayHud.CharacterHealthUpgradeView);
+            // _upgradeViewFactory.Create(
+            //     ModelId.AttackUpgrade, _gameplayHud.CharacterAttackUpgradeView);
+            // _upgradeViewFactory.Create(
+            //     ModelId.NukeUpgrade, _gameplayHud.NukeAbilityUpgradeView);
+            // _upgradeViewFactory.Create(
+            //     ModelId.FlamethrowerUpgrade, _gameplayHud.FlamethrowerAbilityUpgradeView);
+            //
+            // //Bunker
+            // IBunkerView bunkerView = _bunkerViewFactory.Create(_rootGameObject.BunkerView);
+            // _bunkerUiFactory.Create(_gameplayHud.BunkerUi);
+            //
+            // //Abilities
+            // _characterSpawnAbilityViewFactory.Create(_rootGameObject.CharacterSpawnAbilityView);
+            // _abilityApplierViewFactory.Create(ModelId.SpawnAbility, _gameplayHud.SpawnAbilityApplier);
+            //
+            // _nukeAbilityViewFactory.Create(_rootGameObject.NukeAbilityView);
+            // _abilityApplierViewFactory.Create(ModelId.NukeAbility, _gameplayHud.NukeAbilityApplier);
+            //
+            // _flamethrowerAbilityViewFactory.Create(_rootGameObject.FlamethrowerAbilityView);
+            // _abilityApplierViewFactory.Create(ModelId.FlamethrowerAbility, _gameplayHud.FlamethrowerAbilityApplier);
+            //
+            // //Enemies
+            // _rootGameObject.EnemySpawnerView.SetBunkerView(bunkerView);
+            // _enemySpawnerViewFactory.Create(_rootGameObject.EnemySpawnerView);
+            // _enemySpawnerUiFactory.Create(_gameplayHud.EnemySpawnerUi);
+            //
+            // //UiCollector
+            // _uiCollectorFactory.Create();
+            //
+            // //Volume
+            // _volumeViewFactory.Create(gameplayModel.MusicVolume, _gameplayHud.MusicVolumeView);
+            // _volumeViewFactory.Create(gameplayModel.SoundsVolume, _gameplayHud.SoundVolumeView);
+            //
+            // //HealthBooster
+            // _gameplayHud.HealthBoosterView.Construct(_entityRepository);
+            //
+            // //Achievements
+            // List<Achievement> achievements = _entityRepository
+            //     .GetAll<Achievement>(ModelId.GetIds<Achievement>())
+            //     .ToList();
+            //
+            // if (achievements.Count != _gameplayHud.AchievementViews.Count)
+            //     throw new IndexOutOfRangeException(nameof(achievements));
+            //
+            // for (int i = 0; i < achievements.Count; i++)
+            // {
+            //     AchievementConfig config = _assetCollector
+            //         .Get<AchievementConfigCollector>()
+            //         .Configs
+            //         .First(config => config.Id == achievements[i].Id);
+            //     _gameplayHud.AchievementViews[i].Construct(achievements[i], config);
+            // }
         }
 
         private GameplayModel Load(IScenePayload payload)
