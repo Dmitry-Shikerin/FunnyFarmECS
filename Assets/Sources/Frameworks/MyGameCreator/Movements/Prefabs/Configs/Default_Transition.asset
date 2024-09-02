@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa46653cab848b79c4b29d1324722d7, type: 3}
+  m_Name: Default_Transition
+  m_EditorClassIdentifier: 
+  _Transition:
+    _FadeDuration: 0.25
+    _Events:
+      _Names: []
+      _NormalizedTimes: []
+      _Callbacks: []
+    _Controller: {fileID: 9100000, guid: 3c62fe8a6cc426045a689d473256a031, type: 2}
+    _NormalizedStartTime: NaN
+    _KeepStateOnStop: 0
+    _ParameterNameX: Speed-X
+    _ParameterNameY: Speed-Y
+    _ParameterNameZ: Speed-Z
+    _ParameterNameMovement: Movement
+    _ParameterNamePivot: Pivot
+    _ParameterNameStand: Stand
+    _ParameterNameGrounded: Grounded
