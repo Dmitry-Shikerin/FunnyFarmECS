@@ -1,6 +1,5 @@
 ﻿using Doozy.Runtime.UIManager.Components;
 using Sirenix.OdinInspector;
-using Sources.BoundedContexts.Bunkers.Domain;
 using Sources.BoundedContexts.HealthBoosters.Domain;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
@@ -16,7 +15,7 @@ namespace Sources.BoundedContexts.HealthBoosters.Views
         [Required] [SerializeField] private TextView _textView;
         
         private HealthBooster _healthBooster;
-        private Bunker _bunker;
+        // private Bunker _bunker;
         private bool _isInitialized;
 
         private void OnEnable()
@@ -42,7 +41,7 @@ namespace Sources.BoundedContexts.HealthBoosters.Views
         {
             Hide();
             _healthBooster = entityRepository.Get<HealthBooster>(ModelId.HealthBooster);
-            _bunker = entityRepository.Get<Bunker>(ModelId.Bunker);
+            // _bunker = entityRepository.Get<Bunker>(ModelId.Bunker);
             OnCountChanged();
             _isInitialized = true;
             Show();
@@ -56,7 +55,7 @@ namespace Sources.BoundedContexts.HealthBoosters.Views
             if (_healthBooster.TryApply() == false)
                 return;
             
-            _bunker.ApplyBoost();
+            // _bunker.ApplyBoost();
         }
     }
 }

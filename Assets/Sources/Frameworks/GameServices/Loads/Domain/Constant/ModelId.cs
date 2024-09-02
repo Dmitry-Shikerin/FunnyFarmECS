@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Sources.BoundedContexts.Bunkers.Domain;
-using Sources.BoundedContexts.EnemySpawners.Domain.Models;
-using Sources.BoundedContexts.FlamethrowerAbilities.Domain.Models;
 using Sources.BoundedContexts.HealthBoosters.Domain;
-using Sources.BoundedContexts.KillEnemyCounters.Domain.Models.Implementation;
 using Sources.BoundedContexts.NukeAbilities.Domain.Models;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
@@ -63,11 +59,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
              [NukeUpgrade] = new (NukeUpgrade, typeof(Upgrade), true),
              [FlamethrowerUpgrade] = new (FlamethrowerUpgrade, typeof(Upgrade), true),
              [PlayerWallet] = new (PlayerWallet, typeof(PlayerWallet), true),
-             [Bunker] = new (Bunker, typeof(Bunker), true),
-             [EnemySpawner] = new (EnemySpawner, typeof(EnemySpawner), true),
              [NukeAbility] = new (NukeAbility, typeof(NukeAbility), true),
-             [FlamethrowerAbility] = new (FlamethrowerAbility, typeof(FlamethrowerAbility), true),
-             [KillEnemyCounter] = new (KillEnemyCounter, typeof(KillEnemyCounter), true),
              [MusicVolume] = new (MusicVolume, typeof(Volume), false),
              [SoundsVolume] = new (SoundsVolume, typeof(Volume), false),
              [DailyReward] = new (DailyReward, typeof(DailyReward), false),

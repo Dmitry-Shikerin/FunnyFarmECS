@@ -24,15 +24,10 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.
         public AchievementService(
             IEntityRepository entityRepository,
             IAssetCollector assetCollector,
-            FirstKillEnemyAchievementCommand firstKillEnemyAchievementCommand,
             FirstUpgradeAchievementCommand firstUpgradeAchievementCommand,
             FirstHealthBoosterUsageAchievementCommand firstHealthBoosterUsageAchievementCommand,
-            FirstWaveCompletedAchievementCommand firstWaveCompletedAchievementCommand,
             ScullsDiggerAchievementCommand scullsDiggerAchievementCommand,
-            MaxUpgradeAchievementCommand maxUpgradeAchievementCommand,
-            FiftyWaveCompletedAchievementCommand fiftyWaveCompletedAchievementCommand,
-            AllAbilitiesUsedAchievementCommand allAbilitiesUsedAchievementCommand,
-            CompleteGameWithOneHealthAchievementCommand completeGameWithOneHealthAchievementCommand)
+            MaxUpgradeAchievementCommand maxUpgradeAchievementCommand)
         {
             _entityRepository = entityRepository ?? 
                                 throw new ArgumentNullException(nameof(entityRepository));
@@ -41,15 +36,10 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.
             _achievements = new Dictionary<string, Achievement>();
             _achievementCommands = new List<IAchievementCommand>()
             {
-                firstKillEnemyAchievementCommand,
                 firstUpgradeAchievementCommand,
                 firstHealthBoosterUsageAchievementCommand,
-                firstWaveCompletedAchievementCommand,
                 scullsDiggerAchievementCommand,
                 maxUpgradeAchievementCommand,
-                fiftyWaveCompletedAchievementCommand,
-                allAbilitiesUsedAchievementCommand,
-                completeGameWithOneHealthAchievementCommand,
             };
         }
 

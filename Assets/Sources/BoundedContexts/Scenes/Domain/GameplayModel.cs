@@ -1,10 +1,5 @@
 ﻿using System.Collections.Generic;
-using Sources.BoundedContexts.Bunkers.Domain;
-using Sources.BoundedContexts.CharacterSpawnAbilities.Domain;
-using Sources.BoundedContexts.EnemySpawners.Domain.Models;
-using Sources.BoundedContexts.FlamethrowerAbilities.Domain.Models;
 using Sources.BoundedContexts.HealthBoosters.Domain;
-using Sources.BoundedContexts.KillEnemyCounters.Domain.Models.Implementation;
 using Sources.BoundedContexts.NukeAbilities.Domain.Models;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
@@ -14,19 +9,14 @@ using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
 
 namespace Sources.BoundedContexts.Scenes.Domain
 {
-    public class GameplayModel
+    public struct GameplayModel
     {
         public GameplayModel(
             Upgrade characterHealthUpgrade,
             Upgrade characterAttackUpgrade,
             Upgrade nukeAbilityUpgrade,
             Upgrade flamethrowerAbilityUpgrade,
-            Bunker bunker,
-            EnemySpawner enemySpawner,
-            CharacterSpawnAbility characterSpawnAbility,
             NukeAbility nukeAbility,
-            FlamethrowerAbility flamethrowerAbility,
-            KillEnemyCounter killEnemyCounter,
             PlayerWallet playerWallet,
             Volume musicVolume,
             Volume soundsVolume,
@@ -38,12 +28,7 @@ namespace Sources.BoundedContexts.Scenes.Domain
             CharacterAttackUpgrade = characterAttackUpgrade;
             NukeAbilityUpgrade = nukeAbilityUpgrade;
             FlamethrowerAbilityUpgrade = flamethrowerAbilityUpgrade;
-            Bunker = bunker;
-            EnemySpawner = enemySpawner;
-            CharacterSpawnAbility = characterSpawnAbility;
             NukeAbility = nukeAbility;
-            FlamethrowerAbility = flamethrowerAbility;
-            KillEnemyCounter = killEnemyCounter;
             PlayerWallet = playerWallet;
             MusicVolume = musicVolume;
             SoundsVolume = soundsVolume;
@@ -56,12 +41,7 @@ namespace Sources.BoundedContexts.Scenes.Domain
         public Upgrade CharacterAttackUpgrade { get; }
         public Upgrade NukeAbilityUpgrade { get; }
         public Upgrade FlamethrowerAbilityUpgrade { get; }
-        public Bunker Bunker { get; }
-        public EnemySpawner EnemySpawner { get; }
-        public CharacterSpawnAbility CharacterSpawnAbility { get; }
         public NukeAbility NukeAbility { get; }
-        public FlamethrowerAbility FlamethrowerAbility { get; }
-        public KillEnemyCounter KillEnemyCounter { get; }
         public PlayerWallet PlayerWallet { get; }
         public Volume MusicVolume { get; }
         public Volume SoundsVolume { get; }

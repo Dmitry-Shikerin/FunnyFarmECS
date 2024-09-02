@@ -12,15 +12,10 @@ namespace Sources.App.DIContainers.Common
             Container.Bind<IAchievementService>().To<AchievementService>().AsSingle();
             
             //Commands
-            Container.Bind<FirstKillEnemyAchievementCommand>().AsSingle();
             Container.Bind<FirstUpgradeAchievementCommand>().AsSingle();
             Container.Bind<FirstHealthBoosterUsageAchievementCommand>().AsSingle();
-            Container.Bind<FirstWaveCompletedAchievementCommand>().AsSingle();
             Container.Bind<ScullsDiggerAchievementCommand>().AsSingle();
             Container.Bind<MaxUpgradeAchievementCommand>().AsSingle();
-            Container.Bind<FiftyWaveCompletedAchievementCommand>().AsSingle();
-            Container.Bind<AllAbilitiesUsedAchievementCommand>().AsSingle();
-            Container.Bind<CompleteGameWithOneHealthAchievementCommand>().AsSingle();
         }
     }
 }

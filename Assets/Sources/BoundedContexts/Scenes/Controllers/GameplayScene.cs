@@ -1,9 +1,7 @@
 ﻿using System;
 using MyAudios.MyUiFramework.Utils.Soundies.Domain.Constant;
 using Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services;
-using Sources.BoundedContexts.EnemySpawners.Presentation.Implementation;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
-using Sources.BoundedContexts.GameOvers.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.Tutorials.Services.Interfaces;
@@ -32,7 +30,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly ISkyAndWeatherService _skyAndWeatherService;
         private readonly IAchievementService _achievementService;
         private readonly ISoundyService _soundyService;
-        private readonly IGameOverService _gameOverService;
         // private readonly IEcsGameStartUp _ecsGameStartUp;
         private readonly ISceneViewFactory _gameplaySceneViewFactory;
         private readonly IFocusService _focusService;
@@ -44,7 +41,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly ISignalControllersCollector _signalControllersCollector;
         private readonly ICameraService _cameraService;
         private readonly IUpdateService _updateService;
-        private readonly EnemySpawnerView _enemySpawnerView;
 
         public GameplayScene(
             RootGameObject rootGameObject,
@@ -54,7 +50,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             ISkyAndWeatherService skyAndWeatherService,
             IAchievementService achievementService,
             ISoundyService soundyService,
-            IGameOverService gameOverService,
             // IEcsGameStartUp ecsGameStartUp,
             ISceneViewFactory gameplaySceneViewFactory,
             IFocusService focusService,
@@ -67,8 +62,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             ICameraService cameraService,
             IUpdateService updateService)
         {
-            _enemySpawnerView = rootGameObject.EnemySpawnerView ?? 
-                                throw new ArgumentNullException(nameof(rootGameObject.EnemySpawnerView));
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
             _advertisingAfterWaveService = advertisingAfterWaveService ?? throw new ArgumentNullException(nameof(advertisingAfterWaveService));
             _compositeAssetService = compositeAssetService ?? throw new ArgumentNullException(nameof(compositeAssetService));
@@ -76,7 +69,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
             _tutorialService = tutorialService ?? throw new ArgumentNullException(nameof(tutorialService));
             _soundyService = soundyService ?? throw new ArgumentNullException(nameof(soundyService));
-            _gameOverService = gameOverService ?? throw new ArgumentNullException(nameof(gameOverService));
             // _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
             _gameplaySceneViewFactory = gameplaySceneViewFactory ?? 
                                         throw new ArgumentNullException(nameof(gameplaySceneViewFactory));
@@ -107,11 +99,9 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _skyAndWeatherService.Initialize();
             await _curtainView.HideAsync();
             _advertisingAfterWaveService.Initialize();
-            _gameOverService.Initialize();
             _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
             _tutorialService.Initialize();
-            _enemySpawnerView.StartSpawn();
             _soundyService.PlaySequence(
                 SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
         }
@@ -124,7 +114,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _soundyService.Destroy();
             _skyAndWeatherService.Destroy();
             _achievementService.Destroy();
-            _gameOverService.Destroy();
             _gameCompletedService.Destroy();
             _saveAfterWaveService.Destroy();
             _advertisingAfterWaveService.Destroy();

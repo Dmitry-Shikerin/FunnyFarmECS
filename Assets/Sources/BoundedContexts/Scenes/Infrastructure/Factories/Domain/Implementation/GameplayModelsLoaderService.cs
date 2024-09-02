@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sources.BoundedContexts.Bunkers.Domain;
-using Sources.BoundedContexts.CharacterSpawnAbilities.Domain;
-using Sources.BoundedContexts.EnemySpawners.Domain.Models;
-using Sources.BoundedContexts.FlamethrowerAbilities.Domain.Models;
 using Sources.BoundedContexts.HealthBoosters.Domain;
-using Sources.BoundedContexts.KillEnemyCounters.Domain.Models.Implementation;
 using Sources.BoundedContexts.NukeAbilities.Domain.Models;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.Scenes.Domain;
@@ -41,27 +36,9 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
             Upgrade nukeAbilityUpgrade = _loadService.Load<Upgrade>(ModelId.NukeUpgrade);
             Upgrade flamethrowerAbilityUpgrade = _loadService.Load<Upgrade>(ModelId.FlamethrowerUpgrade);
             
-            //Bunker
-            Bunker bunker = _loadService.Load<Bunker>(ModelId.Bunker);
-            
-            //Enemies
-            EnemySpawner enemySpawner = _loadService.Load<EnemySpawner>(ModelId.EnemySpawner);
-            KillEnemyCounter killEnemyCounter = _loadService.Load<KillEnemyCounter>(ModelId.KillEnemyCounter);
-            
-            //Characters
-            CharacterSpawnAbility characterSpawnAbility = new CharacterSpawnAbility()
-            {
-                Id = ModelId.SpawnAbility,
-            };
-            _entityRepository.Add(characterSpawnAbility);
-            
             //Abilities
             NukeAbility nukeAbility = new NukeAbility(nukeAbilityUpgrade, ModelId.NukeAbility);
             _entityRepository.Add(nukeAbility);
-            
-            FlamethrowerAbility flamethrowerAbility = new FlamethrowerAbility(
-                flamethrowerAbilityUpgrade, ModelId.FlamethrowerAbility);
-            _entityRepository.Add(flamethrowerAbility);
             
             //PlayerWallet
             PlayerWallet playerWallet = _loadService.Load<PlayerWallet>(ModelId.PlayerWallet);
@@ -92,12 +69,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 characterAttackUpgrade,
                 nukeAbilityUpgrade,
                 flamethrowerAbilityUpgrade,
-                bunker,
-                enemySpawner,
-                characterSpawnAbility,
                 nukeAbility,
-                flamethrowerAbility,
-                killEnemyCounter,
                 playerWallet,
                 musicVolume,
                 soundsVolume,

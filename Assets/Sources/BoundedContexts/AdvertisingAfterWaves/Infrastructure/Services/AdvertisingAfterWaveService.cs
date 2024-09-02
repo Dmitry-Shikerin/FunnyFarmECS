@@ -2,8 +2,6 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Sources.BoundedContexts.AdvertisingAfterWaves.Presentation;
-using Sources.BoundedContexts.EnemySpawners.Domain.Models;
-using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.MVPPassiveView.Controllers.Interfaces.ControllerLifetimes;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Domain.Constant;
@@ -20,7 +18,7 @@ namespace Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services
         private readonly IInterstitialAdService _interstitialAdService;
         private readonly AdvertisingAfterWaveView _advertisingView;
         
-        private EnemySpawner _enemySpawner;
+        // private EnemySpawner _enemySpawner;
         private CancellationTokenSource _cancellationTokenSource;
         private TimeSpan _timerTimeSpan = TimeSpan.FromSeconds(AdvertisingConst.Delay);
 
@@ -37,8 +35,8 @@ namespace Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services
 
         public void Initialize()
         {
-            _enemySpawner = _entityRepository.Get<EnemySpawner>(ModelId.EnemySpawner);
-            _enemySpawner.WaveChanged += OnShowInterstitial;
+            // _enemySpawner = _entityRepository.Get<EnemySpawner>(ModelId.EnemySpawner);
+            // _enemySpawner.WaveChanged += OnShowInterstitial;
             _cancellationTokenSource = new CancellationTokenSource();
             
             _advertisingView.Hide();
@@ -46,7 +44,7 @@ namespace Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services
 
         public void Destroy()
         {
-            _enemySpawner.WaveChanged -= OnShowInterstitial;
+            // _enemySpawner.WaveChanged -= OnShowInterstitial;
             _cancellationTokenSource.Cancel();
         }
 
@@ -64,13 +62,13 @@ namespace Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services
         {
             int waves = WavesCount;
             
-            while (waves <= _enemySpawner.CurrentWaveNumber)
-            {
-                if (_enemySpawner.CurrentWaveNumber % waves == 0)
-                    return true;
-
-                waves += WavesCount;
-            }
+            // while (waves <= _enemySpawner.CurrentWaveNumber)
+            // {
+            //     if (_enemySpawner.CurrentWaveNumber % waves == 0)
+            //         return true;
+            //
+            //     waves += WavesCount;
+            // }
 
             return false;
         }

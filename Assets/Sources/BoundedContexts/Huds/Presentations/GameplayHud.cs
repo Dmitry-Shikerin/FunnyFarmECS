@@ -2,8 +2,6 @@
 using Sirenix.OdinInspector;
 using Sources.BoundedContexts.Abilities.Presentation.Implementation;
 using Sources.BoundedContexts.AdvertisingAfterWaves.Presentation;
-using Sources.BoundedContexts.Bunkers.Presentation.Implementation;
-using Sources.BoundedContexts.EnemySpawners.Presentation.Implementation;
 using Sources.BoundedContexts.HealthBoosters.Views;
 using Sources.BoundedContexts.PlayerWallets.Presentation.Implementation;
 using Sources.BoundedContexts.Upgrades.Presentation.Implementation;
@@ -26,12 +24,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         [Required] [SerializeField] private AbilityApplierView _spawnAbilityApplier;
         [FoldoutGroup("Abilities")]
         [Required] [SerializeField] private AbilityApplierView _flamethrowerAbilityApplier;
-
-        [FoldoutGroup("UiFramework")] 
-        [Required] [SerializeField] private EnemySpawnerUi _enemySpawnerUi;
-        
-        [FoldoutGroup("Bunker")] 
-        [Required] [SerializeField] private BunkerUi _bunkerUi;
         
         [FoldoutGroup("Upgrades")]
         [Required] [SerializeField] private UpgradeView _characterAttackUpgradeView;
@@ -66,10 +58,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         public AbilityApplierView NukeAbilityApplier => _nukeAbilityApplier;
         public AbilityApplierView SpawnAbilityApplier => _spawnAbilityApplier;
         public AbilityApplierView FlamethrowerAbilityApplier => _flamethrowerAbilityApplier;
-        
-        public EnemySpawnerUi EnemySpawnerUi => _enemySpawnerUi;
-        
-        public BunkerUi BunkerUi => _bunkerUi;
         
         public UpgradeView CharacterHealthUpgradeView => _characterHealthUpgradeView;
         public UpgradeView CharacterAttackUpgradeView => _characterAttackUpgradeView;

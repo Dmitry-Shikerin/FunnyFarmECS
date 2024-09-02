@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sources.BoundedContexts.Bunkers.Domain;
-using Sources.BoundedContexts.CharacterSpawnAbilities.Domain;
-using Sources.BoundedContexts.EnemySpawners.Domain.Configs;
-using Sources.BoundedContexts.EnemySpawners.Domain.Data;
-using Sources.BoundedContexts.EnemySpawners.Domain.Models;
-using Sources.BoundedContexts.FlamethrowerAbilities.Domain.Models;
 using Sources.BoundedContexts.HealthBoosters.Domain;
-using Sources.BoundedContexts.KillEnemyCounters.Domain.Models.Implementation;
 using Sources.BoundedContexts.NukeAbilities.Domain.Models;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.Scenes.Domain;
@@ -51,38 +44,9 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
             Upgrade nukeAbilityUpgrade = CreateUpgrade(ModelId.NukeUpgrade);
             Upgrade flamethrowerAbilityUpgrade = CreateUpgrade(ModelId.FlamethrowerUpgrade);
             
-            //Bunker
-            Bunker bunker = new Bunker()
-            {
-                Health = 15,
-                Id = ModelId.Bunker,
-            };
-            _entityRepository.Add(bunker);
-            
-            //Enemies
-            EnemySpawner enemySpawner = CreateEnemySpawner();
-            
-            KillEnemyCounter killEnemyCounter = new KillEnemyCounter()
-            {
-                Id = ModelId.KillEnemyCounter,
-                KillZombies = 0,
-            };
-            _entityRepository.Add(killEnemyCounter);
-            
-            //Characters
-            CharacterSpawnAbility characterSpawnAbility = new CharacterSpawnAbility()
-            {
-                Id = ModelId.SpawnAbility,
-            };
-            _entityRepository.Add(characterSpawnAbility);
-            
             //Abilities
             NukeAbility nukeAbility = new NukeAbility(nukeAbilityUpgrade, ModelId.NukeAbility);
             _entityRepository.Add(nukeAbility);
-            
-            FlamethrowerAbility flamethrowerAbility = new FlamethrowerAbility(
-                flamethrowerAbilityUpgrade, ModelId.FlamethrowerAbility);
-            _entityRepository.Add(flamethrowerAbility);
             
             //PlayerWallet
             PlayerWallet playerWallet = new PlayerWallet()
@@ -110,12 +74,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 characterAttackUpgrade,
                 nukeAbilityUpgrade,
                 flamethrowerAbilityUpgrade,
-                bunker,
-                enemySpawner,
-                characterSpawnAbility,
                 nukeAbility,
-                flamethrowerAbility,
-                killEnemyCounter,
                 playerWallet,
                 musicVolume,
                 soundsVolume,
@@ -220,68 +179,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
             _entityRepository.Add(tutorial);
             
             return tutorial;
-        }
-
-        private EnemySpawner CreateEnemySpawner()
-        {
-            EnemySpawnerConfig enemySpawnerConfig = _assetCollector.Get<EnemySpawnerConfig>();
-            List<RuntimeEnemySpawnerWave> waves = new List<RuntimeEnemySpawnerWave>();
-
-            foreach (EnemySpawnerWave wave in enemySpawnerConfig.Waves)
-            {
-                waves.Add(new RuntimeEnemySpawnerWave()
-                {
-                    WaveId = wave.WaveId,
-                    SpawnDelay = wave.SpawnDelay,
-                    EnemyCount = wave.EnemyCount,
-                    BossesCount = wave.BossesCount,
-                    KamikazeEnemyCount = wave.KamikazeEnemyCount,
-                    MoneyPerResurrectCharacters = wave.MoneyPerResilenceCharacters,
-                });
-            }
-            
-            RuntimeEnemySpawnerConfig runtimeEnemySpawnerConfig = new RuntimeEnemySpawnerConfig()
-            {
-                StartEnemyAttackPower = enemySpawnerConfig.StartEnemyAttackPower,
-                AddedEnemyAttackPower = enemySpawnerConfig.AddedEnemyAttackPower,
-                StartEnemyHealth = enemySpawnerConfig.StartEnemyHealth,
-                AddedEnemyHealth = enemySpawnerConfig.AddedEnemyHealth,
-                StartBossAttackPower = enemySpawnerConfig.StartBossAttackPower,
-                AddedBossAttackPower = enemySpawnerConfig.AddedBossAttackPower,
-                StartBossMassAttackPower = enemySpawnerConfig.StartBossMassAttackPower,
-                AddedBossMassAttackPower = enemySpawnerConfig.AddedBossMassAttackPower,
-                StartBossHealth = enemySpawnerConfig.StartBossHealth,
-                AddedBossHealth = enemySpawnerConfig.AddedBossHealth,
-                StartKamikazeMassAttackPower = enemySpawnerConfig.StartKamikazeMassAttackPower,
-                AddedKamikazeMassAttackPower = enemySpawnerConfig.AddedKamikazeMassAttackPower,
-                StartKamikazeAttackPower = enemySpawnerConfig.StartKamikazeAttackPower,
-                AddedKamikazeAttackPower = enemySpawnerConfig.AddedKamikazeAttackPower,
-                StartKamikazeHealth = enemySpawnerConfig.StartKamikazeHealth,
-                AddedKamikazeHealth = enemySpawnerConfig.AddedKamikazeHealth,
-                Waves = waves,
-            };
-            EnemySpawnStrategyCollector enemySpawnStrategyCollector =
-                _assetCollector.Get<EnemySpawnStrategyCollector>();
-            List<RuntimeEnemySpawnStrategy> spawnStrategies = new List<RuntimeEnemySpawnStrategy>();
-
-            foreach (EnemySpawnStrategy config in enemySpawnStrategyCollector.Configs)
-            {
-                spawnStrategies.Add(new RuntimeEnemySpawnStrategy()
-                {
-                    SpawnPoints = config.SpawnPoints
-                });
-            }
-            
-            EnemySpawner enemySpawner = new EnemySpawner()
-            {
-                Waves = waves,
-                SpawnStrategies = spawnStrategies,
-                Config = runtimeEnemySpawnerConfig,
-                Id = ModelId.EnemySpawner
-            };
-            _entityRepository.Add(enemySpawner);
-            
-            return enemySpawner;
         }
     }
 }

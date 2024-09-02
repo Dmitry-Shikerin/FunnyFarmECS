@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
-using Sources.BoundedContexts.EnemyHealths.Presentation.Implementation;
-using Sources.BoundedContexts.EnemyHealths.Presentation.Interfaces;
 using Sources.BoundedContexts.Layers.Domain;
 using Sources.BoundedContexts.NukeAbilities.Domain.Models;
 using Sources.BoundedContexts.NukeAbilities.Presentation.Interfaces;
@@ -59,10 +56,10 @@ namespace Sources.BoundedContexts.NukeAbilities.Controllers
             _cancellationTokenSource.Cancel();
         }
         
-        public void DealDamage(IEnemyHealthView enemyHealthView)
-        {
-            enemyHealthView.TakeDamage(20);
-        }
+        // public void DealDamage(IEnemyHealthView enemyHealthView)
+        // {
+        //     enemyHealthView.TakeDamage(20);
+        // }
 
         private async void ApplyAbility()
         {
@@ -94,16 +91,16 @@ namespace Sources.BoundedContexts.NukeAbilities.Controllers
 
         private void DealDamage()
         {
-            IReadOnlyList<EnemyHealthView> enemies = _overlapService.OverlapBox<EnemyHealthView>(
-                _nukeAbilityView.BombView.ToPosition, 
-                _nukeAbilityView.DamageSize,
-                LayerConst.Enemy);
-            
-            if(enemies.Count == 0)
-                return;
-            
-            foreach (EnemyHealthView enemy in enemies)
-                enemy.TakeDamage(_nukeAbility.Damage);
+            // IReadOnlyList<EnemyHealthView> enemies = _overlapService.OverlapBox<EnemyHealthView>(
+            //     _nukeAbilityView.BombView.ToPosition, 
+            //     _nukeAbilityView.DamageSize,
+            //     LayerConst.Enemy);
+            //
+            // if(enemies.Count == 0)
+            //     return;
+            //
+            // foreach (EnemyHealthView enemy in enemies)
+            //     enemy.TakeDamage(_nukeAbility.Damage);
         }
     }
 }

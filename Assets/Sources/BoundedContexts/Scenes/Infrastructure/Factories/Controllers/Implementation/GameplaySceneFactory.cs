@@ -2,7 +2,6 @@
 using Cysharp.Threading.Tasks;
 using Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
-using Sources.BoundedContexts.GameOvers.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.Scenes.Controllers;
@@ -33,7 +32,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
         private readonly ISkyAndWeatherService _skyAndWeatherService;
         private readonly IAchievementService _achievementService;
         private readonly ISoundyService _soundyService;
-        private readonly IGameOverService _gameOverService;
         // private readonly IEcsGameStartUp _ecsGameStartUp;
         private readonly ISceneViewFactory _sceneViewFactory;
         private readonly IFocusService _focusService;
@@ -54,7 +52,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             ISkyAndWeatherService skyAndWeatherService,
             IAchievementService achievementService,
             ISoundyService soundyService,
-            IGameOverService gameOverService,
             // IEcsGameStartUp ecsGameStartUp,
             ISceneViewFactory gameplaySceneViewFactory,
             IFocusService focusService,
@@ -77,7 +74,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             _achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
             _tutorialService = tutorialService ?? throw new ArgumentNullException(nameof(tutorialService));
             _soundyService = soundyService ?? throw new ArgumentNullException(nameof(soundyService));
-            _gameOverService = gameOverService ?? throw new ArgumentNullException(nameof(gameOverService));
             // _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
             _sceneViewFactory = gameplaySceneViewFactory ?? 
                                 throw new ArgumentNullException(nameof(gameplaySceneViewFactory));
@@ -103,7 +99,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
                 _skyAndWeatherService,
                 _achievementService,
                 _soundyService,
-                _gameOverService,
                 // _ecsGameStartUp,
                 _sceneViewFactory,
                 _focusService,
