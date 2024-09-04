@@ -5,6 +5,7 @@ using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.Tutorials.Services.Interfaces;
+using Sources.EcsBoundedContexts.Core;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Interfaces.Collectors;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Curtains.Presentation.Interfaces;
@@ -30,7 +31,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly ISkyAndWeatherService _skyAndWeatherService;
         private readonly IAchievementService _achievementService;
         private readonly ISoundyService _soundyService;
-        // private readonly IEcsGameStartUp _ecsGameStartUp;
+        private readonly IEcsGameStartUp _ecsGameStartUp;
         private readonly ISceneViewFactory _gameplaySceneViewFactory;
         private readonly IFocusService _focusService;
         private readonly IAdvertisingService _advertisingService;
@@ -50,7 +51,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             ISkyAndWeatherService skyAndWeatherService,
             IAchievementService achievementService,
             ISoundyService soundyService,
-            // IEcsGameStartUp ecsGameStartUp,
+            IEcsGameStartUp ecsGameStartUp,
             ISceneViewFactory gameplaySceneViewFactory,
             IFocusService focusService,
             IAdvertisingService advertisingService,
@@ -69,7 +70,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
             _tutorialService = tutorialService ?? throw new ArgumentNullException(nameof(tutorialService));
             _soundyService = soundyService ?? throw new ArgumentNullException(nameof(soundyService));
-            // _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
+            _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
             _gameplaySceneViewFactory = gameplaySceneViewFactory ?? 
                                         throw new ArgumentNullException(nameof(gameplaySceneViewFactory));
             _focusService = focusService ?? throw new ArgumentNullException(nameof(focusService));
@@ -101,7 +102,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _advertisingAfterWaveService.Initialize();
             _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
-            _tutorialService.Initialize();
+            // _tutorialService.Initialize();
             _soundyService.PlaySequence(
                 SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
         }
@@ -124,6 +125,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         public void Update(float deltaTime)
         {
             _updateService.Update(deltaTime);
+            _ecsGameStartUp.Update(deltaTime);
         }
 
         public void UpdateLate(float deltaTime)

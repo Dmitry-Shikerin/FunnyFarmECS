@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 33949694640988936}
   - component: {fileID: 23708807616283144}
   - component: {fileID: 64702743925774624}
-  - component: {fileID: 2134368352574971318}
   m_Layer: 0
   m_Name: Tree_2_Medium_WF
   m_TagString: Untagged
@@ -30,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.72999996, y: 0.72999996, z: 0.72999996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,36 +108,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: fadbd4847d8e0b74cb5c956588adc05a, type: 3}
---- !u!114 &2134368352574971318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695818592746344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd2e3b9377ea4b6b9d83eb1bc17d15a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _worldName: 
-  _authoringType: 0
-  _destroyAfterAuthoring: 0
-  Components:
-  - rid: 4755881819627847890
-  - rid: 4755881819627847891
-  references:
-    version: 2
-    RefIds:
-    - rid: 4755881819627847890
-      type: {class: TreeTag, ns: Sources.Trees.Components, asm: Assembly-CSharp}
-      data: 
-    - rid: 4755881819627847891
-      type: {class: SweengingTreeComponent, ns: Sources.SwingingTrees.Domain, asm: Assembly-CSharp}
-      data:
-        Tree: {fileID: 4594513143021574}
-        SpeedX: 0
-        SpeedY: 0
-        MaxAngleX: 0
-        MaxAngleY: 0
-        Direction: 0

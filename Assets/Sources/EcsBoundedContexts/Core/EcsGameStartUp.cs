@@ -1,22 +1,29 @@
 using System;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Leopotam.EcsProto.Unity;
+using Sirenix.Utilities;
+using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.SwingingTrees.Infrastructure;
-using UnityEngine;
 
-namespace Sources
+namespace Sources.EcsBoundedContexts.Core
 {
-    // [DefaultExecutionOrder(-9999)]
-    public class EcsGameStartUp : MonoBehaviour
+    public class EcsGameStartUp : IEcsGameStartUp
     {
+        private readonly RootGameObject _rootGameObject;
         private ProtoWorld _world;
         private MainAspect _aspect;
         private ProtoSystems _systems;
         private ProtoSystems _unitySystems;
 
-        private async void Awake()
+        public EcsGameStartUp(RootGameObject rootGameObject)
+        {
+            _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
+        }
+
+        public async void Initialize()
         {
             _aspect = new MainAspect();
             _world = new ProtoWorld(_aspect);
@@ -31,16 +38,19 @@ namespace Sources
             AddInit();
             AddRun();
             AddOneFrame();
+            _rootGameObject
+                .GetComponentsInChildren<ProtoUnityAuthoring>()
+                .ForEach(authoring => authoring.ProcessAuthoring());
             _systems.Init();
         }
 
-        private void Update()
+        public void Update(float deltaTime)
         {
             _unitySystems?.Run();
             _systems?.Run();
         }
 
-        private void OnDestroy()
+        public void Destroy()
         {
             _systems?.Destroy();
             _unitySystems?.Destroy();

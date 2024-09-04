@@ -34,9 +34,9 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
         {
             base.Initialize();
             
-            _healthBooster = _entityRepository.Get<HealthBooster>(ModelId.HealthBooster);
-            _achievement = _entityRepository.Get<Achievement>(ModelId.FirstHealthBoosterUsageAchievement);
-            _healthBooster.CountRemoved += OnCompleted;
+            // _healthBooster = _entityRepository.Get<HealthBooster>(ModelId.HealthBooster);
+            // _achievement = _entityRepository.Get<Achievement>(ModelId.FirstHealthBoosterUsageAchievement);
+            // _healthBooster.CountRemoved += OnCompleted;
         }
 
         private void OnCompleted()

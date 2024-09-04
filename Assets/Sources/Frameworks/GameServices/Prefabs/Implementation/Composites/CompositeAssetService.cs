@@ -29,8 +29,8 @@ namespace Sources.Frameworks.GameServices.Prefabs.Implementation.Composites
             await _resourcesAssetLoader.LoadAsset<AchievementConfigCollector>(PrefabPath.AchievementConfigCollector);
             await _resourcesAssetLoader.LoadAsset<SkyAndWeatherCollector>(PrefabPath .SkyAndWeatherCollector);
             await _resourcesAssetLoader.LoadAsset<PoolManagerCollector>(PrefabPath.PoolManagerCollector);
-            await _resourcesAssetLoader.LoadAsset<ExplosionBodyBloodyView>(PrefabPath.ExplosionBodyBloody);
-            await _resourcesAssetLoader.LoadAsset<ExplosionBodyView>(PrefabPath.ExplosionBody);
+            // await _resourcesAssetLoader.LoadAsset<ExplosionBodyBloodyView>(PrefabPath.ExplosionBodyBloody);
+            // await _resourcesAssetLoader.LoadAsset<ExplosionBodyView>(PrefabPath.ExplosionBody);
         }
 
         public void Release()

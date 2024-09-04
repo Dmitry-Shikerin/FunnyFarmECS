@@ -42,20 +42,20 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
         {
             base.Initialize();
             
-            _healthUpgrade = _entityRepository
-                .Get<Upgrade>(ModelId.HealthUpgrade);
-            _attackUpgrade = _entityRepository
-                .Get<Upgrade>(ModelId.AttackUpgrade);
-            _flamethrowerUpgrade = _entityRepository
-                .Get<Upgrade>(ModelId.FlamethrowerUpgrade);
-            _nukeUpgrade = _entityRepository
-                .Get<Upgrade>(ModelId.NukeUpgrade);
-            _achievement = _entityRepository
-                .Get<Achievement>(ModelId.FirstUpgradeAchievement);
-            _healthUpgrade.LevelChanged += OnCompleted;
-            _attackUpgrade.LevelChanged += OnCompleted;
-            _flamethrowerUpgrade.LevelChanged += OnCompleted;
-            _nukeUpgrade.LevelChanged += OnCompleted;
+            // _healthUpgrade = _entityRepository
+            //     .Get<Upgrade>(ModelId.HealthUpgrade);
+            // _attackUpgrade = _entityRepository
+            //     .Get<Upgrade>(ModelId.AttackUpgrade);
+            // _flamethrowerUpgrade = _entityRepository
+            //     .Get<Upgrade>(ModelId.FlamethrowerUpgrade);
+            // _nukeUpgrade = _entityRepository
+            //     .Get<Upgrade>(ModelId.NukeUpgrade);
+            // _achievement = _entityRepository
+            //     .Get<Achievement>(ModelId.FirstUpgradeAchievement);
+            // _healthUpgrade.LevelChanged += OnCompleted;
+            // _attackUpgrade.LevelChanged += OnCompleted;
+            // _flamethrowerUpgrade.LevelChanged += OnCompleted;
+            // _nukeUpgrade.LevelChanged += OnCompleted;
         }
 
         private void OnCompleted()

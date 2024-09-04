@@ -12,13 +12,12 @@ GameObject:
   - component: {fileID: 33369547221345140}
   - component: {fileID: 23757012279412490}
   - component: {fileID: 65571956574503534}
-  - component: {fileID: 6965005512799386105}
   m_Layer: 0
   m_Name: Fence_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4918140723331552
 Transform:
@@ -110,36 +109,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5989437, y: 0.3511698, z: 0.11197281}
   m_Center: {x: 0.00011539459, y: 0.1755849, z: 0.00011396408}
---- !u!114 &6965005512799386105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546550600558798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd2e3b9377ea4b6b9d83eb1bc17d15a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _worldName: 
-  _authoringType: 0
-  _destroyAfterAuthoring: 0
-  Components:
-  - rid: 4755881819627847882
-  - rid: 4755881819627847883
-  references:
-    version: 2
-    RefIds:
-    - rid: 4755881819627847882
-      type: {class: TreeTag, ns: Sources.Trees.Components, asm: Assembly-CSharp}
-      data: 
-    - rid: 4755881819627847883
-      type: {class: SweengingTreeComponent, ns: Sources.SwingingTrees.Domain, asm: Assembly-CSharp}
-      data:
-        Tree: {fileID: 4918140723331552}
-        SpeedX: 0
-        SpeedY: 0
-        MaxAngleX: 0
-        MaxAngleY: 0
-        Direction: 0

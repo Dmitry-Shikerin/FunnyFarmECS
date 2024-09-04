@@ -5,6 +5,7 @@ using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Implementation;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Implementation;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implementation;
+using Sources.EcsBoundedContexts.Core;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands.Implementation.Handlers;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands.Interfaces.Handlers;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation.Handlers;
@@ -35,7 +36,7 @@ namespace Sources.App.DIContainers.Gameplay
             Container.Bind<GameplayModelsLoaderService>().AsSingle();
             
             //ECS
-            // Container.Bind<IEcsGameStartUp>().To<EcsGameStartUp>().AsSingle();
+            Container.Bind<IEcsGameStartUp>().To<EcsGameStartUp>().AsSingle();
             
             //UiCommands
             Container.Bind<IButtonCommandHandler>().To<GameplayButtonCommandHandler>().AsSingle();

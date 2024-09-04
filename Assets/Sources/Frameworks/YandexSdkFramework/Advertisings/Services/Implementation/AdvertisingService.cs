@@ -36,7 +36,7 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
 
         public void Initialize()
         {
-            _healthBooster = _entityRepository.Get<HealthBooster>(ModelId.HealthBooster);
+            // _healthBooster = _entityRepository.Get<HealthBooster>(ModelId.HealthBooster);
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -120,8 +120,8 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
                 },
                 () =>
                 {
-                    _healthBooster.Amount += HealthBoosterConst.BoosterAmount;
-                    _loadService.Save(ModelId.HealthBooster);
+                    // _healthBooster.Amount += HealthBoosterConst.BoosterAmount;
+                    // _loadService.Save(ModelId.HealthBooster);
                 },
                 () =>
                 {
