@@ -4,10 +4,10 @@ using System.Linq;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.Huds.Presentations;
 using Sources.BoundedContexts.PlayerWallets.Infrastructure.Factories.Views;
+using Sources.BoundedContexts.PumpkinsPatchs.Infrastructure;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.Scenes.Domain;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Implementation;
-using Sources.BoundedContexts.Tutorials.Services.Interfaces;
 using Sources.BoundedContexts.Upgrades.Infrastructure.Factories.Views;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
@@ -19,7 +19,6 @@ using Sources.Frameworks.GameServices.Volumes.Infrastucture.Factories;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
 using Sources.Frameworks.UiFramework.Collectors;
-using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Interfaces;
 
 namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implementation
 {
@@ -35,11 +34,10 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly UpgradeViewFactory _upgradeViewFactory;
         private readonly GameplayModelsCreatorService _gameplayModelsCreatorService;
         private readonly GameplayModelsLoaderService _gameplayModelsLoaderService;
-        private readonly IAdvertisingService _advertisingService;
         private readonly PlayerWalletViewFactory _playerWalletViewFactory;
         // private readonly IEcsGameStartUp _ecsGameStartUp;
         private readonly VolumeViewFactory _volumeViewFactory;
-        private readonly ITutorialService _tutorialService;
+        private readonly PumpkinsPatchViewFactory _pumpkinsPatchViewFactory;
 
         public GameplaySceneViewFactory(
             ILoadService loadService,
@@ -52,11 +50,10 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             UpgradeViewFactory upgradeViewFactory,
             GameplayModelsCreatorService gameplayModelsCreatorService,
             GameplayModelsLoaderService gameplayModelsLoaderService,
-            IAdvertisingService advertisingService,
             PlayerWalletViewFactory playerWalletViewFactory,
             // IEcsGameStartUp ecsGameStartUp,
             VolumeViewFactory volumeViewFactory,
-            ITutorialService tutorialService)
+            PumpkinsPatchViewFactory pumpkinsPatchViewFactory)
         {
             _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
@@ -71,13 +68,12 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
                                             throw new ArgumentNullException(nameof(gameplayModelsCreatorService));
             _gameplayModelsLoaderService = gameplayModelsLoaderService ?? 
                                            throw new ArgumentNullException(nameof(gameplayModelsLoaderService));
-            _advertisingService = advertisingService ?? throw new ArgumentNullException(nameof(advertisingService));
             _playerWalletViewFactory = playerWalletViewFactory ??
                                        throw new ArgumentNullException(nameof(playerWalletViewFactory));
             // _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
             _volumeViewFactory = volumeViewFactory ??
                                        throw new ArgumentNullException(nameof(volumeViewFactory));
-            _tutorialService = tutorialService ?? throw new ArgumentNullException(nameof(tutorialService));
+            _pumpkinsPatchViewFactory = pumpkinsPatchViewFactory ?? throw new ArgumentNullException(nameof(pumpkinsPatchViewFactory));
         }
 
         public void Create(IScenePayload payload)
@@ -93,10 +89,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             //Volume
             _volumeViewFactory.Create(gameplayModel.MusicVolume, _gameplayHud.MusicVolumeView);
             _volumeViewFactory.Create(gameplayModel.SoundsVolume, _gameplayHud.SoundVolumeView);
-            //
-            // //HealthBooster
-            // _gameplayHud.HealthBoosterView.Construct(_entityRepository);
-            //
+
             //Achievements
             List<Achievement> achievements = _entityRepository
                 .GetAll<Achievement>(ModelId.GetIds<Achievement>())
@@ -113,6 +106,9 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
                     .First(config => config.Id == achievements[i].Id);
                 _gameplayHud.AchievementViews[i].Construct(achievements[i], config);
             }
+            
+            //Pumpkins
+            _pumpkinsPatchViewFactory.Create(ModelId.FirstPumpkinsPatch, _rootGameObject.PumpkinPatchView);
         }
 
         private GameplayModel Load(IScenePayload payload)

@@ -42,9 +42,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         [FoldoutGroup("Volume")]
         [Required] [SerializeField] private VolumeView _soundVolumeView;
         
-        [FoldoutGroup("HealthBooster")]
-        [Required] [SerializeField] private HealthBoosterView _healthBoosterView;
-
         [FoldoutGroup("Achievements")]
         [Required] [SerializeField] private AchievementView _popUpAchievementView;
         [FoldoutGroup("Achievements")]
@@ -67,7 +64,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         public PlayerWalletView PlayerWalletView => _playerWalletView;
         public VolumeView MusicVolumeView => _musicVolumeView;
         public VolumeView SoundVolumeView => _soundVolumeView;
-        public HealthBoosterView HealthBoosterView => _healthBoosterView;
         public AchievementView PopUpAchievementView => _popUpAchievementView;
         public IReadOnlyList<AchievementView> AchievementViews => _achievementViews;
         public AdvertisingAfterWaveView AdvertisingView => _advertisingView;

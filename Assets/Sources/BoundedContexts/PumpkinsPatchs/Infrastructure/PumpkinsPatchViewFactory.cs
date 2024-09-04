@@ -14,7 +14,7 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Infrastructure
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
         }
 
-        public PumpkinsPatchView Create(string id, PumpkinsPatchView view)
+        public PumpkinPatchView Create(string id, PumpkinPatchView view)
         { 
             PumpkinsPatchPresenter presenter = new PumpkinsPatchPresenter(id, view, _entityRepository);
             view.Construct(presenter);

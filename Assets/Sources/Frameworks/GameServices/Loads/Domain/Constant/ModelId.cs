@@ -2,6 +2,7 @@
 using System.Linq;
 using Sources.BoundedContexts.HealthBoosters.Domain;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
+using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.BoundedContexts.Upgrades.Domain.Models;
 using Sources.Frameworks.Domain.Interfaces.Entities;
@@ -46,6 +47,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
         
         public static IReadOnlyDictionary<string, EntityData> ModelData { get; } = new Dictionary<string, EntityData>()
         {
+             [FirstPumpkinsPatch] = new (FirstPumpkinsPatch, typeof(PumpkinPatch), true),
              [HealthUpgrade] = new (HealthUpgrade, typeof(Upgrade), true),
              [AttackUpgrade] = new (AttackUpgrade, typeof(Upgrade), true),
              [NukeUpgrade] = new (NukeUpgrade, typeof(Upgrade), true),
