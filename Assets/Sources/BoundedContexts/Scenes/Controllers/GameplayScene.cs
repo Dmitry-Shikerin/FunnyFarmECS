@@ -1,14 +1,17 @@
 ﻿using System;
+using JetBrains.Annotations;
 using MyAudios.MyUiFramework.Utils.Soundies.Domain.Constant;
 using Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
+using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.BoundedContexts.Tutorials.Services.Interfaces;
 using Sources.EcsBoundedContexts.Core;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Interfaces.Collectors;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Curtains.Presentation.Interfaces;
+using Sources.Frameworks.GameServices.InputServices.InputServices;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces.Composites;
 using Sources.Frameworks.GameServices.Scenes.Controllers.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Domain.Interfaces;
@@ -42,6 +45,8 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly ISignalControllersCollector _signalControllersCollector;
         private readonly ICameraService _cameraService;
         private readonly IUpdateService _updateService;
+        private readonly ISelectableService _selectableService;
+        private readonly IInputServiceUpdater _inputService;
 
         public GameplayScene(
             RootGameObject rootGameObject,
@@ -61,7 +66,9 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             ICurtainView curtainView,
             ISignalControllersCollector signalControllersCollector,
             ICameraService cameraService,
-            IUpdateService updateService)
+            IUpdateService updateService,
+            ISelectableService selectableService,
+            IInputServiceUpdater inputService)
         {
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
             _advertisingAfterWaveService = advertisingAfterWaveService ?? throw new ArgumentNullException(nameof(advertisingAfterWaveService));
@@ -85,10 +92,13 @@ namespace Sources.BoundedContexts.Scenes.Controllers
                                           throw new ArgumentNullException(nameof(signalControllersCollector));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
+            _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
+            _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
         }
 
         public async void Enter(object payload = null)
         {
+            _inputService.Initialize();
             _focusService.Initialize();
             await _compositeAssetService.LoadAsync();
             _localizationService.Translate();
@@ -101,6 +111,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _ecsGameStartUp.Initialize();
             await _curtainView.HideAsync();
             _advertisingAfterWaveService.Initialize();
+            _selectableService.Initialize();
             _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
             // _tutorialService.Initialize();
@@ -122,12 +133,15 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _compositeAssetService.Release();
             _cameraService.Destroy();
             _ecsGameStartUp.Destroy();
+            _selectableService.Destroy();
+            _inputService.Destroy();
         }
 
         public void Update(float deltaTime)
         {
             _updateService.Update(deltaTime);
             _ecsGameStartUp.Update(deltaTime);
+            _inputService.Update(deltaTime);
         }
 
         public void UpdateLate(float deltaTime)

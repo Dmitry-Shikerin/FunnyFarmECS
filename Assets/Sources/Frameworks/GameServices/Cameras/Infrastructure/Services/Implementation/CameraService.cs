@@ -84,7 +84,7 @@ namespace Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Implem
             }
         }
 
-        private void ShowCamera(CameraId cameraId)
+        public void ShowCamera(CameraId cameraId)
         {
             if (_virtualCameras.ContainsKey(cameraId) == false)
                 throw new InvalidOperationException(nameof(cameraId));

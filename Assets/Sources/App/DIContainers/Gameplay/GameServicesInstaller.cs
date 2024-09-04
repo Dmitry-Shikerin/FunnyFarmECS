@@ -6,6 +6,8 @@ using Sources.BoundedContexts.Tutorials.Services.Interfaces;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Implementation;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Cameras.Presentation.Implementation;
+using Sources.Frameworks.GameServices.InputServices;
+using Sources.Frameworks.GameServices.InputServices.InputServices;
 using Sources.Frameworks.GameServices.Linecasts.Implementation;
 using Sources.Frameworks.GameServices.Linecasts.Interfaces;
 using Sources.Frameworks.GameServices.ObjectPools.Implementation.Managers;
@@ -31,6 +33,7 @@ namespace Sources.App.DIContainers.Gameplay
             Container.Bind<IOverlapService>().To<OverlapService>().AsSingle();
             Container.Bind<ILinecastService>().To<LinecastService>().AsSingle();
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
+            Container.BindInterfacesTo<NewInputService>().AsSingle();
             Container.Bind<AdvertisingAfterWaveService>().AsSingle();
             Container.Bind<SaveAfterWaveService>().AsSingle();
             Container.BindInterfacesTo<UpdateService>().AsSingle();

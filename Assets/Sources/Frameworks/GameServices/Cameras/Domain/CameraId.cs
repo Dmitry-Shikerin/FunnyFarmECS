@@ -5,5 +5,6 @@
         Main = 0,
         Explosion = 1,
         Battle = 2,
+        FirstPumpkins = 3
     }
 }

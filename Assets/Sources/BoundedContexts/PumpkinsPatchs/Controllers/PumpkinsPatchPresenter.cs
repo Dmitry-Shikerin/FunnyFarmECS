@@ -2,10 +2,13 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.Items.Presentation;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.PumpkinsPatchs.Presentation;
+using Sources.Frameworks.GameServices.Cameras.Domain;
+using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.MVPPassiveView.Controllers.Implementation;
 using Sources.Frameworks.Utils.Extensions;
@@ -16,6 +19,7 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
     public class PumpkinsPatchPresenter : PresenterBase
     {
         private readonly PumpkinPatchView _view;
+        private readonly ICameraService _cameraService;
         private readonly PumpkinPatch _pumpkinPatch;
 
         private CancellationTokenSource _token;
@@ -23,10 +27,12 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
         public PumpkinsPatchPresenter(
             string id,
             PumpkinPatchView view,
-            IEntityRepository entityRepository)
+            IEntityRepository entityRepository,
+            ICameraService cameraService)
         {
             _pumpkinPatch = entityRepository.Get<PumpkinPatch>(id);
             _view = view ?? throw new ArgumentNullException(nameof(view));
+            _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
         }
 
         public override void Enable()
@@ -89,5 +95,18 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
 
         private void SetStartScale() =>
             _view.Pumpkins.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
+
+        public async void Select()
+        {
+            _cameraService.ShowCamera(CameraId.FirstPumpkins);
+             _view.HighlightEffect.highlighted = true;
+             await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+             _view.HighlightEffect.HitFX();
+        }
+
+        public void Deselect()
+        {
+             _view.HighlightEffect.highlighted = false;
+        }
     }
 }

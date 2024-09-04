@@ -13,6 +13,7 @@ namespace Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interf
         ICameraFollowable CurrentFollower { get; }
         CameraId CurrentCameraId { get; }
 
+        void ShowCamera(CameraId cameraId);
         void PlayDirector(DirectorId directorId);
         void SetOnTimeCamera(CameraId cameraId, float duration = 3f);
         void SetFollower<T>() where T : ICameraFollowable;

@@ -62,6 +62,15 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7fa6093-c6de-4bc4-9ec2-e67899d7797f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""action"": ""Stand"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ec0a91d-2148-44b1-b8d4-d7d9d53c53a8"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
         m_Gameplay_Stand = m_Gameplay.FindAction("Stand", throwIfNotFound: true);
+        m_Gameplay_Click = m_Gameplay.FindAction("Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +250,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Run;
     private readonly InputAction m_Gameplay_Stand;
+    private readonly InputAction m_Gameplay_Click;
     public struct GameplayActions
     {
         private @InputManager m_Wrapper;
@@ -237,6 +259,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @Run => m_Wrapper.m_Gameplay_Run;
         public InputAction @Stand => m_Wrapper.m_Gameplay_Stand;
+        public InputAction @Click => m_Wrapper.m_Gameplay_Click;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +281,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @Stand.started += instance.OnStand;
             @Stand.performed += instance.OnStand;
             @Stand.canceled += instance.OnStand;
+            @Click.started += instance.OnClick;
+            @Click.performed += instance.OnClick;
+            @Click.canceled += instance.OnClick;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -274,6 +300,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @Stand.started -= instance.OnStand;
             @Stand.performed -= instance.OnStand;
             @Stand.canceled -= instance.OnStand;
+            @Click.started -= instance.OnClick;
+            @Click.performed -= instance.OnClick;
+            @Click.canceled -= instance.OnClick;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -297,5 +326,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnStand(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
     }
 }

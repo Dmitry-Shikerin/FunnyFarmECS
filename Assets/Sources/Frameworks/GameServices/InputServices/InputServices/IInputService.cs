@@ -1,6 +1,6 @@
-﻿using Sources.Domain.Models.Inputs;
+﻿using Sources.Frameworks.GameServices.InputServices.Inputs;
 
-namespace Sources.InfrastructureInterfaces.Services.InputServices
+namespace Sources.Frameworks.GameServices.InputServices.InputServices
 {
     public interface IInputService
     {

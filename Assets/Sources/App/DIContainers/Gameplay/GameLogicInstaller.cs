@@ -6,6 +6,7 @@ using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.Healths.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.PlayerWallets.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.PumpkinsPatchs.Infrastructure;
+using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.BoundedContexts.Upgrades.Infrastructure.Factories.Views;
 using Zenject;
 
@@ -37,6 +38,9 @@ namespace Sources.App.DIContainers.Gameplay
             
             //Pumpkins
             Container.Bind<PumpkinsPatchViewFactory>().AsSingle();
+            
+            //Selectables
+            Container.Bind<ISelectableService>().To<SelectableService>().AsSingle();
         }
     }
 }

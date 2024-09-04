@@ -1,12 +1,14 @@
 ﻿using System;
+using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.Frameworks.StateMachines.ContextStateMachines.Interfaces.Contexts;
 using UnityEngine;
 
-namespace Sources.Domain.Models.Inputs
+namespace Sources.Frameworks.GameServices.InputServices.Inputs
 {
     public class InputData : IContext
     {
         public event Action StandChanged;
+        public event Action<ISelectableItem> SelectItem;
             
         public Vector3 MoveDirection { get; set; }
         public Vector3 LookPosition { get; set; }
@@ -16,5 +18,8 @@ namespace Sources.Domain.Models.Inputs
 
         public void InvokeStand() =>
             StandChanged?.Invoke();
+        
+        public void InvokeSelectItem(ISelectableItem item) =>
+            SelectItem?.Invoke(item);
     }
 }

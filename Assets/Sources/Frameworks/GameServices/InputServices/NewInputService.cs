@@ -1,10 +1,9 @@
 ﻿using System;
+using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.Domain.Models.Constants.LayerMasks;
-using Sources.Domain.Models.Inputs;
+using Sources.Frameworks.GameServices.InputServices.Inputs;
 using Sources.Frameworks.GameServices.InputServices.InputServices;
 using Sources.Frameworks.GameServices.Pauses.Services.Interfaces;
-using Sources.InfrastructureInterfaces.Services.InputServices;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,12 +28,29 @@ namespace Sources.Frameworks.GameServices.InputServices
             _inputManager = new InputManager();
             _inputManager.Enable();
             _inputManager.Gameplay.Stand.performed += UpdateStandState;
+            _inputManager.Gameplay.Click.performed += UpdateSelectable;
+        }
+
+        private void UpdateSelectable(InputAction.CallbackContext obj)
+        {
+            Debug.Log($"UpdateSelectable");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(
+                    ray, out RaycastHit raycastHit, float.MaxValue, Layer.Selectable) == false)
+                return;
+
+            if (raycastHit.collider.TryGetComponent(out ISelectableItem item) == false)
+                return;
+
+            InputData.InvokeSelectItem(item);
         }
 
         public void Destroy()
         {
             _inputManager.Disable();
             _inputManager.Gameplay.Stand.performed -= UpdateStandState;
+            _inputManager.Gameplay.Click.performed -= UpdateSelectable;
         }
 
         public void Update(float deltaTime)

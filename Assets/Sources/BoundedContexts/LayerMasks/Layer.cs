@@ -9,5 +9,6 @@ namespace Sources.Domain.Models.Constants.LayerMasks
         public static readonly int Enemy = 1 << LayerMask.NameToLayer("Enemy");
         public static readonly int Character = 1 << LayerMask.NameToLayer("Player");
         public static readonly int Obstacle = 1 << LayerMask.NameToLayer("Obstacle");
+        public static readonly int Selectable = 1 << LayerMask.NameToLayer("Selectable");
     }
 }

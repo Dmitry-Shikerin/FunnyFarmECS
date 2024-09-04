@@ -4,10 +4,10 @@ using Sources.BoundedContexts.Movements.Domain.Configs;
 using Sources.BoundedContexts.Movements.Infrastructure.Services.Domain.Implementation;
 using Sources.BoundedContexts.Movements.Presentation.Views.Implementation;
 using Sources.Frameworks.GameServices.InputServices;
+using Sources.Frameworks.GameServices.InputServices.InputServices;
 using Sources.Frameworks.MyGameCreator.Movements.Domain.Models;
 using Sources.Frameworks.StateMachines.FiniteStateMachines.Implementation.States;
 using Sources.Frameworks.Utils.Extensions;
-using Sources.InfrastructureInterfaces.Services.InputServices;
 using Sources.OldBoundedContexts.Movements.Controllers.States;
 using UnityEngine;
 

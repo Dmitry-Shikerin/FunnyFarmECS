@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.Huds.Presentations;
 using Sources.BoundedContexts.PlayerWallets.Infrastructure.Factories.Views;
@@ -8,6 +9,7 @@ using Sources.BoundedContexts.PumpkinsPatchs.Infrastructure;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.Scenes.Domain;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Implementation;
+using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.BoundedContexts.Upgrades.Infrastructure.Factories.Views;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
@@ -35,9 +37,9 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly GameplayModelsCreatorService _gameplayModelsCreatorService;
         private readonly GameplayModelsLoaderService _gameplayModelsLoaderService;
         private readonly PlayerWalletViewFactory _playerWalletViewFactory;
-        // private readonly IEcsGameStartUp _ecsGameStartUp;
         private readonly VolumeViewFactory _volumeViewFactory;
         private readonly PumpkinsPatchViewFactory _pumpkinsPatchViewFactory;
+        private readonly ISelectableService _selectableService;
 
         public GameplaySceneViewFactory(
             ILoadService loadService,
@@ -51,9 +53,9 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             GameplayModelsCreatorService gameplayModelsCreatorService,
             GameplayModelsLoaderService gameplayModelsLoaderService,
             PlayerWalletViewFactory playerWalletViewFactory,
-            // IEcsGameStartUp ecsGameStartUp,
             VolumeViewFactory volumeViewFactory,
-            PumpkinsPatchViewFactory pumpkinsPatchViewFactory)
+            PumpkinsPatchViewFactory pumpkinsPatchViewFactory,
+            ISelectableService selectableService)
         {
             _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
@@ -70,10 +72,10 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
                                            throw new ArgumentNullException(nameof(gameplayModelsLoaderService));
             _playerWalletViewFactory = playerWalletViewFactory ??
                                        throw new ArgumentNullException(nameof(playerWalletViewFactory));
-            // _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
             _volumeViewFactory = volumeViewFactory ??
                                        throw new ArgumentNullException(nameof(volumeViewFactory));
             _pumpkinsPatchViewFactory = pumpkinsPatchViewFactory ?? throw new ArgumentNullException(nameof(pumpkinsPatchViewFactory));
+            _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
 
         public void Create(IScenePayload payload)
@@ -109,6 +111,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             
             //Pumpkins
             _pumpkinsPatchViewFactory.Create(ModelId.FirstPumpkinsPatch, _rootGameObject.PumpkinPatchView);
+            _selectableService.Add(_rootGameObject.PumpkinPatchView);
         }
 
         private GameplayModel Load(IScenePayload payload)

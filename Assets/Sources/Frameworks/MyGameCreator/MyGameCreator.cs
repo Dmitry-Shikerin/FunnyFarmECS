@@ -1,11 +1,10 @@
 ﻿using System;
-using Sources.BoundedContexts.Movements.Infrastructure.Factories;
 using Sources.Frameworks.GameServices.InputServices;
 using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.MyGameCreator.Movements.Infrastructure.Factories;
 using UnityEngine;
 
-namespace Sources.Frameworks.MyGameCreator.Core
+namespace Sources.Frameworks.MyGameCreator
 {
     public class MyGameCreator : MonoBehaviour
     {
@@ -42,6 +41,7 @@ namespace Sources.Frameworks.MyGameCreator.Core
         private void OnDestroy()
         {
             s_instance = null;
+            InputService.Destroy();
         }
     }
 }
