@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Sources.BoundedContexts.HealthBoosters.Domain;
-using Sources.BoundedContexts.NukeAbilities.Domain.Models;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.BoundedContexts.Upgrades.Domain.Models;
@@ -22,22 +21,15 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
 
         //gameModels
         public const string PlayerWallet = "PlayerWallet";
-        public const string Bunker = "Bunker";
-        public const string EnemySpawner = "EnemySpawner";
-        public const string SpawnAbility = "SpawnAbility";
-        public const string NukeAbility = "NukeAbility";
-        public const string FlamethrowerAbility = "FlamethrowerAbility";
-        public const string KillEnemyCounter = "KillEnemyCounter";
+        public const string FirstPumpkinsPatch = "FirstPumpinsPatch";
 
         //commonModels
         public const string DailyReward = "DailyReward";
         public const string HealthBooster = "HealthBooster";
         public const string ScoreCounter = "ScoreCounter";
         public const string MainMenu = "MainMenu";
-        public const string SavedLevel = "SavedLevel";
         public const string MusicVolume = "MusicVolume";
         public const string SoundsVolume = "SoundVolume";
-        public const string GameData = "GameData";
         public const string Tutorial = "Tutorial";
         public const string Gameplay = "Gameplay";
         
@@ -59,7 +51,6 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
              [NukeUpgrade] = new (NukeUpgrade, typeof(Upgrade), true),
              [FlamethrowerUpgrade] = new (FlamethrowerUpgrade, typeof(Upgrade), true),
              [PlayerWallet] = new (PlayerWallet, typeof(PlayerWallet), true),
-             [NukeAbility] = new (NukeAbility, typeof(NukeAbility), true),
              [MusicVolume] = new (MusicVolume, typeof(Volume), false),
              [SoundsVolume] = new (SoundsVolume, typeof(Volume), false),
              [DailyReward] = new (DailyReward, typeof(DailyReward), false),

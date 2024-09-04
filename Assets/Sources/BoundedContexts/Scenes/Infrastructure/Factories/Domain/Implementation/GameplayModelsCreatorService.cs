@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.BoundedContexts.HealthBoosters.Domain;
-using Sources.BoundedContexts.NukeAbilities.Domain.Models;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
+using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.Scenes.Domain;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.BoundedContexts.Upgrades.Domain.Configs;
@@ -38,15 +38,12 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
 
         public GameplayModel Load()
         {
-            //Upgrades
-            Upgrade characterHealthUpgrade = CreateUpgrade(ModelId.HealthUpgrade);
-            Upgrade characterAttackUpgrade = CreateUpgrade(ModelId.AttackUpgrade);
-            Upgrade nukeAbilityUpgrade = CreateUpgrade(ModelId.NukeUpgrade);
-            Upgrade flamethrowerAbilityUpgrade = CreateUpgrade(ModelId.FlamethrowerUpgrade);
-            
-            //Abilities
-            NukeAbility nukeAbility = new NukeAbility(nukeAbilityUpgrade, ModelId.NukeAbility);
-            _entityRepository.Add(nukeAbility);
+            //Pumpkins
+            PumpkinPatch pumpkinPatch = new PumpkinPatch()
+            {
+                Id = ModelId.FirstPumpkinsPatch,
+            };
+            _entityRepository.Add(pumpkinPatch);
             
             //PlayerWallet
             PlayerWallet playerWallet = new PlayerWallet()
@@ -63,23 +60,14 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
             //Achievements
             List<Achievement> achievements = LoadAchievements();
             
-            //HealthBooster
-            HealthBooster healthBooster = LoadBooster(ModelId.HealthBooster);
-            
             //Tutorial
             Tutorial tutorial = CreateTutorial(ModelId.Tutorial);
             
             return new GameplayModel(
-                characterHealthUpgrade,
-                characterAttackUpgrade,
-                nukeAbilityUpgrade,
-                flamethrowerAbilityUpgrade,
-                nukeAbility,
                 playerWallet,
                 musicVolume,
                 soundsVolume,
                 achievements,
-                healthBooster,
                 tutorial);
         }
 
