@@ -5,6 +5,8 @@ namespace Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views
 {
     public abstract class View : MonoBehaviour, IView
     {
+        public Transform Transform => transform;
+        
         public IView Show()
         {
             gameObject.SetActive(true);
@@ -31,5 +33,8 @@ namespace Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views
 
         public virtual void Destroy() =>
             Destroy(gameObject);
+        
+        public void SetScale(Vector3 scale) =>
+            transform.localScale = scale;
     }
 }

@@ -4,15 +4,15 @@ namespace Sources.Frameworks.Utils.Extensions
 {
     public static class PercentExtension
     {
-        public static float FloatToPercent(this float value, float max)
+        public static float FloatToPercent(this float value, float min = 0, float max = 100)
         {
             float percent = max / 100f;
             int currentPercents = 0;
-            float currentHealth = 0;
+            float startValue = min;
 
-            while (currentHealth < value)
+            while (startValue < value)
             {
-                currentHealth += percent;
+                startValue += percent;
                 currentPercents++;
             }
 

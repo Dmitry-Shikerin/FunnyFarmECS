@@ -81,10 +81,10 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
 
         public override void Destroy()
         {
-            _healthUpgrade.LevelChanged -= OnCompleted;
-            _attackUpgrade.LevelChanged -= OnCompleted;
-            _flamethrowerUpgrade.LevelChanged -= OnCompleted;
-            _nukeUpgrade.LevelChanged -= OnCompleted;
+            // _healthUpgrade.LevelChanged -= OnCompleted;
+            // _attackUpgrade.LevelChanged -= OnCompleted;
+            // _flamethrowerUpgrade.LevelChanged -= OnCompleted;
+            // _nukeUpgrade.LevelChanged -= OnCompleted;
         }
     }
 }

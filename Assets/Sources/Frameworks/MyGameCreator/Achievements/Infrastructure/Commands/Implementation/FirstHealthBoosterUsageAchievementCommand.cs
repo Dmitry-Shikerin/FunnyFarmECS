@@ -49,7 +49,7 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
 
         public override void Destroy()
         {
-            _healthBooster.CountRemoved -= OnCompleted;
+            // _healthBooster.CountRemoved -= OnCompleted;
         }
     }
 }

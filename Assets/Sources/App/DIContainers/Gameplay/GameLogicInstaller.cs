@@ -1,6 +1,5 @@
 ﻿using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Controllers;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
-using Sources.BoundedContexts.CharacterHealths.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.ExplosionBodies.Infrastructure.Factories.Views.Implementation;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Implementation;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
@@ -24,9 +23,6 @@ namespace Sources.App.DIContainers.Gameplay
             
             //Healths
             Container.Bind<HealthBarViewFactory>().AsSingle();
-            
-            //Characters
-            Container.Bind<CharacterHealthViewFactory>().AsSingle();
             
             //ExplosionBodyBloody
             Container.Bind<ExplosionBodyBloodyViewFactory>().AsSingle();
