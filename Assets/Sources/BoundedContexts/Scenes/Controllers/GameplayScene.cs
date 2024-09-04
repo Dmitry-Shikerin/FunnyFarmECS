@@ -98,6 +98,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _signalControllersCollector.Initialize();
             _soundyService.Initialize();
             _skyAndWeatherService.Initialize();
+            _ecsGameStartUp.Initialize();
             await _curtainView.HideAsync();
             _advertisingAfterWaveService.Initialize();
             _gameCompletedService.Initialize();
@@ -120,6 +121,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _advertisingAfterWaveService.Destroy();
             _compositeAssetService.Release();
             _cameraService.Destroy();
+            _ecsGameStartUp.Destroy();
         }
 
         public void Update(float deltaTime)

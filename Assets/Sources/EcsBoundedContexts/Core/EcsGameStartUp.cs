@@ -32,15 +32,15 @@ namespace Sources.EcsBoundedContexts.Core
                 .AddModule(new AutoInjectModule())
                 .AddModule(new UnityModule())
                 .Init();
+            _rootGameObject
+                .GetComponentsInChildren<ProtoUnityAuthoring>()
+                .ForEach(authoring => authoring.ProcessAuthoring());
             await UniTask.Yield();
             _systems = new ProtoSystems(_world);
             _systems.AddModule(new AutoInjectModule());
             AddInit();
             AddRun();
             AddOneFrame();
-            _rootGameObject
-                .GetComponentsInChildren<ProtoUnityAuthoring>()
-                .ForEach(authoring => authoring.ProcessAuthoring());
             _systems.Init();
         }
 

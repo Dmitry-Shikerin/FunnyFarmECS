@@ -35,12 +35,12 @@ namespace Leopotam.EcsProto.Unity {
     [Il2CppSetOption (Option.NullChecks, false)]
     [Il2CppSetOption (Option.ArrayBoundsChecks, false)]
 #endif
-    [DefaultExecutionOrder (10000)]
+    // [DefaultExecutionOrder (10000)]
     public class ProtoUnityAuthoring : MonoBehaviour {
         
         [SerializeField] string _worldName;
-        [SerializeField] AuthoringType _authoringType = AuthoringType.OnStart;
-        [SerializeField] DestroyType _destroyAfterAuthoring = DestroyType.GameObject;
+        [SerializeField] AuthoringType _authoringType = AuthoringType.Manual;
+        [SerializeField] DestroyType _destroyAfterAuthoring = DestroyType.None;
         [SerializeReference, HideInInspector] public List<object> Components;
 
         ProtoPackedEntityWithWorld _packed;
