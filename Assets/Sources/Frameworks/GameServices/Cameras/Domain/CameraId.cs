@@ -7,5 +7,7 @@
         Battle = 2,
         FirstPumpkins = 3,
         Tomato = 4,
+        ChickenCorral = 5,
+        Jeep = 6,
     }
 }

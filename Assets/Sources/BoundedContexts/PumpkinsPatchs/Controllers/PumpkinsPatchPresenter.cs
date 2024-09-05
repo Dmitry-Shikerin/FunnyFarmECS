@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Items.Presentation;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.PumpkinsPatchs.Presentation;
+using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Domain;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
@@ -23,6 +25,7 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
         private readonly Inventory _inventory;
         private readonly PumpkinPatchView _view;
         private readonly ICameraService _cameraService;
+        private readonly ISelectableService _selectableService;
 
         private CancellationTokenSource _token;
 
@@ -30,12 +33,14 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
             string id,
             PumpkinPatchView view,
             IEntityRepository entityRepository,
-            ICameraService cameraService)
+            ICameraService cameraService,
+            ISelectableService selectableService)
         {
             _pumpkinPatch = entityRepository.Get<PumpkinPatch>(id);
             _inventory = entityRepository.Get<Inventory>(ModelId.Inventory);
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
+            _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
 
         public override void Enable()
@@ -43,13 +48,18 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
             _token = new CancellationTokenSource();
             _view.SowButton.onClickEvent.AddListener(Sow);
             _view.HarvestButton.onClickEvent.AddListener(Harvest);
+            _view.SelectableButton.onClickEvent.AddListener(SelectView);
         }
+
+        private void SelectView() =>
+            _selectableService.Select(_view);
 
         public override void Disable()
         {
             _token.Cancel();
             _view.SowButton.onClickEvent.RemoveListener(Sow);
             _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
+            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
         }
 
         private async void Sow()

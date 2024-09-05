@@ -40,9 +40,12 @@ namespace Sources.Frameworks.GameServices.InputServices
                     ray, out RaycastHit raycastHit, float.MaxValue, Layer.Selectable) == false)
                 return;
 
+            Debug.Log($"RaycastHit: {raycastHit.collider.name}");
+            
             if (raycastHit.collider.TryGetComponent(out ISelectableItem item) == false)
                 return;
 
+            Debug.Log($"Invoke SelectItem");
             InputData.InvokeSelectItem(item);
         }
 

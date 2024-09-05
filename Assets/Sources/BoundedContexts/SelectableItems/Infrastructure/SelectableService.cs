@@ -30,12 +30,10 @@ namespace Sources.BoundedContexts.SelectableItems.Infrastructure
             _inputService.InputData.SelectItem -= Select;
         }
 
-        private void Select(ISelectableItem item)
+        public void Select(ISelectableItem item)
         {
             if (_current != null && _current.Equals(item))
                 return;
-            
-            Debug.Log($"Selected: {item.GetType().Name}");
             
             _items
                 .Except(item)

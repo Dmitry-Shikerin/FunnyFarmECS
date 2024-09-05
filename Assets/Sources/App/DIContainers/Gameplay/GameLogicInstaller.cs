@@ -5,6 +5,7 @@ using Sources.BoundedContexts.ExplosionBodies.Infrastructure.Factories.Views.Imp
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Implementation;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.Healths.Infrastructure.Factories.Views;
+using Sources.BoundedContexts.Jeeps.Infrastructure;
 using Sources.BoundedContexts.PlayerWallets.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.PumpkinsPatchs.Infrastructure;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
@@ -46,6 +47,9 @@ namespace Sources.App.DIContainers.Gameplay
             
             //ChickenCorrals
             Container.Bind<ChickenCorralViewFactory>().AsSingle();
+            
+            //Jeep
+            Container.Bind<JeepViewFactory>().AsSingle();
             
             //Selectables
             Container.Bind<ISelectableService>().To<SelectableService>().AsSingle();

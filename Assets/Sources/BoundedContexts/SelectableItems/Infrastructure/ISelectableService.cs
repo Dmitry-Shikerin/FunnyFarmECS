@@ -6,5 +6,6 @@ namespace Sources.BoundedContexts.SelectableItems.Infrastructure
     public interface ISelectableService : IInitialize, IDestroy
     {
         void Add(ISelectableItem item);
+        void Select(ISelectableItem item);
     }
 }

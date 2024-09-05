@@ -40,6 +40,7 @@ namespace Doozy.Runtime.UIManager
             EnemySpawnerTutorial,
             FirstLocation,
             FirstLocationChickenCorral,
+            FirstLocationJeep,
             FirstLocationPumpkinsPatch,
             FirstLocationTomatoPatch,
             GameCompleted,

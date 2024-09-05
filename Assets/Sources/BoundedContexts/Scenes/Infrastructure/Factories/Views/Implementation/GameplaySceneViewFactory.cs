@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.ChikenCorrals.Infrastructure;
 using Sources.BoundedContexts.Huds.Presentations;
+using Sources.BoundedContexts.Jeeps.Infrastructure;
 using Sources.BoundedContexts.PlayerWallets.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.PumpkinsPatchs.Infrastructure;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
@@ -44,6 +45,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly ISelectableService _selectableService;
         private readonly TomatoPatchViewFactory _tomatoPatchViewFactory;
         private readonly ChickenCorralViewFactory _chickenCorralViewFactory;
+        private readonly JeepViewFactory _jeepViewFactory;
 
         public GameplaySceneViewFactory(
             ILoadService loadService,
@@ -61,7 +63,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             PumpkinsPatchViewFactory pumpkinsPatchViewFactory,
             ISelectableService selectableService,
             TomatoPatchViewFactory tomatoPatchViewFactory,
-            ChickenCorralViewFactory chickenCorralViewFactory)
+            ChickenCorralViewFactory chickenCorralViewFactory,
+            JeepViewFactory jeepViewFactory)
         {
             _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
@@ -84,6 +87,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
             _tomatoPatchViewFactory = tomatoPatchViewFactory ?? throw new ArgumentNullException(nameof(tomatoPatchViewFactory));
             _chickenCorralViewFactory = chickenCorralViewFactory ?? throw new ArgumentNullException(nameof(chickenCorralViewFactory));
+            _jeepViewFactory = jeepViewFactory ?? throw new ArgumentNullException(nameof(jeepViewFactory));
         }
 
         public void Create(IScenePayload payload)
@@ -128,6 +132,10 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             //ChickenCorral
             _chickenCorralViewFactory.Create(ModelId.ChickenCorral, _rootGameObject.ChickenCorralView);
             _selectableService.Add(_rootGameObject.ChickenCorralView);
+            
+            //Jeep
+            _jeepViewFactory.Create(ModelId.Jeep, _rootGameObject.JeepView);
+            _selectableService.Add(_rootGameObject.JeepView);
         }
 
         private GameplayModel Load(IScenePayload payload)

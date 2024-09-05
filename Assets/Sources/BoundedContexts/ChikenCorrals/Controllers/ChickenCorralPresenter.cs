@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.ChikenCorrals.Domain;
 using Sources.BoundedContexts.ChikenCorrals.Presentation;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Items.Presentation;
+using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Domain;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
@@ -24,6 +26,7 @@ namespace Sources.BoundedContexts.ChikenCorrals.Controllers
 
         private readonly Inventory _inventory;
         private readonly ICameraService _cameraService;
+        private readonly ISelectableService _selectableService;
 
         private CancellationTokenSource _token;
 
@@ -31,12 +34,14 @@ namespace Sources.BoundedContexts.ChikenCorrals.Controllers
             string id, 
             ChickenCorralView view, 
             IEntityRepository entityRepository,
-            ICameraService cameraService)
+            ICameraService cameraService,
+            ISelectableService selectableService)
         {
             _chickenCorral = entityRepository.Get<ChickenCorral>(ModelId.ChickenCorral);
             _inventory = entityRepository.Get<Inventory>(ModelId.Inventory);
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
+            _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
 
         public override void Enable()
@@ -44,6 +49,7 @@ namespace Sources.BoundedContexts.ChikenCorrals.Controllers
             _token = new CancellationTokenSource();
             _view.SowButton.onClickEvent.AddListener(Sow);
             _view.HarvestButton.onClickEvent.AddListener(Harvest);
+            _view.SelectableButton.onClickEvent.AddListener(SelectView);
         }
 
         public override void Disable()
@@ -51,7 +57,11 @@ namespace Sources.BoundedContexts.ChikenCorrals.Controllers
             _token.Cancel();
             _view.SowButton.onClickEvent.RemoveListener(Sow);
             _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
+            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
         }
+
+        private void SelectView() =>
+            _selectableService.Select(_view);
 
         private async void Sow()
         {
@@ -115,7 +125,7 @@ namespace Sources.BoundedContexts.ChikenCorrals.Controllers
 
         public async void Select()
         {
-            _cameraService.ShowCamera(CameraId.Tomato);
+            _cameraService.ShowCamera(CameraId.ChickenCorral);
              _view.HighlightEffect.highlighted = true;
              await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
              _view.HighlightEffect.HitFX();

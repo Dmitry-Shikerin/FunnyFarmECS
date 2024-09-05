@@ -4,6 +4,7 @@ using System.Linq;
 using Sources.BoundedContexts.ChikenCorrals.Domain;
 using Sources.BoundedContexts.HealthBoosters.Domain;
 using Sources.BoundedContexts.Inventories.Domain;
+using Sources.BoundedContexts.Jeeps.Domain;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.Scenes.Domain;
@@ -61,6 +62,13 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 Id = ModelId.ChickenCorral,
             };
             _entityRepository.Add(chickenCorral);
+            
+            //Jeep
+            Jeep jeep = new Jeep()
+            {
+                Id = ModelId.Jeep,
+            };
+            _entityRepository.Add(jeep);
             
             //Inventory
             Inventory inventory = new Inventory()

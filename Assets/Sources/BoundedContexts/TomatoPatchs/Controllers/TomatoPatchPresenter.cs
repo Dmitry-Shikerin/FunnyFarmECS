@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Items.Presentation;
 using Sources.BoundedContexts.PumpkinsPatchs.Presentation;
+using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.BoundedContexts.TomatoPatchs.Domain;
 using Sources.BoundedContexts.TomatoPatchs.Presentation;
 using Sources.Frameworks.GameServices.Cameras.Domain;
@@ -24,6 +26,7 @@ namespace Sources.BoundedContexts.TomatoPatchs.Controllers
         private readonly Inventory _inventory;
         private readonly TomatoPatchView _view;
         private readonly ICameraService _cameraService;
+        private readonly ISelectableService _selectableService;
 
         private CancellationTokenSource _token;
 
@@ -31,12 +34,14 @@ namespace Sources.BoundedContexts.TomatoPatchs.Controllers
             string id,
             TomatoPatchView view,
             IEntityRepository entityRepository,
-            ICameraService cameraService)
+            ICameraService cameraService,
+            ISelectableService selectableService)
         {
             _tomatoPatch = entityRepository.Get<TomatoPatch>(id);
             _inventory = entityRepository.Get<Inventory>(ModelId.Inventory);
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
+            _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
 
         public override void Enable()
@@ -44,6 +49,7 @@ namespace Sources.BoundedContexts.TomatoPatchs.Controllers
             _token = new CancellationTokenSource();
             _view.SowButton.onClickEvent.AddListener(Sow);
             _view.HarvestButton.onClickEvent.AddListener(Harvest);
+            _view.SelectableButton.onClickEvent.AddListener(SelectView);
         }
 
         public override void Disable()
@@ -51,7 +57,11 @@ namespace Sources.BoundedContexts.TomatoPatchs.Controllers
             _token.Cancel();
             _view.SowButton.onClickEvent.RemoveListener(Sow);
             _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
+            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
         }
+
+        private void SelectView() =>
+            _selectableService.Select(_view);
 
         private async void Sow()
         {
