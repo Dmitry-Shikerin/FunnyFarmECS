@@ -18,13 +18,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         [FoldoutGroup("UiFramework")]
         [Required] [SerializeField] private UiCollector _uiCollector;
         
-        [FoldoutGroup("Abilities")]
-        [Required] [SerializeField] private AbilityApplierView _nukeAbilityApplier;
-        [FoldoutGroup("Abilities")]
-        [Required] [SerializeField] private AbilityApplierView _spawnAbilityApplier;
-        [FoldoutGroup("Abilities")]
-        [Required] [SerializeField] private AbilityApplierView _flamethrowerAbilityApplier;
-        
         [FoldoutGroup("Upgrades")]
         [Required] [SerializeField] private UpgradeView _characterAttackUpgradeView;
         [FoldoutGroup("Upgrades")]
@@ -51,10 +44,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         [Required] [SerializeField] private AdvertisingAfterWaveView _advertisingView;
         
         public UiCollector UiCollector => _uiCollector;
-
-        public AbilityApplierView NukeAbilityApplier => _nukeAbilityApplier;
-        public AbilityApplierView SpawnAbilityApplier => _spawnAbilityApplier;
-        public AbilityApplierView FlamethrowerAbilityApplier => _flamethrowerAbilityApplier;
         
         public UpgradeView CharacterHealthUpgradeView => _characterHealthUpgradeView;
         public UpgradeView CharacterAttackUpgradeView => _characterAttackUpgradeView;

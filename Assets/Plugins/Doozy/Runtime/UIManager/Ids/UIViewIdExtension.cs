@@ -38,6 +38,10 @@ namespace Doozy.Runtime.UIManager
             BunkerTutorial,
             Damage,
             EnemySpawnerTutorial,
+            FirstLocation,
+            FirstLocationChickenCorral,
+            FirstLocationPumpkinsPatch,
+            FirstLocationTomatoPatch,
             GameCompleted,
             GameOver,
             Hud,
@@ -46,8 +50,10 @@ namespace Doozy.Runtime.UIManager
             Pause,
             Quit,
             ScoreTutorial,
+            SecondLocation,
             Settings,
             SimpleEnemyTutorial,
+            ThirdLocation,
             Tutorial,
             UpgradesTutorial
         }

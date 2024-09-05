@@ -6,6 +6,7 @@ using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.Scenes.Domain;
+using Sources.BoundedContexts.TomatoPatchs.Domain;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.BoundedContexts.Upgrades.Domain.Configs;
 using Sources.BoundedContexts.Upgrades.Domain.Data;
@@ -45,6 +46,13 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 Id = ModelId.FirstPumpkinsPatch,
             };
             _entityRepository.Add(pumpkinPatch);
+            
+            //Tomato
+            TomatoPatch tomatoPatch = new TomatoPatch()
+            {
+                Id = ModelId.TomatoPatch,
+            };
+            _entityRepository.Add(tomatoPatch);
             
             //Inventory
             Inventory inventory = new Inventory()

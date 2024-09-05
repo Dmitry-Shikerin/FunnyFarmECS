@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using ModestTree;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.Frameworks.GameServices.InputServices.InputServices;
-using Sources.Frameworks.MyGameCreator;
 using UnityEngine;
 
 namespace Sources.BoundedContexts.SelectableItems.Infrastructure
@@ -34,7 +32,7 @@ namespace Sources.BoundedContexts.SelectableItems.Infrastructure
 
         private void Select(ISelectableItem item)
         {
-            if (_current == item)
+            if (_current != null && _current.Equals(item))
                 return;
             
             Debug.Log($"Selected: {item.GetType().Name}");

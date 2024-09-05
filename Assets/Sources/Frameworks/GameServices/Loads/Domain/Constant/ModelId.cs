@@ -24,9 +24,13 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
         public const string PlayerWallet = "PlayerWallet";
         public const string Inventory = "Inventory";
         public const string FirstPumpkinsPatch = "FirstPumpinsPatch";
+        public const string TomatoPatch = "TomatoPatch";        
+        public const string ChickenCorral = "ChickenCorral";
+
         
         //Items
         public const string Pumpkin = "Pumpkin";
+        public const string Tomato = "Tomato";
 
         //commonModels
         public const string DailyReward = "DailyReward";
@@ -72,7 +76,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
              [Tutorial] = new (Tutorial, typeof(Tutorial), false),
              [HealthBooster] = new (HealthBooster, typeof(HealthBooster), false),
         };
-
+        
         public static IReadOnlyList<string> GetIds<T>() 
             where T : IEntity
         {
