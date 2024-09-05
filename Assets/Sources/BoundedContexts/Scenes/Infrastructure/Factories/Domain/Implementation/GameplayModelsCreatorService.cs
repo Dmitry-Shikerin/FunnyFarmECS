@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sources.BoundedContexts.ChikenCorrals.Domain;
 using Sources.BoundedContexts.HealthBoosters.Domain;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
@@ -53,6 +54,13 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 Id = ModelId.TomatoPatch,
             };
             _entityRepository.Add(tomatoPatch);
+            
+            //ChickenCorral
+            ChickenCorral chickenCorral = new ChickenCorral()
+            {
+                Id = ModelId.ChickenCorral,
+            };
+            _entityRepository.Add(chickenCorral);
             
             //Inventory
             Inventory inventory = new Inventory()
