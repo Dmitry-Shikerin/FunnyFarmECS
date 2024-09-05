@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.BoundedContexts.HealthBoosters.Domain;
+using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.Scenes.Domain;
@@ -44,6 +45,17 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 Id = ModelId.FirstPumpkinsPatch,
             };
             _entityRepository.Add(pumpkinPatch);
+            
+            //Inventory
+            Inventory inventory = new Inventory()
+            {
+                Id = ModelId.Inventory,
+                Items = new Dictionary<string, int>()
+                {
+                    [ModelId.Pumpkin] = 0,
+                },
+            };
+            _entityRepository.Add(inventory);
             
             //PlayerWallet
             PlayerWallet playerWallet = new PlayerWallet()

@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
 using Sirenix.Utilities;
+using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Items.Presentation;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.PumpkinsPatchs.Presentation;
 using Sources.Frameworks.GameServices.Cameras.Domain;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
+using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.MVPPassiveView.Controllers.Implementation;
 using Sources.Frameworks.Utils.Extensions;
@@ -18,9 +19,10 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
 {
     public class PumpkinsPatchPresenter : PresenterBase
     {
+        private readonly PumpkinPatch _pumpkinPatch;
+        private readonly Inventory _inventory;
         private readonly PumpkinPatchView _view;
         private readonly ICameraService _cameraService;
-        private readonly PumpkinPatch _pumpkinPatch;
 
         private CancellationTokenSource _token;
 
@@ -31,6 +33,7 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
             ICameraService cameraService)
         {
             _pumpkinPatch = entityRepository.Get<PumpkinPatch>(id);
+            _inventory = entityRepository.Get<Inventory>(ModelId.Inventory);
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
         }
@@ -39,17 +42,22 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
         {
             _token = new CancellationTokenSource();
             _view.SowButton.onClickEvent.AddListener(Sow);
+            _view.HarvestButton.onClickEvent.AddListener(Harvest);
         }
 
         public override void Disable()
         {
             _token.Cancel();
             _view.SowButton.onClickEvent.RemoveListener(Sow);
+            _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
         }
 
         private async void Sow()
         {
-            Debug.Log($"On Click");
+            if (_pumpkinPatch.CanGrow == false)
+                return;
+            
+            _pumpkinPatch.CanGrow = false;
             SetStartScale();
             _view.ProgressBarr.SetFillAmount(0);
             Show();
@@ -58,12 +66,18 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
 
         private void Harvest()
         {
+            if (_pumpkinPatch.HasGrownUp == false)
+                return;
+            
             Hide();
+            _inventory.Add(ModelId.Pumpkin, _pumpkinPatch.PumpkinsCount);
+            _pumpkinPatch.CanGrow = true;
+            _pumpkinPatch.HasGrownUp = false;
+            _pumpkinPatch.PumpkinsCount = 0;
         }
 
         private async UniTask Grow(CancellationToken token)
         {
-            Debug.Log($"Start grow");
             while (_view.Pumpkins.Any(item => item.transform.localScale != item.StartScale))
             {
                 foreach (ItemView item in _view.Pumpkins)
@@ -84,7 +98,9 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
                 await UniTask.Yield(token);
             }
 
-            Debug.Log($"End grow");
+            _pumpkinPatch.HasGrownUp = true;
+            //TODO сделать это значение изменямым
+            _pumpkinPatch.PumpkinsCount = 3;
         }
 
         private void Show() =>

@@ -41,6 +41,7 @@ namespace Doozy.Runtime.UIManager
             GameCompleted,
             GameOver,
             Hud,
+            Inventory,
             KamikazeEnemyTutorial,
             Pause,
             Quit,

@@ -22,7 +22,11 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
 
         //gameModels
         public const string PlayerWallet = "PlayerWallet";
+        public const string Inventory = "Inventory";
         public const string FirstPumpkinsPatch = "FirstPumpinsPatch";
+        
+        //Items
+        public const string Pumpkin = "Pumpkin";
 
         //commonModels
         public const string DailyReward = "DailyReward";
