@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sources.BoundedContexts.CabbagePatches.Domain;
 using Sources.BoundedContexts.ChikenCorrals.Domain;
 using Sources.BoundedContexts.HealthBoosters.Domain;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Jeeps.Domain;
+using Sources.BoundedContexts.OnionPatches.Domain;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.Scenes.Domain;
@@ -69,6 +71,18 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 Id = ModelId.Jeep,
             };
             _entityRepository.Add(jeep);
+            
+            //Cabbages
+            CabbagePatch cabbagePatch = new CabbagePatch()
+            {
+                Id = ModelId.CabbagePatch,
+            };
+            
+            //Onions
+            OnionPatch onionPatch = new OnionPatch()
+            {
+                Id = ModelId.OnionPatch,
+            };
             
             //Inventory
             Inventory inventory = new Inventory()

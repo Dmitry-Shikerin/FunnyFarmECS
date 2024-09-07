@@ -26,7 +26,9 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
         public const string FirstPumpkinsPatch = "FirstPumpinsPatch";
         public const string TomatoPatch = "TomatoPatch";        
         public const string ChickenCorral = "ChickenCorral";
-        public const string Jeep = "Jeep";
+        public const string CabbagePatch = "CabbagePatch";
+        public const string OnionPatch = "OnionPatch";
+        public const string Jeep = "Jeep";        
         
         //Items
         public const string Pumpkin = "Pumpkin";
