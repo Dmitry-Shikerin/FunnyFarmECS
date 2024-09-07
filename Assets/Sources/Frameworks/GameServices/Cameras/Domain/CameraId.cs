@@ -9,5 +9,8 @@
         Tomato = 4,
         ChickenCorral = 5,
         Jeep = 6,
+        Onion = 7,
+        Cabbage = 8,
+        Truck = 9,
     }
 }

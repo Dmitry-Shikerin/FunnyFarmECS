@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sources.BoundedContexts.CabbagePatches.Domain;
 using Sources.BoundedContexts.ChikenCorrals.Domain;
+using Sources.BoundedContexts.Dogs.Domain;
 using Sources.BoundedContexts.HealthBoosters.Domain;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Jeeps.Domain;
@@ -11,10 +12,12 @@ using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
 using Sources.BoundedContexts.Scenes.Domain;
 using Sources.BoundedContexts.TomatoPatchs.Domain;
+using Sources.BoundedContexts.Trucks.Domain;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.BoundedContexts.Upgrades.Domain.Configs;
 using Sources.BoundedContexts.Upgrades.Domain.Data;
 using Sources.BoundedContexts.Upgrades.Domain.Models;
+using Sources.BoundedContexts.Woodsheds.Domain;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
@@ -77,12 +80,35 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
             {
                 Id = ModelId.CabbagePatch,
             };
+            _entityRepository.Add(cabbagePatch);
             
             //Onions
             OnionPatch onionPatch = new OnionPatch()
             {
                 Id = ModelId.OnionPatch,
             };
+            _entityRepository.Add(onionPatch);
+            
+            //Woodshed
+            Woodshed woodshed = new Woodshed()
+            {
+                Id = ModelId.Woodshed,
+            };
+            _entityRepository.Add(woodshed);
+            
+            //Truck
+            Truck truck = new Truck()
+            {
+                Id = ModelId.Truck,
+            };
+            _entityRepository.Add(truck);
+            
+            //Dog
+            Dog dog = new Dog()
+            {
+                Id = ModelId.Dog,
+            };
+            _entityRepository.Add(dog);
             
             //Inventory
             Inventory inventory = new Inventory()

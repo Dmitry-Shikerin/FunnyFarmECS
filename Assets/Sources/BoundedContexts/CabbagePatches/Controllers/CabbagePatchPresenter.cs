@@ -123,7 +123,7 @@ namespace Sources.BoundedContexts.CabbagePatches.Controllers
 
         public async void Select()
         {
-            _cameraService.ShowCamera(CameraId.FirstPumpkins);
+            _cameraService.ShowCamera(CameraId.Cabbage);
              _view.HighlightEffect.highlighted = true;
              await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
              _view.HighlightEffect.HitFX();

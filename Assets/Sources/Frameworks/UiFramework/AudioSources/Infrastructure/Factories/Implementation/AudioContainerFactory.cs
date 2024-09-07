@@ -1,5 +1,5 @@
 ﻿using System;
-using Sources.BoundedContexts.ObjectPools.Infrastructure.Factories;
+using Sources.Frameworks.GameServices.ObjectPools.Implementation.Factories;
 using Sources.Frameworks.GameServices.ObjectPools.Interfaces.Generic;
 using Sources.Frameworks.UiFramework.AudioSources.Domain.Constant;
 using Sources.Frameworks.UiFramework.AudioSources.Infrastructure.Factories.Interfaces;
