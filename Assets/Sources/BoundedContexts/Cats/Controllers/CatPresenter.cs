@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Sources.BoundedContexts.Cats.Domain;
+using Sources.BoundedContexts.Cats.Presentation;
 using Sources.BoundedContexts.Dogs.Presentation;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Domain;
@@ -15,7 +16,7 @@ namespace Sources.BoundedContexts.Cats.Controllers
     public class CatPresenter : PresenterBase
     {
         private readonly Cat _cat;
-        private readonly DogView _view;
+        private readonly CatView _view;
         private readonly ICameraService _cameraService;
         private readonly ISelectableService _selectableService;
 
@@ -23,7 +24,7 @@ namespace Sources.BoundedContexts.Cats.Controllers
 
         public CatPresenter(
             string id, 
-            DogView view, 
+            CatView view, 
             IEntityRepository entityRepository,
             ICameraService cameraService,
             ISelectableService selectableService)

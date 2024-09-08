@@ -3,17 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
+using Sources.BoundedContexts.CabbagePatches.Infrastructure;
+using Sources.BoundedContexts.Cats.Infrastructure;
 using Sources.BoundedContexts.ChikenCorrals.Infrastructure;
+using Sources.BoundedContexts.CowPens.Infrastructure;
+using Sources.BoundedContexts.Dogs.Infrastructure;
+using Sources.BoundedContexts.GoosePens.Infrastructure;
+using Sources.BoundedContexts.Houses.Infrastructure;
 using Sources.BoundedContexts.Huds.Presentations;
 using Sources.BoundedContexts.Jeeps.Infrastructure;
+using Sources.BoundedContexts.OnionPatches.Infrastructure;
+using Sources.BoundedContexts.PigPens.Infrastructure;
 using Sources.BoundedContexts.PlayerWallets.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.PumpkinsPatchs.Infrastructure;
+using Sources.BoundedContexts.RabbitPens.Infrastructure;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.Scenes.Domain;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Implementation;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
+using Sources.BoundedContexts.SheepPens.Infrastructure;
+using Sources.BoundedContexts.Stables.Implementation;
 using Sources.BoundedContexts.TomatoPatchs.Infrastructure;
+using Sources.BoundedContexts.Trucks.Infrastructure;
 using Sources.BoundedContexts.Upgrades.Infrastructure.Factories.Views;
+using Sources.BoundedContexts.Watermills.Infrastructure;
+using Sources.BoundedContexts.Woodsheds.Infrastructure;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
@@ -46,6 +60,20 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly TomatoPatchViewFactory _tomatoPatchViewFactory;
         private readonly ChickenCorralViewFactory _chickenCorralViewFactory;
         private readonly JeepViewFactory _jeepViewFactory;
+        private readonly OnionPatchViewFactory _onionPatchViewFactory;
+        private readonly CabbagePatchViewFactory _cabbagePatchViewFactory;
+        private readonly TruckViewFactory _truckViewFactory;
+        private readonly DogViewFactory _dogViewFactory;
+        private readonly CatViewFactory _catViewFactory;
+        private readonly HouseViewFactory _houseViewFactory;
+        private readonly WoodshedViewFactory _woodshedViewFactory;
+        private readonly StableViewFactory _stableViewFactory;
+        private readonly PigPenViewFactory _pigPenViewFactory;
+        private readonly CowPenViewFactory _cowPenViewFactory;
+        private readonly RabbitPenViewFactory _rabbitPenViewFactory;
+        private readonly SheepPenViewFactory _sheepPenViewFactory;
+        private readonly GoosePenViewFactory _goosePenViewFactory;
+        private readonly WatermillViewFactory _watermillViewFactory;
 
         public GameplaySceneViewFactory(
             ILoadService loadService,
@@ -64,7 +92,21 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             ISelectableService selectableService,
             TomatoPatchViewFactory tomatoPatchViewFactory,
             ChickenCorralViewFactory chickenCorralViewFactory,
-            JeepViewFactory jeepViewFactory)
+            JeepViewFactory jeepViewFactory,
+            OnionPatchViewFactory onionPatchViewFactory,
+            CabbagePatchViewFactory cabbagePatchViewFactory,
+            TruckViewFactory truckViewFactory,
+            DogViewFactory dogViewFactory,
+            CatViewFactory catViewFactory,
+            HouseViewFactory houseViewFactory,
+            WoodshedViewFactory woodshedViewFactory,
+            StableViewFactory stableViewFactory,
+            PigPenViewFactory pigPenViewFactory,
+            CowPenViewFactory cowPenViewFactory,
+            RabbitPenViewFactory rabbitPenViewFactory,
+            SheepPenViewFactory sheepPenViewFactory,
+            GoosePenViewFactory goosePenViewFactory,
+            WatermillViewFactory watermillViewFactory)
         {
             _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
@@ -88,6 +130,20 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _tomatoPatchViewFactory = tomatoPatchViewFactory ?? throw new ArgumentNullException(nameof(tomatoPatchViewFactory));
             _chickenCorralViewFactory = chickenCorralViewFactory ?? throw new ArgumentNullException(nameof(chickenCorralViewFactory));
             _jeepViewFactory = jeepViewFactory ?? throw new ArgumentNullException(nameof(jeepViewFactory));
+            _onionPatchViewFactory = onionPatchViewFactory ?? throw new ArgumentNullException(nameof(onionPatchViewFactory));
+            _cabbagePatchViewFactory = cabbagePatchViewFactory ?? throw new ArgumentNullException(nameof(cabbagePatchViewFactory));
+            _truckViewFactory = truckViewFactory ?? throw new ArgumentNullException(nameof(truckViewFactory));
+            _dogViewFactory = dogViewFactory ?? throw new ArgumentNullException(nameof(dogViewFactory));
+            _catViewFactory = catViewFactory ?? throw new ArgumentNullException(nameof(catViewFactory));
+            _houseViewFactory = houseViewFactory ?? throw new ArgumentNullException(nameof(houseViewFactory));
+            _woodshedViewFactory = woodshedViewFactory ?? throw new ArgumentNullException(nameof(woodshedViewFactory));
+            _stableViewFactory = stableViewFactory ?? throw new ArgumentNullException(nameof(stableViewFactory));
+            _pigPenViewFactory = pigPenViewFactory ?? throw new ArgumentNullException(nameof(pigPenViewFactory));
+            _cowPenViewFactory = cowPenViewFactory ?? throw new ArgumentNullException(nameof(cowPenViewFactory));
+            _rabbitPenViewFactory = rabbitPenViewFactory ?? throw new ArgumentNullException(nameof(rabbitPenViewFactory));
+            _sheepPenViewFactory = sheepPenViewFactory ?? throw new ArgumentNullException(nameof(sheepPenViewFactory));
+            _goosePenViewFactory = goosePenViewFactory ?? throw new ArgumentNullException(nameof(goosePenViewFactory));
+            _watermillViewFactory = watermillViewFactory ?? throw new ArgumentNullException(nameof(watermillViewFactory));
         }
 
         public void Create(IScenePayload payload)
@@ -121,21 +177,61 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
                 _gameplayHud.AchievementViews[i].Construct(achievements[i], config);
             }
             
-            //Pumpkins
+            //FirstLocation
             _pumpkinsPatchViewFactory.Create(ModelId.FirstPumpkinsPatch, _rootGameObject.PumpkinPatchView);
             _selectableService.Add(_rootGameObject.PumpkinPatchView);
             
-            //Tomatoes
             _tomatoPatchViewFactory.Create(ModelId.TomatoPatch, _rootGameObject.TomatoPatchView);
             _selectableService.Add(_rootGameObject.TomatoPatchView);
             
-            //ChickenCorral
             _chickenCorralViewFactory.Create(ModelId.ChickenCorral, _rootGameObject.ChickenCorralView);
             _selectableService.Add(_rootGameObject.ChickenCorralView);
+
+            _onionPatchViewFactory.Create(ModelId.OnionPatch, _rootGameObject.OnionPatchView);
+            _selectableService.Add(_rootGameObject.ChickenCorralView);
+
+            _cabbagePatchViewFactory.Create(ModelId.CabbagePatch, _rootGameObject.CabbagePatchView);
+            _selectableService.Add(_rootGameObject.CabbagePatchView);
             
-            //Jeep
             _jeepViewFactory.Create(ModelId.Jeep, _rootGameObject.JeepView);
             _selectableService.Add(_rootGameObject.JeepView);
+
+            _truckViewFactory.Create(ModelId.Truck, _rootGameObject.TruckView);
+            _selectableService.Add(_rootGameObject.TruckView);
+            
+            _dogViewFactory.Create(ModelId.Dog, _rootGameObject.DogView);
+            _selectableService.Add(_rootGameObject.DogView);
+            
+            _catViewFactory.Create(ModelId.Cat, _rootGameObject.CatView);
+            _selectableService.Add(_rootGameObject.CatView);
+
+            _houseViewFactory.Create(ModelId.House, _rootGameObject.HouseView);
+            _selectableService.Add(_rootGameObject.HouseView);
+
+            _woodshedViewFactory.Create(ModelId.Woodshed, _rootGameObject.WoodshedView);
+            _selectableService.Add(_rootGameObject.WoodshedView);
+
+            _stableViewFactory.Create(ModelId.Stable, _rootGameObject.StableView);
+            _selectableService.Add(_rootGameObject.StableView);
+            
+            //SecondLocation
+            _pigPenViewFactory.Create(ModelId.PigPen, _rootGameObject.PigPenView);
+            _selectableService.Add(_rootGameObject.PigPenView);
+            
+            _cowPenViewFactory.Create(ModelId.CowPen, _rootGameObject.CowPenView);
+            _selectableService.Add(_rootGameObject.CowPenView);
+            
+            _rabbitPenViewFactory.Create(ModelId.RabbitPen, _rootGameObject.RabbitPenView);
+            _selectableService.Add(_rootGameObject.RabbitPenView);
+            
+            _sheepPenViewFactory.Create(ModelId.SheepPen, _rootGameObject.SheepPenView);
+            _selectableService.Add(_rootGameObject.SheepPenView);
+            
+            _goosePenViewFactory.Create(ModelId.GoosePen, _rootGameObject.GoosePenView);
+            _selectableService.Add(_rootGameObject.GoosePenView);
+            
+            _watermillViewFactory.Create(ModelId.Watermill, _rootGameObject.WatermillView);
+            _selectableService.Add(_rootGameObject.WatermillView);
         }
 
         private GameplayModel Load(IScenePayload payload)

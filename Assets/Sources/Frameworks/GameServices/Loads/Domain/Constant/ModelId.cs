@@ -23,15 +23,27 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
         //gameModels
         public const string PlayerWallet = "PlayerWallet";
         public const string Inventory = "Inventory";
+        
+        //FirstLocation
         public const string FirstPumpkinsPatch = "FirstPumpinsPatch";
         public const string TomatoPatch = "TomatoPatch";        
         public const string ChickenCorral = "ChickenCorral";
         public const string CabbagePatch = "CabbagePatch";
         public const string OnionPatch = "OnionPatch";
         public const string Woodshed = "Woodshed";
+        public const string House = "House";
+        public const string Stable = "Stable";
         public const string Dog = "Dog";
         public const string Jeep = "Jeep";        
         public const string Truck = "Truck";
+        public const string Cat = "Cat";
+        //SecondLocation
+        public const string PigPen = "PigPen";
+        public const string CowPen = "CowPen";
+        public const string RabbitPen = "RabbitPen";
+        public const string SheepPen = "SheepPen";
+        public const string GoosePen = "GoosePen";
+        public const string Watermill = "Watermill";
         
         //Items
         public const string Pumpkin = "Pumpkin";
@@ -57,7 +69,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
         public const string FiftyWaveCompletedAchievement = "FiftyWaveCompletedAchievement";
         public const string AllAbilitiesUsedAchievementCommand = "AllAbilitiesUsedAchievementCommand";
         public const string CompleteGameWithOneHealthAchievementCommand = "CompleteGameWithOneHealthAchievementCommand";
-        
+
         public static IReadOnlyDictionary<string, EntityData> ModelData { get; } = new Dictionary<string, EntityData>()
         {
              [FirstPumpkinsPatch] = new (FirstPumpkinsPatch, typeof(PumpkinPatch), true),
@@ -81,7 +93,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
              [Tutorial] = new (Tutorial, typeof(Tutorial), false),
              [HealthBooster] = new (HealthBooster, typeof(HealthBooster), false),
         };
-        
+
         public static IReadOnlyList<string> GetIds<T>() 
             where T : IEntity
         {

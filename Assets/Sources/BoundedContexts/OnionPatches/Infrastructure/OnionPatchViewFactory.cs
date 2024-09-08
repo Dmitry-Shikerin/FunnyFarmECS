@@ -1,6 +1,8 @@
 ﻿using System;
 using Sources.BoundedContexts.CabbagePatches.Controllers;
 using Sources.BoundedContexts.CabbagePatches.Presentation;
+using Sources.BoundedContexts.OnionPatches.Controllers;
+using Sources.BoundedContexts.OnionPatches.Presentation;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
@@ -27,11 +29,12 @@ namespace Sources.BoundedContexts.OnionPatches.Infrastructure
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
         
-        public CabbagePatchView Create(string id, CabbagePatchView view)
+        public OnionPatchView Create(string id, OnionPatchView view)
         {
-            CabbagePatchPresenter presenter = new CabbagePatchPresenter(
+            OnionPatchPresenter presenter = new OnionPatchPresenter(
                 id, _entityRepository, view, _cameraService, _selectableService);
             view.Construct(presenter);
+            
             return view;
         }
     }

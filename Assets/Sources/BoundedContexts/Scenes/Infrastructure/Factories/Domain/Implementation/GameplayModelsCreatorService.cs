@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.BoundedContexts.CabbagePatches.Domain;
+using Sources.BoundedContexts.Cats.Domain;
 using Sources.BoundedContexts.ChikenCorrals.Domain;
+using Sources.BoundedContexts.CowPens.Domain;
 using Sources.BoundedContexts.Dogs.Domain;
 using Sources.BoundedContexts.HealthBoosters.Domain;
+using Sources.BoundedContexts.Houses.Domain;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Jeeps.Domain;
 using Sources.BoundedContexts.OnionPatches.Domain;
+using Sources.BoundedContexts.PigPens.Domain;
 using Sources.BoundedContexts.PlayerWallets.Domain.Models;
 using Sources.BoundedContexts.PumpkinsPatchs.Domain;
+using Sources.BoundedContexts.RabbitPens.Domain;
 using Sources.BoundedContexts.Scenes.Domain;
+using Sources.BoundedContexts.Stables.Domain;
 using Sources.BoundedContexts.TomatoPatchs.Domain;
 using Sources.BoundedContexts.Trucks.Domain;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
@@ -47,68 +53,39 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
 
         public GameplayModel Load()
         {
-            //Pumpkins
-            PumpkinPatch pumpkinPatch = new PumpkinPatch()
-            {
-                Id = ModelId.FirstPumpkinsPatch,
-            };
+            //FirstLocation
+            PumpkinPatch pumpkinPatch = new PumpkinPatch { Id = ModelId.FirstPumpkinsPatch, };
             _entityRepository.Add(pumpkinPatch);
-            
-            //Tomato
-            TomatoPatch tomatoPatch = new TomatoPatch()
-            {
-                Id = ModelId.TomatoPatch,
-            };
+            TomatoPatch tomatoPatch = new TomatoPatch { Id = ModelId.TomatoPatch, };
             _entityRepository.Add(tomatoPatch);
-            
-            //ChickenCorral
-            ChickenCorral chickenCorral = new ChickenCorral()
-            {
-                Id = ModelId.ChickenCorral,
-            };
+            ChickenCorral chickenCorral = new ChickenCorral { Id = ModelId.ChickenCorral, };
             _entityRepository.Add(chickenCorral);
-            
-            //Jeep
-            Jeep jeep = new Jeep()
-            {
-                Id = ModelId.Jeep,
-            };
-            _entityRepository.Add(jeep);
-            
-            //Cabbages
-            CabbagePatch cabbagePatch = new CabbagePatch()
-            {
-                Id = ModelId.CabbagePatch,
-            };
+            CabbagePatch cabbagePatch = new CabbagePatch { Id = ModelId.CabbagePatch, };
             _entityRepository.Add(cabbagePatch);
-            
-            //Onions
-            OnionPatch onionPatch = new OnionPatch()
-            {
-                Id = ModelId.OnionPatch,
-            };
+            OnionPatch onionPatch = new OnionPatch { Id = ModelId.OnionPatch, };
             _entityRepository.Add(onionPatch);
-            
-            //Woodshed
-            Woodshed woodshed = new Woodshed()
-            {
-                Id = ModelId.Woodshed,
-            };
+            Woodshed woodshed = new Woodshed { Id = ModelId.Woodshed, };
             _entityRepository.Add(woodshed);
-            
-            //Truck
-            Truck truck = new Truck()
-            {
-                Id = ModelId.Truck,
-            };
+            House house = new House { Id = ModelId.House, };
+            _entityRepository.Add(house);
+            Stable stable = new Stable { Id = ModelId.Stable, };
+            _entityRepository.Add(stable);
+            Truck truck = new Truck { Id = ModelId.Truck, };
             _entityRepository.Add(truck);
-            
-            //Dog
-            Dog dog = new Dog()
-            {
-                Id = ModelId.Dog,
-            };
+            Jeep jeep = new Jeep { Id = ModelId.Jeep, };
+            _entityRepository.Add(jeep);
+            Dog dog = new Dog { Id = ModelId.Dog, };
             _entityRepository.Add(dog);
+            Cat cat = new Cat { Id = ModelId.Cat, };
+            _entityRepository.Add(cat);
+            
+            //SecondLocation
+            PigPen pigPen = new PigPen { Id = ModelId.PigPen, };
+            _entityRepository.Add(pigPen);
+            CowPen cowPen = new CowPen { Id = ModelId.CowPen, };
+            _entityRepository.Add(cowPen);
+            RabbitPen rabbitPen = new RabbitPen { Id = ModelId.RabbitPen, };
+            _entityRepository.Add(rabbitPen);
             
             //Inventory
             Inventory inventory = new Inventory()
