@@ -1,17 +1,19 @@
 ﻿using System.Linq;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using Sources.SwingingTrees.Domain;
+using Sources.EcsBoundedContexts.Core;
+using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
 using Sources.SwingingTrees.Domain.Configs;
 using Sources.Trees.Components;
 using UnityEngine;
 
-namespace Sources.SwingingTrees.Infrastructure
+namespace Sources.EcsBoundedContexts.SwingingTrees.Infrastructure
 {
     public class TreeSwingerSystem : IProtoRunSystem, IProtoInitSystem
     {
         [DI] private readonly MainAspect _mainAspect = default;
         [DI] private readonly ProtoIt _swingingTreeInc = new (It.Inc<TreeTag, SweengingTreeComponent>());
+        
         private TreeSwingerCollector _configCollector;
         private bool _enableYAxisSwingingTree;
         private bool _isInitialized;
@@ -23,21 +25,19 @@ namespace Sources.SwingingTrees.Infrastructure
             
             _configCollector = Resources.Load<TreeSwingerCollector>(
                 "Configs/TreeSwingers/TreeSwingerCollector");
-            _enableYAxisSwingingTree =
-                _configCollector.Configs.First(config => config.Id == "Tree").EnableYAxisSwinging;
+            TreeSwingerConfig config = _configCollector.Configs.First(config => config.Id == "Tree");
+            _enableYAxisSwingingTree = config.EnableYAxisSwinging;
             
             foreach (ProtoEntity entity in _swingingTreeInc)
             {
                 ref SweengingTreeComponent treeSwinger = ref _mainAspect.TreeSwingerPool.Get(entity);
-                Initialize(ref treeSwinger, "Tree");
+                Initialize(ref treeSwinger, config);
                 _isInitialized = true;
             }
         }
 
         public void Run()
         {
-            // Init(null);
-            //
             foreach (ProtoEntity entity in _swingingTreeInc)
             {
                 ref SweengingTreeComponent treeSwinger = ref _mainAspect.TreeSwingerPool.Get(entity);
@@ -50,9 +50,8 @@ namespace Sources.SwingingTrees.Infrastructure
             }
         }
         
-        private void Initialize(ref SweengingTreeComponent treeSwinger, string id)
+        private void Initialize(ref SweengingTreeComponent treeSwinger, TreeSwingerConfig config)
         {
-            TreeSwingerConfig config = _configCollector.Configs.First(config => config.Id == id);
             treeSwinger.MaxAngleX = config.SwingMaxAngleX + Random.Range(-config.SwingMaxAngleRandomnessX, config.SwingMaxAngleRandomnessX);
             treeSwinger.MaxAngleY = config.SwingMaxAngleY + Random.Range(-config.SwingMaxAngleRandomnessY, config.SwingMaxAngleRandomnessY);
             treeSwinger.SpeedX = config.SwingSpeedX + Random.Range(-config.SwingSpeedRandomnessX, config.SwingSpeedRandomnessX);

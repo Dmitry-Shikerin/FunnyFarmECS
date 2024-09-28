@@ -34,6 +34,9 @@ namespace Sources.Frameworks.GameServices.ConfigCollectors.Domain.ScriptableObje
 
         public void SetId(string id) =>
             _id = id;
+        
+        public T GetById(string id) =>
+            _configs.First(config => config.Id == id);
 
 #if UNITY_EDITOR
 
