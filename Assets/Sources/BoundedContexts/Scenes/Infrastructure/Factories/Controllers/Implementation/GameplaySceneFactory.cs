@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
@@ -15,6 +16,7 @@ using Sources.Frameworks.GameServices.Prefabs.Interfaces.Composites;
 using Sources.Frameworks.GameServices.Scenes.Controllers.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Factories.Controllers.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Views.Interfaces;
+using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces;
 using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
 using Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.Interfaces;
@@ -46,6 +48,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
         private readonly IUpdateService _updateService;
         private readonly ISelectableService _selectableService;
         private readonly IInputServiceUpdater _inputService;
+        private readonly ISignalBus _signalBus;
 
         public GameplaySceneFactory(
             RootGameObject rootGameObject,
@@ -66,7 +69,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             ICameraService cameraService,
             IUpdateService updateService,
             ISelectableService selectableService,
-            IInputServiceUpdater inputService)
+            IInputServiceUpdater inputService,
+            ISignalBus signalBus)
         {
             _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
@@ -91,6 +95,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
+            _signalBus = signalBus ?? throw new ArgumentNullException(nameof(signalBus));
         }
 
         public UniTask<IScene> Create(object payload)
@@ -114,7 +119,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
                 _cameraService,
                 _updateService,
                 _selectableService,
-                _inputService);
+                _inputService,
+                _signalBus);
 
             return UniTask.FromResult(gameplayScene);
         }

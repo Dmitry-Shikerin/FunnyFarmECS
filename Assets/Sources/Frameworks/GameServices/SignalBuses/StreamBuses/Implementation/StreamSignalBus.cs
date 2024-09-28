@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using Sirenix.Utilities;
+using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces;
+
+namespace Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Implementation
+{
+    public class StreamSignalBus : ISignalBus
+    {
+        private readonly Dictionary<Type, ISignalStream> _streams = new ();
+        
+        public SignalStream<T> GetStream<T>()
+            where T : struct, ISignal
+        {
+            if (_streams.ContainsKey(typeof(T)) == false)
+                _streams[typeof(T)] = new SignalStream<T>();
+
+            if (_streams[typeof(T)] is not SignalStream<T> concrete)
+                throw new InvalidCastException(nameof(SignalStream<T>));
+            
+            return concrete;
+        }
+
+        public void Subscribe<T>(Action<T> signalHandler)
+            where T : struct, ISignal =>
+            GetStream<T>().Subscribe(signalHandler);
+
+        public void Unsubscribe<T>(Action<T> signalHandler)
+            where T : struct, ISignal =>
+            GetStream<T>().Unsubscribe(signalHandler);
+
+        public void Handle<T>(T signal)
+            where T : struct, ISignal =>
+            GetStream<T>().Handle(signal);
+
+        public void Release()
+        {
+            _streams.Values.ForEach(stream => stream.Release());
+            _streams.Clear();
+        }
+    }
+}
