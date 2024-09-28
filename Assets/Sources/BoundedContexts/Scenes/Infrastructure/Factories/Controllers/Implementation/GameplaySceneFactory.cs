@@ -1,6 +1,5 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
@@ -30,7 +29,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
     {
         private readonly RootGameObject _rootGameObject;
         private readonly SaveAfterWaveService _saveAfterWaveService;
-        private readonly AdvertisingAfterWaveService _advertisingAfterWaveService;
         private readonly ICompositeAssetService _compositeAssetService;
         private readonly ISkyAndWeatherService _skyAndWeatherService;
         private readonly IAchievementService _achievementService;
@@ -52,7 +50,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
         public GameplaySceneFactory(
             RootGameObject rootGameObject,
             SaveAfterWaveService saveAfterWaveService,
-            AdvertisingAfterWaveService advertisingAfterWaveService,
             ICompositeAssetService compositeAssetService,
             ISkyAndWeatherService skyAndWeatherService,
             IAchievementService achievementService,
@@ -73,8 +70,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
         {
             _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
-            _advertisingAfterWaveService = advertisingAfterWaveService ?? 
-                                           throw new ArgumentNullException(nameof(advertisingAfterWaveService));
             _compositeAssetService = compositeAssetService ?? 
                                      throw new ArgumentNullException(nameof(compositeAssetService));
             _skyAndWeatherService = skyAndWeatherService ?? throw new ArgumentNullException(nameof(skyAndWeatherService));
@@ -103,7 +98,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             IScene gameplayScene = new GameplayScene(
                 _rootGameObject,
                 _saveAfterWaveService,
-                _advertisingAfterWaveService,
                 _compositeAssetService,
                 _skyAndWeatherService,
                 _achievementService,

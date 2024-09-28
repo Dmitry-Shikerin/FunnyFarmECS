@@ -188,7 +188,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _selectableService.Add(_rootGameObject.ChickenCorralView);
 
             _onionPatchViewFactory.Create(ModelId.OnionPatch, _rootGameObject.OnionPatchView);
-            _selectableService.Add(_rootGameObject.ChickenCorralView);
+            _selectableService.Add(_rootGameObject.OnionPatchView);
 
             _cabbagePatchViewFactory.Create(ModelId.CabbagePatch, _rootGameObject.CabbagePatchView);
             _selectableService.Add(_rootGameObject.CabbagePatchView);
@@ -215,23 +215,23 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _selectableService.Add(_rootGameObject.StableView);
             
             //SecondLocation
-            _pigPenViewFactory.Create(ModelId.PigPen, _rootGameObject.PigPenView);
-            _selectableService.Add(_rootGameObject.PigPenView);
-            
-            _cowPenViewFactory.Create(ModelId.CowPen, _rootGameObject.CowPenView);
-            _selectableService.Add(_rootGameObject.CowPenView);
-            
-            _rabbitPenViewFactory.Create(ModelId.RabbitPen, _rootGameObject.RabbitPenView);
-            _selectableService.Add(_rootGameObject.RabbitPenView);
-            
-            _sheepPenViewFactory.Create(ModelId.SheepPen, _rootGameObject.SheepPenView);
-            _selectableService.Add(_rootGameObject.SheepPenView);
-            
-            _goosePenViewFactory.Create(ModelId.GoosePen, _rootGameObject.GoosePenView);
-            _selectableService.Add(_rootGameObject.GoosePenView);
-            
-            _watermillViewFactory.Create(ModelId.Watermill, _rootGameObject.WatermillView);
-            _selectableService.Add(_rootGameObject.WatermillView);
+            // _pigPenViewFactory.Create(ModelId.PigPen, _rootGameObject.PigPenView);
+            // _selectableService.Add(_rootGameObject.PigPenView);
+            //
+            // _cowPenViewFactory.Create(ModelId.CowPen, _rootGameObject.CowPenView);
+            // _selectableService.Add(_rootGameObject.CowPenView);
+            //
+            // _rabbitPenViewFactory.Create(ModelId.RabbitPen, _rootGameObject.RabbitPenView);
+            // _selectableService.Add(_rootGameObject.RabbitPenView);
+            //
+            // _sheepPenViewFactory.Create(ModelId.SheepPen, _rootGameObject.SheepPenView);
+            // _selectableService.Add(_rootGameObject.SheepPenView);
+            //
+            // _goosePenViewFactory.Create(ModelId.GoosePen, _rootGameObject.GoosePenView);
+            // _selectableService.Add(_rootGameObject.GoosePenView);
+            //
+            // _watermillViewFactory.Create(ModelId.Watermill, _rootGameObject.WatermillView);
+            // _selectableService.Add(_rootGameObject.WatermillView);
         }
 
         private GameplayModel Load(IScenePayload payload)

@@ -29,7 +29,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
     public class GameplayScene : IScene
     {
         private readonly SaveAfterWaveService _saveAfterWaveService;
-        private readonly AdvertisingAfterWaveService _advertisingAfterWaveService;
         private readonly ICompositeAssetService _compositeAssetService;
         private readonly ISkyAndWeatherService _skyAndWeatherService;
         private readonly IAchievementService _achievementService;
@@ -51,7 +50,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         public GameplayScene(
             RootGameObject rootGameObject,
             SaveAfterWaveService saveAfterWaveService,
-            AdvertisingAfterWaveService advertisingAfterWaveService,
             ICompositeAssetService compositeAssetService,
             ISkyAndWeatherService skyAndWeatherService,
             IAchievementService achievementService,
@@ -71,7 +69,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             IInputServiceUpdater inputService)
         {
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
-            _advertisingAfterWaveService = advertisingAfterWaveService ?? throw new ArgumentNullException(nameof(advertisingAfterWaveService));
             _compositeAssetService = compositeAssetService ?? throw new ArgumentNullException(nameof(compositeAssetService));
             _skyAndWeatherService = skyAndWeatherService ?? throw new ArgumentNullException(nameof(skyAndWeatherService));
             _achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
@@ -110,7 +107,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _skyAndWeatherService.Initialize();
             _ecsGameStartUp.Initialize();
             await _curtainView.HideAsync();
-            _advertisingAfterWaveService.Initialize();
             _selectableService.Initialize();
             _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
@@ -129,7 +125,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _achievementService.Destroy();
             _gameCompletedService.Destroy();
             _saveAfterWaveService.Destroy();
-            _advertisingAfterWaveService.Destroy();
             _compositeAssetService.Release();
             _cameraService.Destroy();
             _ecsGameStartUp.Destroy();

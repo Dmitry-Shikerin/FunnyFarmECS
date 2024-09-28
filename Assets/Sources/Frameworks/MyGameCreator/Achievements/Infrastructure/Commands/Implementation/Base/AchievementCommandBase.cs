@@ -27,8 +27,9 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
             ILoadService loadService,
             DiContainer container)
         {
-            _achievementView = achievementView ?? 
-                               throw new ArgumentNullException(nameof(achievementView));
+            // _achievementView = achievementView ?? 
+            //                    throw new ArgumentNullException(nameof(achievementView));
+            _achievementView = achievementView;
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
             _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
             _container = container ?? throw new ArgumentNullException(nameof(container));
