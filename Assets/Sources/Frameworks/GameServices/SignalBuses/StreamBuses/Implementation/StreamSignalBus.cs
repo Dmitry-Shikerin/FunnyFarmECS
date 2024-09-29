@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.Utilities;
 using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces;
+using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces.Generic;
 
 namespace Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Implementation
 {
@@ -9,7 +10,7 @@ namespace Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Implementation
     {
         private readonly Dictionary<Type, ISignalStream> _streams = new ();
         
-        public SignalStream<T> GetStream<T>()
+        public ISignalStream<T> GetStream<T>()
             where T : struct, ISignal
         {
             if (_streams.ContainsKey(typeof(T)) == false)
@@ -20,6 +21,14 @@ namespace Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Implementation
             
             return concrete;
         }
+
+        public void Subscribe<T>(ISignalAction<T> signalAction)
+            where T : struct, ISignal =>
+            Subscribe<T>(signalAction.Handle);
+
+        public void Unsubscribe<T>(ISignalAction<T> signalAction)
+            where T : struct, ISignal =>
+            Unsubscribe<T>(signalAction.Handle);
 
         public void Subscribe<T>(Action<T> signalHandler)
             where T : struct, ISignal =>

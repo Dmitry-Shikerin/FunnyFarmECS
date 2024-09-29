@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Implementation;
+using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces.Generic;
 
 namespace Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces
 {
@@ -7,7 +8,11 @@ namespace Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces
     {
         void Handle<T>(T signal) 
             where T : struct, ISignal;
-        SignalStream<T> GetStream<T>()
+        ISignalStream<T> GetStream<T>()
+            where T : struct, ISignal;
+        void Subscribe<T>(ISignalAction<T> signalAction)
+            where T : struct, ISignal;
+        void Unsubscribe<T>(ISignalAction<T> signalAction)
             where T : struct, ISignal;
         void Subscribe<T>(Action<T> signalHandler)
             where T : struct, ISignal;
