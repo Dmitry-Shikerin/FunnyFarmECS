@@ -1,11 +1,10 @@
 ﻿using System;
-using JetBrains.Annotations;
 using MyAudios.MyUiFramework.Utils.Soundies.Domain.Constant;
-using Sources.BoundedContexts.AdvertisingAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
+using Sources.BoundedContexts.TestSignals;
 using Sources.BoundedContexts.Tutorials.Services.Interfaces;
 using Sources.EcsBoundedContexts.Core;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Interfaces.Collectors;
@@ -16,6 +15,7 @@ using Sources.Frameworks.GameServices.Prefabs.Interfaces.Composites;
 using Sources.Frameworks.GameServices.Scenes.Controllers.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Domain.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Views.Interfaces;
+using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces;
 using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
 using Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.Interfaces;
@@ -23,6 +23,7 @@ using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Infrastructure.Services.Im
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Focuses.Interfaces;
+using UnityEngine;
 
 namespace Sources.BoundedContexts.Scenes.Controllers
 {
@@ -46,6 +47,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly IUpdateService _updateService;
         private readonly ISelectableService _selectableService;
         private readonly IInputServiceUpdater _inputService;
+        private readonly ISignalBus _signalBus;
 
         public GameplayScene(
             RootGameObject rootGameObject,
@@ -66,7 +68,8 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             ICameraService cameraService,
             IUpdateService updateService,
             ISelectableService selectableService,
-            IInputServiceUpdater inputService)
+            IInputServiceUpdater inputService,
+            ISignalBus signalBus)
         {
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
             _compositeAssetService = compositeAssetService ?? throw new ArgumentNullException(nameof(compositeAssetService));
@@ -91,6 +94,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
+            _signalBus = signalBus ?? throw new ArgumentNullException(nameof(signalBus));
         }
 
         public async void Enter(object payload = null)
@@ -110,6 +114,8 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _selectableService.Initialize();
             _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
+            _signalBus.GetStream<TestSignal>()
+                .Subscribe(Test);
             // _tutorialService.Initialize();
             _soundyService.PlaySequence(
                 SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
@@ -130,6 +136,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _ecsGameStartUp.Destroy();
             _selectableService.Destroy();
             _inputService.Destroy();
+            _signalBus.Release();
         }
 
         public void Update(float deltaTime)
@@ -137,6 +144,12 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _updateService.Update(deltaTime);
             _ecsGameStartUp.Update(deltaTime);
             _inputService.Update(deltaTime);
+            
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log($"Button Pressed");
+                _signalBus.Handle(new TestSignal("Jopa"));
+            }
         }
 
         public void UpdateLate(float deltaTime)
@@ -145,6 +158,11 @@ namespace Sources.BoundedContexts.Scenes.Controllers
 
         public void UpdateFixed(float fixedDeltaTime)
         {
+        }
+
+        private void Test(TestSignal signal)
+        {
+            Debug.Log(signal.Value);
         }
     }
 }

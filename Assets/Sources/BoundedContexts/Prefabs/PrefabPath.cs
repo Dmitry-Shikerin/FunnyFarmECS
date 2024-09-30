@@ -3,6 +3,8 @@
     public class PrefabPath
     {
         public const string Curtain = "Ui/CurtainView";
+        public const string AnimalConfigCollector = "Configs/Animals/AnimalConfigCollector";
+        public const string TreeSwingerCollector = "Configs/TreeSwingers/TreeSwingerCollector";
         public const string Bullet = "Views/BulletView";
         public const string Enemy = "Views/EnemyView";
         public const string EnemyKamikaze = "Views/EnemyKamikazeView";

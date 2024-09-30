@@ -7,13 +7,14 @@ using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Implementa
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Cameras.Presentation.Implementation;
 using Sources.Frameworks.GameServices.InputServices;
-using Sources.Frameworks.GameServices.InputServices.InputServices;
 using Sources.Frameworks.GameServices.Linecasts.Implementation;
 using Sources.Frameworks.GameServices.Linecasts.Interfaces;
 using Sources.Frameworks.GameServices.ObjectPools.Implementation.Managers;
 using Sources.Frameworks.GameServices.ObjectPools.Interfaces.Managers;
 using Sources.Frameworks.GameServices.Overlaps.Implementation;
 using Sources.Frameworks.GameServices.Overlaps.Interfaces;
+using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Implementation;
+using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces;
 using Sources.Frameworks.GameServices.UpdateServices.Implementation;
 using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Infrastructure.Services.Implementation;
 using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Presentation;
@@ -33,6 +34,7 @@ namespace Sources.App.DIContainers.Gameplay
             Container.Bind<IOverlapService>().To<OverlapService>().AsSingle();
             Container.Bind<ILinecastService>().To<LinecastService>().AsSingle();
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
+            Container.Bind<ISignalBus>().To<StreamSignalBus>().AsSingle();
             Container.BindInterfacesTo<NewInputService>().AsSingle();
             Container.Bind<AdvertisingAfterWaveService>().AsSingle();
             Container.Bind<SaveAfterWaveService>().AsSingle();

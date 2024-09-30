@@ -12,7 +12,8 @@ using Unity.IL2CPP.CompilerServices;
 
 namespace Leopotam.EcsProto {
     [Serializable]
-    public struct ProtoEntity : IEquatable<ProtoEntity> {
+    public struct ProtoEntity : IEquatable<ProtoEntity>
+    {
 #if LEOECSPROTO_SMALL_WORLD
         internal ushort _id;
 #else

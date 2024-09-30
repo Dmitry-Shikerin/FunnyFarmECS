@@ -1,12 +1,12 @@
 ﻿using System;
 using Leopotam.EcsProto.Unity;
-using Sources.MyLeoEcsProto.ComponentContainers.Attributes;
 using Sources.MyLeoEcsProto.ComponentContainers.Domain;
 using UnityEngine;
 
-namespace Sources.SwingingTrees.Domain
+namespace Sources.EcsBoundedContexts.SwingingTrees.Domain.Components
 {
-    [Serializable] [ProtoUnityAuthoring("SwingingTry")]
+    [Serializable] 
+    [ProtoUnityAuthoring("SwingingTree")]
     public struct SweengingTreeComponent : IComponent
     {
         public Transform Tree;

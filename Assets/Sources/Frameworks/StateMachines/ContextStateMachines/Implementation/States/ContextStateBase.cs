@@ -22,6 +22,10 @@ namespace Sources.Frameworks.StateMachines.ContextStateMachines.Implementation.S
         {
         }
 
+        public virtual void BeforeApply(IContext context)
+        {
+        }
+
         public void AddTransition(IContextTransition transition) => 
             _transitions.Add(transition);
 
@@ -30,6 +34,8 @@ namespace Sources.Frameworks.StateMachines.ContextStateMachines.Implementation.S
 
         public void Apply(IContext context, IContextStateChanger contextStateChanger)
         {
+            BeforeApply(context);
+            
             foreach (IContextTransition transition in _transitions)
             {
                 if(transition.CanTransit(context) == false)
