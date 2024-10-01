@@ -45,16 +45,16 @@ namespace Sources.BoundedContexts.Huds.Presentations
         
         public UiCollector UiCollector => _uiCollector;
         
-        public UpgradeView CharacterHealthUpgradeView => _characterHealthUpgradeView;
-        public UpgradeView CharacterAttackUpgradeView => _characterAttackUpgradeView;
-        public UpgradeView NukeAbilityUpgradeView => _nukeAbilityUpgradeVieew;
-        public UpgradeView FlamethrowerAbilityUpgradeView => _flamethrowerAbilityUpgradeView;
-        
-        public PlayerWalletView PlayerWalletView => _playerWalletView;
+        //public UpgradeView CharacterHealthUpgradeView => _characterHealthUpgradeView;
+        //public UpgradeView CharacterAttackUpgradeView => _characterAttackUpgradeView;
+        //public UpgradeView NukeAbilityUpgradeView => _nukeAbilityUpgradeVieew;
+        //public UpgradeView FlamethrowerAbilityUpgradeView => _flamethrowerAbilityUpgradeView;
+        //
+        //public PlayerWalletView PlayerWalletView => _playerWalletView;
         public VolumeView MusicVolumeView => _musicVolumeView;
         public VolumeView SoundVolumeView => _soundVolumeView;
-        public AchievementView PopUpAchievementView => _popUpAchievementView;
-        public IReadOnlyList<AchievementView> AchievementViews => _achievementViews;
-        public AdvertisingAfterWaveView AdvertisingView => _advertisingView;
+        //public AchievementView PopUpAchievementView => _popUpAchievementView;
+        //public IReadOnlyList<AchievementView> AchievementViews => _achievementViews;
+        //public AdvertisingAfterWaveView AdvertisingView => _advertisingView;
     }
 }

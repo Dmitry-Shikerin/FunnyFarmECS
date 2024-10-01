@@ -43,10 +43,10 @@ namespace Sources.App.DIContainers.Gameplay
             Container.Bind<IViewCommandHandler>().To<GameplayViewCommandHandler>().AsSingle();
             
             //AchievementPopUp
-            Container.Bind<AchievementView>().FromInstance(_gameplayHud.PopUpAchievementView).AsSingle();
-            
-            //Advertising
-            Container.Bind<AdvertisingAfterWaveView>().FromInstance(_gameplayHud.AdvertisingView).AsSingle();
+            //Container.Bind<AchievementView>().FromInstance(_gameplayHud.PopUpAchievementView).AsSingle();
+            //
+            ////Advertising
+            //Container.Bind<AdvertisingAfterWaveView>().FromInstance(_gameplayHud.AdvertisingView).AsSingle();
         }
     }
 }
