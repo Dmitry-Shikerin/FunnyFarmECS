@@ -48,10 +48,10 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
                 .First(config => config.Id == achievement.Id);
 
             achievement.IsCompleted = true;
-            _container.Inject(_achievementView);
+            //_container.Inject(_achievementView);
             _loadService.Save(achievement);
             _stream.SendSignal(true);
-            _achievementView.Construct(achievement, config);
+            //_achievementView.Construct(achievement, config);
             
         }
 

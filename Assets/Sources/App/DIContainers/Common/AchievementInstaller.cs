@@ -9,13 +9,13 @@ namespace Sources.App.DIContainers.Common
     {
         public override void InstallBindings()
         {
-            Container.Bind<IAchievementService>().To<AchievementService>().AsSingle();
+            //Container.Bind<IAchievementService>().To<AchievementService>().AsSingle();
             
             //Commands
-            Container.Bind<FirstUpgradeAchievementCommand>().AsSingle();
-            Container.Bind<FirstHealthBoosterUsageAchievementCommand>().AsSingle();
-            Container.Bind<ScullsDiggerAchievementCommand>().AsSingle();
-            Container.Bind<MaxUpgradeAchievementCommand>().AsSingle();
+            //Container.Bind<FirstUpgradeAchievementCommand>().AsSingle();
+            //Container.Bind<FirstHealthBoosterUsageAchievementCommand>().AsSingle();
+            //Container.Bind<ScullsDiggerAchievementCommand>().AsSingle();
+            //Container.Bind<MaxUpgradeAchievementCommand>().AsSingle();
         }
     }
 }

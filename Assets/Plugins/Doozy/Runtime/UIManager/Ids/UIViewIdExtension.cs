@@ -30,33 +30,20 @@ namespace Doozy.Runtime.UIManager
     {
         public enum Gameplay
         {
-            AbilitiesTutorial,
-            AchievementFrame,
             Achievements,
             Background,
-            BossEnemyTutorial,
-            BunkerTutorial,
-            Damage,
-            EnemySpawnerTutorial,
             FirstLocation,
             FirstLocationChickenCorral,
             FirstLocationJeep,
             FirstLocationPumpkinsPatch,
             FirstLocationTomatoPatch,
-            GameCompleted,
-            GameOver,
             Hud,
-            Inventory,
-            KamikazeEnemyTutorial,
             Pause,
             Quit,
-            ScoreTutorial,
             SecondLocation,
             Settings,
-            SimpleEnemyTutorial,
             ThirdLocation,
-            Tutorial,
-            UpgradesTutorial
+            Tutorial
         }
 
         public enum MainMenu

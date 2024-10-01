@@ -32,7 +32,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly SaveAfterWaveService _saveAfterWaveService;
         private readonly ICompositeAssetService _compositeAssetService;
         private readonly ISkyAndWeatherService _skyAndWeatherService;
-        private readonly IAchievementService _achievementService;
+        //private readonly IAchievementService _achievementService;
         private readonly ISoundyService _soundyService;
         private readonly IEcsGameStartUp _ecsGameStartUp;
         private readonly ISceneViewFactory _gameplaySceneViewFactory;
@@ -54,7 +54,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             SaveAfterWaveService saveAfterWaveService,
             ICompositeAssetService compositeAssetService,
             ISkyAndWeatherService skyAndWeatherService,
-            IAchievementService achievementService,
+            //IAchievementService achievementService,
             ISoundyService soundyService,
             IEcsGameStartUp ecsGameStartUp,
             ISceneViewFactory gameplaySceneViewFactory,
@@ -74,7 +74,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
             _compositeAssetService = compositeAssetService ?? throw new ArgumentNullException(nameof(compositeAssetService));
             _skyAndWeatherService = skyAndWeatherService ?? throw new ArgumentNullException(nameof(skyAndWeatherService));
-            _achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
+            //_achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
             _tutorialService = tutorialService ?? throw new ArgumentNullException(nameof(tutorialService));
             _soundyService = soundyService ?? throw new ArgumentNullException(nameof(soundyService));
             _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
@@ -105,7 +105,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _localizationService.Translate();
             _gameplaySceneViewFactory.Create((IScenePayload)payload);
             _advertisingService.Initialize();
-            _achievementService.Initialize();
+            //_achievementService.Initialize();
             _signalControllersCollector.Initialize();
             _soundyService.Initialize();
             _skyAndWeatherService.Initialize();
@@ -128,7 +128,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
                 SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
             _soundyService.Destroy();
             _skyAndWeatherService.Destroy();
-            _achievementService.Destroy();
+            //_achievementService.Destroy();
             _gameCompletedService.Destroy();
             _saveAfterWaveService.Destroy();
             _compositeAssetService.Release();
