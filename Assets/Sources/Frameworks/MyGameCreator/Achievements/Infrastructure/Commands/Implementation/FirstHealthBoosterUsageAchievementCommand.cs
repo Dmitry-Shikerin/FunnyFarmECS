@@ -24,7 +24,9 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
             IAssetCollector assetCollector,
             ILoadService loadService,
             AchievementView achievementView,
-            DiContainer container) : base(achievementView, assetCollector, loadService, container)
+            DiContainer container) : base(
+            achievementView,
+            assetCollector, loadService, container)
         {
             _entityRepository = entityRepository ?? 
                                 throw new ArgumentNullException(nameof(entityRepository));

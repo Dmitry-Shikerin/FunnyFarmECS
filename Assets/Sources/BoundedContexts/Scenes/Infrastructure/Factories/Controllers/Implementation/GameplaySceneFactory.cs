@@ -33,7 +33,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
         private readonly SaveAfterWaveService _saveAfterWaveService;
         private readonly ICompositeAssetService _compositeAssetService;
         private readonly ISkyAndWeatherService _skyAndWeatherService;
-        private readonly IAchievementService _achievementService;
+        //private readonly IAchievementService _achievementService;
         private readonly ISoundyService _soundyService;
         private readonly IEcsGameStartUp _ecsGameStartUp;
         private readonly ISceneViewFactory _sceneViewFactory;
@@ -55,7 +55,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             SaveAfterWaveService saveAfterWaveService,
             ICompositeAssetService compositeAssetService,
             ISkyAndWeatherService skyAndWeatherService,
-            IAchievementService achievementService,
+            //IAchievementService achievementService,
             ISoundyService soundyService,
             IEcsGameStartUp ecsGameStartUp,
             ISceneViewFactory gameplaySceneViewFactory,
@@ -77,7 +77,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             _compositeAssetService = compositeAssetService ?? 
                                      throw new ArgumentNullException(nameof(compositeAssetService));
             _skyAndWeatherService = skyAndWeatherService ?? throw new ArgumentNullException(nameof(skyAndWeatherService));
-            _achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
+            //_achievementService = achievementService ?? throw new ArgumentNullException(nameof(achievementService));
             _tutorialService = tutorialService ?? throw new ArgumentNullException(nameof(tutorialService));
             _soundyService = soundyService ?? throw new ArgumentNullException(nameof(soundyService));
             _ecsGameStartUp = ecsGameStartUp ?? throw new ArgumentNullException(nameof(ecsGameStartUp));
@@ -105,7 +105,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
                 _saveAfterWaveService,
                 _compositeAssetService,
                 _skyAndWeatherService,
-                _achievementService,
+                //_achievementService,
                 _soundyService,
                 _ecsGameStartUp,
                 _sceneViewFactory,
