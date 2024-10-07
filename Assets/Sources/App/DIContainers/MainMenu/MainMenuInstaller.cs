@@ -38,7 +38,7 @@ namespace Sources.App.DIContainers.MainMenu
             Container.Bind<DailyRewardViewFactory>().AsSingle();
             
             //achievements
-            Container.Bind<AchievementView>().FromInstance(_mainMenuHud.EmptyAchievementView).AsSingle();
+            //Container.Bind<AchievementView>().FromInstance(_mainMenuHud.EmptyAchievementView).AsSingle();
         }
     }
 }

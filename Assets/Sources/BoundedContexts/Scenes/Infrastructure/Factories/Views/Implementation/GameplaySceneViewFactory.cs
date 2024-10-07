@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.CabbagePatches.Infrastructure;
 using Sources.BoundedContexts.Cats.Infrastructure;
@@ -151,7 +150,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             GameplayModel gameplayModel = Load(payload);
             
             //PlayerWallet
-            _playerWalletViewFactory.Create(_gameplayHud.PlayerWalletView);
+            //_playerWalletViewFactory.Create(_gameplayHud.PlayerWalletView);
 
             //UiCollector
             _uiCollectorFactory.Create();
@@ -161,21 +160,21 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _volumeViewFactory.Create(gameplayModel.SoundsVolume, _gameplayHud.SoundVolumeView);
 
             //Achievements
-            List<Achievement> achievements = _entityRepository
-                .GetAll<Achievement>(ModelId.GetIds<Achievement>())
-                .ToList();
+            //List<Achievement> achievements = _entityRepository
+            //    .GetAll<Achievement>(ModelId.GetIds<Achievement>())
+            //    .ToList();
             
-            if (achievements.Count != _gameplayHud.AchievementViews.Count)
-                throw new IndexOutOfRangeException(nameof(achievements));
+            //if (achievements.Count != _gameplayHud.AchievementViews.Count)
+            //    throw new IndexOutOfRangeException(nameof(achievements));
             
-            for (int i = 0; i < achievements.Count; i++)
-            {
-                AchievementConfig config = _assetCollector
-                    .Get<AchievementConfigCollector>()
-                    .Configs
-                    .First(config => config.Id == achievements[i].Id);
-                _gameplayHud.AchievementViews[i].Construct(achievements[i], config);
-            }
+            //for (int i = 0; i < achievements.Count; i++)
+            //{
+            //    AchievementConfig config = _assetCollector
+            //        .Get<AchievementConfigCollector>()
+            //        .Configs
+            //        .First(config => config.Id == achievements[i].Id);
+            //    _gameplayHud.AchievementViews[i].Construct(achievements[i], config);
+            //}
             
             //FirstLocation
             _pumpkinsPatchViewFactory.Create(ModelId.FirstPumpkinsPatch, _rootGameObject.PumpkinPatchView);
