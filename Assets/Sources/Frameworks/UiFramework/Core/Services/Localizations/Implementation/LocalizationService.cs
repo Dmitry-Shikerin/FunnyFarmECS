@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Agava.WebUtility;
 using Agava.YandexGames;
+using JetBrains.Annotations;
 using Sources.Domain.Models.Constants;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
@@ -17,22 +18,29 @@ namespace Sources.Frameworks.UiFramework.Core.Services.Localizations.Implementat
 {
     public class LocalizationService : ILocalizationService
     {
+        private readonly IAssetCollector _assetCollector;
         private readonly UiCollector _uiCollector;
         private readonly List<IUiLocalizationText> _textViews = new List<IUiLocalizationText>();
-        private readonly Dictionary<string, IReadOnlyDictionary<string, string>> _textDictionary;
+        private Dictionary<string, IReadOnlyDictionary<string, string>> _textDictionary;
         private IReadOnlyDictionary<string, string> _currentLanguageDictionary;
-        private readonly Dictionary<string, IReadOnlyDictionary<string, Sprite>> _spriteDictionary;
+        private Dictionary<string, IReadOnlyDictionary<string, Sprite>> _spriteDictionary;
         private IReadOnlyDictionary<string, Sprite> _currentLanguageSprites;
 
         public LocalizationService(
-            UiCollector uiCollector, 
+            UiCollector uiCollector,
             IAssetCollector assetCollector)
         {
+            _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
             _uiCollector = uiCollector ? uiCollector : throw new ArgumentNullException(nameof(uiCollector));
-            LocalizationDataBase localizationDataBase = assetCollector.Get<LocalizationDataBase>();
 
             AddTextViews(uiCollector);
-
+        }
+        
+        public void Translate()
+        {
+            //TODO потом придумать чтото получше
+            LocalizationDataBase localizationDataBase = _assetCollector.Get<LocalizationDataBase>();
+            
             _textDictionary = new Dictionary<string, IReadOnlyDictionary<string, string>>()
             {
                 [LocalizationConst.RussianCode] = localizationDataBase.Phrases
@@ -51,10 +59,7 @@ namespace Sources.Frameworks.UiFramework.Core.Services.Localizations.Implementat
                 [LocalizationConst.TurkishCode] = localizationDataBase.Phrases
                     .ToDictionary(phrase => phrase.LocalizationId, phrase => phrase.TurkishSprite),
             };
-        }
-        
-        public void Translate()
-        {
+            
             //todo вынести в отдельный сервис
             if(WebApplication.IsRunningOnWebGL)
                 ChangeSdcLanguage();

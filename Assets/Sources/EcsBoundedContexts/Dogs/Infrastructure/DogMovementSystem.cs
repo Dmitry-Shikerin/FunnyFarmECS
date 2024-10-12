@@ -1,5 +1,7 @@
 ﻿using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
+using MyDependencies.Sources.Containers;
+using MyDependencies.Sources.Containers.Extensions;
 using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
@@ -8,7 +10,6 @@ using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.StateMachines.ContextStateMachines.Implementation;
 using UnityEngine;
-using Zenject;
 
 namespace Sources.EcsBoundedContexts.Dogs.Infrastructure
 {

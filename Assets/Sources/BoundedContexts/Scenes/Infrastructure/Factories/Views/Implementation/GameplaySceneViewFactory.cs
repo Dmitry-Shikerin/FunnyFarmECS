@@ -46,7 +46,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly IAssetCollector _assetCollector;
         private readonly IEntityRepository _entityRepository;
         private readonly GameplayHud _gameplayHud;
-        private readonly UiCollectorFactory _uiCollectorFactory;
         private readonly RootGameObject _rootGameObject;
         private readonly AbilityApplierViewFactory _abilityApplierViewFactory;
         private readonly UpgradeViewFactory _upgradeViewFactory;
@@ -79,7 +78,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             IAssetCollector assetCollector,
             IEntityRepository entityRepository,
             GameplayHud gameplayHud,
-            UiCollectorFactory uiCollectorFactory,
             RootGameObject rootGameObject,
             AbilityApplierViewFactory abilityApplierViewFactory,
             UpgradeViewFactory upgradeViewFactory,
@@ -111,7 +109,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             _gameplayHud = gameplayHud ?? throw new ArgumentNullException(nameof(gameplayHud));
-            _uiCollectorFactory = uiCollectorFactory ?? throw new ArgumentNullException(nameof(uiCollectorFactory));
             _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
             _abilityApplierViewFactory = abilityApplierViewFactory ?? 
                                          throw new ArgumentNullException(nameof(abilityApplierViewFactory));
@@ -151,9 +148,6 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             
             //PlayerWallet
             //_playerWalletViewFactory.Create(_gameplayHud.PlayerWalletView);
-
-            //UiCollector
-            _uiCollectorFactory.Create();
             
             //Volume
             // _volumeViewFactory.Create(gameplayModel.MusicVolume, _gameplayHud.MusicVolumeView);

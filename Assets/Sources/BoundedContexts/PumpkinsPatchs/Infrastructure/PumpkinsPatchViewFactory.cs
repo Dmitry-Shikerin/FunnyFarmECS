@@ -1,10 +1,10 @@
 ﻿using System;
+using MyDependencies.Sources.Containers;
 using Sources.BoundedContexts.PumpkinsPatchs.Controllers;
 using Sources.BoundedContexts.PumpkinsPatchs.Presentation;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
-using Zenject;
 
 namespace Sources.BoundedContexts.PumpkinsPatchs.Infrastructure
 {

@@ -1,11 +1,10 @@
 ﻿using System;
-using JetBrains.Annotations;
+using MyDependencies.Sources.Containers;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.BoundedContexts.TomatoPatchs.Controllers;
 using Sources.BoundedContexts.TomatoPatchs.Presentation;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
-using Zenject;
 
 namespace Sources.BoundedContexts.TomatoPatchs.Infrastructure
 {

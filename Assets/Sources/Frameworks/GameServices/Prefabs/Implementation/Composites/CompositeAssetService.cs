@@ -10,6 +10,7 @@ using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
 using Sources.Frameworks.MyGameCreator.SkyAndWeawers.Domain;
 using Sources.Frameworks.UiFramework.Texts.Services.Localizations.Configs;
 using Sources.SwingingTrees.Domain.Configs;
+using UnityEngine;
 
 namespace Sources.Frameworks.GameServices.Prefabs.Implementation.Composites
 {
@@ -38,6 +39,7 @@ namespace Sources.Frameworks.GameServices.Prefabs.Implementation.Composites
                 _resourcesAssetLoader.LoadAsset<AnimalConfigCollector>(PrefabPath.AnimalConfigCollector),
                 _resourcesAssetLoader.LoadAsset<TreeSwingerCollector>(PrefabPath.TreeSwingerCollector),
                 _resourcesAssetLoader.LoadAsset<LocalizationDataBase>(LocalizationConst.LocalizationDataBaseAssetPath));
+            Debug.Log($"CompositeAssetService: Loaded all assets");
         }
 
         public void Release()

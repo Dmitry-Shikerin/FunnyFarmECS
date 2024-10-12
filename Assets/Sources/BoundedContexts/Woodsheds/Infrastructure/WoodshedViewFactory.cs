@@ -1,4 +1,5 @@
 ﻿using System;
+using MyDependencies.Sources.Containers;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.BoundedContexts.TomatoPatchs.Controllers;
 using Sources.BoundedContexts.TomatoPatchs.Presentation;
@@ -6,7 +7,6 @@ using Sources.BoundedContexts.Woodsheds.Controllers;
 using Sources.BoundedContexts.Woodsheds.Presentation;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
-using Zenject;
 
 namespace Sources.BoundedContexts.Woodsheds.Infrastructure
 {

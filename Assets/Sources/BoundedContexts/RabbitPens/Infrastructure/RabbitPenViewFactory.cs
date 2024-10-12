@@ -1,10 +1,10 @@
 ﻿using System;
+using MyDependencies.Sources.Containers;
 using Sources.BoundedContexts.RabbitPens.Controllers;
 using Sources.BoundedContexts.RabbitPens.Presentation;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
-using Zenject;
 
 namespace Sources.BoundedContexts.RabbitPens.Infrastructure
 {

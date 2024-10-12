@@ -4,7 +4,7 @@ using Sources.Frameworks.UiFramework.Views.Presentations.Implementation;
 
 namespace Sources.Frameworks.UiFramework.Collectors
 {
-    public class UiCollectorFactory
+    public abstract class UiCollectorFactory
     {
         private readonly IHud _hud;
 

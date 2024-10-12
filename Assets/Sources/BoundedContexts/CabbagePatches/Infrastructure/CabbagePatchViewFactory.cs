@@ -1,10 +1,10 @@
 ﻿using System;
+using MyDependencies.Sources.Containers;
 using Sources.BoundedContexts.CabbagePatches.Controllers;
 using Sources.BoundedContexts.CabbagePatches.Presentation;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
-using Zenject;
 
 namespace Sources.BoundedContexts.CabbagePatches.Infrastructure
 {

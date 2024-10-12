@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using MyDependencies.Sources.Contexts;
 using Sources.Frameworks.GameServices.Scenes.Controllers.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Services.Interfaces;
 using Sources.Frameworks.StateMachines.SceneStateMachines.Implementation;
-using Zenject;
 using Object = UnityEngine.Object;
 
 namespace Sources.Frameworks.GameServices.Scenes.Services.Implementation

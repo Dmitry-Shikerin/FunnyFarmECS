@@ -25,7 +25,6 @@ namespace Sources.App.Installers.Common
         public override void InstallBindings(DiContainer container)
         {
             container.Bind(_uiCollector);
-            container.Bind<UiCollectorFactory>();
             container.BindInterfacesAndSelf<FormService>();
             container.Bind<ILocalizationService, LocalizationService>();
             

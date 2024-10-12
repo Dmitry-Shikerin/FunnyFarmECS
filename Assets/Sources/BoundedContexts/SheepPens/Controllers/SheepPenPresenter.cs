@@ -55,8 +55,8 @@ namespace Sources.BoundedContexts.SheepPens.Controllers
         public override void Disable()
         {
             _token.Cancel();
-            _view.SowButton.onClickEvent.RemoveListener(Sow);
-            _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
+            // _view.SowButton.onClickEvent.RemoveListener(Sow);
+            // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
             _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
         }
 
