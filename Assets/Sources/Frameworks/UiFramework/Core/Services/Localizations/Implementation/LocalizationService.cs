@@ -4,6 +4,7 @@ using System.Linq;
 using Agava.WebUtility;
 using Agava.YandexGames;
 using Sources.Domain.Models.Constants;
+using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
 using Sources.Frameworks.UiFramework.Texts.Presentations.Views.Implementation;
 using Sources.Frameworks.UiFramework.Texts.Presentations.Views.Interfaces;
@@ -23,9 +24,12 @@ namespace Sources.Frameworks.UiFramework.Core.Services.Localizations.Implementat
         private readonly Dictionary<string, IReadOnlyDictionary<string, Sprite>> _spriteDictionary;
         private IReadOnlyDictionary<string, Sprite> _currentLanguageSprites;
 
-        public LocalizationService(UiCollector uiCollector, LocalizationDataBase localizationDataBase)
+        public LocalizationService(
+            UiCollector uiCollector, 
+            IAssetCollector assetCollector)
         {
             _uiCollector = uiCollector ? uiCollector : throw new ArgumentNullException(nameof(uiCollector));
+            LocalizationDataBase localizationDataBase = assetCollector.Get<LocalizationDataBase>();
 
             AddTextViews(uiCollector);
 
