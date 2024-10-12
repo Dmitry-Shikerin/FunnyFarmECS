@@ -1,8 +1,8 @@
-﻿using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
+﻿using MyDependencies.Sources.Attributes;
+using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views;
 using Sources.Frameworks.MVPPassiveView.Presentations.Interfaces.PresentationsInterfaces.Views.Constructors;
 using UnityEngine;
-using Zenject;
 
 namespace Sources.BoundedContexts.Cameras.Presentation
 {

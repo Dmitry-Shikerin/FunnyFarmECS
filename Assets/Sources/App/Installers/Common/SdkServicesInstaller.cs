@@ -1,7 +1,6 @@
 ﻿using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
 using MyDependencies.Sources.Installers;
-using MyDependencies.Sources.Lifetimes;
 using Sources.Frameworks.GameServices.ServerTimes.Services.Implementation;
 using Sources.Frameworks.GameServices.ServerTimes.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementation;
@@ -22,17 +21,17 @@ namespace Sources.App.Installers.Common
     {
         public override void InstallBindings(DiContainer container)
         {
-            container.Bind<ILeaderboardInitializeService, YandexLeaderboardInitializeService>(LifeTime.Single);
-            container.Bind<ILeaderBoardScoreSetter, YandexLeaderBoardScoreSetter>(LifeTime.Single);
-            container.Bind<IPlayerAccountAuthorizeService, PlayerAccountAuthorizeService>(LifeTime.Single);
-            container.Bind<ISdkInitializeService, SdkInitializeService>(LifeTime.Single);
-            container.Bind<IStickyService, StickyService>(LifeTime.Single);
-            container.BindInterfaces<AdvertisingService>(LifeTime.Single);
-            container.Bind<LeaderBoardElementViewFactory>(LifeTime.Single);
-            container.Bind<LeaderBoardElementPresenterFactory>(LifeTime.Single);
+            container.Bind<ILeaderboardInitializeService, YandexLeaderboardInitializeService>();
+            container.Bind<ILeaderBoardScoreSetter, YandexLeaderBoardScoreSetter>();
+            container.Bind<IPlayerAccountAuthorizeService, PlayerAccountAuthorizeService>();
+            container.Bind<ISdkInitializeService, SdkInitializeService>();
+            container.Bind<IStickyService, StickyService>();
+            container.BindInterfaces<AdvertisingService>();
+            container.Bind<LeaderBoardElementViewFactory>();
+            container.Bind<LeaderBoardElementPresenterFactory>();
             //Todo раскоментировать после релиза
             // Container.Bind<ITimeService>().To<NetworkTimeService>().AsSingle();
-            container.Bind<ITimeService, DayTimeService>(LifeTime.Single);
+            container.Bind<ITimeService, DayTimeService>();
         }
     }
 }

@@ -9,7 +9,6 @@ using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
-using Sources.Frameworks.UiFramework.Collectors;
 using Sources.Frameworks.UiFramework.Core.Services.Forms.Implementation;
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Implementation;
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;

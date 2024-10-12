@@ -1,7 +1,6 @@
 ﻿using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
 using MyDependencies.Sources.Installers;
-using MyDependencies.Sources.Lifetimes;
 using Sources.Frameworks.GameServices.Loads.Services.Implementation;
 using Sources.Frameworks.GameServices.Loads.Services.Implementation.Data;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
@@ -29,7 +28,6 @@ namespace Sources.App.Installers.Common
             container.Bind<IResourcesAssetLoader, ResourcesAssetLoader>();
             container.Bind<IAddressablesAssetLoader, AddressablesAssetLoader>();
             container.Bind<ICompositeAssetService, CompositeAssetService>();
-
         }
     }
 }
