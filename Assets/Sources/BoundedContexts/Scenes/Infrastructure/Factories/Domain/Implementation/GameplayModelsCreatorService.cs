@@ -37,17 +37,17 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
     public class GameplayModelsCreatorService : IGameplayModelsLoaderService
     {
         private readonly IEntityRepository _entityRepository;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private readonly IAssetCollector _assetCollector;
 
         public GameplayModelsCreatorService(
             IEntityRepository entityRepository,
-            ILoadService loadService,
+            IStorageService storageService,
             IAssetCollector assetCollector)
         {
             _entityRepository = entityRepository ?? 
                                 throw new ArgumentNullException(nameof(entityRepository));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
         }
 
@@ -126,8 +126,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
 
         private Volume LoadVolume(string key)
         {
-            if (_loadService.HasKey(key))
-                return _loadService.Load<Volume>(key);
+            if (_storageService.HasKey(key))
+                return _storageService.Load<Volume>(key);
 
             Volume volume = new Volume()
             {
@@ -140,8 +140,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
 
         private HealthBooster LoadBooster(string key)
         {
-            if (_loadService.HasKey(key))
-                return _loadService.Load<HealthBooster>(key);
+            if (_storageService.HasKey(key))
+                return _storageService.Load<HealthBooster>(key);
 
             HealthBooster healthBooster = new HealthBooster()
             {
@@ -185,11 +185,11 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
         {
             List<Achievement> achievements = new List<Achievement>();
 
-            if (_loadService.HasKey(ModelId.FirstUpgradeAchievement))
+            if (_storageService.HasKey(ModelId.FirstUpgradeAchievement))
             {
                 foreach (string id in ModelId.GetIds<Achievement>())
                 {
-                    Achievement achievement = _loadService.Load<Achievement>(id);
+                    Achievement achievement = _storageService.Load<Achievement>(id);
                     achievements.Add(achievement);
                 }
                 
@@ -203,15 +203,15 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 achievements.Add(achievement);
             }
             
-            _loadService.Save(ModelId.GetIds<Achievement>());
+            _storageService.Save(ModelId.GetIds<Achievement>());
             
             return achievements;
         }
 
         private Tutorial CreateTutorial(string key)
         {
-            if (_loadService.HasKey(key))
-                return _loadService.Load<Tutorial>(key);
+            if (_storageService.HasKey(key))
+                return _storageService.Load<Tutorial>(key);
 
             Tutorial tutorial = new Tutorial()
             {

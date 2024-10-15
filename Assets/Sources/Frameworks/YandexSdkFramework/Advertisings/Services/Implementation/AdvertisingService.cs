@@ -16,7 +16,7 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
     {
         private readonly IEntityRepository _entityRepository;
         private readonly IPauseService _pauseService;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
         private HealthBooster _healthBooster;
         private CancellationTokenSource _cancellationTokenSource;
@@ -25,11 +25,11 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
         public AdvertisingService(
             IEntityRepository entityRepository,
             IPauseService pauseService, 
-            ILoadService loadService)
+            IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             _pauseService = pauseService ?? throw new ArgumentNullException(nameof(pauseService));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public bool IsAvailable { get; private set; } = true;

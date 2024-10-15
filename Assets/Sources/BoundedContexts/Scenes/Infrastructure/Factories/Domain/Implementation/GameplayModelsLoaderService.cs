@@ -15,36 +15,36 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
     public class GameplayModelsLoaderService : IGameplayModelsLoaderService
     {
         private readonly IEntityRepository _entityRepository;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
         public GameplayModelsLoaderService(
             IEntityRepository entityRepository,
-            ILoadService loadService)
+            IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public GameplayModel Load()
         {
             //PlayerWallet
-            PlayerWallet playerWallet = _loadService.Load<PlayerWallet>(ModelId.PlayerWallet);
+            PlayerWallet playerWallet = _storageService.Load<PlayerWallet>(ModelId.PlayerWallet);
             
             //Volumes
-            Volume musicVolume = _loadService.Load<Volume>(ModelId.MusicVolume);
-            Volume soundsVolume = _loadService.Load<Volume>(ModelId.SoundsVolume);
+            Volume musicVolume = _storageService.Load<Volume>(ModelId.MusicVolume);
+            Volume soundsVolume = _storageService.Load<Volume>(ModelId.SoundsVolume);
             
             //Achievements
             List<Achievement> achievements = new List<Achievement>();
             
             foreach (string id in ModelId.GetIds<Achievement>())
             {
-                Achievement achievement = _loadService.Load<Achievement>(id);
+                Achievement achievement = _storageService.Load<Achievement>(id);
                 achievements.Add(achievement);
             }
             
             //Tutorial
-            Tutorial tutorial = _loadService.Load<Tutorial>(ModelId.Tutorial);
+            Tutorial tutorial = _storageService.Load<Tutorial>(ModelId.Tutorial);
             
             return new GameplayModel(
                 playerWallet,

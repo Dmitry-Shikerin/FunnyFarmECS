@@ -14,11 +14,11 @@ using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 
 namespace Sources.App.Installers.Common
 {
-    public class SaveLoadServicesInstaller : MonoInstaller
+    public class StorageServicesInstaller : MonoInstaller
     {
         public override void InstallBindings(DiContainer container)
         {
-            container.Bind<ILoadService, LoadService>();
+            container.Bind<IStorageService, StorageService>();
             container.Bind<IEntityRepository, EntityRepository>();
             container.Bind<IDataService, PlayerPrefsDataService>();
             // Container.Bind<IDataService>().To<EasySaveDataService>().AsSingle();

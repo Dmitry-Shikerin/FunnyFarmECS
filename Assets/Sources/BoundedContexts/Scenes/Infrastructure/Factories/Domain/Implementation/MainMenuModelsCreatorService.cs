@@ -14,14 +14,14 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
 {
     public class MainMenuModelsCreatorService
     {
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private readonly IEntityRepository _entityRepository;
 
         public MainMenuModelsCreatorService(
-            ILoadService loadService,
+            IStorageService storageService,
             IEntityRepository entityRepository)
         {
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
         }
 
@@ -63,7 +63,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
             };
             _entityRepository.Add(healthBooster);
             
-            _loadService.SaveAll();
+            _storageService.SaveAll();
             Debug.Log($"Create models");
             
             return new MainMenuModel(

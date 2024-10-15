@@ -14,7 +14,7 @@ namespace Sources.BoundedContexts.Tutorials.Services.Implementation
     public class TutorialService : ITutorialService
     {
         private readonly IEntityRepository _entityRepository;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private readonly IPauseService _pauseService;
         
         private Tutorial _tutorial;
@@ -22,11 +22,11 @@ namespace Sources.BoundedContexts.Tutorials.Services.Implementation
 
         public TutorialService(
             IEntityRepository entityRepository,
-            ILoadService loadService, 
+            IStorageService storageService, 
             IPauseService pauseService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _pauseService = pauseService ?? throw new ArgumentNullException(nameof(pauseService));
         }
 
@@ -45,7 +45,7 @@ namespace Sources.BoundedContexts.Tutorials.Services.Implementation
         public void Complete()
         {
             _tutorial.HasCompleted = true;
-            _loadService.Save(_tutorial);
+            _storageService.Save(_tutorial);
         }
     }
 }

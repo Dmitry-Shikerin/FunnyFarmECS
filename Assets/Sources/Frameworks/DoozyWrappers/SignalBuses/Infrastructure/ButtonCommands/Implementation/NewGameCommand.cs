@@ -11,15 +11,15 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonComm
 {
     public class NewGameCommand : IButtonCommand
     {
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private readonly ISceneService _sceneService;
         private readonly IFormService _formService;
 
         public NewGameCommand(
-            ILoadService loadService,
+            IStorageService storageService,
             ISceneService sceneService)
         {
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _sceneService = sceneService ?? throw new ArgumentNullException(nameof(sceneService));
         }
 
@@ -27,7 +27,7 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonComm
 
         public void Handle()
         {
-            if (_loadService.HasKey(ModelId.PlayerWallet))
+            if (_storageService.HasKey(ModelId.PlayerWallet))
             {
                 Signal.Send(StreamId.MainMenu.NewGame, true);
 

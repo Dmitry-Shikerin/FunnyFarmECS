@@ -3,7 +3,7 @@ using Sources.Frameworks.Domain.Interfaces.Entities;
 
 namespace Sources.Frameworks.GameServices.Loads.Services.Interfaces
 {
-    public interface ILoadService
+    public interface IStorageService
     {
         T Load<T>(string id) 
             where T : class, IEntity;

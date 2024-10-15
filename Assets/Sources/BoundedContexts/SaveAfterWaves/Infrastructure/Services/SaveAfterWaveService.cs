@@ -9,15 +9,15 @@ namespace Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services
     public class SaveAfterWaveService : IInitialize, IDestroy
     {
         private readonly IEntityRepository _entityRepository;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private SignalStream _stream;
 
         public SaveAfterWaveService(
             IEntityRepository entityRepository,
-            ILoadService loadService)
+            IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public void Initialize()
@@ -35,7 +35,7 @@ namespace Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services
         private void OnSave()
         {
             _stream.SendSignal(true);
-            _loadService.SaveAll();
+            _storageService.SaveAll();
         }
     }
 }

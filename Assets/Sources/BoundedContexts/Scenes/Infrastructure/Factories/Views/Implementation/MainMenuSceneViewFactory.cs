@@ -24,7 +24,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly IAssetCollector _assetCollector;
         private readonly IEntityRepository _entityRepository;
         private readonly MainMenuHud _mainMenuHud;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private readonly MainMenuModelsLoaderService _mainMenuModelsLoaderService;
         private readonly MainMenuModelsCreatorService _mainMenuModelsCreatorService;
         private readonly ILeaderboardInitializeService _leaderboardInitializeService;
@@ -36,7 +36,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             IAssetCollector assetCollector,
             IEntityRepository entityRepository,
             MainMenuHud hud,
-            ILoadService loadService,
+            IStorageService storageService,
             MainMenuModelsLoaderService mainMenuModelsLoaderService,
             MainMenuModelsCreatorService mainMenuModelsCreatorService,
             ILeaderboardInitializeService leaderboardInitializeService,
@@ -47,7 +47,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             _mainMenuHud = hud ?? throw new ArgumentNullException(nameof(hud));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _mainMenuModelsLoaderService = mainMenuModelsLoaderService ??
                                            throw new ArgumentNullException(nameof(mainMenuModelsLoaderService));
             _mainMenuModelsCreatorService = mainMenuModelsCreatorService ??
@@ -96,7 +96,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         
         private MainMenuModel Load(IScenePayload payload)
         {
-            if (_loadService.HasKey(ModelId.SoundsVolume))
+            if (_storageService.HasKey(ModelId.SoundsVolume))
                 return _mainMenuModelsLoaderService.Load();
             
             return _mainMenuModelsCreatorService.Load();
@@ -104,7 +104,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
 
         private void ActivateLoadGameButton()
         {
-            if (_loadService.HasKey(ModelId.PlayerWallet))
+            if (_storageService.HasKey(ModelId.PlayerWallet))
             {
                 _mainMenuHud.LoadGameButton.gameObject.SetActive(true);
                 return;

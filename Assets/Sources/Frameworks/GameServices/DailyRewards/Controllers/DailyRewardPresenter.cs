@@ -19,7 +19,7 @@ namespace Sources.Frameworks.GameServices.DailyRewards.Controllers
     {
         private readonly DailyRewardView _view;
         private readonly ITimeService _timeService;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private readonly DailyReward _dailyReward;
         
         private CancellationTokenSource _tokenSource;
@@ -29,11 +29,11 @@ namespace Sources.Frameworks.GameServices.DailyRewards.Controllers
             IEntityRepository entityRepository, 
             DailyRewardView view,
             ITimeService timeService,
-            ILoadService loadService)
+            IStorageService storageService)
         {
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _timeService = timeService ?? throw new ArgumentNullException(nameof(timeService));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _dailyReward = entityRepository.Get<DailyReward>(ModelId.DailyReward);
             _healthBooster = entityRepository.Get<HealthBooster>(ModelId.HealthBooster);
         }
@@ -94,8 +94,8 @@ namespace Sources.Frameworks.GameServices.DailyRewards.Controllers
             
             _view.Animator.Play();
             _healthBooster.Amount += HealthBoosterConst.BoosterAmount;
-            _loadService.Save(ModelId.HealthBooster);
-            _loadService.Save(ModelId.DailyReward);
+            _storageService.Save(ModelId.HealthBooster);
+            _storageService.Save(ModelId.DailyReward);
         }
 
         private void ActivateButton()

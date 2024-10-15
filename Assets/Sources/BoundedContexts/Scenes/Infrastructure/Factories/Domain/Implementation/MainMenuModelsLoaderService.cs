@@ -15,14 +15,14 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
     public class MainMenuModelsLoaderService
     {
         private readonly IEntityRepository _entityRepository;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
         public MainMenuModelsLoaderService(
             IEntityRepository entityRepository,
-            ILoadService loadService)
+            IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public MainMenuModel Load()
@@ -32,19 +32,19 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
             
             foreach (string id in ModelId.GetIds<Achievement>())
             {
-                Achievement achievement = _loadService.Load<Achievement>(id);
+                Achievement achievement = _storageService.Load<Achievement>(id);
                 achievements.Add(achievement);
             }
             
             //Volumes
-            Volume musicVolume = _loadService.Load<Volume>(ModelId.MusicVolume);
-            Volume soundsVolume = _loadService.Load<Volume>(ModelId.SoundsVolume);
+            Volume musicVolume = _storageService.Load<Volume>(ModelId.MusicVolume);
+            Volume soundsVolume = _storageService.Load<Volume>(ModelId.SoundsVolume);
             
             //DailyReward
-            DailyReward dailyReward = _loadService.Load<DailyReward>(ModelId.DailyReward);
+            DailyReward dailyReward = _storageService.Load<DailyReward>(ModelId.DailyReward);
             
             //HealthBooster
-            HealthBooster healthBooster = _loadService.Load<HealthBooster>(ModelId.HealthBooster);
+            HealthBooster healthBooster = _storageService.Load<HealthBooster>(ModelId.HealthBooster);
             
             Debug.Log($"Load models");
             

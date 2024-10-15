@@ -22,11 +22,11 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
         public FirstHealthBoosterUsageAchievementCommand(
             IEntityRepository entityRepository,
             IAssetCollector assetCollector,
-            ILoadService loadService,
+            IStorageService storageService,
             AchievementView achievementView,
             DiContainer container) : base(
             achievementView,
-            assetCollector, loadService, container)
+            assetCollector, storageService, container)
         {
             _entityRepository = entityRepository ?? 
                                 throw new ArgumentNullException(nameof(entityRepository));

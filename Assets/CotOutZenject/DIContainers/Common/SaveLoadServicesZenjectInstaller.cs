@@ -16,7 +16,7 @@ namespace Sources.App.DIContainers.Common
     {
         public override void InstallBindings()
         {
-            Container.Bind<ILoadService>().To<LoadService>().AsSingle();
+            Container.Bind<IStorageService>().To<StorageService>().AsSingle();
             Container.Bind<IEntityRepository>().To<EntityRepository>().AsSingle();
             Container.Bind<IDataService>().To<PlayerPrefsDataService>().AsSingle();
             // Container.Bind<IDataService>().To<EasySaveDataService>().AsSingle();

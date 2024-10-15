@@ -12,16 +12,16 @@ namespace Sources.Frameworks.GameServices.DailyRewards.Infrastructure.Factories
     {
         private readonly IEntityRepository _entityRepository;
         private readonly ITimeService _timeService;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
         public DailyRewardViewFactory(
             IEntityRepository entityRepository,
             ITimeService timeService,
-            ILoadService loadService)
+            IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             _timeService = timeService ?? throw new ArgumentNullException(nameof(timeService));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public DailyRewardView Create(DailyRewardView view)
@@ -30,7 +30,7 @@ namespace Sources.Frameworks.GameServices.DailyRewards.Infrastructure.Factories
                 _entityRepository, 
                 view, 
                 _timeService,
-                _loadService);
+                _storageService);
             view.Construct(presenter);
             
             return view;

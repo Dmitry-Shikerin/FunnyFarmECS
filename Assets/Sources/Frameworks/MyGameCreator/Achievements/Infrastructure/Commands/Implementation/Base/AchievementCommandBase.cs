@@ -19,19 +19,19 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
         
         private SignalStream _stream;
         private readonly IAssetCollector _assetCollector;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
         public AchievementCommandBase(
             AchievementView achievementView,
             IAssetCollector assetCollector,
-            ILoadService loadService,
+            IStorageService storageService,
             DiContainer container)
         {
             // _achievementView = achievementView ?? 
             //                    throw new ArgumentNullException(nameof(achievementView));
             _achievementView = achievementView;
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _container = container ?? throw new ArgumentNullException(nameof(container));
         }
 
@@ -49,7 +49,7 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
 
             achievement.IsCompleted = true;
             //_container.Inject(_achievementView);
-            _loadService.Save(achievement);
+            _storageService.Save(achievement);
             _stream.SendSignal(true);
             //_achievementView.Construct(achievement, config);
             

@@ -9,19 +9,19 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonComm
 {
     public class SaveVolumeButtonCommand : IButtonCommand
     {
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
-        public SaveVolumeButtonCommand(ILoadService loadService)
+        public SaveVolumeButtonCommand(IStorageService storageService)
         {
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public ButtonCommandId Id => ButtonCommandId.SaveVolume;
         
         public void Handle()
         {
-            _loadService.Save(ModelId.SoundsVolume);
-            _loadService.Save(ModelId.MusicVolume);
+            _storageService.Save(ModelId.SoundsVolume);
+            _storageService.Save(ModelId.MusicVolume);
         }
     }
 }

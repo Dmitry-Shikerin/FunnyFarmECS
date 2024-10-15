@@ -7,16 +7,16 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonComm
 {
     public class ClearSavesButtonCommand : IButtonCommand
     {
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
-        public ClearSavesButtonCommand(ILoadService loadService)
+        public ClearSavesButtonCommand(IStorageService storageService)
         {
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public ButtonCommandId Id => ButtonCommandId.ClearSaves;
 
         public void Handle() =>
-            _loadService.ClearAll();
+            _storageService.ClearAll();
     }
 }

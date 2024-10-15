@@ -8,12 +8,12 @@ using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 
 namespace Sources.Frameworks.GameServices.Loads.Services.Implementation
 {
-    public class LoadService : ILoadService
+    public class StorageService : IStorageService
     {
         private readonly IEntityRepository _entityRepository;
         private readonly IDataService _dataService;
 
-        public LoadService(
+        public StorageService(
             IEntityRepository entityRepository,
             IDataService dataService)
         {

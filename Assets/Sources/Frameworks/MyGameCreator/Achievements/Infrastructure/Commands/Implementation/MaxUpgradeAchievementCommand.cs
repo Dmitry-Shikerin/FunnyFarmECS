@@ -26,12 +26,12 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.
             IEntityRepository entityRepository,
             IAssetCollector assetCollector,
             AchievementView achievementView,
-            ILoadService loadService,
+            IStorageService storageService,
             DiContainer container) 
             : base(
                 achievementView, 
                 assetCollector,
-                loadService,
+                storageService,
                 container)
         {
             _entityRepository = entityRepository ?? 

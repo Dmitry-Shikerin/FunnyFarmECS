@@ -10,16 +10,16 @@ namespace Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Implemen
     public class GameCompletedService : IGameCompletedService
     {
         private readonly IEntityRepository _entityRepository;
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
         private SignalStream _signalStream;
         private EnemySpawner _enemySpawner;
         private bool _isCompleted;
 
-        public GameCompletedService(IEntityRepository entityRepository, ILoadService loadService)
+        public GameCompletedService(IEntityRepository entityRepository, IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public event Action GameCompleted;
@@ -45,7 +45,7 @@ namespace Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Implemen
             // if (_enemySpawner.CurrentWaveNumber != 99) //todo поменять на константу
             //     return;
 
-            _loadService.ClearAll();
+            _storageService.ClearAll();
             _signalStream.SendSignal(true);
             _isCompleted = true;
             GameCompleted?.Invoke();

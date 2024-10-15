@@ -42,7 +42,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
 {
     public class GameplaySceneViewFactory : ISceneViewFactory
     {
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
         private readonly IAssetCollector _assetCollector;
         private readonly IEntityRepository _entityRepository;
         private readonly GameplayHud _gameplayHud;
@@ -74,7 +74,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly WatermillViewFactory _watermillViewFactory;
 
         public GameplaySceneViewFactory(
-            ILoadService loadService,
+            IStorageService storageService,
             IAssetCollector assetCollector,
             IEntityRepository entityRepository,
             GameplayHud gameplayHud,
@@ -105,7 +105,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             GoosePenViewFactory goosePenViewFactory,
             WatermillViewFactory watermillViewFactory)
         {
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             _gameplayHud = gameplayHud ?? throw new ArgumentNullException(nameof(gameplayHud));
@@ -231,7 +231,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         {
             // if (payload != null && payload.CanLoad)
             //     return _gameplayModelsLoaderService.Load();
-            if (_loadService.HasKey(ModelId.PlayerWallet))
+            if (_storageService.HasKey(ModelId.PlayerWallet))
                 return _gameplayModelsLoaderService.Load();
             
             return _gameplayModelsCreatorService.Load();

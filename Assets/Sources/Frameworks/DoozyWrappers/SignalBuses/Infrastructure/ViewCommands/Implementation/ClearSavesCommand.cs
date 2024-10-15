@@ -8,18 +8,18 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewComman
 {
     public class ClearSavesCommand : IViewCommand
     {
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
-        public ClearSavesCommand(ILoadService loadService)
+        public ClearSavesCommand(IStorageService storageService)
         {
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public FormCommandId Id => FormCommandId.ClearSaves;
         
         public void Handle()
         {
-            _loadService.Clear(ModelId.GetDeleteIds());
+            _storageService.Clear(ModelId.GetDeleteIds());
         }
     }
 }

@@ -8,19 +8,19 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewComman
 {
     public class SaveVolumeCommand : IViewCommand
     {
-        private readonly ILoadService _loadService;
+        private readonly IStorageService _storageService;
 
-        public SaveVolumeCommand(ILoadService loadService)
+        public SaveVolumeCommand(IStorageService storageService)
         {
-            _loadService = loadService ?? throw new ArgumentNullException(nameof(loadService));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
         public FormCommandId Id => FormCommandId.SaveVolume;
         
         public void Handle()
         {
-            _loadService.Save(ModelId.MusicVolume);
-            _loadService.Save(ModelId.SoundsVolume);
+            _storageService.Save(ModelId.MusicVolume);
+            _storageService.Save(ModelId.SoundsVolume);
         }
     }
 }
