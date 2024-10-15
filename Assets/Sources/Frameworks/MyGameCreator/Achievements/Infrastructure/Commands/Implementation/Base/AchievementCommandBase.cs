@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Doozy.Runtime.Signals;
+using MyDependencies.Sources.Containers;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Constants;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
@@ -8,7 +9,6 @@ using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
 using Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.Interfaces;
 using Sources.Frameworks.MyGameCreator.Achievements.Presentation;
-using Zenject;
 
 namespace Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Commands.Implementation.Base
 {

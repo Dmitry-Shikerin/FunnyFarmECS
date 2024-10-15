@@ -1,11 +1,8 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Sources.BoundedContexts.Movements.Presentation.Views.Implementation;
 using Sources.Frameworks.MyGameCreator.Movements.Domain.Models;
-using Sources.OldBoundedContexts.Movements.Presentation.Views.Implementation;
-using Zenject;
 
-namespace Sources.BoundedContexts.Movements.Infrastructure.Factories
+namespace Sources.Frameworks.MyGameCreator.Movements.Infrastructure.Factories
 {
     public class MovementViewFactory
     {

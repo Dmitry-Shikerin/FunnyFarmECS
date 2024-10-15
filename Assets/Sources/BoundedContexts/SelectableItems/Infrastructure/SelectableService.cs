@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using ModestTree;
-using Sirenix.Utilities;
+using System.Linq;
 using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.Frameworks.GameServices.InputServices.InputServices;
-using UnityEngine;
+using TeoGames.Mesh_Combiner.Scripts.Extension;
 
 namespace Sources.BoundedContexts.SelectableItems.Infrastructure
 {
@@ -36,7 +35,7 @@ namespace Sources.BoundedContexts.SelectableItems.Infrastructure
                 return;
             
             _items
-                .Except(item)
+                .Except(new [] { item, })
                 .ForEach(listItem => listItem.Deselect());
             
             item.Select();

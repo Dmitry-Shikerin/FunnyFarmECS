@@ -1,4 +1,5 @@
 ﻿using System;
+using MyDependencies.Sources.Attributes;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Images;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Texts;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views;
@@ -6,7 +7,6 @@ using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
 using UnityEngine;
-using Zenject;
 
 namespace Sources.Frameworks.MyGameCreator.Achievements.Presentation
 {

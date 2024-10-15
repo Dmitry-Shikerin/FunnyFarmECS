@@ -1,9 +1,9 @@
 ﻿using System;
+using MyDependencies.Sources.Attributes;
 using Sirenix.OdinInspector;
 using Sources.Frameworks.GameServices.Cameras.Domain;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Singletones.Monobehaviours;
-using Zenject;
 
 namespace Sources.Frameworks.GameServices.Cameras.Presentation.Implementation
 {

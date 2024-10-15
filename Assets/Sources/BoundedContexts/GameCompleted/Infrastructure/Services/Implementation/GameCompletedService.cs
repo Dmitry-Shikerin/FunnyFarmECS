@@ -3,7 +3,6 @@ using Doozy.Runtime.Signals;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
-using Zenject.SpaceFighter;
 
 namespace Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Implementation
 {
@@ -13,7 +12,7 @@ namespace Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Implemen
         private readonly IStorageService _storageService;
 
         private SignalStream _signalStream;
-        private EnemySpawner _enemySpawner;
+        //private EnemySpawner _enemySpawner;
         private bool _isCompleted;
 
         public GameCompletedService(IEntityRepository entityRepository, IStorageService storageService)
