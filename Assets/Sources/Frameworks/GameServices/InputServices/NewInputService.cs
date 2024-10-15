@@ -3,7 +3,7 @@ using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.Domain.Models.Constants.LayerMasks;
 using Sources.Frameworks.GameServices.InputServices.Inputs;
 using Sources.Frameworks.GameServices.InputServices.InputServices;
-using Sources.Frameworks.GameServices.Pauses.Services.Interfaces;
+using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,13 +11,13 @@ namespace Sources.Frameworks.GameServices.InputServices
 {
     public class NewInputService : IInputService, IInputServiceUpdater
     {
-        private readonly IPauseService _pauseService;
         private InputManager _inputManager;
         private float _speed;
+        private readonly Pause _pause;
 
-        public NewInputService(IPauseService pauseService)
+        public NewInputService(Pause pause)
         {
-            _pauseService = pauseService ?? throw new ArgumentNullException(nameof(pauseService));
+            _pause = pause ?? throw new ArgumentNullException(nameof(pause));
             InputData = new InputData();
         }
 
@@ -58,7 +58,7 @@ namespace Sources.Frameworks.GameServices.InputServices
 
         public void Update(float deltaTime)
         {
-            if (_pauseService.IsPaused)
+            if (_pause.IsPaused)
                 return;
 
             UpdateMovement();

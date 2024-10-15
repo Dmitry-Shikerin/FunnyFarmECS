@@ -1,27 +1,31 @@
 ﻿using System;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Interfaces;
-using Sources.Frameworks.GameServices.Pauses.Services.Interfaces;
+using Sources.Frameworks.GameServices.Loads.Domain.Constant;
+using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
+using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.UiFramework.Views.Domain;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation
 {
     public class UnPauseCommand : IViewCommand
     {
-        private readonly IPauseService _pauseService;
+        private readonly IEntityRepository _entityRepository;
 
-        public UnPauseCommand(IPauseService pauseService)
+        public UnPauseCommand(IEntityRepository entityRepository)
         {
-            _pauseService = pauseService ?? throw new ArgumentNullException(nameof(pauseService));
+            _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
         }
 
         public FormCommandId Id => FormCommandId.UnPause;
         
         public void Handle()
         {
-            if (_pauseService.IsPaused == false)
+            var pause = _entityRepository.Get<Pause>(ModelId.Pause);
+            
+            if (pause.IsPaused == false)
                 return;
             
-            _pauseService.Continue();
+            pause.ContinueGame();
         }
     }
 }

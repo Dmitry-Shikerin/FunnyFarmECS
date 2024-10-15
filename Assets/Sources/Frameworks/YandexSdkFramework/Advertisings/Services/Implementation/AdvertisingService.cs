@@ -3,10 +3,9 @@ using System.Threading;
 using Agava.WebUtility;
 using Agava.YandexGames;
 using Cysharp.Threading.Tasks;
-using Sources.BoundedContexts.HealthBoosters.Domain;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
-using Sources.Frameworks.GameServices.Pauses.Services.Interfaces;
+using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Interfaces;
 
@@ -15,20 +14,17 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
     public class AdvertisingService : IInterstitialAdService, IVideoAdService, IAdvertisingService
     {
         private readonly IEntityRepository _entityRepository;
-        private readonly IPauseService _pauseService;
         private readonly IStorageService _storageService;
 
-        private HealthBooster _healthBooster;
+        private Pause _pause;
         private CancellationTokenSource _cancellationTokenSource;
         private TimeSpan _timeSpan = TimeSpan.FromSeconds(35);
 
         public AdvertisingService(
             IEntityRepository entityRepository,
-            IPauseService pauseService, 
             IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
-            _pauseService = pauseService ?? throw new ArgumentNullException(nameof(pauseService));
             _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
@@ -36,7 +32,7 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
 
         public void Initialize()
         {
-            // _healthBooster = _entityRepository.Get<HealthBooster>(ModelId.HealthBooster);
+            _pause = _entityRepository.Get<Pause>(ModelId.Pause);
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -60,25 +56,25 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
             InterstitialAd.Show(
                 () =>
                 {
-                    if (_pauseService.IsPaused == false)
+                    if (_pause.IsPaused == false)
                     {
                         isContinue = true;
-                        _pauseService.Pause();
+                        _pause.PauseGame();
                     }
 
-                    if (_pauseService.IsSoundPaused == false)
+                    if (_pause.IsSoundPaused == false)
                     {
                         isContinueSound = true;
-                        _pauseService.PauseSound();
+                        _pause.PauseSound();
                     }
                 },
                 _ =>
                 {
                     if (isContinue)
-                        _pauseService.Continue();
+                        _pause.ContinueGame();
 
                     if (isContinueSound)
-                        _pauseService.ContinueSound();
+                        _pause.ContinueSound();
                     
                     StartTimer(_cancellationTokenSource.Token);
                 });
@@ -106,16 +102,16 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
             VideoAd.Show(
                 () =>
                 {
-                    if (_pauseService.IsPaused == false)
+                    if (_pause.IsPaused == false)
                     {
                         isContinue = true;
-                        _pauseService.Pause();
+                        _pause.PauseGame();
                     }
 
-                    if (_pauseService.IsSoundPaused == false)
+                    if (_pause.IsSoundPaused == false)
                     {
                         isContinueSound = true;
-                        _pauseService.PauseSound();
+                        _pause.PauseSound();
                     }
                 },
                 () =>
@@ -126,10 +122,10 @@ namespace Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementa
                 () =>
                 {
                     if (isContinue)
-                        _pauseService.Continue();
+                        _pause.ContinueGame();
 
                     if (isContinueSound)
-                        _pauseService.ContinueSound();
+                        _pause.ContinueSound();
 
                     onCloseCallback?.Invoke();
                 });

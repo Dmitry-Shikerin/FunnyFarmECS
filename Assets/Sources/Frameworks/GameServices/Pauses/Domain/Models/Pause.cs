@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Sources.Frameworks.Domain.Interfaces.Entities;
+using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Pauses.Domain.Constants;
-using Sources.Frameworks.GameServices.Pauses.Services.Interfaces;
 using UnityEngine;
 
 namespace Sources.Frameworks.GameServices.Pauses.Services.Implementation
 {
-    public class PauseService : IPauseService
+    public class Pause : IEntity
     {
-        public event Action PauseActivated;
-        public event Action ContinueActivated;
-        public event Action PauseSoundActivated;
-        public event Action ContinueSoundActivated;
+        public event Action<bool> PauseChanged;
+        public event Action<bool> PauseSoundChanged;
+
+        public string Id => ModelId.Pause;
+        public Type Type => GetType();
         
         public int PauseListenersCount { get; private set; }
         public int SoundPauseListenersCount { get; private set; }
@@ -30,10 +32,10 @@ namespace Sources.Frameworks.GameServices.Pauses.Services.Implementation
                 throw new IndexOutOfRangeException(nameof(SoundPauseListenersCount));
 
             IsSoundPaused = false;
-            ContinueSoundActivated?.Invoke();
+            PauseSoundChanged?.Invoke(IsSoundPaused);
         }
 
-        public void Continue()
+        public void ContinueGame()
         {
             PauseListenersCount--;
 
@@ -44,7 +46,7 @@ namespace Sources.Frameworks.GameServices.Pauses.Services.Implementation
                 throw new IndexOutOfRangeException(nameof(PauseListenersCount));
 
             IsPaused = false;
-            ContinueActivated?.Invoke();
+            PauseChanged?.Invoke(IsPaused);
             Time.timeScale = TimeScaleConst.Max;
         }
 
@@ -56,10 +58,10 @@ namespace Sources.Frameworks.GameServices.Pauses.Services.Implementation
                 throw new IndexOutOfRangeException(nameof(SoundPauseListenersCount));
 
             IsSoundPaused = true;
-            PauseSoundActivated?.Invoke();
+            PauseSoundChanged?.Invoke(IsSoundPaused);
         }
 
-        public void Pause()
+        public void PauseGame()
         {
             PauseListenersCount++;
 
@@ -67,7 +69,7 @@ namespace Sources.Frameworks.GameServices.Pauses.Services.Implementation
                 throw new IndexOutOfRangeException(nameof(PauseListenersCount));
 
             IsPaused = true;
-            PauseActivated?.Invoke();
+            PauseChanged?.Invoke(IsPaused);
             Time.timeScale = TimeScaleConst.Min;
         }
 

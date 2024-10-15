@@ -7,6 +7,7 @@ using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.BoundedContexts.Upgrades.Domain.Models;
 using Sources.Frameworks.Domain.Interfaces.Entities;
 using Sources.Frameworks.GameServices.DailyRewards.Domain;
+using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
 
@@ -23,6 +24,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
         //gameModels
         public const string PlayerWallet = "PlayerWallet";
         public const string Inventory = "Inventory";
+        public const string Pause = "Pause";
         
         //FirstLocation
         public const string FirstPumpkinsPatch = "FirstPumpinsPatch";
@@ -37,6 +39,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
         public const string Jeep = "Jeep";        
         public const string Truck = "Truck";
         public const string Cat = "Cat";
+        
         //SecondLocation
         public const string PigPen = "PigPen";
         public const string CowPen = "CowPen";
@@ -92,6 +95,7 @@ namespace Sources.Frameworks.GameServices.Loads.Domain.Constant
              [CompleteGameWithOneHealthAchievementCommand] = new (CompleteGameWithOneHealthAchievementCommand, typeof(Achievement), false),
              [Tutorial] = new (Tutorial, typeof(Tutorial), false),
              [HealthBooster] = new (HealthBooster, typeof(HealthBooster), false),
+             [Pause] = new (Pause, typeof(Pause), false),
         };
 
         public static IReadOnlyList<string> GetIds<T>() 

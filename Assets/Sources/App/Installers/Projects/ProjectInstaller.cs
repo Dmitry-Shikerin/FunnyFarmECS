@@ -1,8 +1,6 @@
 ﻿using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
 using MyDependencies.Sources.Installers;
-using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
-using Sources.Frameworks.GameServices.Pauses.Services.Interfaces;
 using Sources.Frameworks.GameServices.SceneLoaderServices.Implementation;
 using Sources.Frameworks.GameServices.Volumes.Infrastucture.Factories;
 using Sources.Frameworks.YandexSdkFramework.Focuses.Implementation;
@@ -17,7 +15,6 @@ namespace Sources.App.Installers.Projects
         {
             container.Bind<ISceneLoaderService, SceneLoaderService>();
             // Container.Bind<ISceneLoaderService>().To<AddressableSceneLoaderService>().AsSingle();
-            container.Bind<IPauseService, PauseService>();
             container.Bind<IFocusService, FocusService>();
 
             container.Bind<VolumeViewFactory>();

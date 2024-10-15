@@ -1,12 +1,11 @@
 ﻿using System;
 using Doozy.Runtime.Signals;
-using JetBrains.Annotations;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.BoundedContexts.Tutorials.Services.Interfaces;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Constants;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
-using Sources.Frameworks.GameServices.Pauses.Services.Interfaces;
+using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 
 namespace Sources.BoundedContexts.Tutorials.Services.Implementation
@@ -15,31 +14,30 @@ namespace Sources.BoundedContexts.Tutorials.Services.Implementation
     {
         private readonly IEntityRepository _entityRepository;
         private readonly IStorageService _storageService;
-        private readonly IPauseService _pauseService;
         
         private Tutorial _tutorial;
         private SignalStream _stream;
+        private Pause _pause;
 
         public TutorialService(
             IEntityRepository entityRepository,
-            IStorageService storageService, 
-            IPauseService pauseService)
+            IStorageService storageService)
         {
             _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
-            _pauseService = pauseService ?? throw new ArgumentNullException(nameof(pauseService));
         }
 
         public void Initialize()
         {
             _tutorial = _entityRepository.Get<Tutorial>(ModelId.Tutorial);
+            _pause = _entityRepository.Get<Pause>(ModelId.Pause);
             _stream = SignalStream.Get(StreamConst.Gameplay, StreamConst.ShowTutorial);
             
             if (_tutorial.HasCompleted)
                 return;
             
             _stream.SendSignal(true);
-            _pauseService.Pause();
+            _pause.PauseGame();
         }
 
         public void Complete()

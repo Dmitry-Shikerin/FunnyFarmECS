@@ -23,7 +23,7 @@ namespace Sources.Frameworks.MyGameCreator
 
         public event Action<float> OnUpdate;
         
-        public static NewInputService InputService { get; } = new NewInputService(new PauseService());
+        public static NewInputService InputService { get; } = new NewInputService(new Pause());
         public MovementStateMachineFactory MovementStateMachineFactory { get; } = new MovementStateMachineFactory(InputService);
         
         private void Awake()
