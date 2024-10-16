@@ -1,9 +1,12 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.Domain.Models.Constants.LayerMasks;
 using Sources.Frameworks.GameServices.InputServices.Inputs;
 using Sources.Frameworks.GameServices.InputServices.InputServices;
+using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
+using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,13 +14,14 @@ namespace Sources.Frameworks.GameServices.InputServices
 {
     public class NewInputService : IInputService, IInputServiceUpdater
     {
+        private readonly IEntityRepository _entityRepository;
         private InputManager _inputManager;
         private float _speed;
-        private readonly Pause _pause;
+        private Pause _pause;
 
-        public NewInputService(Pause pause)
+        public NewInputService(IEntityRepository entityRepository)
         {
-            _pause = pause ?? throw new ArgumentNullException(nameof(pause));
+            _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             InputData = new InputData();
         }
 
@@ -26,6 +30,7 @@ namespace Sources.Frameworks.GameServices.InputServices
         public void Initialize()
         {
             _inputManager = new InputManager();
+            _pause = _entityRepository.Get<Pause>(ModelId.Pause);
             _inputManager.Enable();
             _inputManager.Gameplay.Stand.performed += UpdateStandState;
             _inputManager.Gameplay.Click.performed += UpdateSelectable;
@@ -58,6 +63,9 @@ namespace Sources.Frameworks.GameServices.InputServices
 
         public void Update(float deltaTime)
         {
+            if (_pause == null)
+                return;
+            
             if (_pause.IsPaused)
                 return;
 

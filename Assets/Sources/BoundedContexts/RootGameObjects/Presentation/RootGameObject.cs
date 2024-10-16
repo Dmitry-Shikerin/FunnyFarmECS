@@ -1,4 +1,6 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Sources.BoundedContexts.AnimalMovePoints;
 using Sources.BoundedContexts.CabbagePatches.Presentation;
 using Sources.BoundedContexts.Cats.Presentation;
 using Sources.BoundedContexts.ChikenCorrals.Presentation;
@@ -23,10 +25,10 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
 {
     public class RootGameObject : MonoBehaviour
     {
-        [FoldoutGroup("FirstLocation")]
-        [FoldoutGroup("FirstLocation/Patchs")]
+        [FoldoutGroup("FirstLocation")] 
+        [FoldoutGroup("FirstLocation/Patchs")] 
         [Required] [SerializeField] private PumpkinPatchView _pumpkinPatchView;
-        [FoldoutGroup("FirstLocation/Patchs")]
+        [FoldoutGroup("FirstLocation/Patchs")] 
         [Required] [SerializeField] private TomatoPatchView _tomatoPatchView;
         [FoldoutGroup("FirstLocation/Patchs")] 
         [Required] [SerializeField] private ChickenCorralView _chickenCorralView;
@@ -34,12 +36,14 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         [Required] [SerializeField] private OnionPatchView _onionPatchView;
         [FoldoutGroup("FirstLocation/Patchs")] 
         [Required] [SerializeField] private CabbagePatchView _cabbagePatchView;
-        [FoldoutGroup("FirstLocation/Tracks")]
+        [FoldoutGroup("FirstLocation/Tracks")] 
         [Required] [SerializeField] private JeepView _jeepView;
-        [FoldoutGroup("FirstLocation/Tracks")]
+        [FoldoutGroup("FirstLocation/Tracks")] 
         [Required] [SerializeField] private TruckView _truckView;
-        [FoldoutGroup("FirstLocation/Animals")]
+        [FoldoutGroup("FirstLocation/Animals")] 
         [Required] [SerializeField] private DogView _dogView;
+        [FoldoutGroup("FirstLocation/Animals")]
+        [Required] [SerializeField] private List<AnimalMovePoint> _dogMovePoints;
         [FoldoutGroup("FirstLocation/Animals")]
         [Required] [SerializeField] private CatView _catView;
         [FoldoutGroup("FirstLocation/Buildings")]
@@ -72,6 +76,7 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         public JeepView JeepView => _jeepView;
         public TruckView TruckView => _truckView;
         public DogView DogView => _dogView;
+        public List<AnimalMovePoint> DogMovePoints => _dogMovePoints;
         public CatView CatView => _catView;
         public HouseView HouseView => _houseView;
         public WoodshedView WoodshedView => _woodshedView;

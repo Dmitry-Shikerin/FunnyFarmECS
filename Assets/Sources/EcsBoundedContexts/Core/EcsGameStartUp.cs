@@ -6,6 +6,7 @@ using Leopotam.EcsProto.Unity;
 using MyDependencies.Sources.Containers;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
+using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.Dogs.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure;
 
@@ -19,6 +20,7 @@ namespace Sources.EcsBoundedContexts.Core
         private MainAspect _aspect;
         private ProtoSystems _systems;
         private ProtoSystems _unitySystems;
+        private bool _isInitialize;
 
         public EcsGameStartUp(
             DiContainer container, 
@@ -47,10 +49,14 @@ namespace Sources.EcsBoundedContexts.Core
             AddRun();
             AddOneFrame();
             _systems.Init();
+            Init();
         }
 
         public void Update(float deltaTime)
         {
+            if (_isInitialize == false)
+                return;
+            
             _unitySystems?.Run();
             _systems?.Run();
         }
@@ -65,20 +71,30 @@ namespace Sources.EcsBoundedContexts.Core
         {
             _systems
                 .AddSystem(new TreeSwingerSystem())
-                .AddSystem(new DogMovementSystem(_container));
+                .AddSystem(new AnimalMovementSystem(_container))
+                .AddSystem(new AnimalChangeStateSystem(_container))
+                ;
             
             return _systems;
         }
 
         private IProtoSystems AddRun()
         {
-            return _systems;
+            return _systems
+                .AddSystem(new AnimalInitializeSystem(_container));
         }
 
         private IProtoSystems AddOneFrame()
         {
             _systems.DelHere<JumpEvent>();
             return _systems;
+        }
+
+        //TODO придумать чтото получше 
+        private async void Init()
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(2f));
+            _isInitialize = true;
         }
     }
 }

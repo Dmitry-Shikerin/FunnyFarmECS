@@ -26,6 +26,7 @@ using Sources.BoundedContexts.Upgrades.Domain.Models;
 using Sources.BoundedContexts.Woodsheds.Domain;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
+using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Factories.Domain.Interfaces;
@@ -105,6 +106,10 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
                 Id = ModelId.PlayerWallet,
             };
             _entityRepository.Add(playerWallet);
+            
+            //Pause
+            Pause pause = new Pause();
+            _entityRepository.Add(pause);
             
             //Volume
             Volume musicVolume = LoadVolume(ModelId.MusicVolume);

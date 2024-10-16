@@ -5,6 +5,7 @@ using Sources.BoundedContexts.Scenes.Domain;
 using Sources.BoundedContexts.Tutorials.Domain.Models;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
+using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Factories.Domain.Interfaces;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
@@ -29,6 +30,10 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Impleme
         {
             //PlayerWallet
             PlayerWallet playerWallet = _storageService.Load<PlayerWallet>(ModelId.PlayerWallet);
+            
+            //Pause
+            Pause pause = new Pause();
+            _entityRepository.Add(pause);
             
             //Volumes
             Volume musicVolume = _storageService.Load<Volume>(ModelId.MusicVolume);

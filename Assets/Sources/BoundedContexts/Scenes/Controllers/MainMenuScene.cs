@@ -55,9 +55,9 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         {
             await InitializeAsync((IScenePayload)payload);
             await _compositeAssetService.LoadAsync();
-            _focusService.Initialize();
             _localizationService.Translate();
             _sceneViewFactory.Create(null);
+            _focusService.Initialize();
             _signalControllersCollector.Initialize();
             _soundyService.Initialize();
             await _curtainView.HideAsync();
