@@ -4,6 +4,8 @@ using MyDependencies.Sources.Installers;
 using Sources.Frameworks.GameServices.ServerTimes.Services.Implementation;
 using Sources.Frameworks.GameServices.ServerTimes.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Implementation;
+using Sources.Frameworks.YandexSdkFramework.Focuses.Implementation;
+using Sources.Frameworks.YandexSdkFramework.Focuses.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Infrastructure.Factories.Controllers;
 using Sources.Frameworks.YandexSdkFramework.Infrastructure.Factories.Views;
 using Sources.Frameworks.YandexSdkFramework.Leaderboards.Services.Implementation;
@@ -26,6 +28,7 @@ namespace Sources.App.Installers.Common
             container.Bind<IPlayerAccountAuthorizeService, PlayerAccountAuthorizeService>();
             container.Bind<ISdkInitializeService, SdkInitializeService>();
             container.Bind<IStickyService, StickyService>();
+            container.Bind<IFocusService, FocusService>();
             container.BindInterfaces<AdvertisingService>();
             container.Bind<LeaderBoardElementViewFactory>();
             container.Bind<LeaderBoardElementPresenterFactory>();

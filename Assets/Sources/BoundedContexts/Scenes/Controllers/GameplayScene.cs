@@ -99,11 +99,11 @@ namespace Sources.BoundedContexts.Scenes.Controllers
 
         public async void Enter(object payload = null)
         {
-            _inputService.Initialize();
-            _focusService.Initialize();
             await _compositeAssetService.LoadAsync();
             _localizationService.Translate();
             _gameplaySceneViewFactory.Create((IScenePayload)payload);
+            _inputService.Initialize();
+            _focusService.Initialize();
             _advertisingService.Initialize();
             //_achievementService.Initialize();
             _signalControllersCollector.Initialize();

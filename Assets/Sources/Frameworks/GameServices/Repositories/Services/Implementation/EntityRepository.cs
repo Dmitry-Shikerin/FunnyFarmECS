@@ -39,7 +39,7 @@ namespace Sources.Frameworks.GameServices.Repositories.Services.Implementation
         public void Release() =>
             _entities.Clear();
 
-        public IEnumerable<T> GetAll<T>(IEnumerable<string> ids) 
+        public IEnumerable<T> Get<T>(IEnumerable<string> ids) 
             where T : class, IEntity
         {
             List<T> result = new List<T>();

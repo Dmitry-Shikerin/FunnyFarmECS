@@ -15,7 +15,6 @@ namespace Sources.App.Installers.Projects
         {
             container.Bind<ISceneLoaderService, SceneLoaderService>();
             // Container.Bind<ISceneLoaderService>().To<AddressableSceneLoaderService>().AsSingle();
-            container.Bind<IFocusService, FocusService>();
 
             container.Bind<VolumeViewFactory>();
         }

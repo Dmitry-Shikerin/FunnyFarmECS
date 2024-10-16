@@ -1,5 +1,6 @@
 ﻿using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
+using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
@@ -17,6 +18,8 @@ namespace Sources.EcsBoundedContexts.Core
         public readonly ProtoPool<DogComponent> DogPool = new ();
         public readonly ProtoPool<AnimancerComponent> AnimancerPool = new ();
         public readonly ProtoPool<NavMeshComponent> NavMeshPool = new ();
-        public readonly ProtoPool<MovementPointsComponent> MovementPointsPool = new ();
+        public readonly ProtoPool<MovementPointComponent> MovementPointsPool = new ();
+        public readonly ProtoPool<AnimalTypeComponent> AnimalTypePool = new ();
+        public readonly ProtoPool<AnimalStateComponent> AnimalStatePool = new ();
     }
 }

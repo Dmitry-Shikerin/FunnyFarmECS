@@ -12,7 +12,7 @@ namespace Sources.Frameworks.GameServices.Repositories.Services.Interfaces
         T Get<T>(string id) 
             where T : class, IEntity;
         void Release();
-        IEnumerable<T> GetAll<T>(IEnumerable<string> ids) 
+        IEnumerable<T> Get<T>(IEnumerable<string> ids) 
             where T : class, IEntity;
     }
 }
