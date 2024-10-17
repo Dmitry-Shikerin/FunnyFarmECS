@@ -6,9 +6,10 @@ using UnityEngine;
 
 namespace Sources.Transforms
 {
-    [Serializable] [ProtoUnityAuthoring]
-    public struct TransformComponent : IComponent
+    [Serializable] 
+    [ProtoUnityAuthoring("Transform")]
+    public struct TransformComponent
     {
-        [CF] public Transform Transform;
+        public Transform Transform;
     }
 }

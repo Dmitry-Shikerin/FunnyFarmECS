@@ -33,7 +33,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 ref AnimalTypeComponent animalType = ref _mainAspect.AnimalTypePool.Get(entity);
                 ref AnimancerComponent animancer = ref _mainAspect.AnimancerPool.Get(entity);
                 ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
-                state.AnimalState = AnimalState.Walk;
+                state.AnimalState = AnimalState.ChangeState;
                 AnimationClip clip = GetClip(animalType.AnimalType);
                 animancer.Animancer.Play(clip);
             }

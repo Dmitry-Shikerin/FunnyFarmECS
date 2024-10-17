@@ -9,5 +9,7 @@ namespace Sources.EcsBoundedContexts.Animals.Domain
     public struct AnimalStateComponent
     {
         public AnimalState AnimalState;
+        public float CurentIdleTime;
+        public float TargetIdleTime;
     }
 }

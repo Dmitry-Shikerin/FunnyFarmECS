@@ -70,9 +70,11 @@ namespace Sources.EcsBoundedContexts.Core
         private IProtoSystems AddInit()
         {
             _systems
+                .AddSystem(new AspectInitializeSystem())
                 .AddSystem(new TreeSwingerSystem())
-                .AddSystem(new AnimalMovementSystem(_container))
+                .AddSystem(new AnimalMovementSystem())
                 .AddSystem(new AnimalChangeStateSystem(_container))
+                .AddSystem(new AnimalIdleSystem())
                 ;
             
             return _systems;
