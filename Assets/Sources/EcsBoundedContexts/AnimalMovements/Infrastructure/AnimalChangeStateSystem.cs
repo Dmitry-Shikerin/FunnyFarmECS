@@ -42,22 +42,23 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             {
                 ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
                 
-                if (state.AnimalState != AnimalState.ChangeState)
+                if (state.CurrentState != AnimalState.ChangeState)
                     continue;
-                
-                
+
+                state.CurrentState = GetState(entity);
+                Debug.Log($"{state.CurrentState}");
             }
         }
 
-        public AnimalState GetState(ProtoEntity entity)
+        private AnimalState GetState(ProtoEntity entity)
         {
             int stateValue = Random.Range(0, 100);
 
             return stateValue switch
             {
                 < 33 => SetWalkState(entity),
-                > 33 and < 66 => AnimalState.Run,
-                _ => AnimalState.Idle
+                > 33 and < 66 => SetRunState(entity),
+                _ => SetIdleState(entity),
             };
         }
 
@@ -65,9 +66,39 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         {
             ref MovementPointComponent target = ref _mainAspect.MovementPointsPool.Get(entity);
             AnimalTypeComponent animalType = _mainAspect.AnimalTypePool.Get(entity);
+            AnimancerComponent animancer = _mainAspect.AnimancerPool.Get(entity);
             target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
+            AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Walk;
+            animancer.Animancer.Play(clip);
             
             return AnimalState.Walk;
+        }
+
+        private AnimalState SetRunState(ProtoEntity entity)
+        {
+            ref MovementPointComponent target = ref _mainAspect.MovementPointsPool.Get(entity);
+            AnimalTypeComponent animalType = _mainAspect.AnimalTypePool.Get(entity);
+            AnimancerComponent animancer = _mainAspect.AnimancerPool.Get(entity);
+            target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
+            AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Run;
+            animancer.Animancer.Play(clip);
+            
+            return AnimalState.Run;
+        }
+
+        private AnimalState SetIdleState(ProtoEntity entity)
+        {
+            ref MovementPointComponent target = ref _mainAspect.MovementPointsPool.Get(entity);
+            ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
+            AnimalTypeComponent animalType = _mainAspect.AnimalTypePool.Get(entity);
+            AnimancerComponent animancer = _mainAspect.AnimancerPool.Get(entity);
+            target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
+            AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Idle;
+            animancer.Animancer.Play(clip);
+            state.TargetIdleTime = 5f;
+            state.CurentIdleTime = 0;
+            
+            return AnimalState.Idle;
         }
         
         private Vector3 GetNextMovePoint(AnimalType animal)
