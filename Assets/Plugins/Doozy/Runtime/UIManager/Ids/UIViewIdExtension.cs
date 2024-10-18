@@ -38,6 +38,8 @@ namespace Doozy.Runtime.UIManager
             FirstLocationPumpkinsPatch,
             FirstLocationTomatoPatch,
             Hud,
+            LevelUp,
+            Locations,
             Pause,
             Quit,
             SecondLocation,
