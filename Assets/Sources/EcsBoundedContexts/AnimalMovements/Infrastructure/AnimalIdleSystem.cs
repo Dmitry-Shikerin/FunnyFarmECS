@@ -27,13 +27,15 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             {
                 ref AnimalStateComponent state = ref _aspect.AnimalStatePool.Get(entity);
 
-                if (state.AnimalState != AnimalState.Idle)
+                if (state.CurrentState != AnimalState.Idle)
                     return;
                 
                 state.CurentIdleTime += Time.deltaTime;
 
-                if (state.CurentIdleTime >= state.TargetIdleTime)
-                    state.AnimalState = AnimalState.ChangeState;
+                if (state.CurentIdleTime < state.TargetIdleTime)
+                    continue;
+                
+                state.CurrentState = AnimalState.ChangeState;
             }
         }
     }

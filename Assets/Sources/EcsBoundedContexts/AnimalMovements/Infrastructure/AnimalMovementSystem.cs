@@ -29,7 +29,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             {
                 ref AnimalStateComponent state = ref _aspect.AnimalStatePool.Get(entity);
 
-                if (state.AnimalState is AnimalState.Walk or AnimalState.Run)
+                if (state.CurrentState is AnimalState.Walk or AnimalState.Run)
                 {
                     ref MovementPointComponent target = ref _aspect.MovementPointsPool.Get(entity);
                     ref NavMeshComponent agent = ref _aspect.NavMeshPool.Get(entity);
@@ -39,7 +39,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                     if (Vector3.Distance(target.TargetPoint, transform.Transform.position) > 2f)
                         continue;
                     
-                    state.AnimalState = AnimalState.ChangeState;
+                    state.CurrentState = AnimalState.ChangeState;
                 }
             }
         }

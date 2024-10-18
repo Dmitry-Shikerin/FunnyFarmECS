@@ -1,8 +1,6 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.Core
 {
@@ -17,13 +15,9 @@ namespace Sources.EcsBoundedContexts.Core
             foreach (var fieldInfo in fields)
             {
                 object value = fieldInfo.GetValue(_mainAspect);
-                Type fieldType = fieldInfo.FieldType;
                 
-                if (value is IProtoPool)
-                {
-                    _mainAspect.Pools.Add(value.GetType(), value as IProtoPool);
-                    Debug.Log($"Added pool: {fieldType}, ");
-                }
+                if (value is IProtoPool pool)
+                    _mainAspect.Pools.Add(value.GetType(), pool);
             }
             
             AspectExt.Construct(_mainAspect);

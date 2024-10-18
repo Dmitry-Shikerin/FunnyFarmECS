@@ -42,11 +42,11 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             {
                 ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
                 
-                if (state.AnimalState != AnimalState.ChangeState)
+                if (state.CurrentState != AnimalState.ChangeState)
                     continue;
 
-                state.AnimalState = GetState(entity);
-                Debug.Log($"{state.AnimalState}");
+                state.CurrentState = GetState(entity);
+                Debug.Log($"{state.CurrentState}");
             }
         }
 
@@ -61,7 +61,6 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 _ => SetIdleState(entity),
             };
         }
-
 
         private AnimalState SetWalkState(ProtoEntity entity)
         {
