@@ -6,7 +6,8 @@ using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
-using Sources.EcsBoundedContexts.States.Systems;
+using Sources.MyLeoEcsProto.States.Controllers;
+using Sources.MyLeoEcsProto.States.Controllers.Transitions;
 using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
@@ -40,10 +41,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 
         private AnimalState GetRandomState()
         {
-            int stateValue = Random.Range(0, 100);
-            Debug.Log(stateValue);
-
-            return stateValue switch
+            return Random.Range(0, 100) switch
             {
                 < 33 => AnimalState.Walk,
                 > 33 and < 66 => AnimalState.Run,

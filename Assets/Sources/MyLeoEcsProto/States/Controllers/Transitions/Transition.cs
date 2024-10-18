@@ -1,7 +1,7 @@
 ﻿using System;
 using Leopotam.EcsProto;
 
-namespace Sources.EcsBoundedContexts.States.Systems
+namespace Sources.MyLeoEcsProto.States.Controllers.Transitions
 {
     public readonly struct Transition<TEnumState> : ITransition<TEnumState>
         where TEnumState : Enum

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using Sources.EcsBoundedContexts.States.Domain;
+using Sources.MyLeoEcsProto.States.Controllers.Transitions;
+using Sources.MyLeoEcsProto.States.Domain;
 
-namespace Sources.EcsBoundedContexts.States.Systems
+namespace Sources.MyLeoEcsProto.States.Controllers
 {
     public abstract class StateSystem<TEnumState, TComponent> : IProtoInitSystem, IProtoRunSystem, IProtoDestroySystem
         where TEnumState : Enum
