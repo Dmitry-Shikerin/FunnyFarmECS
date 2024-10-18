@@ -17,17 +17,17 @@ namespace Sources.EcsBoundedContexts.Core
 {
     public class MainAspect : ProtoAspectInject
     {
-        public readonly ProtoPool<TreeTag> TreePool = new ();
-        public readonly ProtoPool<JumpEvent> JumpEventPool = new ();
-        public readonly ProtoPool<SweengingTreeComponent> TreeSwingerPool = new ();
-        public readonly ProtoPool<DogComponent> DogPool = new ();
-        public readonly ProtoPool<AnimancerComponent> AnimancerPool = new ();
-        public readonly ProtoPool<NavMeshComponent> NavMeshPool = new ();
-        public readonly ProtoPool<MovementPointComponent> MovementPointsPool = new ();
-        public readonly ProtoPool<MoveSpeedComponent> MoveSpeedPool = new ();
-        public readonly ProtoPool<AnimalTypeComponent> AnimalTypePool = new ();
-        public readonly ProtoPool<AnimalStateComponent> AnimalStatePool = new ();
-        public readonly ProtoPool<TransformComponent> TransformPool = new ();
+        public readonly ProtoPool<TreeTag> Tree = new ();
+        public readonly ProtoPool<JumpEvent> JumpEvent = new ();
+        public readonly ProtoPool<SweengingTreeComponent> TreeSwinger = new ();
+        public readonly ProtoPool<DogComponent> Dog = new ();
+        public readonly ProtoPool<AnimancerComponent> Animancer = new ();
+        public readonly ProtoPool<NavMeshComponent> NavMesh = new ();
+        public readonly ProtoPool<MovementPointComponent> MovementPoints = new ();
+        public readonly ProtoPool<MoveSpeedComponent> MoveSpeed = new ();
+        public readonly ProtoPool<AnimalTypeComponent> AnimalType = new ();
+        public readonly ProtoPool<AnimalStateComponent> AnimalState = new ();
+        public readonly ProtoPool<TransformComponent> Transform = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
     }

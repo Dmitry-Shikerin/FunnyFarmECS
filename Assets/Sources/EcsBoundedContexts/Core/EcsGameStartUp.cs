@@ -7,7 +7,6 @@ using MyDependencies.Sources.Containers;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
-using Sources.EcsBoundedContexts.Dogs.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure;
 
 namespace Sources.EcsBoundedContexts.Core
@@ -72,9 +71,10 @@ namespace Sources.EcsBoundedContexts.Core
             _systems
                 .AddSystem(new AspectInitializeSystem())
                 .AddSystem(new TreeSwingerSystem())
-                .AddSystem(new AnimalMovementSystem())
-                .AddSystem(new AnimalChangeStateSystem(_container))
-                .AddSystem(new AnimalIdleSystem())
+                .AddSystem(new AnimalRunSystem(_container))
+                .AddSystem(new AnimalWalkSystem(_container))
+                .AddSystem(new AnimalChangeStateSystem())
+                .AddSystem(new AnimalIdleSystem(_container))
                 ;
             
             return _systems;

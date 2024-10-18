@@ -2,7 +2,7 @@
 
 namespace Sources.EcsBoundedContexts.States.Domain
 {
-    public interface IProtoState<TEnumState>
+    public interface IStateComponent<TEnumState>
         where TEnumState : Enum
     {
         TEnumState CurrentState { get; set; }

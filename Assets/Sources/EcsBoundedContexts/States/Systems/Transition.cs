@@ -3,11 +3,12 @@ using Leopotam.EcsProto;
 
 namespace Sources.EcsBoundedContexts.States.Systems
 {
-    public class ProtoTransition<TEnumState>
+    public readonly struct Transition<TEnumState> : ITransition<TEnumState>
+        where TEnumState : Enum
     {
         private readonly Func<ProtoEntity, bool> _condition;
 
-        public ProtoTransition(TEnumState nextState, Func<ProtoEntity, bool> condition)
+        public Transition(TEnumState nextState, Func<ProtoEntity, bool> condition)
         {
             _condition = condition ?? throw new ArgumentNullException(nameof(condition));
             NextState = nextState ?? throw new ArgumentNullException(nameof(nextState));
@@ -15,7 +16,7 @@ namespace Sources.EcsBoundedContexts.States.Systems
 
         public TEnumState NextState { get; }
 
-        public bool TryMoveNext(ProtoEntity entity) =>
+        public bool CanTransit(ProtoEntity entity) =>
             _condition.Invoke(entity);
     }
 }

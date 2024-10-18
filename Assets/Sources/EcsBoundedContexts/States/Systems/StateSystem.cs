@@ -8,17 +8,12 @@ namespace Sources.EcsBoundedContexts.States.Systems
 {
     public abstract class StateSystem<TEnumState, TComponent> : IProtoInitSystem, IProtoRunSystem, IProtoDestroySystem
         where TEnumState : Enum
-        where TComponent : struct, IProtoState<TEnumState>    
+        where TComponent : struct, IStateComponent<TEnumState>    
     {
-        private readonly ProtoIt _protoIt;
-        private readonly ProtoPool<TComponent> _pool;
-        private readonly List<ProtoTransition<TEnumState>> _transitions = new ();
+        private readonly List<ITransition<TEnumState>> _transitions = new ();
 
-        protected StateSystem(ProtoIt protoIt, ProtoPool<TComponent> pool)
-        {
-            _protoIt = protoIt ?? throw new ArgumentNullException(nameof(protoIt));
-            _pool = pool ?? throw new ArgumentNullException(nameof(pool));
-        }
+        protected abstract ProtoIt ProtoIt { get;  }
+        protected abstract ProtoPool<TComponent> Pool { get;  }
 
         public virtual void Init(IProtoSystems systems)
         {
@@ -38,9 +33,9 @@ namespace Sources.EcsBoundedContexts.States.Systems
 
         public void Run()
         {
-            foreach (ProtoEntity entity in _protoIt)
+            foreach (ProtoEntity entity in ProtoIt)
             {
-                ref TComponent state = ref _pool.Get(entity);
+                ref TComponent state = ref Pool.Get(entity);
 
                 if (IsState(entity) == false)
                     continue;
@@ -54,21 +49,22 @@ namespace Sources.EcsBoundedContexts.States.Systems
                 Update(entity);
                 
                 if (TryChangeState(entity, out TEnumState nextState) == false)
-                    return;
+                    continue;
                 
                 Exit(entity);
+                state.IsEntered = false;
                 state.CurrentState = nextState;
             }
         }
 
-        protected void AddTransition(ProtoTransition<TEnumState> transition) =>
+        protected void AddTransition(ITransition<TEnumState> transition) =>
             _transitions.Add(transition);
 
         private bool TryChangeState(ProtoEntity entity, out TEnumState nextState)
         {
-            foreach (ProtoTransition<TEnumState> transition in _transitions)
+            foreach (ITransition<TEnumState> transition in _transitions)
             {
-                if (transition.TryMoveNext(entity) == false)
+                if (transition.CanTransit(entity) == false)
                     continue;
                 
                 nextState = transition.NextState;

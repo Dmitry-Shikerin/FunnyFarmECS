@@ -30,9 +30,10 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         {
             foreach (ProtoEntity entity in _animalIt)
             {
-                ref AnimalTypeComponent animalType = ref _mainAspect.AnimalTypePool.Get(entity);
-                ref AnimancerComponent animancer = ref _mainAspect.AnimancerPool.Get(entity);
-                ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
+                ref AnimalTypeComponent animalType = ref _mainAspect.AnimalType.Get(entity);
+                ref AnimancerComponent animancer = ref _mainAspect.Animancer.Get(entity);
+                ref AnimalStateComponent state = ref _mainAspect.AnimalState.Get(entity);
+                
                 state.CurrentState = AnimalState.ChangeState;
                 AnimationClip clip = GetClip(animalType.AnimalType);
                 animancer.Animancer.Play(clip);

@@ -1,23 +1,19 @@
 ﻿using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using MyDependencies.Sources.Containers;
-using MyDependencies.Sources.Containers.Extensions;
-using Sources.BoundedContexts.AnimalAnimations.Domain;
-using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
-using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.EcsBoundedContexts.States.Systems;
 using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
-    public class AnimalChangeStateSystem : IProtoRunSystem
+    public class AnimalChangeStateSystem : StateSystem<AnimalState, AnimalStateComponent>
     {
-        [DI] private readonly MainAspect _mainAspect = default;
+        [DI] private readonly MainAspect _aspect = default;
         [DI] private readonly ProtoIt _animalIt = 
             new (It.Inc<
                 AnimalTypeComponent, 
@@ -25,88 +21,33 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 AnimalStateComponent, 
                 MovementPointComponent,
                 NavMeshComponent>());
-        private readonly AnimalConfigCollector _configs;
-        private readonly RootGameObject _rootGameObject;
 
-        public AnimalChangeStateSystem(DiContainer container)
-        {
-            _configs = container
-                .Resolve<IAssetCollector>()
-                .Get<AnimalConfigCollector>();
-            _rootGameObject = container.Resolve<RootGameObject>();
-        }
-        
-        public void Run()
-        {
-            foreach (ProtoEntity entity in _animalIt)
-            {
-                ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
-                
-                if (state.CurrentState != AnimalState.ChangeState)
-                    continue;
+        protected override ProtoIt ProtoIt => _animalIt;
+        protected override ProtoPool<AnimalStateComponent> Pool => _aspect.AnimalState;
 
-                state.CurrentState = GetState(entity);
-                Debug.Log($"{state.CurrentState}");
-            }
+        public override void Init(IProtoSystems systems) =>
+            AddTransition(ToRandomStateTransition());
+
+        protected override bool IsState(ProtoEntity entity) =>
+            _aspect.AnimalState.Get(entity).CurrentState == AnimalState.ChangeState;
+
+        protected override void Update(ProtoEntity entity)
+        {
         }
 
-        private AnimalState GetState(ProtoEntity entity)
+        private MutableStateTransition<AnimalState> ToRandomStateTransition() =>
+            new(GetRandomState, _ => true);
+
+        private AnimalState GetRandomState()
         {
             int stateValue = Random.Range(0, 100);
+            Debug.Log(stateValue);
 
             return stateValue switch
             {
-                < 33 => SetWalkState(entity),
-                > 33 and < 66 => SetRunState(entity),
-                _ => SetIdleState(entity),
-            };
-        }
-
-        private AnimalState SetWalkState(ProtoEntity entity)
-        {
-            ref MovementPointComponent target = ref _mainAspect.MovementPointsPool.Get(entity);
-            AnimalTypeComponent animalType = _mainAspect.AnimalTypePool.Get(entity);
-            AnimancerComponent animancer = _mainAspect.AnimancerPool.Get(entity);
-            target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
-            AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Walk;
-            animancer.Animancer.Play(clip);
-            
-            return AnimalState.Walk;
-        }
-
-        private AnimalState SetRunState(ProtoEntity entity)
-        {
-            ref MovementPointComponent target = ref _mainAspect.MovementPointsPool.Get(entity);
-            AnimalTypeComponent animalType = _mainAspect.AnimalTypePool.Get(entity);
-            AnimancerComponent animancer = _mainAspect.AnimancerPool.Get(entity);
-            target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
-            AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Run;
-            animancer.Animancer.Play(clip);
-            
-            return AnimalState.Run;
-        }
-
-        private AnimalState SetIdleState(ProtoEntity entity)
-        {
-            ref MovementPointComponent target = ref _mainAspect.MovementPointsPool.Get(entity);
-            ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
-            AnimalTypeComponent animalType = _mainAspect.AnimalTypePool.Get(entity);
-            AnimancerComponent animancer = _mainAspect.AnimancerPool.Get(entity);
-            target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
-            AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Idle;
-            animancer.Animancer.Play(clip);
-            state.TargetIdleTime = 5f;
-            state.CurentIdleTime = 0;
-            
-            return AnimalState.Idle;
-        }
-        
-        private Vector3 GetNextMovePoint(AnimalType animal)
-        {
-            return animal switch
-            {
-                AnimalType.Dog => _rootGameObject.DogMovePoints[Random.Range(0, _rootGameObject.DogMovePoints.Count)].Position,
-                _ => throw new System.ArgumentException("unknown animal type")
+                < 33 => AnimalState.Walk,
+                > 33 and < 66 => AnimalState.Run,
+                _ => AnimalState.Idle,
             };
         }
     }

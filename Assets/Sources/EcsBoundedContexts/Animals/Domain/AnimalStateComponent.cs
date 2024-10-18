@@ -2,13 +2,12 @@
 using Leopotam.EcsProto.Unity;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.States.Domain;
-using UnityEngine.Serialization;
 
 namespace Sources.EcsBoundedContexts.Animals.Domain
 {
-    [Serializable] 
+    [Serializable]
     [ProtoUnityAuthoring("AnimalState")]
-    public struct AnimalStateComponent : IProtoState<AnimalState>
+    public struct AnimalStateComponent : IStateComponent<AnimalState>
     {
         public AnimalState CurrentState { get; set; }
         public float CurentIdleTime;

@@ -30,7 +30,7 @@ namespace Sources.EcsBoundedContexts.SwingingTrees.Infrastructure
             
             foreach (ProtoEntity entity in _swingingTreeInc)
             {
-                ref SweengingTreeComponent treeSwinger = ref _mainAspect.TreeSwingerPool.Get(entity);
+                ref SweengingTreeComponent treeSwinger = ref _mainAspect.TreeSwinger.Get(entity);
                 Initialize(ref treeSwinger, config);
                 _isInitialized = true;
             }
@@ -40,7 +40,7 @@ namespace Sources.EcsBoundedContexts.SwingingTrees.Infrastructure
         {
             foreach (ProtoEntity entity in _swingingTreeInc)
             {
-                ref SweengingTreeComponent treeSwinger = ref _mainAspect.TreeSwingerPool.Get(entity);
+                ref SweengingTreeComponent treeSwinger = ref _mainAspect.TreeSwinger.Get(entity);
                 treeSwinger.Tree.rotation = Quaternion.Euler(
                     treeSwinger.MaxAngleX * 
                     Mathf.Sin(Time.time * treeSwinger.SpeedX), 
