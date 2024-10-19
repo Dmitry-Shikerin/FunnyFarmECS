@@ -1,11 +1,8 @@
-﻿using System;
-using Sources.Frameworks.Domain.Interfaces.Entities;
+﻿using Sources.BoundedContexts.UiSelectables.Domain;
 
 namespace Sources.BoundedContexts.Jeeps.Domain
 {
-    public class Jeep : IEntity
+    public class Jeep : Selectable
     {
-        public string Id { get; set; }
-        public Type Type => GetType();
     }
 }

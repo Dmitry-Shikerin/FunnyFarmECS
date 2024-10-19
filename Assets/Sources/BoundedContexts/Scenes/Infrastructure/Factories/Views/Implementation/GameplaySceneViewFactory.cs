@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.CabbagePatches.Infrastructure;
 using Sources.BoundedContexts.Cats.Infrastructure;
@@ -24,6 +25,8 @@ using Sources.BoundedContexts.SheepPens.Infrastructure;
 using Sources.BoundedContexts.Stables.Implementation;
 using Sources.BoundedContexts.TomatoPatchs.Infrastructure;
 using Sources.BoundedContexts.Trucks.Infrastructure;
+using Sources.BoundedContexts.UiSelectables.Infrastructure;
+using Sources.BoundedContexts.UiSelectables.Presentation;
 using Sources.BoundedContexts.Upgrades.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.Watermills.Infrastructure;
 using Sources.BoundedContexts.Woodsheds.Infrastructure;
@@ -72,6 +75,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
         private readonly SheepPenViewFactory _sheepPenViewFactory;
         private readonly GoosePenViewFactory _goosePenViewFactory;
         private readonly WatermillViewFactory _watermillViewFactory;
+        private readonly UiSelectableViewFactory _uiSelectableViewFactory;
 
         public GameplaySceneViewFactory(
             IStorageService storageService,
@@ -103,7 +107,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             RabbitPenViewFactory rabbitPenViewFactory,
             SheepPenViewFactory sheepPenViewFactory,
             GoosePenViewFactory goosePenViewFactory,
-            WatermillViewFactory watermillViewFactory)
+            WatermillViewFactory watermillViewFactory,
+            UiSelectableViewFactory uiSelectableViewFactory)
         {
             _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
             _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
@@ -140,6 +145,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _sheepPenViewFactory = sheepPenViewFactory ?? throw new ArgumentNullException(nameof(sheepPenViewFactory));
             _goosePenViewFactory = goosePenViewFactory ?? throw new ArgumentNullException(nameof(goosePenViewFactory));
             _watermillViewFactory = watermillViewFactory ?? throw new ArgumentNullException(nameof(watermillViewFactory));
+            _uiSelectableViewFactory = uiSelectableViewFactory ?? throw new ArgumentNullException(nameof(uiSelectableViewFactory));
         }
 
         public void Create(IScenePayload payload)

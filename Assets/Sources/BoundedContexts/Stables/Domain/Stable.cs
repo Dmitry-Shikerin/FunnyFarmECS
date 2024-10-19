@@ -1,11 +1,8 @@
-﻿using System;
-using Sources.Frameworks.Domain.Interfaces.Entities;
+﻿using Sources.BoundedContexts.UiSelectables.Domain;
 
 namespace Sources.BoundedContexts.Stables.Domain
 {
-    public class Stable : IEntity
+    public class Stable : Selectable
     {
-        public string Id { get; set; }
-        public Type Type => GetType();
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using Sources.Frameworks.Domain.Interfaces.Entities;
+﻿using Sources.BoundedContexts.UiSelectables.Domain;
 
 namespace Sources.BoundedContexts.Trucks.Domain
 {
-    public class Truck : IEntity
+    public class Truck : Selectable
     {
-        public string Id { get; set; }
-        public Type Type => GetType();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions;
+using Sources.MyLeoEcsProto.States.Controllers.Transitions.Interfaces;
 using Sources.MyLeoEcsProto.States.Domain;
 
 namespace Sources.MyLeoEcsProto.States.Controllers

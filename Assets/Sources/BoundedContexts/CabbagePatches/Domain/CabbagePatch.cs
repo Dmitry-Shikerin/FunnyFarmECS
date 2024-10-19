@@ -1,12 +1,9 @@
-﻿using System;
-using Sources.Frameworks.Domain.Interfaces.Entities;
+﻿using Sources.BoundedContexts.UiSelectables.Domain;
 
 namespace Sources.BoundedContexts.CabbagePatches.Domain
 {
-    public class CabbagePatch : IEntity
+    public class CabbagePatch : Selectable
     {
-        public string Id { get; set; }
-        public Type Type => GetType();
         public bool HasGrownUp { get; set; }
         public int PumpkinsCount { get; set; }
         public bool CanGrow { get; set; }

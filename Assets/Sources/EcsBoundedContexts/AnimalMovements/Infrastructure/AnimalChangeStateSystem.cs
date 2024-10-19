@@ -8,6 +8,7 @@ using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.MyLeoEcsProto.States.Controllers;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions;
+using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;
 using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
