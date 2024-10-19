@@ -11,6 +11,7 @@ using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.Frameworks.Utils.ObservablePropeties;
 using Sources.MyLeoEcsProto.States.Controllers;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;

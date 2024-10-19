@@ -49,7 +49,7 @@ namespace Sources.BoundedContexts.OnionPatches.Controllers
             _token = new CancellationTokenSource();
             // _view.SowButton.onClickEvent.AddListener(Sow);
             // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _onionPatch.Selected += SelectView;
         }
 
         private void SelectView() =>
@@ -60,7 +60,7 @@ namespace Sources.BoundedContexts.OnionPatches.Controllers
             _token.Cancel();
             // _view.SowButton.onClickEvent.RemoveListener(Sow);
             // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _onionPatch.Selected -= SelectView;
         }
 
         private async void Sow()

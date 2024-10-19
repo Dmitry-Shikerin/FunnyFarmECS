@@ -178,39 +178,51 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             
             //FirstLocation
             _pumpkinsPatchViewFactory.Create(ModelId.FirstPumpkinsPatch, _rootGameObject.PumpkinPatchView);
+            _uiSelectableViewFactory.Create(ModelId.FirstPumpkinsPatch, _gameplayHud.PumpkinPatchView);
             _selectableService.Add(_rootGameObject.PumpkinPatchView);
             
             _tomatoPatchViewFactory.Create(ModelId.TomatoPatch, _rootGameObject.TomatoPatchView);
+            _uiSelectableViewFactory.Create(ModelId.TomatoPatch, _gameplayHud.TomatoPatchView);
             _selectableService.Add(_rootGameObject.TomatoPatchView);
             
             _chickenCorralViewFactory.Create(ModelId.ChickenCorral, _rootGameObject.ChickenCorralView);
+            _uiSelectableViewFactory.Create(ModelId.ChickenCorral, _gameplayHud.ChickenCorralView);
             _selectableService.Add(_rootGameObject.ChickenCorralView);
 
             _onionPatchViewFactory.Create(ModelId.OnionPatch, _rootGameObject.OnionPatchView);
+            _uiSelectableViewFactory.Create(ModelId.OnionPatch, _gameplayHud.OnionPatchView);
             _selectableService.Add(_rootGameObject.OnionPatchView);
 
             _cabbagePatchViewFactory.Create(ModelId.CabbagePatch, _rootGameObject.CabbagePatchView);
+            _uiSelectableViewFactory.Create(ModelId.CabbagePatch, _gameplayHud.CabbagePatchView);
             _selectableService.Add(_rootGameObject.CabbagePatchView);
             
             _jeepViewFactory.Create(ModelId.Jeep, _rootGameObject.JeepView);
+            _uiSelectableViewFactory.Create(ModelId.Jeep, _gameplayHud.JeepView);
             _selectableService.Add(_rootGameObject.JeepView);
 
             _truckViewFactory.Create(ModelId.Truck, _rootGameObject.TruckView);
+            _uiSelectableViewFactory.Create(ModelId.Truck, _gameplayHud.TruckView);
             _selectableService.Add(_rootGameObject.TruckView);
             
             _dogViewFactory.Create(ModelId.Dog, _rootGameObject.DogView);
+            _uiSelectableViewFactory.Create(ModelId.Dog, _gameplayHud.DogView);
             _selectableService.Add(_rootGameObject.DogView);
             
             _catViewFactory.Create(ModelId.Cat, _rootGameObject.CatView);
+            _uiSelectableViewFactory.Create(ModelId.Cat, _gameplayHud.CatView);
             _selectableService.Add(_rootGameObject.CatView);
 
             _houseViewFactory.Create(ModelId.House, _rootGameObject.HouseView);
+            _uiSelectableViewFactory.Create(ModelId.House, _gameplayHud.HouseView);
             _selectableService.Add(_rootGameObject.HouseView);
 
             _woodshedViewFactory.Create(ModelId.Woodshed, _rootGameObject.WoodshedView);
+            _uiSelectableViewFactory.Create(ModelId.Woodshed, _gameplayHud.WoodshedView);
             _selectableService.Add(_rootGameObject.WoodshedView);
 
             _stableViewFactory.Create(ModelId.Stable, _rootGameObject.StableView);
+            _uiSelectableViewFactory.Create(ModelId.Stable, _gameplayHud.StableView);
             _selectableService.Add(_rootGameObject.StableView);
             
             //SecondLocation

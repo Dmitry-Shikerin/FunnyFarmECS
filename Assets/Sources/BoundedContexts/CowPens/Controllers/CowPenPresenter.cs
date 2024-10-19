@@ -47,7 +47,7 @@ namespace Sources.BoundedContexts.CowPens.Controllers
             _token = new CancellationTokenSource();
             // _view.SowButton.onClickEvent.AddListener(Sow);
             // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _cowPen.Selected += SelectView;
         }
 
         public override void Disable()
@@ -55,7 +55,7 @@ namespace Sources.BoundedContexts.CowPens.Controllers
             _token.Cancel();
             // _view.SowButton.onClickEvent.RemoveListener(Sow);
             // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _cowPen.Selected -= SelectView;
         }
 
         private void SelectView() =>

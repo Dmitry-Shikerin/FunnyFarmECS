@@ -48,7 +48,7 @@ namespace Sources.BoundedContexts.Woodsheds.Controllers
             _token = new CancellationTokenSource();
             // _view.SowButton.onClickEvent.AddListener(Sow);
             // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _tomatoPatch.Selected += SelectView;
         }
 
         public override void Disable()
@@ -56,7 +56,7 @@ namespace Sources.BoundedContexts.Woodsheds.Controllers
             _token.Cancel();
             // _view.SowButton.onClickEvent.RemoveListener(Sow);
             // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _tomatoPatch.Selected -= SelectView;
         }
 
         private void SelectView() =>

@@ -48,18 +48,21 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
             _token = new CancellationTokenSource();
             // _view.SowButton.onClickEvent.AddListener(Sow);
             // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _pumpkinPatch.Selected += SelectView;
         }
 
-        private void SelectView() =>
+        private void SelectView()
+        {
+            Debug.Log(nameof(SelectView));
             _selectableService.Select(_view);
+        }
 
         public override void Disable()
         {
             _token.Cancel();
             // _view.SowButton.onClickEvent.RemoveListener(Sow);
             // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _pumpkinPatch.Selected -= SelectView;
         }
 
         private async void Sow()

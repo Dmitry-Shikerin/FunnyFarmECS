@@ -20,7 +20,7 @@ namespace Sources.BoundedContexts.GoosePens.Controllers
 {
     public class GoosePenPresenter : PresenterBase
     {
-        private readonly GoosePen _onionPatch;
+        private readonly GoosePen _goosePen;
         private readonly Inventory _inventory;
         private readonly GoosePenView _view;
         private readonly ICameraService _cameraService;
@@ -35,7 +35,7 @@ namespace Sources.BoundedContexts.GoosePens.Controllers
             ICameraService cameraService,
             ISelectableService selectableService)
         {
-            _onionPatch = entityRepository.Get<GoosePen>(id);
+            _goosePen = entityRepository.Get<GoosePen>(id);
             _inventory = entityRepository.Get<Inventory>(ModelId.Inventory);
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
@@ -47,7 +47,7 @@ namespace Sources.BoundedContexts.GoosePens.Controllers
             _token = new CancellationTokenSource();
             // _view.SowButton.onClickEvent.AddListener(Sow);
             // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _goosePen.Selected += SelectView;
         }
 
         private void SelectView() =>
@@ -58,15 +58,15 @@ namespace Sources.BoundedContexts.GoosePens.Controllers
             _token.Cancel();
             // _view.SowButton.onClickEvent.RemoveListener(Sow);
             // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _goosePen.Selected -= SelectView;
         }
 
         private async void Sow()
         {
-            if (_onionPatch.CanGrow == false)
+            if (_goosePen.CanGrow == false)
                 return;
             
-            _onionPatch.CanGrow = false;
+            _goosePen.CanGrow = false;
             SetStartScale();
             _view.ProgressBarr.SetFillAmount(0);
             Show();
@@ -75,14 +75,14 @@ namespace Sources.BoundedContexts.GoosePens.Controllers
 
         private void Harvest()
         {
-            if (_onionPatch.HasGrownUp == false)
+            if (_goosePen.HasGrownUp == false)
                 return;
             
             Hide();
-            _inventory.Add(ModelId.Pumpkin, _onionPatch.PumpkinsCount);
-            _onionPatch.CanGrow = true;
-            _onionPatch.HasGrownUp = false;
-            _onionPatch.PumpkinsCount = 0;
+            _inventory.Add(ModelId.Pumpkin, _goosePen.PumpkinsCount);
+            _goosePen.CanGrow = true;
+            _goosePen.HasGrownUp = false;
+            _goosePen.PumpkinsCount = 0;
         }
 
         private async UniTask Grow(CancellationToken token)
@@ -107,9 +107,9 @@ namespace Sources.BoundedContexts.GoosePens.Controllers
                 await UniTask.Yield(token);
             }
 
-            _onionPatch.HasGrownUp = true;
+            _goosePen.HasGrownUp = true;
             //TODO сделать это значение изменямым
-            _onionPatch.PumpkinsCount = 3;
+            _goosePen.PumpkinsCount = 3;
         }
 
         private void Show() =>

@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using Sources.BoundedContexts.Abilities.Presentation.Implementation;
-using Sources.BoundedContexts.AdvertisingAfterWaves.Presentation;
-using Sources.BoundedContexts.HealthBoosters.Views;
-using Sources.BoundedContexts.PlayerWallets.Presentation.Implementation;
-using Sources.BoundedContexts.Upgrades.Presentation.Implementation;
+﻿using Sirenix.OdinInspector;
+using Sources.BoundedContexts.UiSelectables.Presentation;
 using Sources.Frameworks.GameServices.Volumes.Presentations;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Huds;
-using Sources.Frameworks.MyGameCreator.Achievements.Presentation;
 using Sources.Frameworks.UiFramework.Views.Presentations.Implementation;
 using UnityEngine;
 
@@ -35,6 +29,45 @@ namespace Sources.BoundedContexts.Huds.Presentations
         [FoldoutGroup("Volume")]
         [Required] [SerializeField] private VolumeView _soundVolumeView;
         
+        [FoldoutGroup("Locations")] 
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _pumpkinPatchView;
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _tomatoPatchView;
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _chickenCorralView;
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _onionPatchView;
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _cabbagePatchView;
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _jeepView;
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _truckView;
+        [FoldoutGroup("Locations/First")] 
+        [Required] [SerializeField] private UiSelectableView _dogView;
+        [FoldoutGroup("Locations/First")]
+        [Required] [SerializeField] private UiSelectableView _catView;
+        [FoldoutGroup("Locations/First")]
+        [Required] [SerializeField] private UiSelectableView _houseView;
+        [FoldoutGroup("Locations/First")]
+        [Required] [SerializeField] private UiSelectableView _woodshedView;
+        [FoldoutGroup("Locations/First")]
+        [Required] [SerializeField] private UiSelectableView _stableView;
+        
+        // [FoldoutGroup("Locations/Second")]
+        // [Required] [SerializeField] private UiSelectableView _pigPenView;
+        // [FoldoutGroup("Locations/Second")]
+        // [Required] [SerializeField] private UiSelectableView _cowPenView;
+        // [FoldoutGroup("Locations/Second")]
+        // [Required] [SerializeField] private UiSelectableView _rabbitPenView;
+        // [FoldoutGroup("Locations/Second")]
+        // [Required] [SerializeField] private UiSelectableView _sheepPenView;
+        // [FoldoutGroup("Locations/Second")]
+        // [Required] [SerializeField] private UiSelectableView _goosePenView;
+        // [FoldoutGroup("Locations/Second")]
+        // [Required] [SerializeField] private UiSelectableView _watermillView;
+        
         //[FoldoutGroup("Achievements")]
         //[Required] [SerializeField] private AchievementView _popUpAchievementView;
         //[FoldoutGroup("Achievements")]
@@ -56,5 +89,23 @@ namespace Sources.BoundedContexts.Huds.Presentations
         //public AchievementView PopUpAchievementView => _popUpAchievementView;
         //public IReadOnlyList<AchievementView> AchievementViews => _achievementViews;
         //public AdvertisingAfterWaveView AdvertisingView => _advertisingView;
+        
+        public UiSelectableView PumpkinPatchView => _pumpkinPatchView;
+        public UiSelectableView TomatoPatchView => _tomatoPatchView;
+        public UiSelectableView ChickenCorralView => _chickenCorralView;
+        public UiSelectableView OnionPatchView => _onionPatchView;
+        public UiSelectableView CabbagePatchView => _cabbagePatchView;
+        public UiSelectableView JeepView => _jeepView;
+        public UiSelectableView TruckView => _truckView;
+        public UiSelectableView DogView => _dogView;
+        public UiSelectableView CatView => _catView;
+        public UiSelectableView HouseView => _houseView;
+        public UiSelectableView WoodshedView => _woodshedView;
+        public UiSelectableView StableView => _stableView;
+        // public UiSelectableView PigPenView => _pigPenView;
+        // public UiSelectableView CowPenView => _cowPenView;
+        // public UiSelectableView RabbitPenView => _rabbitPenView;
+        // public UiSelectableView SheepPenView => _sheepPenView;
+        // public UiSelectableView GoosePenView => _goosePenView;
     }
 }

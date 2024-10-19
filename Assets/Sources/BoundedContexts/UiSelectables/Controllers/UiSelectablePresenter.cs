@@ -19,5 +19,14 @@ namespace Sources.BoundedContexts.UiSelectables.Controllers
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _selectable = entityRepository.Get<ISelectable>(id);
         }
+
+        public override void Enable() =>
+            _view.SelectButton.onClickEvent.AddListener(Select);
+
+        public override void Disable() =>
+            _view.SelectButton.onClickEvent.RemoveListener(Select);
+
+        private void Select() =>
+            _selectable.Select();
     }
 }

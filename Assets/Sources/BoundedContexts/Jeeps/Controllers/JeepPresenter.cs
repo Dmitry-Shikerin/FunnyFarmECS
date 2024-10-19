@@ -38,13 +38,13 @@ namespace Sources.BoundedContexts.Jeeps.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            _view.SelectButton.onClickEvent.AddListener(SelectView);
+            _jeep.Selected += SelectView;
         }
 
         public override void Disable()
         {
             _token.Cancel();
-            _view.SelectButton.onClickEvent.RemoveListener(SelectView);
+            _jeep.Selected -= SelectView;
         }
 
         private void SelectView() =>

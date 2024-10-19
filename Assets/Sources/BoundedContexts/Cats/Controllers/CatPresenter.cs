@@ -38,13 +38,13 @@ namespace Sources.BoundedContexts.Cats.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            _view.SelectButton.onClickEvent.AddListener(SelectView);
+            _cat.Selected += SelectView;
         }
 
         public override void Disable()
         {
             _token.Cancel();
-            _view.SelectButton.onClickEvent.RemoveListener(SelectView);
+            _cat.Selected -= SelectView;
         }
 
         private void SelectView() =>
