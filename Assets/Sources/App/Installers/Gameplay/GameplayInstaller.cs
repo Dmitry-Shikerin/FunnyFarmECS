@@ -35,9 +35,6 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<GameplayModelsCreatorService>();
             container.Bind<GameplayModelsLoaderService>();
             
-            //ECS
-            container.Bind<IEcsGameStartUp, EcsGameStartUp>();
-            
             //UiCommands
             container.Bind<IButtonCommandHandler, GameplayButtonCommandHandler>();
             container.Bind<IViewCommandHandler, GameplayViewCommandHandler>();

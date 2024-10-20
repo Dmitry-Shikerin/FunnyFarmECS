@@ -25,13 +25,13 @@ namespace Sources.BoundedContexts.Dogs.Infrastructure
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
 
-        public DogView Create(string id, DogView view)
+        public DogHouseView Create(string id, DogHouseView houseView)
         {
             DogPresenter presenter = new DogPresenter(
-                id, view, _entityRepository, _cameraService, _selectableService);
-            view.Construct(presenter);
+                id, houseView, _entityRepository, _cameraService, _selectableService);
+            houseView.Construct(presenter);
             
-            return view;
+            return houseView;
         }
     }
 }

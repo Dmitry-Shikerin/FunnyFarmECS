@@ -4,6 +4,7 @@ using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions.Interfaces;
 using Sources.MyLeoEcsProto.States.Domain;
+using UnityEngine;
 
 namespace Sources.MyLeoEcsProto.States.Controllers
 {
@@ -48,6 +49,7 @@ namespace Sources.MyLeoEcsProto.States.Controllers
                 }
                 
                 Update(entity);
+                Debug.Log(state.CurrentState);
                 
                 if (TryChangeState(entity, out TEnumState nextState) == false)
                     continue;

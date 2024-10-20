@@ -1,7 +1,6 @@
-﻿using Leopotam.EcsProto;
+﻿using System;
+using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using MyDependencies.Sources.Containers;
-using MyDependencies.Sources.Containers.Extensions;
 using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.EcsBoundedContexts.Animals.Domain;
@@ -12,16 +11,17 @@ using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.MyLeoEcsProto.States.Controllers;
-using Sources.MyLeoEcsProto.States.Controllers.Transitions;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;
 using Sources.Transforms;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
     public class AnimalRunSystem : StateSystem<AnimalState, AnimalStateComponent>
     {
+        private readonly IAssetCollector _collector;
         [DI] private readonly MainAspect _aspect = default;
 
         [DI] private readonly ProtoIt _animalIt =
@@ -32,15 +32,16 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 MovementPointComponent,
                 NavMeshComponent,
                 TransformComponent>());
-        private readonly AnimalConfigCollector _configs;
         private readonly RootGameObject _rootGameObject;
+        
+        private AnimalConfigCollector _configs;
 
-        public AnimalRunSystem(DiContainer container)
+        public AnimalRunSystem(
+            IAssetCollector collector,
+            RootGameObject rootGameObject)
         {
-            _configs = container
-                .Resolve<IAssetCollector>()
-                .Get<AnimalConfigCollector>();
-            _rootGameObject = container.Resolve<RootGameObject>();
+            _collector = collector ?? throw new ArgumentNullException(nameof(collector));
+            _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
         }
 
         protected override ProtoIt ProtoIt => _animalIt;
@@ -48,6 +49,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 
         public override void Init(IProtoSystems systems)
         {
+            _configs = _collector.Get<AnimalConfigCollector>();
             AddTransition(ToChangeTransition());
         }
 

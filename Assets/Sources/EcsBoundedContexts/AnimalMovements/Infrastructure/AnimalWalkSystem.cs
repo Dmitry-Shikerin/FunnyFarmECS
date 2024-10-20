@@ -1,4 +1,6 @@
-﻿using Leopotam.EcsProto;
+﻿using System;
+using JetBrains.Annotations;
+using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
@@ -18,11 +20,13 @@ using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;
 using Sources.Transforms;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
     public class AnimalWalkSystem : StateSystem<AnimalState, AnimalStateComponent>
     {
+        private readonly IAssetCollector _assetCollector;
         [DI] private readonly MainAspect _aspect = default;
 
         [DI] private readonly ProtoIt _animalIt =
@@ -34,15 +38,15 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 NavMeshComponent,
                 TransformComponent>());
 
-        private readonly AnimalConfigCollector _configs;
+        private AnimalConfigCollector _configs;
         private readonly RootGameObject _rootGameObject;
 
-        public AnimalWalkSystem(DiContainer container)
+        public AnimalWalkSystem(
+            IAssetCollector assetCollector, 
+            RootGameObject rootGameObject)
         {
-            _configs = container
-                .Resolve<IAssetCollector>()
-                .Get<AnimalConfigCollector>();
-            _rootGameObject = container.Resolve<RootGameObject>();
+            _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
+            _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
         }
 
         protected override ProtoIt ProtoIt => _animalIt;
@@ -50,6 +54,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 
         public override void Init(IProtoSystems systems)
         {
+            _configs = _assetCollector.Get<AnimalConfigCollector>();
             AddTransition(ToChangeTransition());
         }
 

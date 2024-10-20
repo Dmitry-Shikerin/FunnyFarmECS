@@ -205,9 +205,9 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _uiSelectableViewFactory.Create(ModelId.Truck, _gameplayHud.TruckView);
             _selectableService.Add(_rootGameObject.TruckView);
             
-            _dogViewFactory.Create(ModelId.Dog, _rootGameObject.DogView);
+            _dogViewFactory.Create(ModelId.Dog, _rootGameObject.DogHouseView);
             _uiSelectableViewFactory.Create(ModelId.Dog, _gameplayHud.DogView);
-            _selectableService.Add(_rootGameObject.DogView);
+            _selectableService.Add(_rootGameObject.DogHouseView);
             
             _catViewFactory.Create(ModelId.Cat, _rootGameObject.CatView);
             _uiSelectableViewFactory.Create(ModelId.Cat, _gameplayHud.CatView);

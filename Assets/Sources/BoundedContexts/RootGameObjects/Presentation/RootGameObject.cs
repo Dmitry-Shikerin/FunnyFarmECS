@@ -41,7 +41,7 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         [FoldoutGroup("FirstLocation/Tracks")] 
         [Required] [SerializeField] private TruckView _truckView;
         [FoldoutGroup("FirstLocation/Animals")] 
-        [Required] [SerializeField] private DogView _dogView;
+        [Required] [SerializeField] private DogHouseView _dogHouseView;
         [FoldoutGroup("FirstLocation/Animals")]
         [Required] [SerializeField] private List<AnimalMovePoint> _dogMovePoints;
         [FoldoutGroup("FirstLocation/Animals")]
@@ -75,7 +75,7 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         public CabbagePatchView CabbagePatchView => _cabbagePatchView;
         public JeepView JeepView => _jeepView;
         public TruckView TruckView => _truckView;
-        public DogView DogView => _dogView;
+        public DogHouseView DogHouseView => _dogHouseView;
         public List<AnimalMovePoint> DogMovePoints => _dogMovePoints;
         public CatView CatView => _catView;
         public HouseView HouseView => _houseView;

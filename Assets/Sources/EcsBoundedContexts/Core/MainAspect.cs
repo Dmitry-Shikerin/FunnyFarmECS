@@ -6,6 +6,7 @@ using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Dogs.Domain;
+using Sources.EcsBoundedContexts.EntityLinks.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
@@ -28,6 +29,7 @@ namespace Sources.EcsBoundedContexts.Core
         public readonly ProtoPool<AnimalTypeComponent> AnimalType = new ();
         public readonly ProtoPool<AnimalStateComponent> AnimalState = new ();
         public readonly ProtoPool<TransformComponent> Transform = new ();
+        public readonly ProtoPool<EntityLinkComponent> EntityLink = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
     }

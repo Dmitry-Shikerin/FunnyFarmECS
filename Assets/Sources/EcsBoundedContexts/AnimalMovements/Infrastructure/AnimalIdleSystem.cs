@@ -1,4 +1,6 @@
-﻿using Leopotam.EcsProto;
+﻿using System;
+using JetBrains.Annotations;
+using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
@@ -19,6 +21,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
     public class AnimalIdleSystem : StateSystem<AnimalState, AnimalStateComponent>
     {
+        private readonly IAssetCollector _assetCollector;
         [DI] private readonly MainAspect _aspect = default;
         [DI] private readonly ProtoIt _animalIt = 
             new (It.Inc<
@@ -27,20 +30,21 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 AnimalStateComponent, 
                 MovementPointComponent,
                 NavMeshComponent>());
-        private readonly AnimalConfigCollector _configs;
+        private AnimalConfigCollector _configs;
 
-        public AnimalIdleSystem(DiContainer container)
+        public AnimalIdleSystem(IAssetCollector assetCollector)
         {
-            _configs = container
-                .Resolve<IAssetCollector>()
-                .Get<AnimalConfigCollector>();
+            _assetCollector = assetCollector ?? throw new ArgumentNullException(nameof(assetCollector));
         }
 
         protected override ProtoIt ProtoIt => _animalIt;
         protected override ProtoPool<AnimalStateComponent> Pool => _aspect.AnimalState;
 
-        public override void Init(IProtoSystems systems) =>
+        public override void Init(IProtoSystems systems)
+        {
+            _configs = _assetCollector.Get<AnimalConfigCollector>();
             AddTransition(ToChangeTransition());
+        }
 
         protected override bool IsState(ProtoEntity entity) =>
             _aspect.AnimalState.Get(entity).CurrentState == AnimalState.Idle;
