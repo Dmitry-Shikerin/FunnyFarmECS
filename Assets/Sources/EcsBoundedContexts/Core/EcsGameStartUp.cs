@@ -5,9 +5,9 @@ using Leopotam.EcsProto.QoL;
 using Leopotam.EcsProto.Unity;
 using MyDependencies.Sources.Containers;
 using Sirenix.Utilities;
+using Sources.App.Installers.Gameplay;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
-using Sources.EcsBoundedContexts.Dogs.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure;
 
 namespace Sources.EcsBoundedContexts.Core
@@ -16,37 +16,35 @@ namespace Sources.EcsBoundedContexts.Core
     {
         private readonly DiContainer _container;
         private readonly RootGameObject _rootGameObject;
-        private ProtoWorld _world;
-        private MainAspect _aspect;
-        private ProtoSystems _systems;
+        private readonly ProtoSystems _systems;
+        private readonly ProtoWorld _world;
+        private readonly MainAspect _aspect;
+        private readonly SystemsCollector _systemsCollector;
         private ProtoSystems _unitySystems;
         private bool _isInitialize;
 
         public EcsGameStartUp(
             DiContainer container, 
-            RootGameObject rootGameObject)
+            RootGameObject rootGameObject,
+            ProtoWorld protoWorld,
+            ProtoSystems systems,
+            MainAspect aspect,
+            SystemsCollector systemsCollector)
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
+            _world = protoWorld ?? throw new ArgumentNullException(nameof(protoWorld));
+            _systems = systems ?? throw new ArgumentNullException(nameof(systems));
+            _aspect = aspect ?? throw new ArgumentNullException(nameof(aspect));
+            _systemsCollector = systemsCollector ?? throw new ArgumentNullException(nameof(systemsCollector));
         }
 
         public async void Initialize()
         {
-            _aspect = new MainAspect();
-            _world = new ProtoWorld(_aspect);
-            _unitySystems = new ProtoSystems(_world);
-            _unitySystems
-                .AddModule(new AutoInjectModule())
-                .AddModule(new UnityModule())
-                .Init();
-            _rootGameObject
-                .GetComponentsInChildren<ProtoUnityAuthoring>()
-                .ForEach(authoring => authoring.ProcessAuthoring());
+            InitUnitySystems();
             await UniTask.Yield();
-            _systems = new ProtoSystems(_world);
-            _systems.AddModule(new AutoInjectModule());
-            AddInit();
-            AddRun();
+            AddModules();
+            _systemsCollector.AddSystems();
             AddOneFrame();
             _systems.Init();
             Init();
@@ -67,36 +65,33 @@ namespace Sources.EcsBoundedContexts.Core
             _unitySystems?.Destroy();
         }
 
-        private IProtoSystems AddInit()
+        private void AddModules()
         {
-            _systems
-                .AddSystem(new AspectInitializeSystem())
-                .AddSystem(new TreeSwingerSystem())
-                .AddSystem(new AnimalMovementSystem())
-                .AddSystem(new AnimalChangeStateSystem(_container))
-                .AddSystem(new AnimalIdleSystem())
-                ;
-            
-            return _systems;
+            _systems.AddModule(new AutoInjectModule());
         }
 
-        private IProtoSystems AddRun()
-        {
-            return _systems
-                .AddSystem(new AnimalInitializeSystem(_container));
-        }
-
-        private IProtoSystems AddOneFrame()
+        private void AddOneFrame()
         {
             _systems.DelHere<JumpEvent>();
-            return _systems;
         }
-
-        //TODO придумать чтото получше 
+        
         private async void Init()
         {
             await UniTask.Delay(TimeSpan.FromSeconds(2f));
             _isInitialize = true;
+        }
+
+        private void InitUnitySystems()
+        {
+            _unitySystems = new ProtoSystems(_world);
+            _unitySystems
+                .AddModule(new AutoInjectModule())
+                .AddModule(new UnityModule())
+                .Init();
+            //TODO закоменитл
+            // _rootGameObject
+            //     .GetComponentsInChildren<ProtoUnityAuthoring>()
+            //     .ForEach(authoring => authoring.ProcessAuthoring());
         }
     }
 }

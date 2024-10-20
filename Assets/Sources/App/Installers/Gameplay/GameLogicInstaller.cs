@@ -25,6 +25,7 @@ using Sources.BoundedContexts.SheepPens.Infrastructure;
 using Sources.BoundedContexts.Stables.Implementation;
 using Sources.BoundedContexts.TomatoPatchs.Infrastructure;
 using Sources.BoundedContexts.Trucks.Infrastructure;
+using Sources.BoundedContexts.UiSelectables.Infrastructure;
 using Sources.BoundedContexts.Upgrades.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.Watermills.Infrastructure;
 using Sources.BoundedContexts.Woodsheds.Infrastructure;
@@ -79,6 +80,7 @@ namespace Sources.App.Installers.Gameplay
             
             //Selectables
             container.Bind<ISelectableService, SelectableService>();
+            container.Bind<UiSelectableViewFactory>();
         }
     }
 }

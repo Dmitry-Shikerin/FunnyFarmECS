@@ -1,12 +1,9 @@
-﻿using System;
-using Sources.Frameworks.Domain.Interfaces.Entities;
+﻿using Sources.BoundedContexts.UiSelectables.Domain;
 
 namespace Sources.BoundedContexts.CowPens.Domain
 {
-    public class CowPen : IEntity
+    public class CowPen : Selectable
     {
-        public string Id { get; set; }
-        public Type Type => GetType();
         public bool HasGrownUp { get; set; }
         public int PumpkinsCount { get; set; }
         public bool CanGrow { get; set; }

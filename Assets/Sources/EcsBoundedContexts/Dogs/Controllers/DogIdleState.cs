@@ -26,7 +26,7 @@ namespace Sources.EcsBoundedContexts.Dogs.Controllers
 
         public override void Enter(object payload = null)
         {
-            ref DogComponent dog = ref _mainAspect.DogPool.Get(_entity);
+            ref DogComponent dog = ref _mainAspect.Dog.Get(_entity);
             // Debug.Log($"Idle enter");
 
             if (dog.AnimalState == AnimalState.Idle)
@@ -34,7 +34,7 @@ namespace Sources.EcsBoundedContexts.Dogs.Controllers
             
             // Debug.Log($"Idle enter change");
             dog.AnimalState = AnimalState.Idle;
-            ref AnimancerComponent animancer = ref _mainAspect.AnimancerPool.Get(_entity);
+            ref AnimancerComponent animancer = ref _mainAspect.Animancer.Get(_entity);
             animancer.Animancer.Play(_animalConfig.Idle);
         }
 

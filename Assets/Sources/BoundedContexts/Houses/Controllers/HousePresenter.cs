@@ -3,8 +3,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Sources.BoundedContexts.Houses.Domain;
 using Sources.BoundedContexts.Houses.Presentation;
-using Sources.BoundedContexts.Jeeps.Domain;
-using Sources.BoundedContexts.Jeeps.Presentation;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.Frameworks.GameServices.Cameras.Domain;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
@@ -39,13 +37,13 @@ namespace Sources.BoundedContexts.Houses.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            _view.SelectButton.onClickEvent.AddListener(SelectView);
+            _house.Selected += SelectView;
         }
 
         public override void Disable()
         {
             _token.Cancel();
-            _view.SelectButton.onClickEvent.RemoveListener(SelectView);
+            _house.Selected -= SelectView;
         }
 
         private void SelectView() =>

@@ -1,11 +1,8 @@
-﻿using System;
-using Sources.Frameworks.Domain.Interfaces.Entities;
+﻿using Sources.BoundedContexts.UiSelectables.Domain;
 
 namespace Sources.BoundedContexts.Cats.Domain
 {
-    public class Cat : IEntity
+    public class Cat : Selectable
     {
-        public string Id { get; set; }
-        public Type Type => GetType();
     }
 }

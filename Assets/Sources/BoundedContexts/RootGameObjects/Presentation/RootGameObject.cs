@@ -20,51 +20,50 @@ using Sources.BoundedContexts.Trucks.Presentation;
 using Sources.BoundedContexts.Watermills.Presentation;
 using Sources.BoundedContexts.Woodsheds.Presentation;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Sources.BoundedContexts.RootGameObjects.Presentation
 {
     public class RootGameObject : MonoBehaviour
     {
         [FoldoutGroup("FirstLocation")] 
-        [FoldoutGroup("FirstLocation/Patchs")] 
         [Required] [SerializeField] private PumpkinPatchView _pumpkinPatchView;
-        [FoldoutGroup("FirstLocation/Patchs")] 
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private TomatoPatchView _tomatoPatchView;
-        [FoldoutGroup("FirstLocation/Patchs")] 
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private ChickenCorralView _chickenCorralView;
-        [FoldoutGroup("FirstLocation/Patchs")] 
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private OnionPatchView _onionPatchView;
-        [FoldoutGroup("FirstLocation/Patchs")] 
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private CabbagePatchView _cabbagePatchView;
-        [FoldoutGroup("FirstLocation/Tracks")] 
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private JeepView _jeepView;
-        [FoldoutGroup("FirstLocation/Tracks")] 
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private TruckView _truckView;
-        [FoldoutGroup("FirstLocation/Animals")] 
-        [Required] [SerializeField] private DogView _dogView;
-        [FoldoutGroup("FirstLocation/Animals")]
-        [Required] [SerializeField] private List<AnimalMovePoint> _dogMovePoints;
-        [FoldoutGroup("FirstLocation/Animals")]
-        [Required] [SerializeField] private CatView _catView;
-        [FoldoutGroup("FirstLocation/Buildings")]
+        [FoldoutGroup("FirstLocation")] 
+        [Required] [SerializeField] private DogHouseView _dogHouseView;
+        [FoldoutGroup("FirstLocation")] 
+        [Required] [SerializeField] private CatHouseView _catHouseView;
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private HouseView _houseView;
-        [FoldoutGroup("FirstLocation/Buildings")]
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private WoodshedView _woodshedView;
-        [FoldoutGroup("FirstLocation/Buildings")]
+        [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private StableView _stableView;
+        [FoldoutGroup("FirstLocation")] 
+        [Required] [SerializeField] private GameObject _firsLocationRootTrees;
         
         [FoldoutGroup("SecondLocation")]
-        [FoldoutGroup("SecondLocation/Pens")]
         [Required] [SerializeField] private PigPenView _pigPenView;
-        [FoldoutGroup("SecondLocation/Pens")]
+        [FoldoutGroup("SecondLocation")]
         [Required] [SerializeField] private CowPenView _cowPenView;
-        [FoldoutGroup("SecondLocation/Pens")]
+        [FoldoutGroup("SecondLocation")]
         [Required] [SerializeField] private RabbitPenView _rabbitPenView;
-        [FoldoutGroup("SecondLocation/Pens")]
+        [FoldoutGroup("SecondLocation")]
         [Required] [SerializeField] private SheepPenView _sheepPenView;
-        [FoldoutGroup("SecondLocation/Pens")]
+        [FoldoutGroup("SecondLocation")]
         [Required] [SerializeField] private GoosePenView _goosePenView;
-        [FoldoutGroup("SecondLocation/Buildings")]
+        [FoldoutGroup("SecondLocation")]
         [Required] [SerializeField] private WatermillView _watermillView;
         
         //FirstLocation
@@ -75,12 +74,12 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         public CabbagePatchView CabbagePatchView => _cabbagePatchView;
         public JeepView JeepView => _jeepView;
         public TruckView TruckView => _truckView;
-        public DogView DogView => _dogView;
-        public List<AnimalMovePoint> DogMovePoints => _dogMovePoints;
-        public CatView CatView => _catView;
+        public DogHouseView DogHouseView => _dogHouseView;
+        public CatHouseView CatHouseView => _catHouseView;
         public HouseView HouseView => _houseView;
         public WoodshedView WoodshedView => _woodshedView;
         public StableView StableView => _stableView;
+        public GameObject FirstLocationRootTrees => _firsLocationRootTrees;
         
         //SecondLocation
         public PigPenView PigPenView => _pigPenView;

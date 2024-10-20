@@ -34,8 +34,8 @@ namespace Sources.EcsBoundedContexts.Dogs.Infrastructure
         {
             foreach (ProtoEntity entity in _dogIt)
             {
-                ref DogComponent dog = ref _mainAspect.DogPool.Get(entity);
-                ref AnimancerComponent animancer = ref _mainAspect.AnimancerPool.Get(entity);
+                ref DogComponent dog = ref _mainAspect.Dog.Get(entity);
+                ref AnimancerComponent animancer = ref _mainAspect.Animancer.Get(entity);
                 dog.AnimalState = AnimalState.Walk;
                 animancer.Animancer.Play(_animalConfig.Walk);
             }

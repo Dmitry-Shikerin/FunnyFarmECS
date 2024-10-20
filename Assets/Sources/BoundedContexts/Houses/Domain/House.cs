@@ -1,11 +1,8 @@
-﻿using System;
-using Sources.Frameworks.Domain.Interfaces.Entities;
+﻿using Sources.BoundedContexts.UiSelectables.Domain;
 
 namespace Sources.BoundedContexts.Houses.Domain
 {
-    public class House : IEntity
+    public class House : Selectable
     {
-        public string Id { get; set; }
-        public Type Type => GetType();
     }
 }

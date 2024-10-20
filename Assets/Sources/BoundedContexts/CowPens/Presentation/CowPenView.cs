@@ -16,17 +16,11 @@ namespace Sources.BoundedContexts.CowPens.Presentation
     {
         [SerializeField] private List<ItemView> _pumpkins;
         [Required] [SerializeField] private LookAtCamera _lookAtCamera;
-        [Required] [SerializeField] private UIButton _sowButton;
-        [Required] [SerializeField] private UIButton _harvestButton;
-        [Required] [SerializeField] private UIButton _selectableButton;
         [Required] [SerializeField] private ImageView _progressBarr;
         [Required] [SerializeField] private HighlightEffect _highlightEffect;
         
         public IReadOnlyList<ItemView> Pumpkins => _pumpkins;
         public LookAtCamera LookAtCamera => _lookAtCamera;
-        public UIButton SowButton => _sowButton; 
-        public UIButton HarvestButton => _harvestButton;
-        public UIButton SelectableButton => _selectableButton;
         public ImageView ProgressBarr => _progressBarr;
         public HighlightEffect HighlightEffect => _highlightEffect;
         

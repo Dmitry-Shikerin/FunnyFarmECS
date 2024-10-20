@@ -25,13 +25,13 @@ namespace Sources.BoundedContexts.Cats.Infrastructure
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
 
-        public CatView Create(string id, CatView view)
+        public CatHouseView Create(string id, CatHouseView houseView)
         {
-            CatPresenter presenter = new CatPresenter(
-                id, view, _entityRepository, _cameraService, _selectableService);
-            view.Construct(presenter);
+            CatHousePresenter housePresenter = new CatHousePresenter(
+                id, houseView, _entityRepository, _cameraService, _selectableService);
+            houseView.Construct(housePresenter);
             
-            return view;
+            return houseView;
         }
 
     }

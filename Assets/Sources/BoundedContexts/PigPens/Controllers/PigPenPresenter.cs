@@ -45,17 +45,13 @@ namespace Sources.BoundedContexts.PigPens.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            // _view.SowButton.onClickEvent.AddListener(Sow);
-            // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            // _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _pigPen.Selected += SelectView;
         }
 
         public override void Disable()
         {
             _token.Cancel();
-            // _view.SowButton.onClickEvent.RemoveListener(Sow);
-            // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _pigPen.Selected -= SelectView;
         }
 
         private void SelectView() =>

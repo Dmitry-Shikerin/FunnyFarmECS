@@ -1,7 +1,7 @@
 ﻿using System;
 using Leopotam.EcsProto.Unity;
+using Sources.EcsBoundedContexts.Trees.Domain.Types;
 using Sources.MyLeoEcsProto.ComponentContainers.Domain;
-using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.SwingingTrees.Domain.Components
 {
@@ -9,7 +9,8 @@ namespace Sources.EcsBoundedContexts.SwingingTrees.Domain.Components
     [ProtoUnityAuthoring("SwingingTree")]
     public struct SweengingTreeComponent : IComponent
     {
-        public Transform Tree;
+        public TreeType TreeType;
+        public bool EnableYAxisSwingingTree;
         public float SpeedX;
         public float SpeedY;
         public float MaxAngleX;

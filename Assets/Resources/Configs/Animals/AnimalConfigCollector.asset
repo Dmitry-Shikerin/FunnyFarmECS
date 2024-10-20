@@ -29,6 +29,35 @@ MonoBehaviour:
   <Idle>k__BackingField: {fileID: 7400004, guid: 9e19565c3fd1f8340af61f30000249cc, type: 3}
   <Walk>k__BackingField: {fileID: 7400000, guid: 9e19565c3fd1f8340af61f30000249cc, type: 3}
   <Run>k__BackingField: {fileID: 7400002, guid: 9e19565c3fd1f8340af61f30000249cc, type: 3}
+--- !u!114 &-2382846294654458762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba195ac2ea23436abf1cd930f29d18de, type: 3}
+  m_Name: Sheep_AnimalConfig
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _enable: 0
+  _id: Sheep
+  _parent: {fileID: 11400000}
+  <Breathing>k__BackingField: {fileID: 7400006, guid: e3eef2d82e7e6424bbb61b4d7f18a118, type: 3}
+  <Eat>k__BackingField: {fileID: 7400008, guid: e3eef2d82e7e6424bbb61b4d7f18a118, type: 3}
+  <Idle>k__BackingField: {fileID: 7400004, guid: e3eef2d82e7e6424bbb61b4d7f18a118, type: 3}
+  <Walk>k__BackingField: {fileID: 7400000, guid: e3eef2d82e7e6424bbb61b4d7f18a118, type: 3}
+  <Run>k__BackingField: {fileID: 7400002, guid: e3eef2d82e7e6424bbb61b4d7f18a118, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,7 +75,9 @@ MonoBehaviour:
   _configs:
   - {fileID: 4043110922330124832}
   - {fileID: -7412482555746421617}
-  _addedConfigId: Cat
+  - {fileID: -2382846294654458762}
+  - {fileID: 6671073734956999697}
+  _addedConfigId: Chicken
   _removedConfigId: 
 --- !u!114 &4043110922330124832
 MonoBehaviour:
@@ -77,3 +108,32 @@ MonoBehaviour:
   <Idle>k__BackingField: {fileID: 7400004, guid: daa967d758129db46aadc09fc7e4a459, type: 3}
   <Walk>k__BackingField: {fileID: -2058318251996647966, guid: daa967d758129db46aadc09fc7e4a459, type: 3}
   <Run>k__BackingField: {fileID: 7400002, guid: daa967d758129db46aadc09fc7e4a459, type: 3}
+--- !u!114 &6671073734956999697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba195ac2ea23436abf1cd930f29d18de, type: 3}
+  m_Name: Chicken_AnimalConfig
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _enable: 0
+  _id: Chicken
+  _parent: {fileID: 11400000}
+  <Breathing>k__BackingField: {fileID: 7400006, guid: c32601bf5bd9a544198b75d9b71025d0, type: 3}
+  <Eat>k__BackingField: {fileID: 7400008, guid: c32601bf5bd9a544198b75d9b71025d0, type: 3}
+  <Idle>k__BackingField: {fileID: 7400004, guid: c32601bf5bd9a544198b75d9b71025d0, type: 3}
+  <Walk>k__BackingField: {fileID: 7400000, guid: c32601bf5bd9a544198b75d9b71025d0, type: 3}
+  <Run>k__BackingField: {fileID: 7400002, guid: c32601bf5bd9a544198b75d9b71025d0, type: 3}

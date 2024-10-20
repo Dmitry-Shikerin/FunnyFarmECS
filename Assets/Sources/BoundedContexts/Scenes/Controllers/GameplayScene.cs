@@ -114,8 +114,9 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _selectableService.Initialize();
             _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
-            _signalBus.GetStream<TestSignal>()
-                .Subscribe(Test);
+            _signalBus
+                .GetStream<TestSignal>()
+                .Subscribe(Test); 
             // _tutorialService.Initialize();
             _soundyService.PlaySequence(
                 SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
@@ -145,11 +146,11 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _ecsGameStartUp.Update(deltaTime);
             _inputService.Update(deltaTime);
             
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.Log($"Button Pressed");
-                _signalBus.Handle(new TestSignal("Jopa"));
-            }
+            // if (Input.GetMouseButtonDown(0))
+            // {
+            //     Debug.Log($"Button Pressed");
+            //     _signalBus.Handle(new TestSignal("Jopa"));
+            // }
         }
 
         public void UpdateLate(float deltaTime)

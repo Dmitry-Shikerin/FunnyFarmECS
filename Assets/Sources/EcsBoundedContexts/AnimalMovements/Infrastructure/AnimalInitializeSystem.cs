@@ -1,45 +1,34 @@
-﻿using Leopotam.EcsProto;
-using Leopotam.EcsProto.QoL;
-using MyDependencies.Sources.Containers;
-using MyDependencies.Sources.Containers.Extensions;
-using Sources.BoundedContexts.AnimalAnimations.Domain;
-using Sources.EcsBoundedContexts.Animals.Domain;
-using Sources.EcsBoundedContexts.Animancers.Domain;
-using Sources.EcsBoundedContexts.Core;
-using Sources.EcsBoundedContexts.Dogs.Domain;
-using Sources.Frameworks.GameServices.Prefabs.Interfaces;
-using UnityEngine;
+﻿using System;
+using Leopotam.EcsProto;
+using Sources.BoundedContexts.RootGameObjects.Presentation;
+using Sources.EcsBoundedContexts.Animals.Infrastructure;
+using Sources.EcsBoundedContexts.Animals.Presentation;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
     public class AnimalInitializeSystem : IProtoInitSystem
     {
-        [DI] private readonly MainAspect _mainAspect = default;
-        [DI] private readonly ProtoIt _animalIt = 
-            new (It.Inc<AnimalTypeComponent, AnimancerComponent>());
-        private readonly AnimalConfigCollector _configs;
+        private readonly AnimalEntityFactory _animalEntityFactory;
+        private readonly RootGameObject _rootGameObject;
         
-        public AnimalInitializeSystem(DiContainer container)
+        public AnimalInitializeSystem(
+            AnimalEntityFactory animalEntityFactory,
+            RootGameObject rootGameObject)
         {
-            _configs = container
-                .Resolve<IAssetCollector>()
-                .Get<AnimalConfigCollector>();
+            _animalEntityFactory = animalEntityFactory ?? throw new ArgumentNullException(nameof(animalEntityFactory));
+            _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
         }
         
         public void Init(IProtoSystems systems)
         {
-            foreach (ProtoEntity entity in _animalIt)
-            {
-                ref AnimalTypeComponent animalType = ref _mainAspect.AnimalTypePool.Get(entity);
-                ref AnimancerComponent animancer = ref _mainAspect.AnimancerPool.Get(entity);
-                ref AnimalStateComponent state = ref _mainAspect.AnimalStatePool.Get(entity);
-                state.CurrentState = AnimalState.ChangeState;
-                AnimationClip clip = GetClip(animalType.AnimalType);
-                animancer.Animancer.Play(clip);
-            }
+            _animalEntityFactory.Create(_rootGameObject.DogHouseView.AnimalView);
+            _animalEntityFactory.Create(_rootGameObject.CatHouseView.AnimalView);
+
+            foreach (AnimalView sheep in _rootGameObject.SheepPenView.Ships)
+                _animalEntityFactory.Create(sheep);
+
+            foreach (AnimalView chicken in _rootGameObject.ChickenCorralView.Chickens)
+                _animalEntityFactory.Create(chicken);
         }
-        
-        private AnimationClip GetClip(AnimalType animal) =>
-            _configs.GetById(animal.ToString()).Walk;
     }
 }

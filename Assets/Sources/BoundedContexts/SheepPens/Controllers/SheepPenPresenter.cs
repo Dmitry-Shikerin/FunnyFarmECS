@@ -22,7 +22,7 @@ namespace Sources.BoundedContexts.SheepPens.Controllers
 {
     public class SheepPenPresenter : PresenterBase
     {
-        private readonly SheepPen _cowPen;
+        private readonly SheepPen _sheepPen;
         private readonly Inventory _inventory;
         private readonly SheepPenView _view;
         private readonly ICameraService _cameraService;
@@ -37,7 +37,7 @@ namespace Sources.BoundedContexts.SheepPens.Controllers
             ICameraService cameraService,
             ISelectableService selectableService)
         {
-            _cowPen = entityRepository.Get<SheepPen>(id);
+            _sheepPen = entityRepository.Get<SheepPen>(id);
             _inventory = entityRepository.Get<Inventory>(ModelId.Inventory);
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
@@ -47,17 +47,13 @@ namespace Sources.BoundedContexts.SheepPens.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            // _view.SowButton.onClickEvent.AddListener(Sow);
-            // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _sheepPen.Selected += SelectView;
         }
 
         public override void Disable()
         {
             _token.Cancel();
-            // _view.SowButton.onClickEvent.RemoveListener(Sow);
-            // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _sheepPen.Selected -= SelectView;
         }
 
         private void SelectView() =>
@@ -65,10 +61,10 @@ namespace Sources.BoundedContexts.SheepPens.Controllers
 
         private async void Sow()
         {
-            if (_cowPen.CanGrow == false)
+            if (_sheepPen.CanGrow == false)
                 return;
             
-            _cowPen.CanGrow = false;
+            _sheepPen.CanGrow = false;
             SetStartScale();
             _view.ProgressBarr.SetFillAmount(0);
             Show();
@@ -77,14 +73,14 @@ namespace Sources.BoundedContexts.SheepPens.Controllers
 
         private void Harvest()
         {
-            if (_cowPen.HasGrownUp == false)
+            if (_sheepPen.HasGrownUp == false)
                 return;
             
             Hide();
-            _inventory.Add(ModelId.Tomato, _cowPen.PumpkinsCount);
-            _cowPen.CanGrow = true;
-            _cowPen.HasGrownUp = false;
-            _cowPen.PumpkinsCount = 0;
+            _inventory.Add(ModelId.Tomato, _sheepPen.PumpkinsCount);
+            _sheepPen.CanGrow = true;
+            _sheepPen.HasGrownUp = false;
+            _sheepPen.PumpkinsCount = 0;
         }
 
         private async UniTask Grow(CancellationToken token)
@@ -109,9 +105,9 @@ namespace Sources.BoundedContexts.SheepPens.Controllers
                 await UniTask.Yield(token);
             }
 
-            _cowPen.HasGrownUp = true;
+            _sheepPen.HasGrownUp = true;
             //TODO сделать это значение изменямым
-            _cowPen.PumpkinsCount = 3;
+            _sheepPen.PumpkinsCount = 3;
         }
 
         private void Show() =>

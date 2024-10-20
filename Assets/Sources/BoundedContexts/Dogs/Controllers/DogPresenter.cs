@@ -17,7 +17,7 @@ namespace Sources.BoundedContexts.Dogs.Controllers
     public class DogPresenter : PresenterBase
     {
         private readonly Dog _dog;
-        private readonly DogView _view;
+        private readonly DogHouseView _houseView;
         private readonly ICameraService _cameraService;
         private readonly ISelectableService _selectableService;
 
@@ -25,13 +25,13 @@ namespace Sources.BoundedContexts.Dogs.Controllers
 
         public DogPresenter(
             string id, 
-            DogView view, 
+            DogHouseView houseView, 
             IEntityRepository entityRepository,
             ICameraService cameraService,
             ISelectableService selectableService)
         {
             _dog = entityRepository.Get<Dog>(id);
-            _view = view ?? throw new ArgumentNullException(nameof(view));
+            _houseView = houseView ?? throw new ArgumentNullException(nameof(houseView));
             _cameraService = cameraService ?? throw new ArgumentNullException(nameof(cameraService));
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
         }
@@ -39,30 +39,30 @@ namespace Sources.BoundedContexts.Dogs.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            _view.SelectButton.onClickEvent.AddListener(SelectView);
+            _dog.Selected += SelectView;
         }
 
         public override void Disable()
         {
             _token.Cancel();
-            _view.SelectButton.onClickEvent.RemoveListener(SelectView);
+            _dog.Selected -= SelectView;
         }
 
         private void SelectView() =>
-            _selectableService.Select(_view);
+            _selectableService.Select(_houseView);
 
         public async void Select()
         {
             Debug.Log($"Select Jeep");
             _cameraService.ShowCamera(CameraId.Jeep);
-            _view.HighlightEffect.highlighted = true;
+            _houseView.HighlightEffect.highlighted = true;
             await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
-            _view.HighlightEffect.HitFX();
+            _houseView.HighlightEffect.HitFX();
         }
 
         public void Deselect()
         {
-            _view.HighlightEffect.highlighted = false;
+            _houseView.HighlightEffect.highlighted = false;
         }
     }
 }

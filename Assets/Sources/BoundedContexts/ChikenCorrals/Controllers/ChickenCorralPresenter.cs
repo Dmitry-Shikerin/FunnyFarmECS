@@ -47,81 +47,77 @@ namespace Sources.BoundedContexts.ChikenCorrals.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            // _view.SowButton.onClickEvent.AddListener(Sow);
-            // _view.HarvestButton.onClickEvent.AddListener(Harvest);
-            _view.SelectableButton.onClickEvent.AddListener(SelectView);
+            _chickenCorral.Selected += SelectView;
         }
 
         public override void Disable()
         {
             _token.Cancel();
-            // _view.SowButton.onClickEvent.RemoveListener(Sow);
-            // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
-            _view.SelectableButton.onClickEvent.RemoveListener(SelectView);
+            _chickenCorral.Selected -= SelectView;
         }
 
         private void SelectView() =>
             _selectableService.Select(_view);
 
-        private async void Sow()
-        {
-            if (_chickenCorral.CanGrow == false)
-                return;
-            
-            _chickenCorral.CanGrow = false;
-            SetStartScale();
-            _view.ProgressBarr.SetFillAmount(0);
-            Show();
-            await Grow(_token.Token);
-        }
+        // private async void Sow()
+        // {
+        //     if (_chickenCorral.CanGrow == false)
+        //         return;
+        //     
+        //     _chickenCorral.CanGrow = false;
+        //     SetStartScale();
+        //     _view.ProgressBarr.SetFillAmount(0);
+        //     Show();
+        //     await Grow(_token.Token);
+        // }
+        //
+        // private void Harvest()
+        // {
+        //     if (_chickenCorral.HasGrownUp == false)
+        //         return;
+        //     
+        //     Hide();
+        //     _inventory.Add(ModelId.Tomato, _chickenCorral.PumpkinsCount);
+        //     _chickenCorral.CanGrow = true;
+        //     _chickenCorral.HasGrownUp = false;
+        //     _chickenCorral.PumpkinsCount = 0;
+        // }
 
-        private void Harvest()
-        {
-            if (_chickenCorral.HasGrownUp == false)
-                return;
-            
-            Hide();
-            _inventory.Add(ModelId.Tomato, _chickenCorral.PumpkinsCount);
-            _chickenCorral.CanGrow = true;
-            _chickenCorral.HasGrownUp = false;
-            _chickenCorral.PumpkinsCount = 0;
-        }
-
-        private async UniTask Grow(CancellationToken token)
-        {
-            while (_view.Pumpkins.Any(item => item.transform.localScale != item.StartScale))
-            {
-                foreach (ItemView item in _view.Pumpkins)
-                {
-                    item.transform.localScale = Vector3.MoveTowards(
-                        item.transform.localScale, item.StartScale, 0.005f);
-                }
-
-                float filled = _view.Pumpkins[0]
-                    .transform
-                    .localScale
-                    .x.
-                    FloatToPercent(_view.Pumpkins[0].StartScale.x - 0.5f, _view.Pumpkins[0].StartScale.x)
-                    .FloatPercentToUnitPercent();
-                Debug.Log($"{filled}");
-                _view.ProgressBarr.SetFillAmount(filled);
-                
-                await UniTask.Yield(token);
-            }
-
-            _chickenCorral.HasGrownUp = true;
-            //TODO сделать это значение изменямым
-            _chickenCorral.PumpkinsCount = 3;
-        }
-
-        private void Show() =>
-            _view.Pumpkins.ForEach(item => item.Show());
-
-        private void Hide() =>
-            _view.Pumpkins.ForEach(item => item.Hide());
-
-        private void SetStartScale() =>
-            _view.Pumpkins.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
+        // private async UniTask Grow(CancellationToken token)
+        // {
+        //     while (_view.Pumpkins.Any(item => item.transform.localScale != item.StartScale))
+        //     {
+        //         foreach (ItemView item in _view.Pumpkins)
+        //         {
+        //             item.transform.localScale = Vector3.MoveTowards(
+        //                 item.transform.localScale, item.StartScale, 0.005f);
+        //         }
+        //
+        //         float filled = _view.Pumpkins[0]
+        //             .transform
+        //             .localScale
+        //             .x.
+        //             FloatToPercent(_view.Pumpkins[0].StartScale.x - 0.5f, _view.Pumpkins[0].StartScale.x)
+        //             .FloatPercentToUnitPercent();
+        //         Debug.Log($"{filled}");
+        //         _view.ProgressBarr.SetFillAmount(filled);
+        //         
+        //         await UniTask.Yield(token);
+        //     }
+        //
+        //     _chickenCorral.HasGrownUp = true;
+        //     //TODO сделать это значение изменямым
+        //     _chickenCorral.PumpkinsCount = 3;
+        // }
+        //
+        // private void Show() =>
+        //     _view.Pumpkins.ForEach(item => item.Show());
+        //
+        // private void Hide() =>
+        //     _view.Pumpkins.ForEach(item => item.Hide());
+        //
+        // private void SetStartScale() =>
+        //     _view.Pumpkins.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
 
         public async void Select()
         {
