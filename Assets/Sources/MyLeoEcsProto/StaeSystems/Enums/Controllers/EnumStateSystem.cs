@@ -49,7 +49,6 @@ namespace Sources.MyLeoEcsProto.States.Controllers
                 }
                 
                 Update(entity);
-                Debug.Log(state.CurrentState);
                 
                 if (TryChangeState(entity, out TEnumState nextState) == false)
                     continue;

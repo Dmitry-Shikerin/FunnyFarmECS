@@ -5,7 +5,9 @@ using MyDependencies.Sources.Installers;
 using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure;
 using Sources.EcsBoundedContexts.Core;
-using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure;
+using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
+using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Services;
+using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 
 namespace Sources.App.Installers.Gameplay
 {
@@ -32,6 +34,10 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<AnimalIdleSystem>();
 
             //Trees
+            container.Bind<TreeSwingEntityFactory>();
+            container.Bind<TreeSwingService>();
+            
+            container.Bind<TreeSwingInitSystem>();
             container.Bind<TreeSwingerSystem>();
         }
     }

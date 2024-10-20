@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using Sources.EcsBoundedContexts.SwingingTrees.Domain.Configs;
 using UnityEngine;
 using UnityEngine.Serialization;
 

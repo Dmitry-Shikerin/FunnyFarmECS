@@ -2,10 +2,11 @@
 using System.Linq;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
+using Sources.SwingingTrees.Domain.Configs;
 using UnityEditor;
 using UnityEngine;
 
-namespace Sources.SwingingTrees.Domain.Configs
+namespace Sources.EcsBoundedContexts.SwingingTrees.Domain.Configs
 {
     [CreateAssetMenu(
         fileName = "TreeSwingerCollector", 
@@ -16,6 +17,9 @@ namespace Sources.SwingingTrees.Domain.Configs
         [field: SerializeField] public List<TreeSwingerConfig> Configs { get; private set; }
         [PropertySpace(10)]
         [SerializeField] private string _configId;
+        
+        public TreeSwingerConfig GetById(string id) =>
+            Configs.First(config => config.Id == id);
         
 #if UNITY_EDITOR
         public void RemoveConfig(TreeSwingerConfig wave)

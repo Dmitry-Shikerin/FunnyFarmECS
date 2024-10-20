@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.BoundedContexts.Prefabs;
 using Sources.Domain.Models.Constants;
+using Sources.EcsBoundedContexts.SwingingTrees.Domain.Configs;
 using Sources.Frameworks.GameServices.ObjectPools.Implementation.Managers;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces.Composites;
