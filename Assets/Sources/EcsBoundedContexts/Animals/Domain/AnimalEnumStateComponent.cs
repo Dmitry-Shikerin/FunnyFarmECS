@@ -7,7 +7,7 @@ namespace Sources.EcsBoundedContexts.Animals.Domain
 {
     [Serializable]
     [ProtoUnityAuthoring("AnimalState")]
-    public struct AnimalStateComponent : IStateComponent<AnimalState>
+    public struct AnimalEnumStateComponent : IEnumStateComponent<AnimalState>
     {
         public float CurentIdleTime;
         public float TargetIdleTime;

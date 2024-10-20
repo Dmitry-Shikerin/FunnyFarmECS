@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using Sources.MyLeoEcsProto.States.Controllers.Transitions.Interfaces;
-using Sources.MyLeoEcsProto.States.Domain;
-using UnityEngine;
 
-namespace Sources.MyLeoEcsProto.States.Controllers
+namespace Sources.MyLeoEcsProto.StaeSystems.Components
 {
-    public abstract class StateSystem<TEnumState, TComponent> : IProtoInitSystem, IProtoRunSystem, IProtoDestroySystem
-        where TEnumState : Enum
-        where TComponent : struct, IStateComponent<TEnumState>    
+    public abstract class ComponentStateSystem<TComponent> : IProtoInitSystem, IProtoRunSystem, IProtoDestroySystem
+        where TComponent : struct, IStateComponent
     {
-        private readonly List<ITransition<TEnumState>> _transitions = new ();
+        private readonly List<IComponentTransition> _transitions = new ();
 
         protected abstract ProtoIt ProtoIt { get;  }
         protected abstract ProtoPool<TComponent> Pool { get;  }
@@ -20,8 +15,6 @@ namespace Sources.MyLeoEcsProto.States.Controllers
         public virtual void Init(IProtoSystems systems)
         {
         }
-
-        protected abstract bool IsState(ProtoEntity entity);
         
         protected virtual void Enter(ProtoEntity entity)
         {
@@ -38,9 +31,6 @@ namespace Sources.MyLeoEcsProto.States.Controllers
             foreach (ProtoEntity entity in ProtoIt)
             {
                 ref TComponent state = ref Pool.Get(entity);
-
-                if (IsState(entity) == false)
-                    continue;
                 
                 if (state.IsEntered == false)
                 {
@@ -49,32 +39,32 @@ namespace Sources.MyLeoEcsProto.States.Controllers
                 }
                 
                 Update(entity);
-                Debug.Log(state.CurrentState);
                 
-                if (TryChangeState(entity, out TEnumState nextState) == false)
+                if (TryChangeState(entity, out IComponentTransition targetTransition) == false)
                     continue;
                 
                 Exit(entity);
-                state.IsEntered = false;
-                state.CurrentState = nextState;
+                Pool.Del(entity);
+                targetTransition.Transit(entity);
             }
         }
 
-        protected void AddTransition(ITransition<TEnumState> transition) =>
+        protected void AddTransition(IComponentTransition transition) =>
             _transitions.Add(transition);
 
-        private bool TryChangeState(ProtoEntity entity, out TEnumState nextState)
+        private bool TryChangeState(ProtoEntity entity, out IComponentTransition targetTransition)
         {
-            foreach (ITransition<TEnumState> transition in _transitions)
+            foreach (IComponentTransition transition in _transitions)
             {
                 if (transition.CanTransit(entity) == false)
                     continue;
                 
-                nextState = transition.NextState;
+                targetTransition = transition;
+                
                 return true;
             }
 
-            nextState = default;
+            targetTransition = default;
             
             return false;
         }

@@ -12,21 +12,19 @@ namespace Sources.App.Installers.Gameplay
         
         public SystemsCollector(
             ProtoSystems protoSystems,
-            AspectInitializeSystem aspectInitializeSystem,
             AnimalInitializeSystem animalInitializeSystem,
             AnimalRunSystem animalRunSystem,
             AnimalWalkSystem animalWalkSystem,
-            AnimalChangeStateSystem animalChangeStateSystem,
+            AnimalChangeEnumStateSystem animalChangeEnumStateSystem,
             AnimalIdleSystem animalIdleSystem)
         {
             _protoSystems = protoSystems;
             _systems = new IProtoSystem[]
             {
-                 aspectInitializeSystem,
                  animalInitializeSystem,
                  animalRunSystem,
                  animalWalkSystem,
-                 animalChangeStateSystem,
+                 animalChangeEnumStateSystem,
                  animalIdleSystem
             };
         }

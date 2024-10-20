@@ -13,19 +13,19 @@ using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
-    public class AnimalChangeStateSystem : StateSystem<AnimalState, AnimalStateComponent>
+    public class AnimalChangeEnumStateSystem : EnumStateSystem<AnimalState, AnimalEnumStateComponent>
     {
         [DI] private readonly MainAspect _aspect = default;
         [DI] private readonly ProtoIt _animalIt = 
             new (It.Inc<
                 AnimalTypeComponent, 
                 AnimancerComponent, 
-                AnimalStateComponent, 
+                AnimalEnumStateComponent, 
                 MovementPointComponent,
                 NavMeshComponent>());
 
         protected override ProtoIt ProtoIt => _animalIt;
-        protected override ProtoPool<AnimalStateComponent> Pool => _aspect.AnimalState;
+        protected override ProtoPool<AnimalEnumStateComponent> Pool => _aspect.AnimalState;
 
         public override void Init(IProtoSystems systems) =>
             AddTransition(ToRandomStateTransition());

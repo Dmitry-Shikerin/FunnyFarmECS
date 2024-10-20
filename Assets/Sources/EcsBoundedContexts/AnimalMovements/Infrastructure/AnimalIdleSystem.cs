@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
-    public class AnimalIdleSystem : StateSystem<AnimalState, AnimalStateComponent>
+    public class AnimalIdleSystem : EnumStateSystem<AnimalState, AnimalEnumStateComponent>
     {
         private readonly IAssetCollector _assetCollector;
         [DI] private readonly MainAspect _aspect = default;
@@ -27,7 +27,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             new (It.Inc<
                 AnimalTypeComponent, 
                 AnimancerComponent, 
-                AnimalStateComponent, 
+                AnimalEnumStateComponent, 
                 MovementPointComponent,
                 NavMeshComponent>());
         private AnimalConfigCollector _configs;
@@ -38,7 +38,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         }
 
         protected override ProtoIt ProtoIt => _animalIt;
-        protected override ProtoPool<AnimalStateComponent> Pool => _aspect.AnimalState;
+        protected override ProtoPool<AnimalEnumStateComponent> Pool => _aspect.AnimalState;
 
         public override void Init(IProtoSystems systems)
         {
@@ -51,21 +51,21 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 
         protected override void Enter(ProtoEntity entity)
         {
-            ref AnimalStateComponent state = ref _aspect.AnimalState.Get(entity);
+            ref AnimalEnumStateComponent enumState = ref _aspect.AnimalState.Get(entity);
             AnimalTypeComponent animalType = _aspect.AnimalType.Get(entity);
             AnimancerComponent animancer = _aspect.Animancer.Get(entity);
             
             AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Idle;
             animancer.Animancer.Play(clip);
-            state.TargetIdleTime = 5f;
-            state.CurentIdleTime = 0;
+            enumState.TargetIdleTime = 5f;
+            enumState.CurentIdleTime = 0;
         }
 
         protected override void Update(ProtoEntity entity)
         {
-            ref AnimalStateComponent state = ref _aspect.AnimalState.Get(entity);
+            ref AnimalEnumStateComponent enumState = ref _aspect.AnimalState.Get(entity);
             
-            state.CurentIdleTime += Time.deltaTime;
+            enumState.CurentIdleTime += Time.deltaTime;
         }
 
         private Transition<AnimalState> ToChangeTransition()
@@ -74,9 +74,9 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 AnimalState.ChangeState,
                 entity =>
                 {
-                    AnimalStateComponent state = _aspect.AnimalState.Get(entity);
+                    AnimalEnumStateComponent enumState = _aspect.AnimalState.Get(entity);
 
-                    return state.CurentIdleTime >= state.TargetIdleTime;
+                    return enumState.CurentIdleTime >= enumState.TargetIdleTime;
                 });
         }
     }

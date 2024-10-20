@@ -2,7 +2,7 @@
 
 namespace Sources.MyLeoEcsProto.States.Domain
 {
-    public interface IStateComponent<TEnumState>
+    public interface IEnumStateComponent<TEnumState>
         where TEnumState : Enum
     {
         TEnumState CurrentState { get; set; }

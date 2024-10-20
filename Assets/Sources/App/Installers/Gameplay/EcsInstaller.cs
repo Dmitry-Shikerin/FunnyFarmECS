@@ -21,9 +21,6 @@ namespace Sources.App.Installers.Gameplay
             container.Bind(aspect);
             container.Bind(systems);
             container.Bind<SystemsCollector>();
-
-            //Aspect
-            container.Bind<AspectInitializeSystem>();
             
             //Animals
             container.Bind<AnimalEntityFactory>();
@@ -31,7 +28,7 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<AnimalInitializeSystem>();
             container.Bind<AnimalRunSystem>();
             container.Bind<AnimalWalkSystem>();
-            container.Bind<AnimalChangeStateSystem>();
+            container.Bind<AnimalChangeEnumStateSystem>();
             container.Bind<AnimalIdleSystem>();
 
             //Trees

@@ -6,6 +6,7 @@ using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.EntityLinks.Domain;
+using Sources.EcsBoundedContexts.GameObjects;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Transforms;
@@ -26,10 +27,12 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
 
         public ProtoEntity Create(AnimalView view)
         {
-            ref AnimalStateComponent state = ref _aspect.AnimalState.NewEntity(out ProtoEntity entity);
-            state.CurrentState = AnimalState.ChangeState;
+            ref AnimalEnumStateComponent enumState = ref _aspect.AnimalState.NewEntity(out ProtoEntity entity);
+            enumState.CurrentState = AnimalState.ChangeState;
             view.EntityLink.Construct(entity, _aspect, _world);
             
+            ref GameObjectComponent gameObject = ref _aspect.GameObject.Add(entity);
+            gameObject.GameObject = view.gameObject;
             ref EntityLinkComponent entityLink = ref _aspect.EntityLink.Add(entity);
             entityLink.EntityLink = view.EntityLink;
             entityLink.EntityId = entity.GetHashCode();

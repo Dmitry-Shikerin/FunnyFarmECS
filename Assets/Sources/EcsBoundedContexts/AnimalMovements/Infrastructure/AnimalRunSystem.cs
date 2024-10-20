@@ -19,7 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 {
-    public class AnimalRunSystem : StateSystem<AnimalState, AnimalStateComponent>
+    public class AnimalRunSystem : EnumStateSystem<AnimalState, AnimalEnumStateComponent>
     {
         private readonly IAssetCollector _collector;
         [DI] private readonly MainAspect _aspect = default;
@@ -28,7 +28,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             new(It.Inc<
                 AnimalTypeComponent,
                 AnimancerComponent,
-                AnimalStateComponent,
+                AnimalEnumStateComponent,
                 MovementPointComponent,
                 NavMeshComponent,
                 TransformComponent>());
@@ -45,7 +45,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         }
 
         protected override ProtoIt ProtoIt => _animalIt;
-        protected override ProtoPool<AnimalStateComponent> Pool => _aspect.AnimalState;
+        protected override ProtoPool<AnimalEnumStateComponent> Pool => _aspect.AnimalState;
 
         public override void Init(IProtoSystems systems)
         {
