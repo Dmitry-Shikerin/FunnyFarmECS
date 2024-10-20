@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
 using Sources.BoundedContexts.Abilities.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.CabbagePatches.Infrastructure;
 using Sources.BoundedContexts.Cats.Infrastructure;
@@ -26,7 +23,6 @@ using Sources.BoundedContexts.Stables.Implementation;
 using Sources.BoundedContexts.TomatoPatchs.Infrastructure;
 using Sources.BoundedContexts.Trucks.Infrastructure;
 using Sources.BoundedContexts.UiSelectables.Infrastructure;
-using Sources.BoundedContexts.UiSelectables.Presentation;
 using Sources.BoundedContexts.Upgrades.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.Watermills.Infrastructure;
 using Sources.BoundedContexts.Woodsheds.Infrastructure;
@@ -37,9 +33,6 @@ using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Domain.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Views.Interfaces;
 using Sources.Frameworks.GameServices.Volumes.Infrastucture.Factories;
-using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
-using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
-using Sources.Frameworks.UiFramework.Collectors;
 
 namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implementation
 {
@@ -209,9 +202,9 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implemen
             _uiSelectableViewFactory.Create(ModelId.Dog, _gameplayHud.DogView);
             _selectableService.Add(_rootGameObject.DogHouseView);
             
-            _catViewFactory.Create(ModelId.Cat, _rootGameObject.CatView);
+            _catViewFactory.Create(ModelId.Cat, _rootGameObject.CatHouseView);
             _uiSelectableViewFactory.Create(ModelId.Cat, _gameplayHud.CatView);
-            _selectableService.Add(_rootGameObject.CatView);
+            _selectableService.Add(_rootGameObject.CatHouseView);
 
             _houseViewFactory.Create(ModelId.House, _rootGameObject.HouseView);
             _uiSelectableViewFactory.Create(ModelId.House, _gameplayHud.HouseView);

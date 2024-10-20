@@ -1,17 +1,13 @@
 ﻿using System;
 using Leopotam.EcsProto;
-using Leopotam.EcsProto.QoL;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
-using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Trees.Presentation;
-using Sources.Trees.Components;
 
 namespace Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems
 {
     public class TreeSwingInitSystem : IProtoInitSystem
     {
-        [DI] private readonly ProtoIt _swingingTreeInc = new (It.Inc<TreeTag, SweengingTreeComponent>());
         private readonly TreeSwingEntityFactory _entityFactory;
         private readonly RootGameObject _rootGameObject;
 

@@ -2,10 +2,12 @@
 using Doozy.Runtime.UIManager.Components;
 using HighlightPlus;
 using Sirenix.OdinInspector;
+using Sources.BoundedContexts.AnimalMovePoints;
 using Sources.BoundedContexts.Cameras.Presentation;
 using Sources.BoundedContexts.Items.Presentation;
 using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.BoundedContexts.SheepPens.Controllers;
+using Sources.EcsBoundedContexts.Animals.Presentation;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Images;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views;
 using UnityEngine;
@@ -16,17 +18,15 @@ namespace Sources.BoundedContexts.SheepPens.Presentation
     {
         [SerializeField] private List<ItemView> _pumpkins;
         [Required] [SerializeField] private LookAtCamera _lookAtCamera;
-        [Required] [SerializeField] private UIButton _sowButton;
-        [Required] [SerializeField] private UIButton _harvestButton;
-        [Required] [SerializeField] private UIButton _selectableButton;
         [Required] [SerializeField] private ImageView _progressBarr;
         [Required] [SerializeField] private HighlightEffect _highlightEffect;
+        [SerializeField] private List<AnimalView> _ships;
+        [SerializeField] private List<AnimalMovePoint> _points;
         
+        public IReadOnlyList<AnimalMovePoint> Points => _points;
+        public IReadOnlyList<AnimalView> Ships => _ships;
         public IReadOnlyList<ItemView> Pumpkins => _pumpkins;
         public LookAtCamera LookAtCamera => _lookAtCamera;
-        public UIButton SowButton => _sowButton; 
-        public UIButton HarvestButton => _harvestButton;
-        public UIButton SelectableButton => _selectableButton;
         public ImageView ProgressBarr => _progressBarr;
         public HighlightEffect HighlightEffect => _highlightEffect;
         

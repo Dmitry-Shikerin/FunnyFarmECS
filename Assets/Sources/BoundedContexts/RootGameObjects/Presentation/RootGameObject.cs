@@ -20,6 +20,7 @@ using Sources.BoundedContexts.Trucks.Presentation;
 using Sources.BoundedContexts.Watermills.Presentation;
 using Sources.BoundedContexts.Woodsheds.Presentation;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Sources.BoundedContexts.RootGameObjects.Presentation
 {
@@ -42,9 +43,7 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private DogHouseView _dogHouseView;
         [FoldoutGroup("FirstLocation")] 
-        [Required] [SerializeField] private List<AnimalMovePoint> _dogMovePoints;
-        [FoldoutGroup("FirstLocation")] 
-        [Required] [SerializeField] private CatView _catView;
+        [Required] [SerializeField] private CatHouseView _catHouseView;
         [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private HouseView _houseView;
         [FoldoutGroup("FirstLocation")] 
@@ -76,8 +75,7 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         public JeepView JeepView => _jeepView;
         public TruckView TruckView => _truckView;
         public DogHouseView DogHouseView => _dogHouseView;
-        public List<AnimalMovePoint> DogMovePoints => _dogMovePoints;
-        public CatView CatView => _catView;
+        public CatHouseView CatHouseView => _catHouseView;
         public HouseView HouseView => _houseView;
         public WoodshedView WoodshedView => _woodshedView;
         public StableView StableView => _stableView;

@@ -1,93 +1,242 @@
 fileFormatVersion: 2
 guid: e3eef2d82e7e6424bbb61b4d7f18a118
-timeCreated: 1507555829
-licenseType: Pro
 ModelImporter:
-  serializedVersion: 21
-  fileIDToRecycleName:
-    100000: backAnkle_L
-    100002: backAnkle_R
-    100004: backHip_L
-    100006: backHip_R
-    100008: backKnee_L
-    100010: backKnee_R
-    100012: backRump_L
-    100014: backRump_R
-    100016: backToes_L
-    100018: backToes_R
-    100020: backToesEnd_L
-    100022: backToesEnd_R
-    100024: Chest_M
-    100026: frontAnkle_L
-    100028: frontAnkle_R
-    100030: frontHip_L
-    100032: frontHip_R
-    100034: frontKnee_L
-    100036: frontKnee_R
-    100038: frontRump_L
-    100040: frontRump_R
-    100042: frontToes_L
-    100044: frontToes_R
-    100046: frontToesEnd_L
-    100048: frontToesEnd_R
-    100050: Group
-    100052: Head_M
-    100054: HeadEnd_M
-    100056: Neck_M
-    100058: Root_M
-    100060: Sheep
-    100062: //RootNode
-    100064: Spine1_M
-    400000: backAnkle_L
-    400002: backAnkle_R
-    400004: backHip_L
-    400006: backHip_R
-    400008: backKnee_L
-    400010: backKnee_R
-    400012: backRump_L
-    400014: backRump_R
-    400016: backToes_L
-    400018: backToes_R
-    400020: backToesEnd_L
-    400022: backToesEnd_R
-    400024: Chest_M
-    400026: frontAnkle_L
-    400028: frontAnkle_R
-    400030: frontHip_L
-    400032: frontHip_R
-    400034: frontKnee_L
-    400036: frontKnee_R
-    400038: frontRump_L
-    400040: frontRump_R
-    400042: frontToes_L
-    400044: frontToes_R
-    400046: frontToesEnd_L
-    400048: frontToesEnd_R
-    400050: Group
-    400052: Head_M
-    400054: HeadEnd_M
-    400056: Neck_M
-    400058: Root_M
-    400060: Sheep
-    400062: //RootNode
-    400064: Spine1_M
-    4300000: Sheep
-    7400000: SheepWalk
-    7400002: SheepRun
-    7400004: SheepIdle
-    7400006: SheepBreathing
-    7400008: SheepEat
-    9500000: //RootNode
-    13700000: Sheep
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: backAnkle_L
+  - first:
+      1: 100002
+    second: backAnkle_R
+  - first:
+      1: 100004
+    second: backHip_L
+  - first:
+      1: 100006
+    second: backHip_R
+  - first:
+      1: 100008
+    second: backKnee_L
+  - first:
+      1: 100010
+    second: backKnee_R
+  - first:
+      1: 100012
+    second: backRump_L
+  - first:
+      1: 100014
+    second: backRump_R
+  - first:
+      1: 100016
+    second: backToes_L
+  - first:
+      1: 100018
+    second: backToes_R
+  - first:
+      1: 100020
+    second: backToesEnd_L
+  - first:
+      1: 100022
+    second: backToesEnd_R
+  - first:
+      1: 100024
+    second: Chest_M
+  - first:
+      1: 100026
+    second: frontAnkle_L
+  - first:
+      1: 100028
+    second: frontAnkle_R
+  - first:
+      1: 100030
+    second: frontHip_L
+  - first:
+      1: 100032
+    second: frontHip_R
+  - first:
+      1: 100034
+    second: frontKnee_L
+  - first:
+      1: 100036
+    second: frontKnee_R
+  - first:
+      1: 100038
+    second: frontRump_L
+  - first:
+      1: 100040
+    second: frontRump_R
+  - first:
+      1: 100042
+    second: frontToes_L
+  - first:
+      1: 100044
+    second: frontToes_R
+  - first:
+      1: 100046
+    second: frontToesEnd_L
+  - first:
+      1: 100048
+    second: frontToesEnd_R
+  - first:
+      1: 100050
+    second: Group
+  - first:
+      1: 100052
+    second: Head_M
+  - first:
+      1: 100054
+    second: HeadEnd_M
+  - first:
+      1: 100056
+    second: Neck_M
+  - first:
+      1: 100058
+    second: Root_M
+  - first:
+      1: 100060
+    second: Sheep
+  - first:
+      1: 100062
+    second: //RootNode
+  - first:
+      1: 100064
+    second: Spine1_M
+  - first:
+      4: 400000
+    second: backAnkle_L
+  - first:
+      4: 400002
+    second: backAnkle_R
+  - first:
+      4: 400004
+    second: backHip_L
+  - first:
+      4: 400006
+    second: backHip_R
+  - first:
+      4: 400008
+    second: backKnee_L
+  - first:
+      4: 400010
+    second: backKnee_R
+  - first:
+      4: 400012
+    second: backRump_L
+  - first:
+      4: 400014
+    second: backRump_R
+  - first:
+      4: 400016
+    second: backToes_L
+  - first:
+      4: 400018
+    second: backToes_R
+  - first:
+      4: 400020
+    second: backToesEnd_L
+  - first:
+      4: 400022
+    second: backToesEnd_R
+  - first:
+      4: 400024
+    second: Chest_M
+  - first:
+      4: 400026
+    second: frontAnkle_L
+  - first:
+      4: 400028
+    second: frontAnkle_R
+  - first:
+      4: 400030
+    second: frontHip_L
+  - first:
+      4: 400032
+    second: frontHip_R
+  - first:
+      4: 400034
+    second: frontKnee_L
+  - first:
+      4: 400036
+    second: frontKnee_R
+  - first:
+      4: 400038
+    second: frontRump_L
+  - first:
+      4: 400040
+    second: frontRump_R
+  - first:
+      4: 400042
+    second: frontToes_L
+  - first:
+      4: 400044
+    second: frontToes_R
+  - first:
+      4: 400046
+    second: frontToesEnd_L
+  - first:
+      4: 400048
+    second: frontToesEnd_R
+  - first:
+      4: 400050
+    second: Group
+  - first:
+      4: 400052
+    second: Head_M
+  - first:
+      4: 400054
+    second: HeadEnd_M
+  - first:
+      4: 400056
+    second: Neck_M
+  - first:
+      4: 400058
+    second: Root_M
+  - first:
+      4: 400060
+    second: Sheep
+  - first:
+      4: 400062
+    second: //RootNode
+  - first:
+      4: 400064
+    second: Spine1_M
+  - first:
+      43: 4300000
+    second: Sheep
+  - first:
+      74: 7400000
+    second: SheepWalk
+  - first:
+      74: 7400002
+    second: SheepRun
+  - first:
+      74: 7400004
+    second: SheepIdle
+  - first:
+      74: 7400006
+    second: SheepBreathing
+  - first:
+      74: 7400008
+    second: SheepEat
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Sheep
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -95,6 +244,8 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -102,37 +253,201 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: SheepWalk
+      takeName: SheepWalk
+      internalID: 7400000
+      firstFrame: 0
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: SheepRun
+      takeName: SheepRun
+      internalID: 7400002
+      firstFrame: 39
+      lastFrame: 54
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 39
+    - serializedVersion: 16
+      name: SheepIdle
+      takeName: SheepIdle
+      internalID: 7400004
+      firstFrame: 59
+      lastFrame: 208
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 59
+    - serializedVersion: 16
+      name: SheepBreathing
+      takeName: SheepBreathing
+      internalID: 7400006
+      firstFrame: 219
+      lastFrame: 268
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 219
+    - serializedVersion: 16
+      name: SheepEat
+      takeName: SheepEat
+      internalID: 7400008
+      firstFrame: 287
+      lastFrame: 548
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 287
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -142,14 +457,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

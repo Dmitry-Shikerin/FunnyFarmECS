@@ -45,8 +45,6 @@ namespace Sources.BoundedContexts.CabbagePatches.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            // _view.SowButton.onClickEvent.AddListener(Sow);
-            // _view.HarvestButton.onClickEvent.AddListener(Harvest);
             _cabbagePatch.Selected += SelectView;
         }
 
@@ -56,8 +54,6 @@ namespace Sources.BoundedContexts.CabbagePatches.Controllers
         public override void Disable()
         {
             _token.Cancel();
-            // _view.SowButton.onClickEvent.RemoveListener(Sow);
-            // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
             _cabbagePatch.Selected -= SelectView;
         }
 

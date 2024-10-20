@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
 using Sirenix.Utilities;
 using Sources.BoundedContexts.Inventories.Domain;
 using Sources.BoundedContexts.Items.Presentation;
@@ -46,8 +45,6 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
         public override void Enable()
         {
             _token = new CancellationTokenSource();
-            // _view.SowButton.onClickEvent.AddListener(Sow);
-            // _view.HarvestButton.onClickEvent.AddListener(Harvest);
             _pumpkinPatch.Selected += SelectView;
         }
 
@@ -60,8 +57,6 @@ namespace Sources.BoundedContexts.PumpkinsPatchs.Controllers
         public override void Disable()
         {
             _token.Cancel();
-            // _view.SowButton.onClickEvent.RemoveListener(Sow);
-            // _view.HarvestButton.onClickEvent.RemoveListener(Harvest);
             _pumpkinPatch.Selected -= SelectView;
         }
 
