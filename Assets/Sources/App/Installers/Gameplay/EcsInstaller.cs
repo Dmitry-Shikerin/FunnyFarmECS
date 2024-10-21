@@ -8,6 +8,9 @@ using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Services;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
 
 namespace Sources.App.Installers.Gameplay
 {
@@ -22,7 +25,11 @@ namespace Sources.App.Installers.Gameplay
             container.Bind(world);
             container.Bind(aspect);
             container.Bind(systems);
+            container.Bind<IEventBuffer, EventBuffer>();
             container.Bind<SystemsCollector>();
+            
+            //Test
+            container.Bind<TestEventSystem>();
             
             //Animals
             container.Bind<AnimalEntityFactory>();

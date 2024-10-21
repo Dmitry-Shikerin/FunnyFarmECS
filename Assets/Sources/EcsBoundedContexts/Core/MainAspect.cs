@@ -11,6 +11,9 @@ using Sources.EcsBoundedContexts.GameObjects;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
+using Sources.Frameworks.MyLeoEcsProto.CommandBuffers;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Transforms;
 using Sources.Trees.Components;
 
@@ -18,6 +21,8 @@ namespace Sources.EcsBoundedContexts.Core
 {
     public class MainAspect : ProtoAspectInject
     {
+        public readonly ProtoPool<TestEvent> TestEvent = new ();
+        public readonly ProtoPool<EventBufferTag> EventBuffer = new ();
         public readonly ProtoPool<TreeTag> Tree = new ();
         public readonly ProtoPool<JumpEvent> JumpEvent = new ();
         public readonly ProtoPool<SweengingTreeComponent> TreeSwinger = new ();

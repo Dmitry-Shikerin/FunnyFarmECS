@@ -21,6 +21,8 @@ using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
 using Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Infrastructure.Services.Implementation;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Focuses.Interfaces;
@@ -49,6 +51,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
         private readonly ISelectableService _selectableService;
         private readonly IInputServiceUpdater _inputService;
         private readonly ISignalBus _signalBus;
+        private readonly IEventBuffer _eventBuffer;
 
         public GameplaySceneFactory(
             RootGameObject rootGameObject,
@@ -70,7 +73,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             IUpdateService updateService,
             ISelectableService selectableService,
             IInputServiceUpdater inputService,
-            ISignalBus signalBus)
+            ISignalBus signalBus,
+            IEventBuffer eventBuffer)
         {
             _rootGameObject = rootGameObject ?? throw new ArgumentNullException(nameof(rootGameObject));
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
@@ -96,6 +100,7 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
             _signalBus = signalBus ?? throw new ArgumentNullException(nameof(signalBus));
+            _eventBuffer = eventBuffer;
         }
 
         public UniTask<IScene> Create(object payload)
@@ -120,7 +125,8 @@ namespace Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Im
                 _updateService,
                 _selectableService,
                 _inputService,
-                _signalBus);
+                _signalBus,
+                _eventBuffer);
 
             return UniTask.FromResult(gameplayScene);
         }
