@@ -2,6 +2,7 @@
 using Leopotam.EcsProto;
 using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 
 namespace Sources.EcsBoundedContexts.Core
 {
@@ -18,7 +19,8 @@ namespace Sources.EcsBoundedContexts.Core
             AnimalChangeEnumStateSystem animalChangeEnumStateSystem,
             AnimalIdleSystem animalIdleSystem,
             TreeSwingInitSystem treeSwingInitSystem,
-            TreeSwingerSystem treeSwingerSystem)
+            TreeSwingerSystem treeSwingerSystem,
+            TestEventSystem testEventSystem)
         {
             _protoSystems = protoSystems;
             _systems = new IProtoSystem[]
@@ -29,7 +31,8 @@ namespace Sources.EcsBoundedContexts.Core
                  animalChangeEnumStateSystem,
                  animalIdleSystem,
                  treeSwingInitSystem,
-                 treeSwingerSystem
+                 treeSwingerSystem,
+                 testEventSystem,
             };
         }
 

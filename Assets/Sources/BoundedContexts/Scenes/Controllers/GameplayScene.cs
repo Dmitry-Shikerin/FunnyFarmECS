@@ -20,6 +20,9 @@ using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
 using Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Infrastructure.Services.Implementation;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
+using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
 using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Focuses.Interfaces;
@@ -48,6 +51,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly ISelectableService _selectableService;
         private readonly IInputServiceUpdater _inputService;
         private readonly ISignalBus _signalBus;
+        private readonly IEventBuffer _eventBuffer;
 
         public GameplayScene(
             RootGameObject rootGameObject,
@@ -69,7 +73,8 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             IUpdateService updateService,
             ISelectableService selectableService,
             IInputServiceUpdater inputService,
-            ISignalBus signalBus)
+            ISignalBus signalBus,
+            IEventBuffer eventBuffer)
         {
             _saveAfterWaveService = saveAfterWaveService ?? throw new ArgumentNullException(nameof(saveAfterWaveService));
             _compositeAssetService = compositeAssetService ?? throw new ArgumentNullException(nameof(compositeAssetService));
@@ -95,6 +100,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _selectableService = selectableService ?? throw new ArgumentNullException(nameof(selectableService));
             _inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
             _signalBus = signalBus ?? throw new ArgumentNullException(nameof(signalBus));
+            _eventBuffer = eventBuffer;
         }
 
         public async void Enter(object payload = null)
@@ -118,15 +124,15 @@ namespace Sources.BoundedContexts.Scenes.Controllers
                 .GetStream<TestSignal>()
                 .Subscribe(Test); 
             // _tutorialService.Initialize();
-            _soundyService.PlaySequence(
-                SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
+            // _soundyService.PlaySequence(
+            //     SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
         }
 
         public void Exit()
         {
             _signalControllersCollector.Destroy();
-            _soundyService.StopSequence(
-                SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
+            // _soundyService.StopSequence(
+            //     SoundyDBConst.BackgroundMusicDB, SoundyDBConst.GameplaySound);
             _soundyService.Destroy();
             _skyAndWeatherService.Destroy();
             //_achievementService.Destroy();
@@ -148,8 +154,7 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             
             // if (Input.GetMouseButtonDown(0))
             // {
-            //     Debug.Log($"Button Pressed");
-            //     _signalBus.Handle(new TestSignal("Jopa"));
+            //     _eventBuffer.Send(new TestEvent());
             // }
         }
 
