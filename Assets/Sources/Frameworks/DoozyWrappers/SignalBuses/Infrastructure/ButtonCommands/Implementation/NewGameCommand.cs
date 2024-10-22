@@ -13,7 +13,7 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonComm
     {
         private readonly IStorageService _storageService;
         private readonly ISceneService _sceneService;
-        private readonly IFormService _formService;
+        //private readonly IFormService _formService;
 
         public NewGameCommand(
             IStorageService storageService,

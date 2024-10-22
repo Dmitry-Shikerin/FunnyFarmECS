@@ -8,14 +8,14 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonComm
 {
     public class PlayerAccountAuthorizeButtonCommand : IButtonCommand
     {
-        private readonly IFormService _formService;
+        //private readonly IFormService _formService;
         private readonly IPlayerAccountAuthorizeService _playerAccountAuthorizeService;
 
         public PlayerAccountAuthorizeButtonCommand(
-            IFormService formService,
+            //IFormService formService,
             IPlayerAccountAuthorizeService playerAccountAuthorizeService)
         {
-            _formService = formService ?? throw new ArgumentNullException(nameof(formService));
+            //_formService = formService ?? throw new ArgumentNullException(nameof(formService));
             _playerAccountAuthorizeService = playerAccountAuthorizeService ??
                                              throw new ArgumentNullException(nameof(playerAccountAuthorizeService));
         }
