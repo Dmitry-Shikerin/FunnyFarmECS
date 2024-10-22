@@ -5,7 +5,6 @@ using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Services.Interfaces;
-using Sources.Frameworks.UiFramework.Core.Services.Forms.Interfaces;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands.Implementation
 {
@@ -13,7 +12,6 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonComm
     {
         private readonly IStorageService _storageService;
         private readonly ISceneService _sceneService;
-        private readonly IFormService _formService;
 
         public NewGameCommand(
             IStorageService storageService,

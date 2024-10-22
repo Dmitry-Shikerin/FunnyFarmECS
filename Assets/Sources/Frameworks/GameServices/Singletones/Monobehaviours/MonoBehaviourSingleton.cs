@@ -2,7 +2,7 @@
 
 namespace Sources.Frameworks.GameServices.Singletones.Monobehaviours
 {
-    public class MonoBehaviourSingleton<T> : MonoBehaviour
+    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour
         where T : MonoBehaviour
     {
         private static T s_instance;
@@ -12,7 +12,7 @@ namespace Sources.Frameworks.GameServices.Singletones.Monobehaviours
             get
             {
                 if (s_instance == null)
-                    s_instance = (T)FindObjectOfType(typeof(T));
+                    s_instance = FindObjectOfType<T>();
 
                 if (s_instance == null)
                     s_instance = new GameObject(typeof(T).Name).AddComponent<T>();

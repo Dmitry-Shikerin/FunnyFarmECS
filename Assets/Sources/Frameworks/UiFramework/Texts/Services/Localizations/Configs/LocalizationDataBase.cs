@@ -6,6 +6,7 @@ using Sources.Domain.Models.Constants;
 using Sources.Frameworks.UiFramework.Core.Domain.Constants;
 using Sources.Frameworks.UiFramework.Core.Presentation.CommonTypes;
 using Sources.Frameworks.UiFramework.Texts.Services.Localizations.Phrases;
+using Sources.Frameworks.UiFramework.Views.Presentations.Implementation.Types;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,7 +21,8 @@ namespace Sources.Frameworks.UiFramework.Texts.Services.Localizations.Configs
         [SerializeField] private List<LocalizationPhrase> _phrases;
         [TabGroup("GetId", "DataBase")] [Space(10)] 
         [SerializeField] private List<LocalizationScope> _scopes;
-        
+        [Space(10)]
+        [SerializeField] private Localization _localization;
         [TabGroup("GetId", "CreatePhrase")] 
         [EnumToggleButtons] [Space(10)] [LabelText("TextId")]
         [SerializeField] private Enable _enableTextId;
@@ -76,8 +78,12 @@ namespace Sources.Frameworks.UiFramework.Texts.Services.Localizations.Configs
             }
         }
 
-        public List<LocalizationPhrase> Phrases => _phrases;
-        
+        public Localization Localization => _localization;
+        public IReadOnlyList<LocalizationPhrase> Phrases => _phrases;
+
+        public IReadOnlyDictionary<string, LocalizationPhrase> Get() =>
+            _phrases.ToDictionary(phrase => phrase.LocalizationId, phrase => phrase);
+
         public void RemovePhrase(LocalizationPhrase phrase)
         {
 #if UNITY_EDITOR

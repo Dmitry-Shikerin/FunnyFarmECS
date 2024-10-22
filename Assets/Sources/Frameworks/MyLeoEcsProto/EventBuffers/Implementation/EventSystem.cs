@@ -10,8 +10,6 @@ namespace Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation
         protected abstract ProtoPool<T> Pool { get; }
         protected abstract ProtoIt Iterator { get; }
 
-        protected abstract void Receive(ref T @event);
-
         public void Run()
         {
             foreach (ProtoEntity entity in Iterator)
@@ -22,5 +20,7 @@ namespace Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation
                 Pool.Del(entity);
             }
         }
+
+        protected abstract void Receive(ref T @event);
     }
 }

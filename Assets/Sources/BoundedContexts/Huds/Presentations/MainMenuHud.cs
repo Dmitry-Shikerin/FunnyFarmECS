@@ -1,18 +1,15 @@
 ﻿using System.Collections.Generic;
 using Doozy.Runtime.UIManager.Components;
 using Sirenix.OdinInspector;
-using Sources.BoundedContexts.HealthBoosters.Views;
 using Sources.Frameworks.GameServices.DailyRewards.Presentation;
 using Sources.Frameworks.GameServices.Volumes.Presentations;
-using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Huds;
 using Sources.Frameworks.MyGameCreator.Achievements.Presentation;
-using Sources.Frameworks.UiFramework.Views.Presentations.Implementation;
 using Sources.Frameworks.YandexSdkFramework.Leaderboards.Presentations.Implementation.Views;
 using UnityEngine;
 
 namespace Sources.BoundedContexts.Huds.Presentations
 {
-    public class MainMenuHud : MonoBehaviour, IHud
+    public class MainMenuHud : MonoBehaviour
     {
         [FoldoutGroup("Leaderboard")]
         [SerializeField] private List<LeaderBoardElementView> _leaderBoardElementViews;
@@ -20,8 +17,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         [SerializeField] private VolumeView _musicVolumeView;
         [FoldoutGroup("Volumes")]
         [SerializeField] private VolumeView _soundVolumeView;
-        [FoldoutGroup("Collectors")]
-        [SerializeField] private UiCollector _uiCollector;
         [FoldoutGroup("Rewards")]
         [Required] [SerializeField] private DailyRewardView _dailyRewardView;
 
@@ -38,7 +33,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         public AchievementView EmptyAchievementView => _emptyAchievementView;
         public VolumeView MusicVolumeView => _musicVolumeView;
         public VolumeView SoundVolumeView => _soundVolumeView;
-        public UiCollector UiCollector => _uiCollector;
         public DailyRewardView DailyRewardView => _dailyRewardView;
         public UIButton LoadGameButton => _loadGameButton;
     }

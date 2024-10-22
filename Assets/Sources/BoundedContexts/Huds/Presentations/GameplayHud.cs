@@ -1,17 +1,12 @@
 ﻿using Sirenix.OdinInspector;
 using Sources.BoundedContexts.UiSelectables.Presentation;
 using Sources.Frameworks.GameServices.Volumes.Presentations;
-using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Huds;
-using Sources.Frameworks.UiFramework.Views.Presentations.Implementation;
 using UnityEngine;
 
 namespace Sources.BoundedContexts.Huds.Presentations
 {
-    public class GameplayHud : MonoBehaviour, IHud
+    public class GameplayHud : MonoBehaviour
     {
-        [FoldoutGroup("UiFramework")]
-        [Required] [SerializeField] private UiCollector _uiCollector;
-        
         //[FoldoutGroup("Upgrades")]
         //[Required] [SerializeField] private UpgradeView _characterAttackUpgradeView;
         //[FoldoutGroup("Upgrades")]
@@ -75,8 +70,6 @@ namespace Sources.BoundedContexts.Huds.Presentations
         
         //[FoldoutGroup("Ad")]
         //[Required] [SerializeField] private AdvertisingAfterWaveView _advertisingView;
-        
-        public UiCollector UiCollector => _uiCollector;
         
         //public UpgradeView CharacterHealthUpgradeView => _characterHealthUpgradeView;
         //public UpgradeView CharacterAttackUpgradeView => _characterAttackUpgradeView;
