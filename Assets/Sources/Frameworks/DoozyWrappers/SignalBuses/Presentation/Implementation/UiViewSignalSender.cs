@@ -3,9 +3,9 @@ using Doozy.Runtime.Signals;
 using Doozy.Runtime.UIManager.Containers;
 using Sirenix.OdinInspector;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Constants;
+using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Ids;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Signals;
 using Sources.Frameworks.UiFramework.Core.Domain.Constants;
-using Sources.Frameworks.UiFramework.Views.Domain;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,9 +19,9 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Presentation.Implementati
         [Space(10)]
         [Required] [SerializeField] private UIView _view;
         [Space(10)]
-        [SerializeField] private List<FormCommandId> _enableCommandId;
+        [SerializeField] private List<ViewCommand> _enableCommandId;
         [Space(10)]
-        [SerializeField] private List<FormCommandId> _disableCommandId;
+        [SerializeField] private List<ViewCommand> _disableCommandId;
         
         private SignalStream _enableStream;
         private SignalStream _disableStream;

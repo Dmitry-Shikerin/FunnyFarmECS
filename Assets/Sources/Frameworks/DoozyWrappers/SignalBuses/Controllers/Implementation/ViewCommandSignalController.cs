@@ -2,9 +2,9 @@
 using Doozy.Runtime.Signals;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Interfaces;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Constants;
+using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Ids;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Signals;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Interfaces.Handlers;
-using Sources.Frameworks.UiFramework.Views.Domain;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Implementation
 {
@@ -52,7 +52,7 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Implementatio
             if (signal.TryGetValue(out ShowViewCommandSignal value) == false)
                 throw new InvalidOperationException("Signal valueAsObject is not ShowViewCommandSignal");
 
-            foreach (FormCommandId commandId in value.ShowCommands)
+            foreach (ViewCommand commandId in value.ShowCommands)
                 _viewCommandHandler.Handle(commandId);
         }
         
@@ -61,7 +61,7 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Implementatio
             if (signal.TryGetValue(out HideViewCommandSignal value) == false)
                 throw new InvalidOperationException("Signal valueAsObject is not HideViewCommandSignal");
 
-            foreach (FormCommandId commandId in value.HideCommands)
+            foreach (ViewCommand commandId in value.HideCommands)
                 _viewCommandHandler.Handle(commandId);
         }
     }

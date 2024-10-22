@@ -1,8 +1,8 @@
 ﻿using System;
+using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Ids;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Interfaces;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Loads.Services.Interfaces;
-using Sources.Frameworks.UiFramework.Views.Domain;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation
 {
@@ -15,7 +15,7 @@ namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewComman
             _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
-        public FormCommandId Id => FormCommandId.ClearSaves;
+        public ViewCommand Id => ViewCommand.ClearSaves;
         
         public void Handle()
         {

@@ -5,7 +5,7 @@ using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Texts;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
-using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
+using Sources.Frameworks.MyLocalization.Infrastructure.Services.Interfaces;
 using UnityEngine;
 
 namespace Sources.Frameworks.MyGameCreator.Achievements.Presentation

@@ -3,7 +3,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Models;
-using Sources.Frameworks.UiFramework.Texts.Services.Localizations.Configs;
+using Sources.Frameworks.MyLocalization.Domain.Data;
 using UnityEditor;
 using UnityEngine;
 

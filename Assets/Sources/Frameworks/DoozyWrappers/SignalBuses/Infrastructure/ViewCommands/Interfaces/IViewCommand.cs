@@ -1,10 +1,10 @@
-﻿using Sources.Frameworks.UiFramework.Views.Domain;
+﻿using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Ids;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Interfaces
 {
     public interface IViewCommand
     {
-        FormCommandId Id { get; }
+        ViewCommand Id { get; }
 
         void Handle();
     }

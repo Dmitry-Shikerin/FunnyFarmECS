@@ -8,8 +8,8 @@ using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
-using Sources.Frameworks.UiFramework.Core.Services.Localizations.Implementation;
-using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
+using Sources.Frameworks.MyLocalization.Infrastructure.Services.Implementation;
+using Sources.Frameworks.MyLocalization.Infrastructure.Services.Interfaces;
 
 namespace Sources.App.Installers.Common
 {

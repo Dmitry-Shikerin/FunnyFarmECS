@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Sources.Frameworks.UiFramework.Views.Domain;
+using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Ids;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Signals
 {
     public struct HideViewCommandSignal
     {
-        public HideViewCommandSignal(IEnumerable<FormCommandId> hideCommands)
+        public HideViewCommandSignal(IEnumerable<ViewCommand> hideCommands)
         {
             HideCommands = hideCommands;
         }
 
-        public IEnumerable<FormCommandId> HideCommands { get; }
+        public IEnumerable<ViewCommand> HideCommands { get; }
     }
 }

@@ -9,7 +9,8 @@ using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces.Composites;
 using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
 using Sources.Frameworks.MyGameCreator.SkyAndWeawers.Domain;
-using Sources.Frameworks.UiFramework.Texts.Services.Localizations.Configs;
+using Sources.Frameworks.MyLocalization.Domain.Constant;
+using Sources.Frameworks.MyLocalization.Domain.Data;
 using Sources.SwingingTrees.Domain.Configs;
 using UnityEngine;
 

@@ -1,9 +1,9 @@
-﻿using Sources.Frameworks.UiFramework.Views.Domain;
+﻿using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Ids;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Interfaces.Handlers
 {
     public interface IViewCommandHandler
     {
-        void Handle(FormCommandId formCommandId);
+        void Handle(ViewCommand viewCommand);
     }
 }

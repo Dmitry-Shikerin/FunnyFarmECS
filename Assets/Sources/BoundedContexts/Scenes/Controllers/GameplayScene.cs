@@ -23,7 +23,7 @@ using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Infrastructure.Services.Im
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
-using Sources.Frameworks.UiFramework.Core.Services.Localizations.Interfaces;
+using Sources.Frameworks.MyLocalization.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Focuses.Interfaces;
 using UnityEngine;

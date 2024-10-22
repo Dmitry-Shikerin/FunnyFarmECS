@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
+using Sources.Frameworks.DoozyWrappers.SignalBuses.Domain.Ids;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Interfaces;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Interfaces.Handlers;
-using Sources.Frameworks.UiFramework.Views.Domain;
 
 namespace Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation.Handlers
 {
     public abstract class ViewCommandHandler : IViewCommandHandler
     {
-        private readonly Dictionary<FormCommandId, IViewCommand> _commands = 
-            new Dictionary<FormCommandId, IViewCommand>();
+        private readonly Dictionary<ViewCommand, IViewCommand> _commands = 
+            new Dictionary<ViewCommand, IViewCommand>();
 
         protected void Add(IViewCommand viewCommand) =>
             _commands[viewCommand.Id] = viewCommand;
 
-        public void Handle(FormCommandId formCommandId)
+        public void Handle(ViewCommand viewCommand)
         {
-            if(_commands.ContainsKey(formCommandId) == false)
-                throw new KeyNotFoundException(nameof(formCommandId));
+            if(_commands.ContainsKey(viewCommand) == false)
+                throw new KeyNotFoundException(nameof(viewCommand));
             
-            _commands[formCommandId].Handle();
+            _commands[viewCommand].Handle();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Agava.WebUtility;
 using Agava.YandexGames;
 using Sources.Domain.Models.Constants;
+using Sources.Frameworks.MyLocalization.Domain.Constant;
 using Sources.Frameworks.YandexSdkFramework.Infrastructure.Factories.Views;
 using Sources.Frameworks.YandexSdkFramework.Leaderboards.Domain.Constants;
 using Sources.Frameworks.YandexSdkFramework.Leaderboards.Domain.Models;

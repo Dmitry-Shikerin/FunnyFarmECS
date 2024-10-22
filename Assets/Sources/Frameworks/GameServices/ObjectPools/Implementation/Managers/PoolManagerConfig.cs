@@ -4,7 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using Sources.Frameworks.GameServices.ConfigCollectors.Domain.ScriptableObjects;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views;
-using Sources.Frameworks.UiFramework.Texts.Extensions;
+using Sources.Frameworks.MyLocalization.Domain.Extensions;
 using Sources.Frameworks.Utils.Reflections;
 using UnityEngine;
 
