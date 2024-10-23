@@ -7,6 +7,7 @@ using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Controllers.Implementation;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Domain.Implementation;
 using Sources.BoundedContexts.Scenes.Infrastructure.Factories.Views.Implementation;
+using Sources.EcsBoundedContexts.Core;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands.Implementation.Handlers;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands.Interfaces.Handlers;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation.Handlers;
@@ -20,13 +21,12 @@ namespace Sources.App.Installers.Gameplay
     public class GameplayInstaller : MonoInstaller
     {
         [Required] [SerializeField] private RootGameObject _rootGameObject;
+        [Required] [SerializeField] private GameplayHud _gameplayHud;
 
         public override void InstallBindings(DiContainer container)
         {
             container.Bind(_rootGameObject);
-            //TODO покашто так
-            GameplayHud hud = Instantiate(Resources.Load<GameplayHud>("Ui/GameplayHud"));
-            container.Bind(hud);
+            container.Bind(_gameplayHud);
             
             container.Bind<ISceneFactory, GameplaySceneFactory>();
             container.Bind<ISceneViewFactory, GameplaySceneViewFactory>();
