@@ -69,12 +69,12 @@ namespace Sources.Frameworks.MyGameCreator.Achievements.Presentation
             if (_achievement == null)
                 return;
             
-            Sprite sprite = _achievementConfig.Sprite;
-            _iconImage.SetSprite(sprite);
-            string title = _localizationService.GetText(_achievementConfig.TitleId);
-            _titleTextView.SetText(title);
-            string description = _localizationService.GetText(_achievementConfig.DescriptionId);
-            _discriptionTextView.SetText(description);
+            //Sprite sprite = _achievementConfig.Sprite;
+            //_iconImage.SetSprite(sprite);
+            //string title = _localizationService.GetText(_achievementConfig.TitleId);
+            //_titleTextView.SetText(title);
+            //string description = _localizationService.GetText(_achievementConfig.DescriptionId);
+            //_discriptionTextView.SetText(description);
         }
 
         [Inject]
