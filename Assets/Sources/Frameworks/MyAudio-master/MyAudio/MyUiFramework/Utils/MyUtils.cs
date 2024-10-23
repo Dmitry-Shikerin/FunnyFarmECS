@@ -84,7 +84,8 @@ namespace MyAudios.MyUiFramework.Utils
 
 #if UNITY_EDITOR
             UnityEditor.Undo.RegisterCreatedObjectUndo(component.gameObject, "Created " + gameObjectName);
-            if (selectGameObjectAfterCreation) UnityEditor.Selection.activeObject = component.gameObject;
+            if (selectGameObjectAfterCreation)
+                UnityEditor.Selection.activeObject = component.gameObject;
 #endif
             return component;
         }

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MyAudios.Soundy.Utils
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Utils
 {
     public class CustomList<T> : IList<T>
     {

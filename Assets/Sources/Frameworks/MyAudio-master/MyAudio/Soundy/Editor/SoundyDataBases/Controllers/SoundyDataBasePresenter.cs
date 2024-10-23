@@ -5,8 +5,7 @@ using MyAudios.Soundy.Editor.SoundDataBases.Presentation.Views.Interfaces;
 using MyAudios.Soundy.Editor.SoundyDataBases.Presentation.Views.Interfaces;
 using MyAudios.Soundy.Editor.SoundySetting.Infrastructure.Factories;
 using MyAudios.Soundy.Editor.SoundySetting.Presentation.Views.Interfaces;
-using MyAudios.Soundy.Sources.DataBases.Domain.Data;
-using MyAudios.Soundy.Sources.Settings.Domain.Configs;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 
 namespace MyAudios.Soundy.Editor.SoundyDataBases.Controllers
 {

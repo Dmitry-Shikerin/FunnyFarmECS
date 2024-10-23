@@ -1,7 +1,7 @@
 ﻿using MyAudios.Soundy.Editor.SoundySetting.Controllers;
 using MyAudios.Soundy.Editor.SoundySetting.Presentation.Views.Implementation;
 using MyAudios.Soundy.Editor.SoundySetting.Presentation.Views.Interfaces;
-using MyAudios.Soundy.Sources.Settings.Domain.Configs;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 
 namespace MyAudios.Soundy.Editor.SoundySetting.Infrastructure.Factories
 {

@@ -7,7 +7,7 @@ using Sources.Frameworks.GameServices.Prefabs.Interfaces.Composites;
 using Sources.Frameworks.GameServices.Scenes.Controllers.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Factories.Controllers.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Views.Interfaces;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure;
 using Sources.Frameworks.MyLocalization.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Focuses.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.SdcInitializes.Interfaces;

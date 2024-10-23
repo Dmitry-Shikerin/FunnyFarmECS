@@ -3,7 +3,7 @@ using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
 using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.UIElements.Extensions;
-using MyAudios.Soundy.Sources.DataBases.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

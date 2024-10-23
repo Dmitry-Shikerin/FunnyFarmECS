@@ -3,8 +3,7 @@ using MyAudios.Soundy.Editor.SoundyDataBases.Controllers;
 using MyAudios.Soundy.Editor.SoundyDataBases.Presentation.Views.Interfaces;
 using MyAudios.Soundy.Editor.SoundyDataBases.Views.Implementation;
 using MyAudios.Soundy.Editor.SoundySetting.Infrastructure.Factories;
-using MyAudios.Soundy.Sources.DataBases.Domain.Data;
-using MyAudios.Soundy.Sources.Settings.Domain.Configs;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 
 namespace MyAudios.Soundy.Editor.SoundyDataBases.Infrastructure.Factories
 {
