@@ -24,7 +24,8 @@ namespace Sources.App.Installers.MainMenu
         public override void InstallBindings(DiContainer container)
         {
             //TODO пока что так
-            MainMenuHud hud = Instantiate(Resources.Load<MainMenuHud>("Ui/MainMenuHud"));
+            MainMenuHud hud = Instantiate(Resources.Load<MainMenuHud>("TempHudFolder/MainMenuHud"));
+            container.Bind(hud);
             
             container.Bind<ISceneViewFactory, MainMenuSceneViewFactory>();
             container.Bind<ISceneFactory, MainMenuSceneFactory>();
