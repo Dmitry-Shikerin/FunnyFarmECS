@@ -15,11 +15,13 @@ namespace Sources.Frameworks.GameServices.DailyRewards.Presentation
         [Required] [SerializeField] private TextView _timerText;
         [Required] [SerializeField] private UIButton _button;
         [Required] [SerializeField] private ImageView _lockImage;
+        [Required] [SerializeField] private SpriteAnimator _animator;
         [Required] [SerializeField] private CanvasGroup _timerView;
         
         public TextView TimerText => _timerText;
         public UIButton Button => _button;
         public IImageView LockImage => _lockImage;
+        public SpriteAnimator Animator => _animator;
         public CanvasGroup TimerView => _timerView;
     }
 }
