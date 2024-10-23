@@ -6,8 +6,7 @@ using Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Implementation.Co
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Interfaces.Collectors;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ButtonCommands.Implementation;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Infrastructure.ViewCommands.Implementation;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Implementation;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure;
 using Sources.Frameworks.MyLocalization.Infrastructure.Services.Implementation;
 using Sources.Frameworks.MyLocalization.Infrastructure.Services.Interfaces;
 

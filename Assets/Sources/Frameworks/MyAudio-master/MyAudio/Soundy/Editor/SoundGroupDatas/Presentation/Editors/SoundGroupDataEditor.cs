@@ -1,9 +1,7 @@
-﻿using Doozy.Engine.Soundy;
-using Doozy.Runtime.UIElements.Extensions;
+﻿using Doozy.Runtime.UIElements.Extensions;
 using MyAudios.Soundy.Editor.SoundGroupDatas.Infrastructure.Factories;
 using MyAudios.Soundy.Editor.SoundGroupDatas.Presentation.Views.Interfaces;
-using MyAudios.Soundy.Sources.DataBases.Domain.Data;
-using MyAudios.Soundy.Sources.Settings.Domain.Configs;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEditor;
 using UnityEngine.UIElements;
 

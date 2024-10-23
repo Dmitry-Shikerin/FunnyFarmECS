@@ -1,5 +1,4 @@
 ﻿using System;
-using MyAudios.MyUiFramework.Utils.Soundies.Domain.Constant;
 using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
@@ -17,7 +16,7 @@ using Sources.Frameworks.GameServices.Scenes.Domain.Interfaces;
 using Sources.Frameworks.GameServices.Scenes.Infrastructure.Views.Interfaces;
 using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces;
 using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Soundies.Infrastructure.Interfaces;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure;
 using Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Infrastructure.Services.Implementation;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers;

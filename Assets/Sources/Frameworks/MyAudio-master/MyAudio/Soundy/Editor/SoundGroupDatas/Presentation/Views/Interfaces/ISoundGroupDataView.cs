@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Doozy.Engine.Soundy;
 using MyAudios.Soundy.Editor.AudioDatas.Presentation.View.Interfaces;
 using MyAudios.Soundy.Editor.Views;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEngine;
 
 namespace MyAudios.Soundy.Editor.SoundGroupDatas.Presentation.Views.Interfaces

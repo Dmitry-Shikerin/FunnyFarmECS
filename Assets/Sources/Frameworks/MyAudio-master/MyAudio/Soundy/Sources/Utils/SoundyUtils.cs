@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MyAudios.Soundy.Utils
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Utils
 {
     /// <summary>
     /// Sound related utility methods

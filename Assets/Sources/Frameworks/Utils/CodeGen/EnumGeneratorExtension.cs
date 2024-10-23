@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Doozy.Engine.Soundy;
-using MyAudios.Soundy.Sources.DataBases.Domain.Data;
-using MyAudios.Soundy.Sources.Settings.Domain.Configs;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEngine;
 
 namespace Sources.Frameworks.Utils.CodeGen

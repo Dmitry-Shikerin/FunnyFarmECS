@@ -1,12 +1,10 @@
 ﻿using System.Linq;
 using Doozy.Editor.EditorUI.Windows.Internal;
-using Doozy.Engine.Soundy;
 using MyAudios.Soundy.Editor.DataBases.Editors;
 using MyAudios.Soundy.Editor.SoundyDataBases.Infrastructure.Factories;
 using MyAudios.Soundy.Editor.SoundyDataBases.Presentation.Editors;
 using MyAudios.Soundy.Editor.SoundyDataBases.Presentation.Views.Interfaces;
-using MyAudios.Soundy.Sources.DataBases.Domain.Data;
-using MyAudios.Soundy.Sources.Settings.Domain.Configs;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;

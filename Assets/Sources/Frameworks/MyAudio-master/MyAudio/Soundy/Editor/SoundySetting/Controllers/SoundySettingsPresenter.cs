@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using MyAudios.Soundy.Editor.Presenters.Controllers;
 using MyAudios.Soundy.Editor.SoundySetting.Presentation.Views.Interfaces;
-using MyAudios.Soundy.Sources.Settings.Domain.Configs;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEngine;
 
 namespace MyAudios.Soundy.Editor.SoundySetting.Controllers

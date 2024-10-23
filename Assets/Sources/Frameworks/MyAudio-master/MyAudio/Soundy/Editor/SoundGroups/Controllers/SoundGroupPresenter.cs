@@ -1,10 +1,9 @@
 ﻿using System;
-using Doozy.Engine.Soundy;
 using JetBrains.Annotations;
 using MyAudios.Soundy.Editor.Presenters.Controllers;
 using MyAudios.Soundy.Editor.SoundGroupDatas.Presentation.Editors.Windows;
 using MyAudios.Soundy.Editor.SoundGroups.Presentation.Views.Interfaces;
-using MyAudios.Soundy.Sources.DataBases.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
