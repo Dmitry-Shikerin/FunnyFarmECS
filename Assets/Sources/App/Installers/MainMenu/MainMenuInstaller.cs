@@ -19,11 +19,11 @@ namespace Sources.App.Installers.MainMenu
 {
     public class MainMenuInstaller : MonoInstaller
     {
+        [Required] [SerializeField] private MainMenuHud _mainMenuHud;
+
         public override void InstallBindings(DiContainer container)
         {
-            //TODO покашто так
-            MainMenuHud hud = Instantiate(Resources.Load<MainMenuHud>("Ui/MainMenuHud"));
-            container.Bind(hud);
+            container.BindInterfacesAndSelf(_mainMenuHud);
             container.Bind<ISceneViewFactory, MainMenuSceneViewFactory>();
             container.Bind<ISceneFactory, MainMenuSceneFactory>();
 
