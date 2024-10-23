@@ -92,7 +92,6 @@ namespace Sources.Frameworks.GameServices.DailyRewards.Controllers
             if (_dailyReward.TrySetTargetRewardTime() == false)
                 return;
             
-            _view.Animator.Play();
             _healthBooster.Amount += HealthBoosterConst.BoosterAmount;
             _storageService.Save(ModelId.HealthBooster);
             _storageService.Save(ModelId.DailyReward);
