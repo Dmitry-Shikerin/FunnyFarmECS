@@ -23,7 +23,9 @@ namespace Sources.App.Installers.MainMenu
 
         public override void InstallBindings(DiContainer container)
         {
-            container.BindInterfacesAndSelf(_mainMenuHud);
+            //TODO пока что так
+            MainMenuHud hud = Instantiate(Resources.Load<MainMenuHud>("Ui/MainMenuHud"));
+            
             container.Bind<ISceneViewFactory, MainMenuSceneViewFactory>();
             container.Bind<ISceneFactory, MainMenuSceneFactory>();
 
