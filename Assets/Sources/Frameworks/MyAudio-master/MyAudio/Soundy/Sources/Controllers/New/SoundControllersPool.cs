@@ -10,17 +10,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
     public class SoundControllersPool
     {
         private readonly Transform _parentTransform;
-        private List<SoundyController> _controllers = new List<SoundyController>();
+        private List<NewSoundyController> _pool = new List<NewSoundyController>();
         private Coroutine _idleCheckCoroutine;
         private WaitForSecondsRealtime _idleCheckIntervalWaitForSecondsRealtime;
-        private SoundyController _tempController;
+        private NewSoundyController _tempController;
 
         public SoundControllersPool(Transform parentTransform)
         {
             _parentTransform = parentTransform;
         }
 
-        public IReadOnlyCollection<SoundyController> Controllers => _controllers;
+        public IReadOnlyCollection<NewSoundyController> Pool => _pool;
         private bool AutoKillIdleControllers => SoundySettings.Instance.AutoKillIdleControllers;
         private float ControllerIdleKillDuration => SoundySettings.Instance.ControllerIdleKillDuration;
         private float IdleCheckInterval => SoundySettings.Instance.IdleCheckInterval;
@@ -42,17 +42,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         {
             if (keepMinimumNumberOfControllers)
             {
-                RemoveNullControllersFromThePool();
+                RemoveNullControllers();
                 
-                if (_controllers.Count <= MinimumNumberOfControllers)
+                if (_pool.Count <= MinimumNumberOfControllers)
                     return;
 
                 int killedControllersCount = 0;
                 
-                for (int i = _controllers.Count - 1; i >= MinimumNumberOfControllers; i--)
+                for (int i = _pool.Count - 1; i >= MinimumNumberOfControllers; i--)
                 {
-                    SoundyController controller = _controllers[i];
-                    _controllers.Remove(controller);
+                    NewSoundyController controller = _pool[i];
+                    _pool.Remove(controller);
                     controller.Kill();
                     killedControllersCount++;
                 }
@@ -60,41 +60,52 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 return;
             }
 
-            SoundyController.KillAll();
-            _controllers.Clear();
+            NewSoundyController.KillAll();
+            _pool.Clear();
         }
         
-        public SoundyController GetControllerFromPool()
+        public NewSoundyController Get()
         {
-            RemoveNullControllersFromThePool();
-            if (_controllers.Count <= 0)
-                PutControllerInPool(SoundyController.CreateController());
+            RemoveNullControllers();
             
-            SoundyController controller = _controllers[0];
-            _controllers.Remove(controller);
+            if (_pool.Count <= 0)
+                ReturnToPool(NewSoundyController.CreateController());
+            
+            NewSoundyController controller = _pool[0];
+            _pool.Remove(controller);
             controller.gameObject.SetActive(true);
             
             return controller;
         }
-        
-        public void PopulatePool(int numberOfControllers)
+
+        private NewSoundyController Create()
         {
-            RemoveNullControllersFromThePool();
+            NewSoundyController controller = new GameObject(
+                "SoundyController", 
+                typeof(AudioSource), 
+                typeof(NewSoundyController)).GetComponent<NewSoundyController>();
             
-            if (numberOfControllers < 1) 
-                return;
-            
-            for (int i = 0; i < numberOfControllers; i++)
-                PutControllerInPool(SoundyController.CreateController());
+            return controller;
         }
         
-        public void PutControllerInPool(SoundyController controller)
+        public void PopulatePool(int count)
+        {
+            RemoveNullControllers();
+            
+            if (count < 1) 
+                return;
+            
+            for (int i = 0; i < count; i++)
+                ReturnToPool(NewSoundyController.CreateController());
+        }
+        
+        public void ReturnToPool(NewSoundyController controller)
         {
             if (controller == null) 
                 return;
             
-            if (_controllers.Contains(controller) == false) 
-                _controllers.Add(controller);
+            if (_pool.Contains(controller) == false) 
+                _pool.Add(controller);
             
             controller.gameObject.SetActive(false);
             controller.transform.SetParent(_parentTransform);
@@ -116,8 +127,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             _idleCheckCoroutine = null;
         }
         
-        private void RemoveNullControllersFromThePool() =>
-            _controllers = _controllers.Where(p => p != null).ToList();
+        private void RemoveNullControllers() =>
+            _pool = _pool.Where(p => p != null).ToList();
         
 
         private IEnumerator KillIdleControllersEnumerator()
@@ -126,16 +137,16 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             {
                 yield return _idleCheckIntervalWaitForSecondsRealtime;
                 
-                RemoveNullControllersFromThePool();
+                RemoveNullControllers();
                 int minimumNumberOfControllers = MinimumNumberOfControllers > 0 ? MinimumNumberOfControllers : 0;
                 float controllerIdleKillDuration = ControllerIdleKillDuration > 0 ? ControllerIdleKillDuration : 0;
                 
-                if (_controllers.Count <= minimumNumberOfControllers) 
+                if (_pool.Count <= minimumNumberOfControllers) 
                     continue;
                 
-                for (int i = _controllers.Count - 1; i >= minimumNumberOfControllers; i--)
+                for (int i = _pool.Count - 1; i >= minimumNumberOfControllers; i--)
                 {
-                    _tempController = _controllers[i];
+                    _tempController = _pool[i];
                     
                     if (_tempController.gameObject.activeSelf) 
                         continue;
@@ -143,7 +154,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                     if (_tempController.IdleDuration < controllerIdleKillDuration) 
                         continue;
                     
-                    _controllers.Remove(_tempController);
+                    _pool.Remove(_tempController);
                     _tempController.Kill();
                 }
             }
