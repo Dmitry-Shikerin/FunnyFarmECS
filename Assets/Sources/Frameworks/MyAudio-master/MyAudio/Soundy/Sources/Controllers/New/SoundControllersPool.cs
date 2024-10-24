@@ -27,7 +27,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         private int MinimumNumberOfControllers => SoundySettings.Instance.MinimumNumberOfControllers;
         
 
-        private void Initialize()
+        public void Initialize()
         {
             if (AutoKillIdleControllers == false)
                 return;
@@ -35,7 +35,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             StartIdleCheckInterval();
         }
 
-        private void Destroy() =>
+        public void Destroy() =>
             StopIdleCheckInterval();
         
         public void ClearPool(bool keepMinimumNumberOfControllers = false)
