@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -61,6 +62,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         private bool _paused;
         private string _name;
         private float _savedClipTime;
+        private SoundControllersPool _pool;
+        private NewSoundyManager _manager;
 
         public bool IsPlaying => _isPlaying;
         
@@ -107,8 +110,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         }
 
         public float IdleDuration => Time.realtimeSinceStartup - LastPlayedTime;
-        
 
+        public void Construct(NewSoundyManager manager, SoundControllersPool pool)
+        {
+            _manager = manager ?? throw new System.ArgumentNullException(nameof(manager));
+            _pool = pool ?? throw new System.ArgumentNullException(nameof(pool));
+        }
+        
         private void Reset() =>
             ResetController();
 
@@ -173,7 +181,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             FollowTarget();
         }
 
-        public void Kill()
+        public void Destroy()
         {
             Stop();
             Destroy(gameObject);
@@ -195,6 +203,27 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             IsPaused = false;
             _isPlaying = true;
             AudioSource.Play();
+        }
+
+        public void Play(SoundGroupData soundGroupData, AudioMixerGroup outputAudioMixerGroup = null, Transform followTarget = null, Vector3 position = default)
+        {
+            soundGroupData.ChangeLastPlayedAudioData();
+            SetSourceProperties(
+                soundGroupData.LastPlayedAudioData.AudioClip, 
+                soundGroupData.RandomVolume, 
+                soundGroupData.RandomPitch, 
+                soundGroupData.Loop, 
+                soundGroupData.SpatialBlend);
+            SetOutputAudioMixerGroup(outputAudioMixerGroup);
+            SetPosition(position);
+            
+            if (soundGroupData.LastPlayedAudioData == null)
+                return;
+            
+            gameObject.name = "[" + soundGroupData.SoundName + "]-(" + soundGroupData.LastPlayedAudioData.AudioClip.name + ")";
+            Name = soundGroupData.SoundName;
+            Play();
+            SetFollowTarget(followTarget);
         }
 
         public void SetFollowTarget(Transform followTarget) =>
@@ -276,30 +305,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             PlayProgress = Mathf.Clamp01(AudioSource.time / AudioSource.clip.length);
         }
 
-        public static NewSoundyController CreateController()
-        {
-            NewSoundyController controller = new GameObject(
-                "SoundyController", 
-                typeof(AudioSource), 
-                typeof(SoundyController)).GetComponent<NewSoundyController>();
-            
-            return controller;
-        }
-
-        public static void Pause(string soundName)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Pause());
-        }
-        
-        public static void Unpause(string soundName)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Unpause());
-        }
-
         public static SoundyController GetControllerByName(string name) =>
             s_database.First(controller => controller.Name == name);
 
@@ -361,6 +366,5 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 .Where(controller => controller.Name == soundName)
                 .ForEach(controller => controller.AudioSource.volume = volume);
         }
-
     }
 }

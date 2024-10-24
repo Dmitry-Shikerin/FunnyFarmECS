@@ -146,7 +146,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         private readonly List<AudioData> m_playedSounds = new List<AudioData>();
 
         /// <summary> Internal variable that holds a reference to the previously played AudioData </summary>
-        private AudioData m_lastPlayedAudioData;
+        public AudioData LastPlayedAudioData { get; private set; }
 
         #endregion
 
@@ -222,16 +222,16 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         public SoundyController Play(Vector3 position, AudioMixerGroup outputAudioMixerGroup = null)
         {
             SoundyController controller = SoundyPooler.GetControllerFromPool();
-            m_lastPlayedAudioData = GetAudioData(Mode);
+            LastPlayedAudioData = GetAudioData(Mode);
             controller.SetSourceProperties(
-                m_lastPlayedAudioData.AudioClip, RandomVolume, RandomPitch, Loop, SpatialBlend);
+                LastPlayedAudioData.AudioClip, RandomVolume, RandomPitch, Loop, SpatialBlend);
             controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
             controller.SetPosition(position);
             
-            if (m_lastPlayedAudioData == null)
+            if (LastPlayedAudioData == null)
                 return controller;
             
-            controller.gameObject.name = "[" + SoundName + "]-(" + m_lastPlayedAudioData.AudioClip.name + ")";
+            controller.gameObject.name = "[" + SoundName + "]-(" + LastPlayedAudioData.AudioClip.name + ")";
             controller.Name = SoundName;
             controller.Play();
             
@@ -253,12 +253,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             }
             else
             {
-                m_lastPlayedAudioData = GetAudioData(Mode);
+                LastPlayedAudioData = GetAudioData(Mode);
                 
-                if (m_lastPlayedAudioData == null)
+                if (LastPlayedAudioData == null)
                     return;
                 
-                audioSource.clip = m_lastPlayedAudioData.AudioClip;
+                audioSource.clip = LastPlayedAudioData.AudioClip;
             }
 
             audioSource.ignoreListenerPause = IgnoreListenerPause;
@@ -292,6 +292,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         /// <param name="saveAssets"> Write all unsaved asset changes to disk? </param>
         public void SetDirty(bool saveAssets) =>
             MyUtils.SetDirty(this, saveAssets);
+
+        public void ChangeLastPlayedAudioData()
+        {
+            LastPlayedAudioData = GetAudioData(Mode);
+        }
 
         #endregion
 
