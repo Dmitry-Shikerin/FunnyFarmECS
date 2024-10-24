@@ -9,15 +9,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 {
     public class SoundyDataBaseWindowLayout : FluidWindowLayout
     {
-        public override string layoutName => "Sound Databases";
-        public override List<Texture2D> animatedIconTextures => EditorSpriteSheets.EditorUI.Components.LineMixedValues;
-        public override Color accentColor => EditorColors.Default.UIComponent;
-        public override EditorSelectableColorInfo selectableAccentColor => 
-            EditorSelectableColors.Default.UIComponent;
-        public FluidButton SettingsButton { get; private set; }
-        public FluidButton RefreshButton { get; private set; }
-        public FluidButton NewDataBaseButton { get; private set; }
-
         public SoundyDataBaseWindowLayout()
         {
             AddHeader("Soundy Database", "Sound Groups", animatedIconTextures);
@@ -56,5 +47,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
                 .AddChild(NewDataBaseButton)
                 .AddSpace(20);
         }
+
+        public override string layoutName => "Sound Databases";
+        public override List<Texture2D> animatedIconTextures => EditorSpriteSheets.EditorUI.Components.LineMixedValues;
+        public override Color accentColor => EditorColors.Default.UIComponent;
+        public override EditorSelectableColorInfo selectableAccentColor => 
+            EditorSelectableColors.Default.UIComponent;
+        public FluidButton SettingsButton { get; }
+        public FluidButton RefreshButton { get; }
+        public FluidButton NewDataBaseButton { get; }
     }
 }

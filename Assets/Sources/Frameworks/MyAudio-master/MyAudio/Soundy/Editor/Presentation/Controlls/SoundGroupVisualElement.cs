@@ -8,11 +8,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 {
     public class SoundGroupVisualElement : VisualElement
     {
-        public FluidButton PlayButton { get; private set; }
-        public FluidButton SoundGroupDataButton { get; private set; }
-        public FluidButton DeleteButton { get; private set; }
-        public FluidRangeSlider Slider { get; private set; }
-
         public SoundGroupVisualElement()
         {
             VisualElement container =
@@ -73,5 +68,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 
             Add(container);
         }
+
+        public FluidButton PlayButton { get; }
+        public FluidButton SoundGroupDataButton { get; }
+        public FluidButton DeleteButton { get; }
+        public FluidRangeSlider Slider { get; }
     }
 }

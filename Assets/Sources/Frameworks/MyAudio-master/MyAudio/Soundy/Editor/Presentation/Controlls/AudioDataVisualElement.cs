@@ -11,11 +11,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 {
     public class AudioDataVisualElement : VisualElement
     {
-        public FluidButton PlayButton { get; private set; }
-        public FluidButton DeleteButton { get; private set; }
-        public FluidRangeSlider Slider { get; private set; }
-        public ObjectField ObjectField { get; private set; }
-
         public AudioDataVisualElement()
         {
             VisualElement container =
@@ -79,5 +74,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 
             Add(container);
         }
+
+        public FluidButton PlayButton { get; }
+        public FluidButton DeleteButton { get; }
+        public FluidRangeSlider Slider { get; }
+        public ObjectField ObjectField { get; }
     }
 }

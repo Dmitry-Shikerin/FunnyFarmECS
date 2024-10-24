@@ -65,10 +65,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
             Add(Container);
         }
 
-        public VisualElement Container { get; private set; }
-        public TextField SoundGroupTextField { get; private set; }
-        public FluidButton RenameButton { get; private set; }
-        public FluidButton RemoveButton { get; private set; }
-        public FluidButton PingAssetButton { get; private set; }
+        public VisualElement Container { get; }
+        public TextField SoundGroupTextField { get; }
+        public FluidButton RenameButton { get; }
+        public FluidButton RemoveButton { get; }
+        public FluidButton PingAssetButton { get; }
     }
 }

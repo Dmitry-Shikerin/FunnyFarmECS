@@ -8,13 +8,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 {
     public class NewSoundContentVisualElement : VisualElement
     {
-        public VisualElement Container { get; private set; }
-        public TextField SoundGroupTextField { get; private set; }
-        public FluidButton CreateButton { get; private set; }
-        public FluidButton SortDescendingButton { get; private set; }
-        public FluidButton SortAscendingButton { get; private set; }
-        public FluidButton CleanButton { get; private set; }
-
         public NewSoundContentVisualElement()
         {
             Container =
@@ -64,5 +57,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 
             Add(Container);
         }
+
+        public VisualElement Container { get; }
+        public TextField SoundGroupTextField { get; }
+        public FluidButton CreateButton { get; }
+        public FluidButton SortDescendingButton { get; }
+        public FluidButton SortAscendingButton { get; }
+        public FluidButton CleanButton { get; }
     }
 }

@@ -10,9 +10,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
 {
     public class SoundDataBaseAudioMixerVisualElement : VisualElement
     {
-        public VisualElement Container { get; }
-        public ObjectField ObjectField { get; }
-        
         public SoundDataBaseAudioMixerVisualElement()
         {
             Container = DesignUtils.row
@@ -42,5 +39,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
             
             Add(Container);
         }
+
+        public VisualElement Container { get; }
+        public ObjectField ObjectField { get; }
     }
 }

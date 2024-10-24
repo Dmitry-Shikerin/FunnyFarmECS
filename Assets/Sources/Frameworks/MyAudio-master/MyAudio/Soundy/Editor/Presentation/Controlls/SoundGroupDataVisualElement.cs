@@ -271,20 +271,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
             Add(Root);
         }
 
-        public SoundDataBaseHeaderVisualElement HeaderVisualElement { get; private set; }
-        public VisualElement Root { get; private set; }
-        public ScrollView AudioDataContent { get; private set; }
-        private FluidComponentHeader Header { get; set; }
-        public FluidToggleButtonTab RandomButtonTab { get; private set; }
-        public FluidToggleButtonTab SequenceButtonTab { get; private set; }
-        public FluidToggleSwitch ResetSequenceAfterInactiveTimeToggle { get; private set; }
-        public FloatField SequenceResetTimeField { get; private set; }
-        public FluidToggleSwitch LoopToggle { get; private set; }
-        public FluidMinMaxSlider VolumeSlider { get; private set; }
-        public FluidButton ResetVolumeButton { get; private set; }
-        public FluidMinMaxSlider PitchSlider { get; private set; }
-        public FluidRangeSlider SpatialBlendSlider { get; private set; }
-        public FluidButton ResetPitchButton { get; private set; }
-        public NewSoundContentVisualElement NewSoundContentVisualElement { get; private set; }
+        public SoundDataBaseHeaderVisualElement HeaderVisualElement { get; }
+        public VisualElement Root { get; }
+        public ScrollView AudioDataContent { get; }
+        private FluidComponentHeader Header { get; }
+        public FluidToggleButtonTab RandomButtonTab { get; }
+        public FluidToggleButtonTab SequenceButtonTab { get; }
+        public FluidToggleSwitch ResetSequenceAfterInactiveTimeToggle { get; }
+        public FloatField SequenceResetTimeField { get; }
+        public FluidToggleSwitch LoopToggle { get; }
+        public FluidMinMaxSlider VolumeSlider { get; }
+        public FluidButton ResetVolumeButton { get; }
+        public FluidMinMaxSlider PitchSlider { get; }
+        public FluidRangeSlider SpatialBlendSlider { get; }
+        public FluidButton ResetPitchButton { get; }
+        public NewSoundContentVisualElement NewSoundContentVisualElement { get; }
     }
 }
