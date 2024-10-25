@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
@@ -10,105 +11,21 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
     [DefaultExecutionOrder(SoundyExecutionOrder.SoundyController)]
     public class NewSoundyController : MonoBehaviour
     {
-        private static List<SoundyController> s_database = new List<SoundyController>();
-        private static bool s_pauseAllControllers;
-        private static bool s_muteAllControllers;
-
-        public static bool PauseAllControllers
-        {
-            get => s_pauseAllControllers;
-            set
-            {
-                s_pauseAllControllers = value;
-                
-                if (s_pauseAllControllers) 
-                    return;
-                
-                RemoveNullControllersFromDatabase();
-                
-                foreach (SoundyController controller in s_database)
-                    controller.Unpause();
-            }
-        }
-
-        public static bool MuteAllControllers
-        {
-            get => s_muteAllControllers;
-            set
-            {
-                s_muteAllControllers = value;
-                
-                if (s_muteAllControllers) 
-                    return;
-                
-                RemoveNullControllersFromDatabase();
-                
-                foreach (SoundyController controller in s_database)
-                    controller.Unmute();
-            }
-        }
-        
         private Transform _transform;
         private Transform _followTarget;
-        private AudioSource _audioSource;
-        private bool _inUse;
-        private float _playProgress;
-        private bool _isPaused;
-        private bool _isMuted;
-        private float _lastPlayedTime;
-        private bool _isPlaying;
         private bool _autoPaused;
-        private bool _muted;
-        private bool _paused;
-        private string _name;
         private float _savedClipTime;
         private SoundControllersPool _pool;
         private NewSoundyManager _manager;
-
-        public bool IsPlaying => _isPlaying;
         
-        public string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
-        
-        public AudioSource AudioSource
-        {
-            get => _audioSource;
-            private set => _audioSource = value;
-        }
-
-        public bool InUse
-        {
-            get => _inUse;
-            private set => _inUse = value;
-        }
-
-        public float PlayProgress
-        {
-            get => _playProgress;
-            private set => _playProgress = value;
-        }
-
-        public bool IsPaused
-        {
-            get => _isPaused || s_pauseAllControllers;
-            private set => _isPaused = value;
-        }
-
-        public bool IsMuted
-        {
-            get => _isMuted || MuteAllControllers;
-            private set => _isMuted = value;
-        }
-
-        public float LastPlayedTime
-        {
-            get => _lastPlayedTime;
-            private set => _lastPlayedTime = value;
-        }
-
+        public string Name { get; set; }
+        public AudioSource AudioSource { get; private set; }
+        public bool IsPlaying => AudioSource.isPlaying;
+        public bool InUse { get; private set; }
+        public float PlayProgress { get; private set; }
+        public bool IsPaused { get; private set; }
+        public bool IsMuted => AudioSource.mute;
+        public float LastPlayedTime { get; private set; }
         public float IdleDuration => Time.realtimeSinceStartup - LastPlayedTime;
 
         public void Construct(NewSoundyManager manager, SoundControllersPool pool)
@@ -122,62 +39,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         private void Awake()
         {
-            s_database.Add(this);
             _transform = transform;
             AudioSource = gameObject.GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
             ResetController();
         }
 
-        private void OnDestroy() =>
-            s_database.Remove(this);
-
-        private void Update()
+        public void Run()
         {
-            if (IsMuted || IsPaused || AudioSource.isPlaying)
-                UpdateLastPlayedTime();
-            
-            if (IsMuted != _muted)
-            {
-                AudioSource.mute = IsMuted;
-                _muted = IsMuted;
-            }
-
-            if (IsPaused != _paused)
-            {
-                if (IsPaused && AudioSource.isPlaying)
-                {
-                    _savedClipTime = AudioSource.time;
-                    AudioSource.Pause();
-                }
-
-                if (IsPaused == false)
-                {
-                    AudioSource.time = _savedClipTime;
-                    AudioSource.UnPause();
-                } 
-                
-                _paused = IsPaused;
-            }
-
+            UpdateLastPlayedTime();
             UpdatePlayProgress();
-
-            if (PlayProgress >= 1f) //check if the sound finished playing
-            {
-                Stop();
-                PlayProgress = 0;
-                
-                return;
-            }
-
-            _autoPaused = InUse && _isPlaying && !AudioSource.isPlaying && PlayProgress > 0;
-
-            if (InUse && !_autoPaused && !AudioSource.isPlaying && !IsPaused && !IsMuted) //second check if the sound finished playing
-            {
-                Stop();
-                
-                return;
-            }
-
             FollowTarget();
         }
 
@@ -189,11 +59,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public void Mute()
         {
-            IsMuted = true;
+            AudioSource.mute = true;
         }
 
         public void Pause()
         {
+            _savedClipTime = AudioSource.time;
+            AudioSource.Pause();
             IsPaused = true;
         }
 
@@ -201,7 +73,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         {
             InUse = true;
             IsPaused = false;
-            _isPlaying = true;
             AudioSource.Play();
         }
 
@@ -239,19 +110,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             Unpause();
             Unmute();
             AudioSource.Stop();
-            _isPlaying = false;
             ResetController();
-            SoundyPooler.PutControllerInPool(this);
+            _pool.ReturnToPool(this);
         }
 
         public void Unmute()
         {
-            IsMuted = false;
+            AudioSource.mute = false;
         }
 
         public void Unpause()
         {
+            AudioSource.time = _savedClipTime;
             IsPaused = false;
+            AudioSource.UnPause();
         }
 
         private void FollowTarget()
@@ -270,8 +142,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             UpdateLastPlayedTime();
         }
 
-        private void UpdateLastPlayedTime() =>
+        private void UpdateLastPlayedTime()
+        {
+            if ((IsMuted || IsPaused || AudioSource.isPlaying) == false)
+                return;
+            
             LastPlayedTime = Time.realtimeSinceStartup;
+        }
 
         private void UpdatePlayProgress()
         {
@@ -282,68 +159,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 return;
             
             PlayProgress = Mathf.Clamp01(AudioSource.time / AudioSource.clip.length);
-        }
-
-        public static SoundyController GetControllerByName(string name) =>
-            s_database.First(controller => controller.Name == name);
-
-        public static void KillAll()
-        {
-            RemoveNullControllersFromDatabase();
             
-            foreach (SoundyController controller in s_database)
-                controller.Kill();
-        }
-
-        public static void MuteAll()
-        {
-            RemoveNullControllersFromDatabase();
-            MuteAllControllers = true;
-        }
-
-        public static void PauseAll()
-        {
-            RemoveNullControllersFromDatabase();
-            PauseAllControllers = true;
-        }
-
-        public static void RemoveNullControllersFromDatabase() =>
-            s_database = s_database.Where(sc => sc != null).ToList();
-
-        public static void StopAll()
-        {
-            RemoveNullControllersFromDatabase();
+            if (PlayProgress < 1f) //check if the sound finished playing
+                return;
             
-            foreach (SoundyController controller in s_database)
-            {
-                if (!controller.AudioSource.isPlaying)
-                    return;
-                
-                controller.Stop();
-            }
-        }
-
-        public static void UnmuteAll()
-        {
-            RemoveNullControllersFromDatabase();
-            MuteAllControllers = false;
-        }
-
-        public static void UnpauseAll() =>
-            PauseAllControllers = false;
-        
-        public static void Stop(string databaseName, string soundName)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Stop());
-        }
-        
-        public static void SetVolume(string soundName, float volume)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.AudioSource.volume = volume);
+            Stop();
+            PlayProgress = 0;
         }
     }
 }

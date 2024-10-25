@@ -71,7 +71,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 return;
             }
 
-            NewSoundyController.KillAll();
+            _collection.ForEach(controller => controller.Destroy());
             _pool.Clear();
         }
         
