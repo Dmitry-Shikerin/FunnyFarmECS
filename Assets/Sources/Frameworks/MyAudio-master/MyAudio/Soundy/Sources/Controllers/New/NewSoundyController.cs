@@ -205,27 +205,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             AudioSource.Play();
         }
 
-        public void Play(SoundGroupData soundGroupData, AudioMixerGroup outputAudioMixerGroup = null, Transform followTarget = null, Vector3 position = default)
-        {
-            soundGroupData.ChangeLastPlayedAudioData();
-            SetSourceProperties(
-                soundGroupData.LastPlayedAudioData.AudioClip, 
-                soundGroupData.RandomVolume, 
-                soundGroupData.RandomPitch, 
-                soundGroupData.Loop, 
-                soundGroupData.SpatialBlend);
-            SetOutputAudioMixerGroup(outputAudioMixerGroup);
-            SetPosition(position);
-            
-            if (soundGroupData.LastPlayedAudioData == null)
-                return;
-            
-            gameObject.name = "[" + soundGroupData.SoundName + "]-(" + soundGroupData.LastPlayedAudioData.AudioClip.name + ")";
-            Name = soundGroupData.SoundName;
-            Play();
-            SetFollowTarget(followTarget);
-        }
-
         public void SetFollowTarget(Transform followTarget) =>
             _followTarget = followTarget;
 

@@ -5,6 +5,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure.Factories;
 using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.New
@@ -19,6 +20,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         private Coroutine _idleCheckCoroutine;
         private WaitForSecondsRealtime _idleCheckIntervalWaitForSecondsRealtime;
         private NewSoundyController _tempController;
+        private NewSoundyControllerViewFactory _factory;
 
         public SoundControllersPool(Transform parentTransform, NewSoundyManager manager)
         {
@@ -34,15 +36,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         public int MinimumNumberOfControllers => SoundySettings.Instance.MinimumNumberOfControllers;
         
 
-        private void Initialize()
+        public void Initialize(NewSoundyControllerViewFactory factory)
         {
+            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
+            
             if (AutoKillIdleControllers == false)
                 return;
             
             StartIdleCheckInterval();
         }
 
-        private void Destroy() =>
+        public void Destroy() =>
             StopIdleCheck();
         
         public void ClearPool(bool keepMinimumNumberOfControllers = false)
@@ -76,7 +80,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             RemoveNullControllers();
             
             if (_pool.Count <= 0)
-                ReturnToPool(NewSoundyController.CreateController());
+                ReturnToPool(_factory.Create());
             
             NewSoundyController controller = _pool[0];
             _pool.Remove(controller);
@@ -85,16 +89,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             return controller;
         }
 
-        private NewSoundyController Create()
+        public void AddToCollection(NewSoundyController controller)
         {
-            NewSoundyController controller = new GameObject(
-                "SoundyController", 
-                typeof(AudioSource), 
-                typeof(NewSoundyController)).GetComponent<NewSoundyController>();
             _collection.Add(controller);
-            controller.Construct(_manager, this);
-            
-            return controller;
         }
         
         public void PopulatePool(int count)
@@ -105,7 +102,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 return;
             
             for (int i = 0; i < count; i++)
-                ReturnToPool(NewSoundyController.CreateController());
+                ReturnToPool(_factory.Create());
         }
         
         public void ReturnToPool(NewSoundyController controller)

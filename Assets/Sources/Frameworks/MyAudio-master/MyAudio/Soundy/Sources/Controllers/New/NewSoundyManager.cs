@@ -10,6 +10,7 @@ using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure.Factories;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -38,7 +39,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         private bool _isSoundVolumeMuted;
         private bool _applicationIsQuitting;
         private bool _initialized;
-        private SoundControllersPool _pooler;
+        private SoundControllersPool _pool;
+        private NewSoundyControllerViewFactory _factory;
         
         public static SoundyDatabase Database => SoundySettings.Database;
         
@@ -47,13 +49,21 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         {
             Instance._applicationIsQuitting = false;
             Instance._initialized = false;
-            Instance._pooler = null;
+            Instance._pool = null;
         }
 
         private void Awake()
         {
             _initialized = true;
+            _pool = new SoundControllersPool(transform, this);
+            _factory = new NewSoundyControllerViewFactory(this, _pool);
+            _pool.Initialize(_factory);
             Init();
+        }
+
+        private void OnDestroy()
+        {
+            _pool.Destroy();
         }
 
         public static NewSoundyManager AddToScene(bool selectGameObjectAfterCreation = false) =>
@@ -70,20 +80,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
             s_instance = Instance;
 
-            for (int i = 0; i < Instance._pooler.MinimumNumberOfControllers + 1; i++)
-                Instance._pooler.Get().Stop();
+            for (int i = 0; i < Instance._pool.MinimumNumberOfControllers + 1; i++)
+                Instance._pool.Get().Stop();
         }
 
         public static void Pause(string soundName)
         {
-            Instance._pooler.Collection
+            Instance._pool.Collection
                 .Where(controller => controller.Name == soundName)
                 .ForEach(controller => controller.Pause());
         }
 
         public static void UnPause(string soundName)
         {
-            Instance._pooler.Collection
+            Instance._pool.Collection
                 .Where(controller => controller.Name == soundName)
                 .ForEach(controller => controller.Unpause());
         }
@@ -102,22 +112,22 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public static void DestroyAll()
         {
-            Instance._pooler.Collection.ForEach(controller => controller.Destroy());
+            Instance._pool.Collection.ForEach(controller => controller.Destroy());
         }
 
         public static void MuteAll()
         {
-            Instance._pooler.Collection.ForEach(controller => controller.Mute());
+            Instance._pool.Collection.ForEach(controller => controller.Mute());
         }
 
         public static void PauseAllControllers()
         {
-            Instance._pooler.Collection.ForEach(controller => controller.Pause());
+            Instance._pool.Collection.ForEach(controller => controller.Pause());
         }
 
         public static void SetVolume(string soundName, float volume)
         {
-            Instance._pooler.Collection
+            Instance._pool.Collection
                 .Where(controller => controller.Name == soundName)
                 .ForEach(controller => controller.AudioSource.volume = volume);
         }
@@ -245,8 +255,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 return null;
             
             //TODO добавил я
-            NewSoundyController controller = Instance._pooler.Get();
-            controller.Play(soundGroupData, soundDatabase.OutputAudioMixerGroup);
+            //TODO в остальных местах сделать по аналогии
+            NewSoundyController controller = Instance._pool.Get();
+            Instance._factory.Create(soundGroupData, controller);
+            controller.Play();
             //TODO конец добавления
 
             return controller;
@@ -275,7 +287,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             if (audioClip == null)
                 return null;
 
-            NewSoundyController controller = Instance._pooler.Get();
+            NewSoundyController controller = Instance._pool.Get();
             controller.SetSourceProperties(audioClip, volume, pitch, loop, spatialBlend);
             controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
             controller.SetPosition(position);
@@ -301,7 +313,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             if (audioClip == null)
                 return null;
 
-            NewSoundyController controller = Instance._pooler.Get();
+            NewSoundyController controller = Instance._pool.Get();
             controller.SetSourceProperties(audioClip, volume, pitch, loop, spatialBlend);
             controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
 
@@ -357,24 +369,24 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public static void Stop(string databaseName, string soundName)
         {
-            Instance._pooler.Collection
+            Instance._pool.Collection
                 .Where(controller => controller.Name == soundName)
                 .ForEach(controller => controller.Stop());
         }
 
         public static void StopAll()
         {
-            Instance._pooler.Collection.ForEach(controller => controller.Stop());
+            Instance._pool.Collection.ForEach(controller => controller.Stop());
         }
 
         public static void UnmuteAll()
         {
-            Instance._pooler.Collection.ForEach(controller => controller.Unmute());
+            Instance._pool.Collection.ForEach(controller => controller.Unmute());
         }
 
         public static void UnpauseAll()
         {
-            Instance._pooler.Collection.ForEach(controller => controller.Unpause());
+            Instance._pool.Collection.ForEach(controller => controller.Unpause());
         }
     }
 }
