@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.New
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 {
     [DefaultExecutionOrder(SoundyExecutionOrder.SoundyController)]
     public class SoundyController : MonoBehaviour
@@ -65,6 +63,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public void Run(float deltaTime)
         {
+            if (AudioSource.clip == null)
+            {
+                Stop();
+                return;
+            }
+            
             UpdateLastPlayedTime();
             UpdatePlayProgress();
             FollowTarget();
@@ -76,57 +80,27 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             Destroy(gameObject);
         }
 
-        public void Mute()
-        {
-            AudioSource.mute = true;
-        }
-
-        public void Pause()
-        {
-            _savedClipTime = AudioSource.time;
-            AudioSource.Pause();
-            IsPaused = true;
-        }
-
-        public void Play()
+        public SoundyController Play()
         {
             InUse = true;
             IsPaused = false;
             AudioSource.Play();
+            return this;
         }
 
-        public void SetFollowTarget(Transform followTarget) =>
+        public SoundyController SetFollowTarget(Transform followTarget)
+        {
             _followTarget = followTarget;
+            return this;
+        }
 
-        public void SetOutputAudioMixerGroup(AudioMixerGroup outputAudioMixerGroup)
+        public SoundyController SetOutputAudioMixerGroup(AudioMixerGroup outputAudioMixerGroup)
         {
             if (outputAudioMixerGroup == null)
-                return;
+                return this;
             
             AudioSource.outputAudioMixerGroup = outputAudioMixerGroup;
-        }
-
-        public void SetPosition(Vector3 position) =>
-            _transform.position = position;
-
-        public void SetSourceProperties(
-            AudioClip clip, 
-            float volume, 
-            float pitch, 
-            bool loop, 
-            float spatialBlend)
-        {
-            if (clip == null)
-            {
-                Stop();
-                return;
-            }
-
-            AudioSource.clip = clip;
-            AudioSource.volume = volume;
-            AudioSource.pitch = pitch;
-            AudioSource.loop = loop;
-            AudioSource.spatialBlend = spatialBlend;
+            return this;
         }
 
         public void Stop()
@@ -138,17 +112,76 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             UpdateLastPlayedTime();
             _pool.ReturnToPool(this);
         }
-
-        public void Unmute()
+        
+        public SoundyController SetName(string soundName, string audioClipName)
         {
-            AudioSource.mute = false;
+            Name = soundName;
+            gameObject.name = $"[{soundName}]-({audioClipName})";
+            return this;
+        }
+        
+        public SoundyController SetSpatialBlend(float spatialBlend)
+        {
+            AudioSource.spatialBlend = spatialBlend;
+            return this;
+        }
+        
+        public SoundyController SetPitch(float pitch)
+        {
+            AudioSource.pitch = pitch;
+            return this;
+        }
+        
+        public SoundyController SetLoop(bool loop)
+        {
+            AudioSource.loop = loop;
+            return this;
         }
 
-        public void Unpause()
+        public SoundyController SetVolume(float volume)
+        {
+            AudioSource.volume = volume;
+            return this;
+        }
+
+        public SoundyController SetAudioClip(AudioClip audioClip)
+        {
+            AudioSource.clip = audioClip;
+            return this;
+        }
+
+        public SoundyController SetPosition(Vector3 position)
+        {
+            _transform.position = position;
+            return this;
+        }
+
+        public SoundyController Mute()
+        {
+            AudioSource.mute = true;
+            return this;
+        }
+
+        public SoundyController Unmute()
+        {
+            AudioSource.mute = false;
+            return this;
+        }
+
+        public SoundyController Pause()
+        {
+            _savedClipTime = AudioSource.time;
+            AudioSource.Pause();
+            IsPaused = true;
+            return this;
+        }
+
+        public SoundyController Unpause()
         {
             AudioSource.time = _savedClipTime;
             IsPaused = false;
             AudioSource.UnPause();
+            return this; 
         }
 
         private void FollowTarget()
