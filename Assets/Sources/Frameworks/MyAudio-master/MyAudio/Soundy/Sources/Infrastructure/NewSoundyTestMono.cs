@@ -1,14 +1,13 @@
-﻿using System;
-using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
+﻿using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
 using UnityEngine;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure.New
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure
 {
     public class NewSoundyTestMono : MonoBehaviour
     {
         private Pause _pause;
-        private NewSoundyService _soundyService;
+        private SoundyService _soundyService;
         private Volume _soundsVolume;
         private Volume _musicVolume;
 
@@ -18,7 +17,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
             _pause = new Pause();
             _soundsVolume = new Volume();
             _musicVolume = new Volume();
-            _soundyService = new NewSoundyService(_pause, _soundsVolume, _musicVolume);
+            _soundyService = new SoundyService(_pause, _soundsVolume, _musicVolume);
             _soundyService.Initialize();
         }
 

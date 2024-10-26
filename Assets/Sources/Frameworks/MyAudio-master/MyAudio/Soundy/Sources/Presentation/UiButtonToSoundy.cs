@@ -1,6 +1,6 @@
 ﻿using Doozy.Runtime.UIManager.Components;
 using Sirenix.OdinInspector;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEngine;
 

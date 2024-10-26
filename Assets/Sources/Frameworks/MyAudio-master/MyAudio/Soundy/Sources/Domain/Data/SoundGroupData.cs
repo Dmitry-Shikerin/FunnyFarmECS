@@ -173,39 +173,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             Sounds.Remove(audioData);
         }
 
-        /// <summary> Plays one of the sounds from the AudioClip list, with the set randomized values, and also tells the controller that it has a target transform it needs to follow while playing </summary>
-        /// <param name="followTarget"> The target transform that the sound will follow while playing </param>
-        /// <param name="outputAudioMixerGroup"> The output AudioMixerGroup that the sound will get routed through </param>
-        public SoundyController Play(Transform followTarget, AudioMixerGroup outputAudioMixerGroup = null)
-        {
-            SoundyController controller = Play(followTarget.position, outputAudioMixerGroup);
-            controller.SetFollowTarget(followTarget);
-            
-            return controller;
-        }
-
-        /// <summary> Plays one of the sounds from the AudioClip list, with the set randomized values, at the specified position </summary>
-        /// <param name="position"> The world position where this sound will be played at </param>
-        /// <param name="outputAudioMixerGroup"> The output AudioMixerGroup that the sound will get routed through </param>
-        public SoundyController Play(Vector3 position, AudioMixerGroup outputAudioMixerGroup = null)
-        {
-            SoundyController controller = SoundyPooler.GetControllerFromPool();
-            LastPlayedAudioData = GetAudioData(Mode);
-            controller.SetSourceProperties(
-                LastPlayedAudioData.AudioClip, RandomVolume, RandomPitch, Loop, SpatialBlend);
-            controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
-            controller.SetPosition(position);
-            
-            if (LastPlayedAudioData == null)
-                return controller;
-            
-            controller.gameObject.name = "[" + SoundName + "]-(" + LastPlayedAudioData.AudioClip.name + ")";
-            controller.Name = SoundName;
-            controller.Play();
-            
-            return controller;
-        }
-
         /// <summary> [Editor Only] Plays a sound preview in the Editor </summary>
         /// <param name="audioSource"> AudioSource that will play the sound </param>
         /// <param name="outputAudioMixerGroup"> The output AudioMixerGroup that the sound will get routed through </param>

@@ -1,244 +1,156 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using MyAudios.MyUiFramework.Utils;
 using Sirenix.Utilities;
+using Sources.Frameworks.GameServices.Singletones.Monobehaviours;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure.Factories;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.New
 {
     [AddComponentMenu(SoundyManagerConstant.SoundyManagerAddComponentMenuMenuName,
         SoundyManagerConstant.SoundyManagerAddComponentMenuOrder)]
     [DisallowMultipleComponent]
     [DefaultExecutionOrder(SoundyExecutionOrder.SoundyManager)]
-    public class SoundyManager : MonoBehaviour
+    public class SoundyManager : MonoBehaviourSingleton<SoundyManager>
     {
 #if UNITY_EDITOR
         [MenuItem(SoundyManagerConstant.SoundyManagerMenuItemItemName, false,
             SoundyManagerConstant.SoundyManagerMenuItemPriority)]
         private static void CreateComponent(MenuCommand menuCommand)
         {
-            SoundyManager addToScene = AddToScene(true);
+            SoundyManager addToScene = MyUtils.AddToScene<SoundyManager>(
+                SoundyManagerConstant.SoundyManagerGameObjectName, true, true);
         }
 #endif
-
-        private static SoundyManager s_instance;
-        private static float s_musicVolume;
-        private static float s_soundVolume;        
-        private static bool s_isMusicVolumeMuted;
-        private static bool s_isSoundVolumeMuted;
-
-        public static SoundyManager Instance
-        {
-            get
-            {
-                if (s_instance != null)
-                    return s_instance;
-
-                if (ApplicationIsQuitting)
-                    return null;
-
-                s_instance = FindObjectOfType<SoundyManager>();
-                
-                if (s_instance == null)
-                    DontDestroyOnLoad(AddToScene().gameObject);
-
-                return s_instance;
-            }
-        }
-
-        private static Dictionary<string, Dictionary<string, CancellationTokenSource>> _tokens =
-            new Dictionary<string, Dictionary<string, CancellationTokenSource>>();
-        private static bool ApplicationIsQuitting = false;
-        private static bool s_initialized;
-        private static SoundyPooler s_pooler;
         
-        public static SoundyPooler Pooler
-        {
-            get
-            {
-                if (s_pooler != null)
-                    return s_pooler;
+        private float _musicVolume;
+        private float _soundVolume;        
+        private bool _isMusicVolumeMuted;
+        private bool _isSoundVolumeMuted;
+        private bool _applicationIsQuitting;
+        private bool _initialized;
+        private SoundControllersPool _pool;
+        private SoundyControllerViewFactory _factory;
 
-                s_pooler = Instance.gameObject.GetComponent<SoundyPooler>();
-
-                if (s_pooler == null)
-                    s_pooler = Instance.gameObject.AddComponent<SoundyPooler>();
-
-                return s_pooler;
-            }
-        }
+        public event Action<float> Running; 
         
+        public static bool IsMuteAllControllers { get; private set; }
+        public static bool IsPauseAllControllers { get; private set; }
         public static SoundyDatabase Database => SoundySettings.Database;
-        
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void RunOnStart()
+        public SoundControllersPool Pool => _pool;
+        public SoundyControllerViewFactory Factory => _factory;
+
+        private void Awake()
         {
-            ApplicationIsQuitting = false;
-            s_initialized = false;
-            s_pooler = null;
+            _initialized = true;
+            _pool = new SoundControllersPool(transform, this);
+            _factory = new SoundyControllerViewFactory(this, _pool);
+            _pool.Initialize(_factory);
+            Debug.Log($"Awake {_pool}");
+            Init();
         }
 
-        private void Awake() =>
-            s_initialized = true;
-        
-        public static SoundyManager AddToScene(bool selectGameObjectAfterCreation = false) =>
-            MyUtils.AddToScene<SoundyManager>(
-                SoundyManagerConstant.SoundyManagerGameObjectName, true, selectGameObjectAfterCreation);
-
-        public static SoundyController CreateController() =>
-            SoundyController.CreateController();
-
-        public static string GetSoundDatabaseFilename(string databaseName) =>
-            "SoundDatabase_" + databaseName.Trim();
-
-        public static void Init()
+        private void Update()
         {
-            if (s_initialized || s_instance != null)
-                return;
+             Running?.Invoke(Time.deltaTime);
+        }
 
-            s_instance = Instance;
-
-            for (int i = 0; i < SoundyPooler.MinimumNumberOfControllers + 1; i++)
-                SoundyPooler.GetControllerFromPool().Stop();
+        private void OnDestroy()
+        {
+            _pool?.Destroy();
+        }
+        
+        private static void Init()
+        {
+            for (int i = 0; i < Instance._pool.MinimumNumberOfControllers + 1; i++)
+                Instance._pool.Get().Stop();
         }
 
         public static void Pause(string soundName)
         {
-            SoundyController.Pause(soundName);
+            ApplyWhere(soundName, controller => controller.Pause());
         }
 
         public static void UnPause(string soundName)
         {
-            SoundyController.Unpause(soundName);
+            ApplyWhere(soundName, controller => controller.Unpause());
         }
 
-        public static void ClearTokens()
+        private static void ApplyWhere(string soundName, Action<SoundyController> action)
         {
-            _tokens.Values
-                .ForEach(collection => collection.Values
-                    .ForEach(token => token.Cancel()));
-            _tokens.Clear();
+            Instance._pool.Collection
+                .Where(controller => controller.Name == soundName)
+                .ForEach(action.Invoke);
         }
 
         public static void SetVolumes(float musicVolume, float soundVolume)
         {
-            s_musicVolume = musicVolume;
-            s_soundVolume = soundVolume;
+            Instance._musicVolume = musicVolume;
+            Instance._soundVolume = soundVolume;
         }
 
         public static void SetMutes(bool isMusicMuted, bool isSoundMuted)
         {
-            s_isMusicVolumeMuted = isMusicMuted;
-            s_isSoundVolumeMuted = isSoundMuted;
+            Instance._isMusicVolumeMuted = isMusicMuted;
+            Instance._isSoundVolumeMuted = isSoundMuted;
         }
 
-        public static void KillAllControllers() =>
-            SoundyController.KillAll();
-
-        public static void MuteAllControllers() =>
-            SoundyController.MuteAll();
-
-        public static void MuteAllSounds()
+        public static void DestroyAll()
         {
-            MuteAllControllers();
-#if dUI_MasterAudio
-            DarkTonic.MasterAudio.MasterAudio.MuteEverything();
-#endif
+            Instance._pool.Collection.ForEach(controller => controller.Destroy());
         }
 
-        public static void PauseAllControllers() =>
-            SoundyController.PauseAll();
-
-        public static void PauseAllSounds()
+        public static void MuteAll()
         {
-            PauseAllControllers();
-#if dUI_MasterAudio
-            DarkTonic.MasterAudio.MasterAudio.PauseEverything();
-#endif
+            Instance._pool.Collection.ForEach(controller => controller.Mute());
+            IsMuteAllControllers = true;
         }
 
-        public static void SetVolume(string soundName, float volume) =>
-            SoundyController.SetVolume(soundName, volume);
-
-        public static async void PlaySequence(
-            string databaseName, 
-            string soundName,
-            Volume musicVolume)
+        public static void PauseAll()
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            if (_tokens.ContainsKey(databaseName) == false)
-                _tokens[databaseName] = new Dictionary<string, CancellationTokenSource>();
-
-            _tokens[databaseName].Add(soundName, cancellationTokenSource);
-
-            try
-            {
-                while (cancellationTokenSource.Token.IsCancellationRequested == false)
-                {
-                    SoundyController soundyController = Play(databaseName, soundName);
-                    SetVolume(soundName, musicVolume.VolumeValue);
-                    AudioSource audioSource = soundyController.AudioSource;
-                    audioSource.mute = musicVolume.IsVolumeMuted;
-
-                    // await UniTask.WaitUntil(
-                    //     () => audioSource.time + 0.1f > audioSource.clip.length,
-                    //     cancellationToken: cancellationTokenSource.Token);
-                    await UniTask.WaitUntil(
-                        () => soundyController.IsPlaying == false);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                Stop(databaseName, soundName);
-            }
+            Instance._pool.Collection.ForEach(controller => controller.Pause());
+            IsPauseAllControllers = true;
         }
 
-        public static void StopSequence(string databaseName, string soundName)
+        public static void SetVolume(string soundName, float volume)
         {
-            Dictionary<string, CancellationTokenSource> tokens = _tokens[databaseName];
-            tokens[soundName].Cancel();
-            Stop(databaseName, soundName);
+            ApplyWhere(soundName, controller => controller.AudioSource.volume = volume);
         }
 
         public static SoundyController Play(string databaseName, string soundName, Vector3 position)
         {
-            if (s_initialized == false)
-                s_instance = Instance;
-
-            if (Database == null)
-                return null;
-
             if (soundName.Equals(SoundyManagerConstant.NoSound))
-                return null;
+                throw new NullReferenceException(soundName);
 
             SoundGroupData soundGroupData = Database.GetAudioData(databaseName, soundName);
 
             if (soundGroupData == null)
-                return null;
+                throw new NullReferenceException(soundGroupData.SoundName);
+            
+            Debug.Log($"Play");
+            SoundyController controller = Instance.Pool.Get();
+            Instance.Factory.Create(soundGroupData, controller, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup);
+            controller.Play();
 
-            return soundGroupData.Play(position, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup);
+            return controller;
         }
 
-        public static SoundyController Play(AudioClip audioClip, Vector3 position)
-        {
-            if (s_initialized == false)
-                s_instance = Instance;
-
-            return Play(audioClip, null, position);
-        }
+        public static SoundyController Play(AudioClip audioClip, Vector3 position) =>
+            Play(audioClip, null, position);
 
         public static SoundyController Play(string databaseName, string soundName, Transform followTarget)
         {
-            if (s_initialized == false)
+            if (Instance._initialized == false)
                 s_instance = Instance;
 
             if (Database == null)
@@ -251,13 +163,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 
             if (soundGroupData == null)
                 return null;
+            
+            //TODO добавил я
+            //TODO в остальных местах сделать по аналогии
+            SoundyController controller = Instance.Pool.Get();
+            Instance.Factory.Create(soundGroupData, controller, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup, followTarget);
+            controller.Play();
+            //TODO конец добавления
 
-            return soundGroupData.Play(followTarget, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup);
+            return controller;
         }
 
         public static SoundyController Play(AudioClip audioClip, Transform followTarget)
         {
-            if (s_initialized == false)
+            if (Instance._initialized == false)
                 s_instance = Instance;
 
             return Play(audioClip, null, followTarget);
@@ -265,7 +184,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 
         public static SoundyController Play(string databaseName, string soundName)
         {
-            if (s_initialized == false)
+            if (Instance._initialized == false)
                 s_instance = Instance;
 
             if (Database == null)
@@ -289,17 +208,19 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 
             if (soundGroupData == null)
                 return null;
+            
+            //TODO добавил я
+            //TODO в остальных местах сделать по аналогии
+            SoundyController controller = Instance.Pool.Get();
+            Instance._factory.Create(soundGroupData, controller);
+            controller.Play();
+            //TODO конец добавления
 
-            return soundGroupData.Play(Pooler.transform, soundDatabase.OutputAudioMixerGroup);
+            return controller;
         }
 
-        public static SoundyController Play(AudioClip audioClip)
-        {
-            if (s_initialized == false)
-                s_instance = Instance;
-
-            return Play(audioClip, null, Pooler.transform);
-        }
+        public static SoundyController Play(AudioClip audioClip) =>
+            Play(audioClip, null, Instance.transform);
 
         public static SoundyController Play(
             AudioClip audioClip,
@@ -310,18 +231,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
             bool loop = false,
             float spatialBlend = 1)
         {
-            if (s_initialized == false)
-                s_instance = Instance;
-
             if (audioClip == null)
-                return null;
+                throw new NullReferenceException(nameof(AudioClip));
 
-            SoundyController controller = SoundyPooler.GetControllerFromPool();
-            controller.SetSourceProperties(audioClip, volume, pitch, loop, spatialBlend);
-            controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
-            controller.SetPosition(position);
-            controller.gameObject.name = "[AudioClip]-(" + audioClip.name + ")";
-            controller.Name = audioClip.name;
+            SoundyController controller = Instance.Pool.Get();
+            Instance.Factory.Create(controller, audioClip, outputAudioMixerGroup, position, volume, pitch, loop, spatialBlend);
             controller.Play();
 
             return controller;
@@ -336,28 +250,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
             bool loop = false,
             float spatialBlend = 1)
         {
-            if (s_initialized == false)
+            if (Instance._initialized == false)
                 s_instance = Instance;
 
             if (audioClip == null)
                 return null;
 
-            SoundyController controller = SoundyPooler.GetControllerFromPool();
-            controller.SetSourceProperties(audioClip, volume, pitch, loop, spatialBlend);
-            controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
-
-            if (followTarget == null)
-            {
-                spatialBlend = 0;
-                controller.SetFollowTarget(Pooler.transform);
-            }
-            else
-            {
-                controller.SetFollowTarget(followTarget);
-            }
-
-            controller.gameObject.name = "[AudioClip]-(" + audioClip.name + ")";
-            controller.Name = audioClip.name;
+            SoundyController controller = Instance._pool.Get();
+            Transform target = followTarget ?? Instance.transform;
+            Instance.Factory.Create(controller, audioClip, outputAudioMixerGroup, target, volume, pitch, loop, spatialBlend);
             controller.Play();
 
             return controller;
@@ -368,68 +269,49 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
             if (data == null)
                 return null;
 
-            if (s_initialized == false)
+            if (Instance._initialized == false)
                 s_instance = Instance;
 
-            switch (data.SoundSource)
+            return data.SoundSource switch
             {
-                case SoundSource.Soundy:
-                    return Play(data.DatabaseName, data.SoundName);
-                case SoundSource.AudioClip:
-                    return Play(data.AudioClip, data.OutputAudioMixerGroup);
-                case SoundSource.MasterAudio:
-#if dUI_MasterAudio
-                    DarkTonic.MasterAudio.MasterAudio.PlaySound(data.SoundName);
-#endif
-                    break;
-            }
-
-            return null;
+                SoundSource.Soundy => Play(data.DatabaseName, data.SoundName),
+                SoundSource.AudioClip => Play(data.AudioClip, data.OutputAudioMixerGroup),
+                SoundSource.MasterAudio =>  null, // no action, or throw an exception, or return a default value
+                _ => null
+            };
         }
 
         public static SoundyController Play(SoundyData data, bool isSound)
         {
             SoundyController controller = Play(data);
-            controller.AudioSource.volume = isSound ? s_soundVolume : s_musicVolume;
-            controller.AudioSource.mute = isSound ? s_isSoundVolumeMuted : s_isMusicVolumeMuted;
+            controller.AudioSource.volume = isSound ? Instance._soundVolume : Instance._musicVolume;
+            controller.AudioSource.mute = isSound ? Instance._isSoundVolumeMuted : Instance._isMusicVolumeMuted;
             
             return controller;
         }
 
-        public static void Stop(string databaseName, string soundName) =>
-            SoundyController.Stop(databaseName, soundName);
-
-        public static void StopAllControllers() =>
-            SoundyController.StopAll();
-
-        public static void StopAllSounds()
+        public static void Stop(string databaseName, string soundName)
         {
-            StopAllControllers();
-#if dUI_MasterAudio
-            DarkTonic.MasterAudio.MasterAudio.StopEverything();
-#endif
+            Instance._pool.Collection
+                .Where(controller => controller.Name == soundName)
+                .ForEach(controller => controller.Stop());
         }
 
-        public static void UnmuteAllControllers() =>
-            SoundyController.UnmuteAll();
-
-        public static void UnmuteAllSounds()
+        public static void StopAll()
         {
-            UnmuteAllControllers();
-#if dUI_MasterAudio
-            DarkTonic.MasterAudio.MasterAudio.UnmuteEverything();
-#endif
+            Instance._pool.Collection.ForEach(controller => controller.Stop());
         }
 
-        public static void UnpauseAllControllers() =>
-            SoundyController.UnpauseAll();
-
-        public static void UnpauseAllSounds()
+        public static void UnmuteAll()
         {
-            UnpauseAllControllers();
-#if dUI_MasterAudio
-            DarkTonic.MasterAudio.MasterAudio.UnpauseEverything();
-#endif
+            Instance._pool.Collection.ForEach(controller => controller.Unmute());
+            IsMuteAllControllers = false;
+        }
+
+        public static void UnpauseAll()
+        {
+            Instance._pool.Collection.ForEach(controller => controller.Unpause());
+            IsPauseAllControllers = false;
         }
     }
 }

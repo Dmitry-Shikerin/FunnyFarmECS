@@ -7,23 +7,23 @@ using UnityEngine.Audio;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure.Factories
 {
-    public class NewSoundyControllerViewFactory
+    public class SoundyControllerViewFactory
     {
-        private readonly NewSoundyManager _manager;
+        private readonly SoundyManager _manager;
         private readonly SoundControllersPool _pool;
 
-        public NewSoundyControllerViewFactory(NewSoundyManager manager, SoundControllersPool pool)
+        public SoundyControllerViewFactory(SoundyManager manager, SoundControllersPool pool)
         {
             _manager = manager ?? throw new ArgumentNullException(nameof(manager));
             _pool = pool ?? throw new ArgumentNullException(nameof(pool));
         }
 
-        public NewSoundyController Create()
+        public SoundyController Create()
         {
-            NewSoundyController controller = new GameObject(
+            SoundyController controller = new GameObject(
                 "SoundyController", 
                 typeof(AudioSource), 
-                typeof(NewSoundyController)).GetComponent<NewSoundyController>();
+                typeof(SoundyController)).GetComponent<SoundyController>();
             _pool.AddToCollection(controller);
             controller.Construct(_manager, _pool);
             
@@ -32,7 +32,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
 
         public void Create(
             SoundGroupData soundGroupData,
-            NewSoundyController controller, 
+            SoundyController controller, 
             AudioMixerGroup outputAudioMixerGroup = null,
             Transform followTarget = null, 
             Vector3 position = default)
@@ -54,6 +54,38 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
                                         soundGroupData.LastPlayedAudioData.AudioClip.name + ")";
             controller.Name = soundGroupData.SoundName;
             controller.SetFollowTarget(followTarget);
+        }
+
+        public void Create(SoundyController controller, 
+            AudioClip audioClip,
+            AudioMixerGroup outputAudioMixerGroup,
+            Vector3 position,
+            float volume = 1,
+            float pitch = 1,
+            bool loop = false,
+            float spatialBlend = 1) 
+        {
+            controller.SetSourceProperties(audioClip, volume, pitch, loop, spatialBlend);
+            controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
+            controller.SetPosition(position);
+            controller.gameObject.name = "[AudioClip]-(" + audioClip.name + ")";
+            controller.Name = audioClip.name;
+        }
+        
+        public void Create(SoundyController controller, 
+            AudioClip audioClip,
+            AudioMixerGroup outputAudioMixerGroup,
+            Transform followTarget,
+            float volume = 1,
+            float pitch = 1,
+            bool loop = false,
+            float spatialBlend = 1) 
+        {
+            controller.SetSourceProperties(audioClip, volume, pitch, loop, spatialBlend);
+            controller.SetOutputAudioMixerGroup(outputAudioMixerGroup);
+            controller.SetFollowTarget(followTarget);
+            controller.gameObject.name = "[AudioClip]-(" + audioClip.name + ")";
+            controller.Name = audioClip.name;
         }
     }
 }

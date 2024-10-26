@@ -13,30 +13,30 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
     public class SoundControllersPool
     {
         private readonly Transform _parentTransform;
-        private readonly NewSoundyManager _manager;
-        private List<NewSoundyController> _pool = new ();
-        private List<NewSoundyController> _collection = new ();
+        private readonly SoundyManager _manager;
+        private List<SoundyController> _pool = new ();
+        private List<SoundyController> _collection = new ();
         
         private Coroutine _idleCheckCoroutine;
         private WaitForSecondsRealtime _idleCheckIntervalWaitForSecondsRealtime;
-        private NewSoundyController _tempController;
-        private NewSoundyControllerViewFactory _factory;
+        private SoundyController _tempController;
+        private SoundyControllerViewFactory _factory;
 
-        public SoundControllersPool(Transform parentTransform, NewSoundyManager manager)
+        public SoundControllersPool(Transform parentTransform, SoundyManager manager)
         {
             _parentTransform = parentTransform;
             _manager = manager ?? throw new ArgumentNullException(nameof(manager));
         }
 
-        public IReadOnlyList<NewSoundyController> Pool => _pool;
-        public IReadOnlyList<NewSoundyController> Collection => _collection;
+        public IReadOnlyList<SoundyController> Pool => _pool;
+        public IReadOnlyList<SoundyController> Collection => _collection;
         private bool AutoKillIdleControllers => SoundySettings.Instance.AutoKillIdleControllers;
         private float ControllerIdleKillDuration => SoundySettings.Instance.ControllerIdleKillDuration;
         private float IdleCheckInterval => SoundySettings.Instance.IdleCheckInterval;
         public int MinimumNumberOfControllers => SoundySettings.Instance.MinimumNumberOfControllers;
         
 
-        public void Initialize(NewSoundyControllerViewFactory factory)
+        public void Initialize(SoundyControllerViewFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             
@@ -62,7 +62,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 
                 for (int i = _pool.Count - 1; i >= MinimumNumberOfControllers; i--)
                 {
-                    NewSoundyController controller = _pool[i];
+                    SoundyController controller = _pool[i];
                     _pool.Remove(controller);
                     controller.Destroy();
                     killedControllersCount++;
@@ -75,21 +75,21 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             _pool.Clear();
         }
         
-        public NewSoundyController Get()
+        public SoundyController Get()
         {
             RemoveNullControllers();
             
             if (_pool.Count <= 0)
                 ReturnToPool(_factory.Create());
             
-            NewSoundyController controller = _pool[0];
+            SoundyController controller = _pool[0];
             _pool.Remove(controller);
             controller.gameObject.SetActive(true);
             
             return controller;
         }
 
-        public void AddToCollection(NewSoundyController controller)
+        public void AddToCollection(SoundyController controller)
         {
             _collection.Add(controller);
         }
@@ -105,7 +105,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 ReturnToPool(_factory.Create());
         }
         
-        public void ReturnToPool(NewSoundyController controller)
+        public void ReturnToPool(SoundyController controller)
         {
             if (controller == null) 
                 return;

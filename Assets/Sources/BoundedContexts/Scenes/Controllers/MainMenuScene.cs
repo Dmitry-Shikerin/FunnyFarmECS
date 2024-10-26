@@ -61,14 +61,14 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _signalControllersCollector.Initialize();
             _soundyService.Initialize();
             await _curtainView.HideAsync();
-            _soundyService.PlaySequence("BackgroundMusic", "MainMenu");
+            _soundyService.Play("BackgroundMusic", "MainMenu");
             await GameReady((IScenePayload)payload);
         }
 
         public void Exit()
         {
             _signalControllersCollector.Destroy();
-            _soundyService.StopSequence("BackgroundMusic", "MainMenu");
+            _soundyService.Stop("BackgroundMusic", "MainMenu");
             _soundyService.Destroy();
             _focusService.Destroy();
         }

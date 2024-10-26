@@ -102,7 +102,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             SetDirty(saveAssets);
         }
 
-        public void ResetComponent(SoundyPooler pooler)
+        public void ResetComponent()
         {
             
         }
