@@ -44,7 +44,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             ResetController();
         }
 
-        public void Run()
+        private void OnEnable()
+        {
+            NewSoundyManager.Instance.Running += Run;
+        }
+
+        private void OnDisable()
+        {
+            NewSoundyManager.Instance.Running -= Run;
+        }
+
+        public void Run(float deltaTime)
         {
             UpdateLastPlayedTime();
             UpdatePlayProgress();
@@ -159,12 +169,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 return;
             
             PlayProgress = Mathf.Clamp01(AudioSource.time / AudioSource.clip.length);
-            
-            if (PlayProgress < 1f) //check if the sound finished playing
-                return;
-            
-            Stop();
-            PlayProgress = 0;
+            Debug.Log($"PlayProgress: {PlayProgress}, AudioSource.time: {AudioSource.time}, AudioSource.clip.length: {AudioSource.clip.length}, IsPlaying: {AudioSource.isPlaying}");
+
+            if (PlayProgress >= 1f) //check if the sound finished playing
+            {
+                Stop();
+                PlayProgress = 0;
+            }
+
+            //TODO костыль, но работает
+            if (IsPaused == false && IsPlaying == false)
+            {
+                Stop();
+                PlayProgress = 0;
+            }
         }
     }
 }

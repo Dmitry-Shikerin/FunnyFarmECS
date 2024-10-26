@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MyAudios.MyUiFramework.Attributes;
 using MyAudios.MyUiFramework.Utils;
 using MyAudios.Scripts;
@@ -12,15 +13,9 @@ using Random = UnityEngine.Random;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 {
-    /// <inheritdoc />
-    /// <summary>
-    ///     Contains all the relevant info needed by Soundy to play the referenced sounds in a managed way
-    /// </summary>
     [Serializable]
     public class SoundGroupData : ScriptableObject
     {
-        #region Enums
-
         /// <summary> The order in which clips will be played when you repeatedly fire the Play (sound) method </summary>
         public enum PlayMode
         {
@@ -31,11 +26,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             Sequence = 1
         }
 
-        #endregion
-
-        #region Properties
-
-        /// <summary> Returns TRUE if this SoundGroupData is either empty or has at least one null (or missing) AudioClip reference. If set to 'No Sound', returns FALSE </summary>
         public bool HasMissingAudioClips
         {
             get
@@ -67,7 +57,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
                 if (Sounds == null || Sounds.Count == 0)
                     return false;      //if the Sounds list is null or empty -> has no sound
                 
-                return !HasMissingAudioClips;
+                return HasMissingAudioClips == false;
             }
         }
 
@@ -78,10 +68,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         /// <summary> Returns a random volume value between 0f and 1f </summary>
         public float RandomVolume =>
             SoundyUtils.DecibelToLinear(Random.Range(Volume.MinValue, Volume.MaxValue));
-
-        #endregion
-
-        #region Public Variables
 
         /// <summary> The SoundDatabase name this SoundGroupData belongs to </summary>
         public string DatabaseName;
@@ -131,11 +117,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         public List<AudioData> Sounds = new List<AudioData>();
 
         public bool IsPlaying;
-
-        #endregion
-
-        #region Private Variables
-
+        
         /// <summary> Internal variable that keeps track of the last played sounds index </summary>
         private int m_lastPlayedSoundsIndex = -1;
 
@@ -147,11 +129,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         /// <summary> Internal variable that holds a reference to the previously played AudioData </summary>
         public AudioData LastPlayedAudioData { get; private set; }
-
-        #endregion
-
-        #region Unity Methods
-
+        
         private void Reset()
         {
             SoundName = SoundGroupDataConst.DefaultSoundName;
@@ -172,24 +150,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             SequenceResetTime = SoundGroupDataConst.DefaultSequenceResetTime;
         }
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary> Returns TRUE if the passed audio clip is referenced inside this Sound Group </summary>
         /// <param name="audioClip"> AudioClip reference to search for </param>
         public bool Contains(AudioClip audioClip)
         {
             if (audioClip == null)
                 return false;
-
-            foreach (AudioData audioData in Sounds)
-            {
-                if (audioData.AudioClip == audioClip)
-                    return true;
-            }
             
-            return false;
+            return Sounds.Any(data => data.AudioClip == audioClip);
         }
         
         public AudioData AddAudioData(AudioClip audioClip = null)
@@ -297,8 +265,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         {
             LastPlayedAudioData = GetAudioData(Mode);
         }
-
-        #endregion
 
         #region Private Methods
 

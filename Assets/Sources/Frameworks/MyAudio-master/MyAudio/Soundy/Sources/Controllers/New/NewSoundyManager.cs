@@ -31,8 +31,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             NewSoundyManager addToScene = AddToScene(true);
         }
 #endif
-
-        private static NewSoundyManager s_instance;
+        
         private float _musicVolume;
         private float _soundVolume;        
         private bool _isMusicVolumeMuted;
@@ -41,18 +40,22 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         private bool _initialized;
         private SoundControllersPool _pool;
         private NewSoundyControllerViewFactory _factory;
+
+        public event Action<float> Running; 
         
         public static bool IsMuteAllControllers { get; private set; }
         public static bool IsPauseAllControllers { get; private set; }
         public static SoundyDatabase Database => SoundySettings.Database;
+        public SoundControllersPool Pool => _pool;
+        public NewSoundyControllerViewFactory Factory => _factory;
         
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void RunOnStart()
-        {
-            Instance._applicationIsQuitting = false;
-            Instance._initialized = false;
-            Instance._pool = null;
-        }
+        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        // private static void RunOnStart()
+        // {
+        //     Instance._applicationIsQuitting = false;
+        //     Instance._initialized = false;
+        //     Instance._pool = null;
+        // }
 
         private void Awake()
         {
@@ -60,18 +63,18 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             _pool = new SoundControllersPool(transform, this);
             _factory = new NewSoundyControllerViewFactory(this, _pool);
             _pool.Initialize(_factory);
+            Debug.Log($"Awake {_pool}");
             Init();
         }
 
         private void Update()
         {
-            foreach (NewSoundyController controller in _pool.Collection)
-                controller.Run();
+             Running?.Invoke(Time.deltaTime);
         }
 
         private void OnDestroy()
         {
-            _pool.Destroy();
+            _pool?.Destroy();
         }
 
         public static NewSoundyManager AddToScene(bool selectGameObjectAfterCreation = false) =>
@@ -137,7 +140,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public static void SetVolume(string soundName, float volume)
         {
-            Instance._pool.Collection
+            Instance.Pool.Collection
                 .Where(controller => controller.Name == soundName)
                 .ForEach(controller => controller.AudioSource.volume = volume);
         }
@@ -158,8 +161,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             if (soundGroupData == null)
                 return null;
             
-            NewSoundyController controller = Instance._pool.Get();
-            Instance._factory.Create(soundGroupData, controller, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup);
+            Debug.Log($"Play");
+            NewSoundyController controller = Instance.Pool.Get();
+            Instance.Factory.Create(soundGroupData, controller, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup);
             controller.Play();
 
             return controller;
@@ -191,8 +195,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             
             //TODO добавил я
             //TODO в остальных местах сделать по аналогии
-            NewSoundyController controller = Instance._pool.Get();
-            Instance._factory.Create(soundGroupData, controller, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup, followTarget);
+            NewSoundyController controller = Instance.Pool.Get();
+            Instance.Factory.Create(soundGroupData, controller, Database.GetSoundDatabase(databaseName).OutputAudioMixerGroup, followTarget);
             controller.Play();
             //TODO конец добавления
 
@@ -236,7 +240,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             
             //TODO добавил я
             //TODO в остальных местах сделать по аналогии
-            NewSoundyController controller = Instance._pool.Get();
+            NewSoundyController controller = Instance.Pool.Get();
             Instance._factory.Create(soundGroupData, controller);
             controller.Play();
             //TODO конец добавления
