@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -19,6 +20,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         private NewSoundyManager _manager;
         
         public string Name { get; set; }
+        //Todo добавить это в едитор виндов и устанавливать это значение в фабрике
+        public SoundType SoundType { get; private set; }
         public AudioSource AudioSource { get; private set; }
         public bool IsPlaying => AudioSource.isPlaying;
         public bool InUse { get; private set; }
@@ -30,8 +33,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public void Construct(NewSoundyManager manager, SoundControllersPool pool)
         {
-            _manager = manager ?? throw new System.ArgumentNullException(nameof(manager));
-            _pool = pool ?? throw new System.ArgumentNullException(nameof(pool));
+            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            _pool = pool ?? throw new ArgumentNullException(nameof(pool));
         }
         
         private void Reset() =>
@@ -46,12 +49,18 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         private void OnEnable()
         {
-            NewSoundyManager.Instance.Running += Run;
+            if (_manager == null)
+                return;
+            
+            _manager.Running += Run;
         }
 
         private void OnDisable()
         {
-            NewSoundyManager.Instance.Running -= Run;
+            if (_manager == null)
+                return;
+            
+            _manager.Running -= Run;
         }
 
         public void Run(float deltaTime)
@@ -100,7 +109,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         public void SetPosition(Vector3 position) =>
             _transform.position = position;
 
-        public void SetSourceProperties(AudioClip clip, float volume, float pitch, bool loop, float spatialBlend)
+        public void SetSourceProperties(
+            AudioClip clip, 
+            float volume, 
+            float pitch, 
+            bool loop, 
+            float spatialBlend)
         {
             if (clip == null)
             {
@@ -121,6 +135,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             Unmute();
             AudioSource.Stop();
             ResetController();
+            UpdateLastPlayedTime();
             _pool.ReturnToPool(this);
         }
 
@@ -149,7 +164,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             InUse = false;
             IsPaused = false;
             _followTarget = null;
-            UpdateLastPlayedTime();
         }
 
         private void UpdateLastPlayedTime()
@@ -169,7 +183,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
                 return;
             
             PlayProgress = Mathf.Clamp01(AudioSource.time / AudioSource.clip.length);
-            Debug.Log($"PlayProgress: {PlayProgress}, AudioSource.time: {AudioSource.time}, AudioSource.clip.length: {AudioSource.clip.length}, IsPlaying: {AudioSource.isPlaying}");
+            // Debug.Log($"PlayProgress: {PlayProgress}, AudioSource.time: {AudioSource.time}, AudioSource.clip.length: {AudioSource.clip.length}, IsPlaying: {AudioSource.isPlaying}");
 
             if (PlayProgress >= 1f) //check if the sound finished playing
             {

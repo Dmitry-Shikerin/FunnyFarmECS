@@ -81,9 +81,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
             MyUtils.AddToScene<NewSoundyManager>(
                 SoundyManagerConstant.SoundyManagerGameObjectName, true, selectGameObjectAfterCreation);
 
-        public static string GetSoundDatabaseFilename(string databaseName) =>
-            "SoundDatabase_" + databaseName.Trim();
-
         public static void Init()
         {
             if (Instance._initialized || s_instance != null)
@@ -97,16 +94,19 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public static void Pause(string soundName)
         {
-            Instance._pool.Collection
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Pause());
+            ApplyWhere(soundName, controller => controller.Pause());
         }
 
         public static void UnPause(string soundName)
         {
+            ApplyWhere(soundName, controller => controller.Unpause());
+        }
+
+        private static void ApplyWhere(string soundName, Action<NewSoundyController> action)
+        {
             Instance._pool.Collection
                 .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Unpause());
+                .ForEach(action.Invoke);
         }
 
         public static void SetVolumes(float musicVolume, float soundVolume)
@@ -140,9 +140,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         public static void SetVolume(string soundName, float volume)
         {
-            Instance.Pool.Collection
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.AudioSource.volume = volume);
+            ApplyWhere(soundName, controller => controller.AudioSource.volume = volume);
         }
 
         public static NewSoundyController Play(string databaseName, string soundName, Vector3 position)
