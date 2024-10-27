@@ -8,10 +8,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
     public class AudioData
     {
         public AudioClip AudioClip;
-        
         [Range(AudioDataConst.MinWeight, AudioDataConst.MaxWeight)]
         public float Weight = AudioDataConst.DefaultWeight;
-
         public bool IsPlaying;
         
         public AudioData() =>
