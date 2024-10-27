@@ -14,8 +14,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
     [Serializable]
     public class SoundyData
     {
-        #region Public Variables
-
         /// <summary> Selects the sound source that will provide the sound that will get played </summary>
         public SoundSource SoundSource;
 
@@ -32,20 +30,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         /// <summary> Direct reference to an AudioMixerGroup that the referenced AudioClip will get routed through when played (enabled only for SoundSource.AudioClip) </summary>
         public AudioMixerGroup OutputAudioMixerGroup;
-
-        #endregion
-
-        #region Constructors
+        
 
         /// <summary> Creates a new instance for this class </summary>
         public SoundyData()
         {
             Reset();
         }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         ///     Returns a SoundGroupData reference from the database with the set DatabaseName and SoundName.
@@ -113,7 +104,5 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         
         private List<string> GetSoundNames() =>
             SoundySettings.Database.GetSoundDatabase(DatabaseName).SoundNames;
-
-        #endregion
     }
 }

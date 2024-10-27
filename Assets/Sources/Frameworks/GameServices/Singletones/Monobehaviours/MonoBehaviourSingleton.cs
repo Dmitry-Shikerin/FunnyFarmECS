@@ -5,7 +5,7 @@ namespace Sources.Frameworks.GameServices.Singletones.Monobehaviours
     public abstract class MonoBehaviourSingleton<T> : MonoBehaviour
         where T : MonoBehaviour
     {
-        protected static T s_instance;
+        private static T s_instance;
 
         public static T Instance
         {

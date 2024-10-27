@@ -1,8 +1,8 @@
 ﻿using System;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation
 {
@@ -22,24 +22,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         public void Initialize()
         {
             _view.SetAutoKillIdleControllers(_soundySettings.AutoKillIdleControllers);
-            _view.SetControllerAutoKillDuration(
-                new Vector2Int(
-                    (int)SoundySettings.CONTROLLER_IDLE_KILL_DURATION_MIN, 
-                    (int)SoundySettings.CONTROLLER_IDLE_KILL_DURATION_MAX),
-                (int)_soundySettings.ControllerIdleKillDuration);
-            _view.SetIdleCheckInterval(new Vector2Int(
-                (int)SoundySettings.IDLE_CHECK_INTERVAL_MIN, 
-                (int)SoundySettings.IDLE_CHECK_INTERVAL_MAX),
-                (int)_soundySettings.IdleCheckInterval);
-            _view.SetMinimumNumberOfControllers(new Vector2Int(
-                SoundySettings.MINIMUM_NUMBER_OF_CONTROLLERS_MIN, 
-                SoundySettings.MINIMUM_NUMBER_OF_CONTROLLERS_MAX),
-                _soundySettings.MinimumNumberOfControllers);
+            SetControllerAutoKillDuration();
+            SetIdleCheckInterval();
+            SetMinimumNumberOfControllers();
         }
 
         public void Dispose()
         {
-            
         }
 
         public void ChangeIdleCheckInterval(int value) =>
@@ -53,31 +42,40 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void ResetKillDuration()
         {
-            _soundySettings.ControllerIdleKillDuration = SoundySettings.CONTROLLER_IDLE_KILL_DURATION_DEFAULT_VALUE;
-            _view.SetControllerAutoKillDuration(
-                new Vector2Int(
-                    (int)SoundySettings.CONTROLLER_IDLE_KILL_DURATION_MIN, 
-                    (int)SoundySettings.CONTROLLER_IDLE_KILL_DURATION_MAX),
-                (int)_soundySettings.ControllerIdleKillDuration);
+            _soundySettings.ResetAutoKillIdleControllers();
+            SetControllerAutoKillDuration();
         }
 
         public void ResetIdleCheckInterval()
         {
-            _soundySettings.IdleCheckInterval = SoundySettings.IDLE_CHECK_INTERVAL_DEFAULT_VALUE;
-            _view.SetIdleCheckInterval(
-                new Vector2Int(
-                    (int)SoundySettings.IDLE_CHECK_INTERVAL_MIN, 
-                    (int)SoundySettings.IDLE_CHECK_INTERVAL_MAX),
-                (int)_soundySettings.IdleCheckInterval);
+            _soundySettings.ResetIdleCheckInterval();
+            SetIdleCheckInterval();
         }
 
         public void ResetMinControllersCount()
         {
-            _soundySettings.MinimumNumberOfControllers = SoundySettings.MINIMUM_NUMBER_OF_CONTROLLERS_DEFAULT_VALUE;
+            _soundySettings.ResetMinimumNumberOfControllers();
+            SetMinimumNumberOfControllers();
+        }
+
+        private void SetIdleCheckInterval()
+        {
+            _view.SetIdleCheckInterval(
+                SoundySettingsConst.MixMaxIdleCheckInterval,
+                (int)_soundySettings.IdleCheckInterval);
+        }
+        
+        private void SetControllerAutoKillDuration()
+        {
+            _view.SetControllerAutoKillDuration(
+                SoundySettingsConst.MinMaxControllersIdleKillDuration,
+                (int)_soundySettings.ControllerIdleKillDuration);
+        }
+        
+        private void SetMinimumNumberOfControllers()
+        {
             _view.SetMinimumNumberOfControllers(
-                new Vector2Int(
-                    SoundySettings.MINIMUM_NUMBER_OF_CONTROLLERS_MIN, 
-                    SoundySettings.MINIMUM_NUMBER_OF_CONTROLLERS_MAX),
+                SoundySettingsConst.MixMaxMinimumNumberOfControllers,
                 _soundySettings.MinimumNumberOfControllers);
         }
     }

@@ -2,65 +2,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure.Factories;
 using UnityEngine;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.New
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 {
     public class SoundControllersPool
     {
         private readonly Transform _parentTransform;
+        private readonly SoundySettings _settings;
         private readonly SoundyManager _manager;
         private List<SoundyController> _pool = new ();
         private List<SoundyController> _collection = new ();
         
         private Coroutine _idleCheckCoroutine;
-        private WaitForSecondsRealtime _idleCheckIntervalWaitForSecondsRealtime;
+        private WaitForSecondsRealtime _interval;
         private SoundyController _tempController;
-        private SoundyControllerViewFactory _factory;
+        private SoundyControllerFactory _factory;
 
-        public SoundControllersPool(Transform parentTransform, SoundyManager manager)
+        public SoundControllersPool(
+            Transform parentTransform,
+            SoundySettings settings,
+            SoundyManager manager)
         {
             _parentTransform = parentTransform;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _manager = manager ?? throw new ArgumentNullException(nameof(manager));
         }
 
         public IReadOnlyList<SoundyController> Pool => _pool;
         public IReadOnlyList<SoundyController> Collection => _collection;
-        private bool AutoKillIdleControllers => SoundySettings.Instance.AutoKillIdleControllers;
-        private float ControllerIdleKillDuration => SoundySettings.Instance.ControllerIdleKillDuration;
-        private float IdleCheckInterval => SoundySettings.Instance.IdleCheckInterval;
-        public int MinimumNumberOfControllers => SoundySettings.Instance.MinimumNumberOfControllers;
+        private bool IsAutoKillIdle => _settings.AutoKillIdleControllers;
+        private float KillDuration => _settings.ControllerIdleKillDuration;
+        private float IdleCheckInterval => _settings.IdleCheckInterval;
+        public int MinCount => _settings.MinimumNumberOfControllers;
         
 
-        public void Initialize(SoundyControllerViewFactory factory)
+        public void Initialize(SoundyControllerFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            
-            if (AutoKillIdleControllers == false)
-                return;
-            
+            _interval = new WaitForSecondsRealtime(IdleCheckInterval < 0 ? 0 : IdleCheckInterval);
+            PopulatePool(SoundySettings.Instance.MinimumNumberOfControllers);
             StartIdleCheckInterval();
         }
 
-        public void Destroy() =>
+        public void Destroy()
+        {
             StopIdleCheck();
-        
+            ClearPool();
+        }
+
         public void ClearPool(bool keepMinimumNumberOfControllers = false)
         {
             if (keepMinimumNumberOfControllers)
             {
                 RemoveNullControllers();
                 
-                if (_pool.Count <= MinimumNumberOfControllers)
+                if (_pool.Count <= MinCount)
                     return;
 
                 int killedControllersCount = 0;
                 
-                for (int i = _pool.Count - 1; i >= MinimumNumberOfControllers; i--)
+                for (int i = _pool.Count - 1; i >= MinCount; i--)
                 {
                     SoundyController controller = _pool[i];
                     _pool.Remove(controller);
@@ -119,8 +124,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
 
         private void StartIdleCheckInterval()
         {
-            _idleCheckIntervalWaitForSecondsRealtime = 
-                new WaitForSecondsRealtime(IdleCheckInterval < 0 ? 0 : IdleCheckInterval);
+            if (IsAutoKillIdle == false)
+                return;
+            
             _idleCheckCoroutine = CoroutineRunner.Run(DestroyIdleControllers());
         }
 
@@ -134,30 +140,29 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.N
         }
         
         private void RemoveNullControllers() =>
-            _pool = _pool.Where(p => p != null).ToList();
-        
+            _pool = _pool.Where(controller => controller != null).ToList();
 
         private IEnumerator DestroyIdleControllers()
         {
-            while (AutoKillIdleControllers)
+            while (IsAutoKillIdle)
             {
-                yield return _idleCheckIntervalWaitForSecondsRealtime;
+                yield return _interval;
                 
                 RemoveNullControllers();
-                int minimumNumberOfControllers = MinimumNumberOfControllers > 0 ? MinimumNumberOfControllers : 0;
-                float controllerIdleKillDuration = ControllerIdleKillDuration > 0 ? ControllerIdleKillDuration : 0;
+                int minCount = MinCount > 0 ? MinCount : 0;
+                float killDuration = KillDuration > 0 ? KillDuration : 0;
                 
-                if (_pool.Count <= minimumNumberOfControllers) 
+                if (_pool.Count <= minCount) 
                     continue;
                 
-                for (int i = _pool.Count - 1; i >= minimumNumberOfControllers; i--)
+                for (int i = _pool.Count - 1; i >= minCount; i--)
                 {
                     _tempController = _pool[i];
                     
                     if (_tempController.gameObject.activeSelf) 
                         continue;
                     
-                    if (_tempController.IdleDuration < controllerIdleKillDuration) 
+                    if (_tempController.IdleDuration < killDuration) 
                         continue;
                     
                     _pool.Remove(_tempController);

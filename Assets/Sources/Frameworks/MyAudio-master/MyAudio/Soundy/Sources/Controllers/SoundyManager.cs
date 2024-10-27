@@ -3,7 +3,6 @@ using System.Linq;
 using MyAudios.MyUiFramework.Utils;
 using Sirenix.Utilities;
 using Sources.Frameworks.GameServices.Singletones.Monobehaviours;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
@@ -38,21 +37,21 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
         private bool _applicationIsQuitting;
         private bool _initialized;
         private SoundControllersPool _pool;
-        private SoundyControllerViewFactory _factory;
+        private SoundyControllerFactory _factory;
 
         public event Action<float> Running;
 
         public static bool IsMuteAllControllers { get; private set; }
         public static bool IsPauseAllControllers { get; private set; }
         public static SoundyDatabase Database => SoundySettings.Database;
+        public static SoundySettings Settings => SoundySettings.Instance;
         public SoundControllersPool Pool => _pool;
-        public SoundyControllerViewFactory Factory => _factory;
 
         private void Awake()
         {
             _initialized = true;
-            _pool = new SoundControllersPool(transform, this);
-            _factory = new SoundyControllerViewFactory(this, _pool);
+            _pool = new SoundControllersPool(transform, Settings,this);
+            _factory = new SoundyControllerFactory(this, _pool);
             _pool.Initialize(_factory);
             Init();
         }
@@ -64,18 +63,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 
         private void OnDestroy()
         {
-            _pool?.Destroy();
+            _pool.Destroy();
         }
 
         private static void Init()
         {
-            for (int i = 0; i < Instance._pool.MinimumNumberOfControllers + 1; i++)
+            for (int i = 0; i < Instance._pool.MinCount + 1; i++)
                 Instance._pool.Get().Stop();
         }
-
+        
         public static SoundyController Play(string databaseName, string soundName)
         {
             SoundGroupData data = GetData(out SoundDatabase dataBase, databaseName, soundName);
+            //TODO перетащить это в свойство и сделать проверку на нулувую последнюю воспроизведенную аудиодату
+            data.ChangeLastPlayedAudioData();
 
             return Instance.Pool.Get()
                 .SetAudioClip(data.LastPlayedAudioData.AudioClip)
@@ -123,6 +124,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 
         public static void Stop(string databaseName, string soundName)
         {
+            //TODO сделать пул для звуков которые проигрываются
             Instance._pool.Collection
                 .Where(controller => controller.Name == soundName)
                 .ForEach(controller => controller.Stop());

@@ -26,6 +26,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Presentation
 
         private void OnClick()
         {
+            //todo перетащить обратно в менеджер
             Action action = _soundyData.SoundSource switch
             {
                 SoundSource.Soundy => () => SoundyManager.Play(_soundyData.DatabaseName, _soundyData.SoundName),

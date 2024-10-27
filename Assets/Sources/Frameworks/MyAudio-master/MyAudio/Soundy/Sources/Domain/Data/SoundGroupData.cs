@@ -173,56 +173,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             Sounds.Remove(audioData);
         }
 
-        /// <summary> [Editor Only] Plays a sound preview in the Editor </summary>
-        /// <param name="audioSource"> AudioSource that will play the sound </param>
-        /// <param name="outputAudioMixerGroup"> The output AudioMixerGroup that the sound will get routed through </param>
-        /// <param name="audioClip"> AudioClip to play </param>
-        public void PlaySoundPreview(AudioSource audioSource, AudioMixerGroup outputAudioMixerGroup, AudioClip audioClip)
-        {
-            if (audioSource == null)
-                return;
-            
-            if (audioClip != null)
-            {
-                audioSource.clip = audioClip;
-            }
-            else
-            {
-                LastPlayedAudioData = GetAudioData(Mode);
-                
-                if (LastPlayedAudioData == null)
-                    return;
-                
-                audioSource.clip = LastPlayedAudioData.AudioClip;
-            }
-
-            audioSource.ignoreListenerPause = IgnoreListenerPause;
-            audioSource.outputAudioMixerGroup = outputAudioMixerGroup;
-            audioSource.volume = RandomVolume;
-            audioSource.pitch = RandomPitch;
-            audioSource.loop = Loop;
-            audioSource.spatialBlend = SpatialBlend;
-            Camera main = Camera.main;
-            audioSource.transform.position = main == null ? Vector3.zero : main.transform.position;
-            audioSource.Play();
-        }
-
-        /// <summary> [Editor Only] Plays a sound preview in the Editor </summary>
-        /// <param name="audioSource"> AudioSource that will play the sound </param>
-        /// <param name="outputAudioMixerGroup"> The output AudioMixerGroup that the sound will get routed through </param>
-        public void PlaySoundPreview(AudioSource audioSource, AudioMixerGroup outputAudioMixerGroup) =>
-            PlaySoundPreview(audioSource, outputAudioMixerGroup, null);
-
-        /// <summary> [Editor Only] Stops the sound preview on the target AudioSource </summary>
-        /// <param name="audioSource"> Target AudioSource </param>
-        public void StopSoundPreview(AudioSource audioSource)
-        {
-            if (audioSource == null)
-                return;
-            
-            audioSource.Stop();
-        }
-
         /// <summary> [Editor Only] Marks target object as dirty. (Only suitable for non-scene objects) </summary>
         /// <param name="saveAssets"> Write all unsaved asset changes to disk? </param>
         public void SetDirty(bool saveAssets) =>
