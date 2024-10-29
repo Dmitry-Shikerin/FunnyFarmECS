@@ -129,75 +129,73 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return audioData;
         }
 
-        public void RemoveAudioData(AudioData audioData)
-        {
+        public void Remove(AudioData audioData) =>
             Sounds.Remove(audioData);
-        }
 
         public void ChangeLastPlayedAudioData()
         {
             LastPlayedAudioData = GetAudioData(Mode);
         }
-
-        #region Private Methods
-
+        
         /// <summary> Returns the proper AudioData that needs to get played according to the set settings </summary>
         /// <param name="playMode">The play mode.</param>
         private AudioData GetAudioData(SoundPlayMode playMode)
         {
-            switch (playMode)
+            return playMode switch
             {
-                case SoundPlayMode.Random:
-
-                    if (_playedSounds.Count == Sounds.Count)
-                        _playedSounds.Clear();
-
-                    AudioData foundClip = null; //look for a sound that has not been played
-                    
-                    while (foundClip == null)   //until such a sound is found continue the search
-                    {
-                        int randomIndex = Random.Range(0, Sounds.Count);
-                        foundClip = Sounds[randomIndex];        //get a random sound
-                        
-                        if (_playedSounds.Contains(foundClip)) //check that it has not been played
-                        {
-                            foundClip = null; //it has been played -> discard it
-                        }
-                        else
-                        {
-                            _playedSounds.Add(foundClip); //it has not been played -> add it to the _playedSounds list and continue
-                            _lastPlayedSoundsIndex = randomIndex;
-                        }
-                    }
-
-                    return foundClip; //return the sound that will get played
-
-                case SoundPlayMode.Sequence:
-                    if (_playedSounds.Count == Sounds.Count) //if all the sounds in the sounds list were played
-                        _lastPlayedSoundsIndex = -1;         //-> reset the sequence index
-
-                    if (ResetSequenceAfterInactiveTime &&                                      //if resetSequenceAfterInactiveTime 
-                        Time.realtimeSinceStartup - _lastPlayedSoundTime > SequenceResetTime) //and enough time has passed since the last sound in the sequence has been played //Time.unscaledTime
-                        _lastPlayedSoundsIndex = -1;                                          //-> reset the sequence index
-
-                    if (_lastPlayedSoundsIndex == -1) //if the last played index is in the reset state (-1)
-                        _playedSounds.Clear();        //-> reset the played sounds list
-
-                    _lastPlayedSoundsIndex = _lastPlayedSoundsIndex == -1 || _lastPlayedSoundsIndex >= Sounds.Count - 1
-                                                  ? //if the index has been reset (-1)
-                                                  0
-                                                  :                            //-> set the last played index as the first entry in the sounds list
-                                                  _lastPlayedSoundsIndex + 1; //-> otherwise set the last played index as the next entry in the sequence
-
-                    _playedSounds.Add(Sounds[_lastPlayedSoundsIndex]); //add the played sound to the playedSounds list
-                    _lastPlayedSoundTime = Time.realtimeSinceStartup;   //save the last played sound time
-                    
-                    return Sounds[_lastPlayedSoundsIndex];              //return the sound that will get played
-            }
-
-            return null; //this should never happen
+                SoundPlayMode.Random => GetRandom(),
+                SoundPlayMode.Sequence => GetSequence(),
+                _ => throw new InvalidOperationException("Invalid play mode"),
+            };
         }
 
-        #endregion
+        private AudioData GetRandom()
+        {
+            if (_playedSounds.Count == Sounds.Count)
+                _playedSounds.Clear();
+
+            AudioData foundClip = null; //look for a sound that has not been played
+                    
+            while (foundClip == null)   //until such a sound is found continue the search
+            {
+                int randomIndex = Random.Range(0, Sounds.Count);
+                foundClip = Sounds[randomIndex];        //get a random sound
+                        
+                if (_playedSounds.Contains(foundClip)) //check that it has not been played
+                {
+                    foundClip = null; //it has been played -> discard it
+                }
+                else
+                {
+                    _playedSounds.Add(foundClip); //it has not been played -> add it to the _playedSounds list and continue
+                    _lastPlayedSoundsIndex = randomIndex;
+                }
+            }
+
+            return foundClip; //return the sound that will get played
+        }
+
+        private AudioData GetSequence()
+        {
+            if (_playedSounds.Count == Sounds.Count) //if all the sounds in the sounds list were played
+                _lastPlayedSoundsIndex = -1;         //-> reset the sequence index
+
+            if (ResetSequenceAfterInactiveTime &&                                      //if resetSequenceAfterInactiveTime 
+                Time.realtimeSinceStartup - _lastPlayedSoundTime > SequenceResetTime) //and enough time has passed since the last sound in the sequence has been played //Time.unscaledTime
+                _lastPlayedSoundsIndex = -1;                                          //-> reset the sequence index
+
+            if (_lastPlayedSoundsIndex == -1) //if the last played index is in the reset state (-1)
+                _playedSounds.Clear();        //-> reset the played sounds list
+
+            _lastPlayedSoundsIndex = _lastPlayedSoundsIndex == -1 || _lastPlayedSoundsIndex >= Sounds.Count - 1
+                ? 0 //if the index has been reset (-1)
+                : _lastPlayedSoundsIndex + 1; //-> set the last played index as the first entry in the sounds list
+                                              //-> otherwise set the last played index as the next entry in the sequence
+
+            _playedSounds.Add(Sounds[_lastPlayedSoundsIndex]); //add the played sound to the playedSounds list
+            _lastPlayedSoundTime = Time.realtimeSinceStartup;   //save the last played sound time
+                    
+            return Sounds[_lastPlayedSoundsIndex];              //return the sound that will get played
+        }
     }
 }

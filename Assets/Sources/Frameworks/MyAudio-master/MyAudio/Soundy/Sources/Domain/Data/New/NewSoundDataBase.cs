@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
-using UnityEditor;
 using UnityEngine.Audio;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New
@@ -13,58 +12,21 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         public string Name;
         public AudioMixerGroup OutputAudioMixerGroup;
         public List<string> SoundNames = new List<string>();
-        public List<SoundGroupData> Database = new List<SoundGroupData>();
-        
-        public bool HasSoundsWithMissingAudioClips
-        {
-            get
-            {
-                foreach (SoundGroupData soundGroupData in Database)
-                {
-                    if (soundGroupData.HasMissingAudioClips)
-                        return true;
-                }
+        public List<NewSoundGroupData> Database = new List<NewSoundGroupData>();
 
-                return false;
-            }
-        }
+        public bool HasSoundsWithMissingAudioClips => Database.Any(data => data.HasMissingAudioClips);
         
-        public bool Add(SoundGroupData data, bool saveAssets)
+        public bool Add(NewSoundGroupData data)
         {
             if (data == null)
                 return false;
 
             data.DatabaseName = Name;
-            AddObjectToAsset(data);
-            SetDirty(saveAssets);
 
             return true;
         }
-
-        public void RenameSoundGroup(SoundGroupData soundGroupData, string newName, bool isApplyFirstSoundName = false)
-        {
-            if (Database.Contains(soundGroupData) == false)
-                return;
-
-            if (string.IsNullOrEmpty(newName))
-                return;
-
-            // if (isApplyFirstSoundName)
-            // {
-            //     if (soundGroupData.Sounds.Count == 0)
-            //         return;
-            //     
-            //     AssetDatabase.RenameAsset(
-            //         AssetDatabase.GetAssetPath(soundGroupData),
-            //         soundGroupData.Sounds[0].AudioClip.name);
-            //     
-            //     return;
-            // }
-            //
-            //AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(soundGroupData), "SoundGroupData_" + newName);
-        }
         
-        public SoundGroupData Add(string soundName, bool performUndo, bool saveAssets)
+        public NewSoundGroupData Add(string soundName, bool performUndo, bool saveAssets)
         {
             soundName = soundName.Trim();
             string newName = soundName;
@@ -75,22 +37,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 counter++;
                 newName = soundName + " (" + counter + ")";
             }
-
-            if (performUndo)
-                UndoRecord(SoundDataBaseConst.AddItemConst);
-
-            SoundGroupData data = CreateInstance<SoundGroupData>();
+            
+            NewSoundGroupData data = new NewSoundGroupData();
             data.DatabaseName = Name;
             data.SoundName = newName;
-            data.name = data.SoundName;
-            data.SetDirty(false);
 
             if (Database == null)
-                Database = new List<SoundGroupData>();
+                Database = new List<NewSoundGroupData>();
 
             Database.Add(data);
-            AddObjectToAsset(data);
-            SetDirty(saveAssets);
 
             return data;
         }
@@ -99,12 +54,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         {
             if (Database == null)
             {
-                Database = new List<SoundGroupData>();
+                Database = new List<NewSoundGroupData>();
 
                 return false;
             }
 
-            foreach (SoundGroupData data in Database)
+            foreach (NewSoundGroupData data in Database)
             {
                 if (data.SoundName.Equals(soundName))
                     return true;
@@ -113,7 +68,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return false;
         }
 
-        public bool Contains(SoundGroupData soundGroupData)
+        public bool Contains(NewSoundGroupData soundGroupData)
         {
             if (soundGroupData != null && Database.Contains(soundGroupData))
                 return true;
@@ -121,9 +76,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return false;
         }
         
-        public SoundGroupData GetData(string soundName)
+        public NewSoundGroupData GetData(string soundName)
         {
-            foreach (SoundGroupData data in Database)
+            foreach (NewSoundGroupData data in Database)
             {
                 if (data.SoundName.Equals(soundName))
                     return data;
@@ -135,7 +90,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         public void Initialize(bool saveAssets) =>
             RefreshDatabase(false, saveAssets);
         
-        public bool Remove(SoundGroupData data, bool showDialog = false, bool saveAssets = false)
+        public bool Remove(NewSoundGroupData data, bool showDialog = false, bool saveAssets = false)
         {
             if (data == null)
                 return false;
@@ -147,14 +102,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             {
                 if (Database[i] == data)
                 {
-                    if (data != null)
-                    {
-#if UNITY_EDITOR
-                        AssetDatabase.RemoveObjectFromAsset(data);
-                        DestroyImmediate(data, true);
-#endif
-                    }
-
                     Database.RemoveAt(i);
 
                     break;
@@ -162,34 +109,25 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             }
 
             UpdateSoundNames(false);
-            SetDirty(saveAssets);
 
             return true;
         }
         
         public void RefreshDatabase(bool performUndo, bool saveAssets)
         {
-            if (performUndo)
-                UndoRecord(SoundDataBaseConst.RefreshDatabaseConst);
-
-            bool addedTheNoSoundSoundGroup = AddNoSound();
-            RemoveUnreferencedData();
-            RemoveUnnamedEntries(false);
+            AddNoSound();
+            RemoveUnnamedEntries();
             RemoveDuplicateEntries(false);
-            bool foundDataWithWrongDatabaseName = CheckAllDataForCorrectDatabaseName(false);
-            Sort(false);
+            CheckAllDataForCorrectDatabaseName(false);
+            Sort();
             UpdateSoundNames(false);
-            SetDirty(saveAssets && (addedTheNoSoundSoundGroup || foundDataWithWrongDatabaseName));
         }
         
         public void RemoveEntriesWithNoAudioClipsReferenced(bool performUndo, bool saveAssets = false)
         {
-            if (performUndo)
-                UndoRecord(SoundDataBaseConst.RemovedEntryConst);
-
             for (int i = Database.Count - 1; i >= 0; i--)
             {
-                SoundGroupData data = Database[i];
+                NewSoundGroupData data = Database[i];
 
                 if (data.SoundName.Equals(SoundyManagerConstant.NoSound))
                     continue;
@@ -210,41 +148,26 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 if (data.Sounds.Count == 0)
                     Database.RemoveAt(i);
             }
-
-            SetDirty(saveAssets);
         }
         
         public void RemoveDuplicateEntries(bool performUndo, bool saveAssets = false)
         {
-            if (performUndo)
-                UndoRecord(SoundDataBaseConst.RemovedDuplicateEntriesConst);
-
-            Database = Database.GroupBy(data => data.SoundName)
-                .Select(n => n.First())
+            Database = Database
+                .GroupBy(data => data.SoundName)
+                .Select(data => data.First())
                 .ToList();
-
-            SetDirty(saveAssets);
         }
         
-        public void RemoveUnnamedEntries(bool performUndo, bool saveAssets = false)
-        {
-            if (performUndo)
-                UndoRecord(SoundDataBaseConst.RemoveEmptyEntriesConst);
+        public void RemoveUnnamedEntries() =>
+            Database = Database.Where(data => string.IsNullOrEmpty(data.SoundName.Trim()) == false).ToList();
 
-            Database = Database.Where(data => !string.IsNullOrEmpty(data.SoundName.Trim())).ToList();
-            SetDirty(saveAssets);
-        }
-        
-        public void Sort(bool performUndo, bool saveAssets = false)
+        public void Sort()
         {
-            if (performUndo)
-                UndoRecord(SoundDataBaseConst.SortDatabaseConst);
-
             Database = Database.OrderBy(data => data.SoundName).ToList();
             
-            SoundGroupData noSoundSoundGroupData = null;
+            NewSoundGroupData noSoundSoundGroupData = null;
 
-            foreach (SoundGroupData audioData in Database)
+            foreach (NewSoundGroupData audioData in Database)
             {
                 if (!audioData.SoundName.Equals(SoundyManagerConstant.NoSound))
                     continue;
@@ -259,7 +182,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 Database.Insert(0, noSoundSoundGroupData); //insert back the 'No Sound' entry at the top
 
             UpdateSoundNames(false);
-            SetDirty(saveAssets);
         }
         
         public void UpdateSoundNames(bool saveAssets)
@@ -269,7 +191,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 SoundNames = new List<string>();
 
             if (Database == null)
-                Database = new List<SoundGroupData>();
+                Database = new List<NewSoundGroupData>();
 
             AddNoSound();
 #endif
@@ -278,15 +200,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
 
             var list = new List<string>();
 
-            foreach (SoundGroupData data in Database)
+            foreach (NewSoundGroupData data in Database)
                 list.Add(data.SoundName);
 
             list.Sort();
             SoundNames.AddRange(list);
-            SetDirty(saveAssets);
         }
         
-        private bool AddNoSound(bool saveAssets = false)
+        private bool AddNoSound()
         {
             if (Contains(SoundyManagerConstant.NoSound))
                 return false;
@@ -295,18 +216,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 SoundNames = new List<string>();
 
             SoundNames.Add(SoundyManagerConstant.NoSound);
-            SoundGroupData data = CreateInstance<SoundGroupData>();
+            NewSoundGroupData data = new NewSoundGroupData();
             data.DatabaseName = Name;
             data.SoundName = SoundyManagerConstant.NoSound;
-            data.name = data.SoundName;
-            data.SetDirty(false);
 
             if (Database == null)
-                Database = new List<SoundGroupData>();
+                Database = new List<NewSoundGroupData>();
 
             Database.Add(data);
-            AddObjectToAsset(data);
-            SetDirty(saveAssets);
 
             return true;
         }
@@ -315,7 +232,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         {
             bool foundSoundGroupWithWrongDatabaseName = false;
 
-            foreach (SoundGroupData data in Database)
+            foreach (NewSoundGroupData data in Database)
             {
                 if (data == null)
                     continue;
@@ -325,48 +242,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
 
                 foundSoundGroupWithWrongDatabaseName = true;
                 data.DatabaseName = Name;
-                data.SetDirty(false);
             }
-
-            SetDirty(saveAssets);
 
             return foundSoundGroupWithWrongDatabaseName;
-        }
-        
-        private void RemoveUnreferencedData(bool saveAssets = false)
-        {
-#if UNITY_EDITOR
-            Object[] objects =
-                AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(this)); //load all of the data assets
-
-            if (objects == null)
-                return;
-
-            //make sure they are not null
-            List<SoundGroupData>
-                foundAudioData =
-                    objects.OfType<SoundGroupData>().ToList(); //create a temp list of all the found sub assets data
-
-            if (Database == null)
-                Database = new List<SoundGroupData>(); //sanity check
-
-            bool save = false;
-
-            //mark true if any sub asset was destroyed
-            foreach (SoundGroupData data in foundAudioData)
-            {
-                if (Database.Contains(data))
-                    continue; //reference was FOUND in the list -> continue
-
-                DestroyImmediate(data, true); //reference was NOT FOUND in the list -> destroy the asset
-                save = true; //mark true to set as dirty and save
-            }
-
-            if (!save)
-                return; //if no sub asset was destroyed -> stop here
-
-            SetDirty(saveAssets); //save database
-#endif
         }
     }
 }
