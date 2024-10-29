@@ -88,7 +88,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         }
         
         public void Initialize(bool saveAssets) =>
-            RefreshDatabase(false, saveAssets);
+            RefreshDatabase();
         
         public bool Remove(NewSoundGroupData data, bool showDialog = false, bool saveAssets = false)
         {
@@ -113,7 +113,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return true;
         }
         
-        public void RefreshDatabase(bool performUndo, bool saveAssets)
+        public void RefreshDatabase()
         {
             AddNoSound();
             RemoveUnnamedEntries();

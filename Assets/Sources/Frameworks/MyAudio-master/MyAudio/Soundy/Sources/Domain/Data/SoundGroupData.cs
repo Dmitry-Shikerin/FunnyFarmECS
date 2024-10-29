@@ -6,6 +6,7 @@ using MyAudios.MyUiFramework.Utils;
 using MyAudios.Scripts;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Utils;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -16,16 +17,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
     [Serializable]
     public class SoundGroupData : ScriptableObject
     {
-        /// <summary> The order in which clips will be played when you repeatedly fire the Play (sound) method </summary>
-        public enum PlayMode
-        {
-            /// <summary> Sounds are played randomly from a sounds list and refilled after all have been played. This uses true no-repeat, so even when all the sounds in the list have been played, it will not play the previous sound again on the next pass </summary>
-            Random = 0,
-
-            /// <summary> Sounds are played in the order they have been added to the sounds list. This option has additional settings </summary>
-            Sequence = 1
-        }
-
         public bool HasMissingAudioClips
         {
             get
@@ -102,7 +93,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         public bool Loop;
 
         /// <summary> Sets the rules for playing the referenced AudioClips </summary>
-        public PlayMode Mode;
+        public SoundPlayMode Mode;
 
         /// <summary> If Mode is set to PlayMode.Sequence and this flag is set to TRUE, then the play sequence will get automatically reset after an inactive time has passed since the last played sound </summary>
         public bool ResetSequenceAfterInactiveTime;
@@ -187,11 +178,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         /// <summary> Returns the proper AudioData that needs to get played according to the set settings </summary>
         /// <param name="playMode">The play mode.</param>
-        private AudioData GetAudioData(PlayMode playMode)
+        private AudioData GetAudioData(SoundPlayMode playMode)
         {
             switch (playMode)
             {
-                case PlayMode.Random:
+                case SoundPlayMode.Random:
 
                     if (m_playedSounds.Count == Sounds.Count)
                         m_playedSounds.Clear();
@@ -216,7 +207,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
                     return foundClip; //return the sound that will get played
 
-                case PlayMode.Sequence:
+                case SoundPlayMode.Sequence:
                     if (m_playedSounds.Count == Sounds.Count) //if all the sounds in the sounds list were played
                         m_lastPlayedSoundsIndex = -1;         //-> reset the sequence index
 
