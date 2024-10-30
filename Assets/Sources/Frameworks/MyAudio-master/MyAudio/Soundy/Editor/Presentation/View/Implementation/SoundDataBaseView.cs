@@ -115,8 +115,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
                 .AddSpace(4);
             _soundGroups.Add(soundGroupView);
         }
-
-
+        
         public void Dispose()
         {
             Root.RemoveFromHierarchy();
