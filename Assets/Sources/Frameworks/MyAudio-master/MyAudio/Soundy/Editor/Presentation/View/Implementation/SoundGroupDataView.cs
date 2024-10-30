@@ -4,11 +4,10 @@ using Doozy.Editor.EditorUI.Components;
 using Doozy.Editor.EditorUI.Components.Internal;
 using Doozy.Editor.EditorUI.Events;
 using Doozy.Runtime.UIElements.Extensions;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -41,9 +40,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         public void Initialize()
         {
             _visualElement.RandomButtonTab.SetOnClick(() => 
-                _presenter.SetPlayMode(SoundGroupData.PlayMode.Random));
+                _presenter.SetPlayMode(SoundPlayMode.Random));
            _visualElement.SequenceButtonTab.SetOnClick(() => 
-               _presenter.SetPlayMode(SoundGroupData.PlayMode.Sequence));
+               _presenter.SetPlayMode(SoundPlayMode.Sequence));
            _visualElement.LoopToggle.OnValueChanged += ChangeLoop;
            _visualElement.NewSoundContentVisualElement.CreateButton.SetOnClick(
                () => _presenter.CreateAudioData());
@@ -103,12 +102,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         public void SetLoop(bool loop) =>
             _visualElement.LoopToggle.isOn = loop;
 
-        public void SetIsOnButtonTab(SoundGroupData.PlayMode playMode)
+        public void SetIsOnButtonTab(SoundPlayMode playMode)
         {
             Action changePlayMode = playMode switch
             {
-                SoundGroupData.PlayMode.Random => () => _visualElement.RandomButtonTab.isOn = true,
-                SoundGroupData.PlayMode.Sequence => () => _visualElement.SequenceButtonTab.isOn = true,
+                SoundPlayMode.Random => () => _visualElement.RandomButtonTab.isOn = true,
+                SoundPlayMode.Sequence => () => _visualElement.SequenceButtonTab.isOn = true,
                 _ => throw new ArgumentOutOfRangeException()
             };
             

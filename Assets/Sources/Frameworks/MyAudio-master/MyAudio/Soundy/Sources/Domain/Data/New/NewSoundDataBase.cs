@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Dictionaries;
+using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New
@@ -11,10 +13,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
     {
         public string Name;
         public AudioMixerGroup OutputAudioMixerGroup;
-        public List<string> SoundNames = new List<string>();
-        public List<NewSoundGroupData> Database = new List<NewSoundGroupData>();
+        [SerializeField] private SoundGroupDataDictionary _dataBase = new ();
 
-        public bool HasSoundsWithMissingAudioClips => Database.Any(data => data.HasMissingAudioClips);
+        public bool HasSoundsWithMissingAudioClips => _dataBase.Values.Any(data => data.HasMissingAudioClips);
         
         public bool Add(NewSoundGroupData data)
         {
@@ -26,7 +27,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return true;
         }
         
-        public NewSoundGroupData Add(string soundName, bool performUndo, bool saveAssets)
+        public NewSoundGroupData Add(string soundName)
         {
             soundName = soundName.Trim();
             string newName = soundName;
@@ -42,55 +43,25 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             data.DatabaseName = Name;
             data.SoundName = newName;
 
-            if (Database == null)
-                Database = new List<NewSoundGroupData>();
-
-            Database.Add(data);
+            _dataBase ??= new SoundGroupDataDictionary();
+            _dataBase[soundName] = data;
 
             return data;
         }
         
-        public bool Contains(string soundName)
-        {
-            if (Database == null)
-            {
-                Database = new List<NewSoundGroupData>();
+        public bool Contains(string soundName) =>
+            _dataBase.ContainsKey(soundName);
 
-                return false;
-            }
+        public bool Contains(NewSoundGroupData soundGroupData) =>
+            soundGroupData != null && _dataBase.ContainsValue(soundGroupData);
 
-            foreach (NewSoundGroupData data in Database)
-            {
-                if (data.SoundName.Equals(soundName))
-                    return true;
-            }
+        public NewSoundGroupData GetData(string soundName) =>
+            _dataBase.GetValueOrDefault(soundName);
 
-            return false;
-        }
-
-        public bool Contains(NewSoundGroupData soundGroupData)
-        {
-            if (soundGroupData != null && Database.Contains(soundGroupData))
-                return true;
-
-            return false;
-        }
-        
-        public NewSoundGroupData GetData(string soundName)
-        {
-            foreach (NewSoundGroupData data in Database)
-            {
-                if (data.SoundName.Equals(soundName))
-                    return data;
-            }
-
-            return null;
-        }
-        
-        public void Initialize(bool saveAssets) =>
+        public void Initialize() =>
             RefreshDatabase();
         
-        public bool Remove(NewSoundGroupData data, bool showDialog = false, bool saveAssets = false)
+        public bool Remove(NewSoundGroupData data)
         {
             if (data == null)
                 return false;
@@ -98,17 +69,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             if (Contains(data) == false)
                 return false;
 
-            for (int i = Database.Count - 1; i >= 0; i--)
-            {
-                if (Database[i] == data)
-                {
-                    Database.RemoveAt(i);
-
-                    break;
-                }
-            }
-
-            UpdateSoundNames(false);
+            _dataBase.Remove(data.SoundName);
+            AddNoSound();
 
             return true;
         }
@@ -117,122 +79,42 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         {
             AddNoSound();
             RemoveUnnamedEntries();
-            RemoveDuplicateEntries(false);
-            CheckAllDataForCorrectDatabaseName(false);
-            Sort();
-            UpdateSoundNames(false);
+            RemoveDuplicateEntries();
+            CheckAllDataForCorrectDatabaseName();
         }
         
-        public void RemoveEntriesWithNoAudioClipsReferenced(bool performUndo, bool saveAssets = false)
-        {
-            for (int i = Database.Count - 1; i >= 0; i--)
-            {
-                NewSoundGroupData data = Database[i];
-
-                if (data.SoundName.Equals(SoundyManagerConstant.NoSound))
-                    continue;
-
-                if (data.Sounds == null)
-                {
-                    Database.RemoveAt(i);
-
-                    continue;
-                }
-
-                for (int j = data.Sounds.Count - 1; j >= 0; j--)
-                {
-                    if (data.Sounds[j] == null)
-                        data.Sounds.RemoveAt(j);
-                }
-
-                if (data.Sounds.Count == 0)
-                    Database.RemoveAt(i);
-            }
-        }
-        
-        public void RemoveDuplicateEntries(bool performUndo, bool saveAssets = false)
-        {
-            Database = Database
+        public void RemoveDuplicateEntries() =>
+            _dataBase = (SoundGroupDataDictionary)_dataBase.Values
                 .GroupBy(data => data.SoundName)
                 .Select(data => data.First())
-                .ToList();
-        }
-        
+                .ToDictionary(data => data.SoundName, data => data);
+
         public void RemoveUnnamedEntries() =>
-            Database = Database.Where(data => string.IsNullOrEmpty(data.SoundName.Trim()) == false).ToList();
-
-        public void Sort()
-        {
-            Database = Database.OrderBy(data => data.SoundName).ToList();
-            
-            NewSoundGroupData noSoundSoundGroupData = null;
-
-            foreach (NewSoundGroupData audioData in Database)
-            {
-                if (!audioData.SoundName.Equals(SoundyManagerConstant.NoSound))
-                    continue;
-
-                noSoundSoundGroupData = audioData;
-                Database.Remove(audioData);
-
-                break;
-            }
-
-            if (noSoundSoundGroupData != null)
-                Database.Insert(0, noSoundSoundGroupData); //insert back the 'No Sound' entry at the top
-
-            UpdateSoundNames(false);
-        }
-        
-        public void UpdateSoundNames(bool saveAssets)
-        {
-#if UNITY_EDITOR
-            if (SoundNames == null)
-                SoundNames = new List<string>();
-
-            if (Database == null)
-                Database = new List<NewSoundGroupData>();
-
-            AddNoSound();
-#endif
-            SoundNames.Clear();
-            SoundNames.Add(SoundyManagerConstant.NoSound);
-
-            var list = new List<string>();
-
-            foreach (NewSoundGroupData data in Database)
-                list.Add(data.SoundName);
-
-            list.Sort();
-            SoundNames.AddRange(list);
-        }
+            _dataBase = (SoundGroupDataDictionary)_dataBase.Values
+                .Where(data => string.IsNullOrEmpty(data.SoundName.Trim()) == false)
+                .ToDictionary(data => data.SoundName, data => data);
         
         private bool AddNoSound()
         {
             if (Contains(SoundyManagerConstant.NoSound))
                 return false;
+            
+            if (_dataBase == null)
+                _dataBase = new SoundGroupDataDictionary();
 
-            if (SoundNames == null)
-                SoundNames = new List<string>();
-
-            SoundNames.Add(SoundyManagerConstant.NoSound);
             NewSoundGroupData data = new NewSoundGroupData();
+            _dataBase[SoundyManagerConstant.NoSound] = data;
             data.DatabaseName = Name;
             data.SoundName = SoundyManagerConstant.NoSound;
-
-            if (Database == null)
-                Database = new List<NewSoundGroupData>();
-
-            Database.Add(data);
-
+            
             return true;
         }
         
-        private bool CheckAllDataForCorrectDatabaseName(bool saveAssets)
+        private bool CheckAllDataForCorrectDatabaseName()
         {
             bool foundSoundGroupWithWrongDatabaseName = false;
 
-            foreach (NewSoundGroupData data in Database)
+            foreach (NewSoundGroupData data in _dataBase.Values)
             {
                 if (data == null)
                     continue;

@@ -4,6 +4,7 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Fac
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation
@@ -59,7 +60,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             }
         }
         
-        public void SetPlayMode(SoundGroupData.PlayMode playMode) =>
+        public void SetPlayMode(SoundPlayMode playMode) =>
             _soundGroupData.Mode = playMode;
 
         public void CreateAudioData()

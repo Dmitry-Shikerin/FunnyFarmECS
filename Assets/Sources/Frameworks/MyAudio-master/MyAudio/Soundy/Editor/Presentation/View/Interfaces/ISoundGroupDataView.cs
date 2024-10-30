@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces
@@ -9,7 +10,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         IReadOnlyList<IAudioDataView> AudioDataViews { get; }
         
         void AddAudioData(IAudioDataView audioDataView);
-        void SetIsOnButtonTab(SoundGroupData.PlayMode playMode);
+        void SetIsOnButtonTab(SoundPlayMode playMode);
         void SetVolume(Vector2 volume, Vector2 minMaxVolume);
         void SetPitch(Vector2 pitch, Vector2 minMaxPitch);
         void SetSpatialBlend(float spatialBlend, Vector2 minMaxSpatialBlend);

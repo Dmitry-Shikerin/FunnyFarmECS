@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyAudios.MyUiFramework.Utils;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Dictionaries;
 using UnityEditor;
@@ -14,19 +13,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
     {
         [HideInInspector] [SerializeField] private SoundDataBaseDictionary _dataBases = new ();
         
-        public bool AddSoundDatabase(NewSoundDataBase database, bool saveAssets)
+        public bool AddSoundDatabase(NewSoundDataBase database)
         {
             if (database == null)
                 return false;
             
-            if (_dataBases == null)
-                _dataBases = new SoundDataBaseDictionary();
-            
+            _dataBases ??= new SoundDataBaseDictionary();
             _dataBases[database.Name] = database;
-            
-            //TODO возможно удалить
-            UpdateDatabaseNames();
-            SetDirty(saveAssets);
             
             return true;
         }
@@ -37,7 +30,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         public bool Contains(string databaseName, string soundName) =>
             Contains(databaseName) && GetSoundDatabase(databaseName).Contains(soundName);
         
-        public bool CreateSoundDatabase(string databaseName, bool saveAssets = false)
+        public bool CreateSoundDatabase(string databaseName)
         {
             databaseName = databaseName.Trim();
 
@@ -54,9 +47,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             
             NewSoundDataBase soundDataBase = new NewSoundDataBase();
             soundDataBase.Name = databaseName;
-            soundDataBase.Initialize(false);
-            AddSoundDatabase(soundDataBase, false);
-            SetDirty(saveAssets);
+            soundDataBase.Initialize();
+            AddSoundDatabase(soundDataBase);
             
             return true;
         }
@@ -70,7 +62,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 return false;
             
             _dataBases.Remove(database.Name);
-            UpdateDatabaseNames(true);
             return true;
         }    
         
@@ -90,22 +81,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         
         public void Initialize()
         {
-            RemoveNullDatabases();
-
             if (Contains(SoundyManagerConstant.General))
                 return;
 
 #if UNITY_EDITOR
-            SearchForUnregisteredDatabases(false);
-            
             if (Contains(SoundyManagerConstant.General))
                 return;
 #endif
             NewSoundDataBase soundDataBase = new NewSoundDataBase();
-            AddSoundDatabase(soundDataBase, true);
+            AddSoundDatabase(soundDataBase);
             soundDataBase.Name = SoundyManagerConstant.General;
-            soundDataBase.Initialize(true);
-            UpdateDatabaseNames(true);
+            soundDataBase.Initialize();
         }
         
         public void InitializeSoundDatabases()
@@ -114,55 +100,22 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 return;
 
             foreach (NewSoundDataBase dataBase in _dataBases.Values)
-                dataBase.Initialize(false);
+                dataBase.Initialize();
 
             //after removing any null references the database is still empty -> initialize it and add the 'General' sound database
             if (_dataBases.Count == 0)
                 Initialize();
         }
         
-        public void RefreshDatabase(bool performUndo = true, bool saveAssets = false)
+        public void RefreshDatabase()
         {
-            if (performUndo)
-                UndoRecord(SoundyDataBaseConst.RefreshDatabase);
-
             Initialize();
             
             foreach (NewSoundDataBase soundDatabase in _dataBases.Values)
                 soundDatabase.RefreshDatabase();
-
-            SetDirty(saveAssets);
         }
         
-        public void RemoveNullDatabases(bool saveAssets = false)
-        {
-            bool needsSave = false;
-            
-            if (SoundDatabases == null)
-            {
-                SoundDatabases = new List<SoundDatabase>();
-                SetDirty(false);
-                needsSave = true;
-            }
-
-            bool removedDatabase = false;
-            
-            for (int i = SoundDatabases.Count - 1; i >= 0; i--)
-            {
-                if (SoundDatabases[i] != null)
-                    continue;
-                
-                SoundDatabases.RemoveAt(i);
-                removedDatabase = true;
-            }
-
-            UpdateDatabaseNames();
-
-            if (needsSave || removedDatabase)
-                SetDirty(saveAssets);
-        }
-        
-        public bool RenameSoundDatabase(SoundDatabase soundDatabase, string newDatabaseName)
+        public bool RenameSoundDatabase(NewSoundDataBase soundDatabase, string newDatabaseName)
         {
             if (soundDatabase == null)
                 return false;
@@ -170,10 +123,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             newDatabaseName = newDatabaseName.Trim();
 
 #if UNITY_EDITOR
+            //TODO вытащить это в эдитор презентер
             if (string.IsNullOrEmpty(newDatabaseName))
             {
                 EditorUtility.DisplayDialog(
-                    $"{SoundyDataBaseConst.RenameSoundDatabase} '{soundDatabase.DatabaseName}'",
+                    $"{SoundyDataBaseConst.RenameSoundDatabase} '{soundDatabase.Name}'",
                     SoundyDataBaseConst.EnterDatabaseName,
                     SoundyDataBaseConst.Ok);
 
@@ -183,7 +137,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             if (Contains(newDatabaseName))
             {
                 EditorUtility.DisplayDialog(
-                    SoundyDataBaseConst.RenameSoundDatabase + " '" + soundDatabase.DatabaseName + "'",
+                    SoundyDataBaseConst.RenameSoundDatabase + " '" + soundDatabase.Name + "'",
                     SoundyDataBaseConst.NewSoundDatabase + ": '" + newDatabaseName + "" + "\n\n" + 
                     SoundyDataBaseConst.AnotherEntryExists,
                     SoundyDataBaseConst.Ok);
@@ -191,81 +145,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 return false;
             }
 
-            soundDatabase.DatabaseName = newDatabaseName;
-            AssetDatabase.RenameAsset(
-                AssetDatabase.GetAssetPath(soundDatabase), 
-                "SoundDatabase_" + newDatabaseName.Replace(" ",
-                    string.Empty));
-            UpdateDatabaseNames(true);
+            _dataBases.Remove(soundDatabase.Name);
+            soundDatabase.Name = newDatabaseName;
+            _dataBases[soundDatabase.Name] = soundDatabase;
 #endif
             return true;
-        }
-        
-        public void SearchForUnregisteredDatabases(bool saveAssets)
-        {
-            bool foundUnregisteredDatabase = false;
-            SoundDatabase[] array = Resources.LoadAll<SoundDatabase>("");
-            
-            if (array == null || array.Length == 0)
-                return;
-            
-            if (SoundDatabases == null)
-                SoundDatabases = new List<SoundDatabase>();
-            
-            foreach (SoundDatabase foundDatabase in array)
-            {
-                if (SoundDatabases.Contains(foundDatabase))
-                    continue;
-                
-                AddSoundDatabase(foundDatabase, false);
-                foundUnregisteredDatabase = true;
-            }
-
-            if (foundUnregisteredDatabase == false)
-                return;
-            
-            UpdateDatabaseNames();
-            SetDirty(saveAssets);
-        }
-        
-        public void SetDirty(bool saveAssets) =>
-            MyUtils.SetDirty(this, saveAssets);
-        
-        public void UndoRecord(string undoMessage) =>
-            MyUtils.UndoRecordObject(this, undoMessage);
-        
-        public void UpdateDatabaseNames(bool saveAssets = false)
-        {
-            if (DatabaseNames == null)
-                DatabaseNames = new List<string>();
-            
-            if (SoundDatabases == null) 
-                SoundDatabases = new List<SoundDatabase>();
-            
-            DatabaseNames.Clear();
-            bool foundNullDatabaseReference = false;
-            
-            foreach (SoundDatabase database in SoundDatabases)
-            {
-                if (database == null)
-                {
-                    foundNullDatabaseReference = true;
-                    
-                    continue;
-                }
-
-                DatabaseNames.Add(database.DatabaseName);
-            }
-
-            DatabaseNames.Sort();
-            
-            if (foundNullDatabaseReference)
-            {
-                SoundDatabases = SoundDatabases.Where(soundDatabase => soundDatabase != null).ToList();
-                SetDirty(false);
-            }
-
-            SetDirty(saveAssets);
         }
     }
 }
