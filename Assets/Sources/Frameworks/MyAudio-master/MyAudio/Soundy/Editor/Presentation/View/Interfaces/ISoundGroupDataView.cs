@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces
 {
-    public interface ISoundGroupDataView : IView
+    public interface ISoundGroupDataView : IView<SoundGroupDataVisualElement>
     {
         IReadOnlyList<IAudioDataView> AudioDataViews { get; }
         

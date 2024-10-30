@@ -1,6 +1,8 @@
-﻿namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces
+﻿using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces
 {
-    public interface ISoundGroupView : IView
+    public interface ISoundGroupView : IView<SoundGroupVisualElement>
     {
         void SetPlayIcon();
         void SetStopIcon();

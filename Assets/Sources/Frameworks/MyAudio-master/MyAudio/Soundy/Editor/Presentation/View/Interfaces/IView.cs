@@ -3,11 +3,9 @@ using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces
 {
-    public interface IView : IDisposable
+    public interface IView<TRoot> : IDisposable
+        where TRoot : VisualElement
     {
-        VisualElement Root { get; }
-        
-        void Initialize();
-        void CreateView();
+        TRoot Root { get; }
     }
 }

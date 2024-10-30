@@ -1,15 +1,16 @@
 ﻿using System;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base
 {
-    public abstract class EditorPresentableView<TPresenter, TRoot> : IDisposable
+    public abstract class EditorPresentableView<TPresenter, TRoot> : IView<TRoot>
         where TPresenter : IPresenter
         where TRoot : VisualElement
     {
         protected TPresenter Presenter { get; private set; }
-        protected TRoot Root { get; private set; }
+        public TRoot Root { get; private set; }
 
         public void Construct(TPresenter presenter, TRoot root)
         {

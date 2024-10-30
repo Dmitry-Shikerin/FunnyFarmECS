@@ -1,107 +1,84 @@
-﻿using System;
-using Doozy.Editor.EditorUI.Components;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
+﻿using Doozy.Editor.EditorUI.Components;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation
 {
-    public class SoundySettingsView : ISoundySettingsView
+    public class SoundySettingsView : EditorPresentableView<SoundySettingsPresenter, SoundySettingsVisualElement>, ISoundySettingsView
     {
-        private SoundySettingsPresenter _presenter;
-        private SoundySettingsVisualElement _visualElement;
-
-        public VisualElement Root { get; private set; }
-
-        public void Construct(SoundySettingsPresenter presenter)
+        protected override void Initialize()
         {
-            _presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
+            Root.KillDurationRow.Slider.slider.RegisterCallback<ChangeEvent<int>>((eve) =>
+            {
+                Root.KillDurationRow.IntegerField.value = eve.newValue;
+                Presenter.ChangeKillDuration(eve.newValue);
+            });
+            Root.KillDurationRow.IntegerField.RegisterCallback<ChangeEvent<int>>((eve) =>
+            {
+                Root.KillDurationRow.Slider.slider.value = eve.newValue;
+                Presenter.ChangeKillDuration(eve.newValue);
+            });
+            Root.KillDurationRow.ResetButton.SetOnClick(() => Presenter.ResetKillDuration());
             
-            CreateView();
-            Initialize();
+            Root.IdleCheckRow.Slider.slider.RegisterCallback<ChangeEvent<int>>((eve) =>
+            {
+                Root.IdleCheckRow.IntegerField.value = eve.newValue;
+                Presenter.ChangeIdleCheckInterval(eve.newValue);
+            });
+            Root.IdleCheckRow.IntegerField.RegisterCallback<ChangeEvent<int>>((eve) =>
+            {
+                Root.IdleCheckRow.Slider.slider.value = eve.newValue;
+                Presenter.ChangeIdleCheckInterval(eve.newValue);
+            });
+            Root.IdleCheckRow.ResetButton.SetOnClick(() => Presenter.ResetIdleCheckInterval());
+            
+            Root.MinControllersRow.Slider.slider.RegisterCallback<ChangeEvent<int>>((eve) =>
+            {
+                Root.MinControllersRow.IntegerField.value = eve.newValue;
+                Presenter.ChangeMinControllersCount(eve.newValue);
+            });
+            Root.MinControllersRow.IntegerField.RegisterCallback<ChangeEvent<int>>((eve) =>
+            {
+                Root.MinControllersRow.Slider.slider.value = eve.newValue;
+                Presenter.ChangeMinControllersCount(eve.newValue);
+            });
+            Root.MinControllersRow.ResetButton.SetOnClick(() => Presenter.ResetMinControllersCount());
         }
 
-        public void CreateView()
+        protected override void DisposeView()
         {
-            _visualElement = new SoundySettingsVisualElement();
-            Root = _visualElement;
-        }
-
-        public void Initialize()
-        {
-            _visualElement.KillDurationRow.Slider.slider.RegisterCallback<ChangeEvent<int>>((eve) =>
-            {
-                _visualElement.KillDurationRow.IntegerField.value = eve.newValue;
-                _presenter.ChangeKillDuration(eve.newValue);
-            });
-            _visualElement.KillDurationRow.IntegerField.RegisterCallback<ChangeEvent<int>>((eve) =>
-            {
-                _visualElement.KillDurationRow.Slider.slider.value = eve.newValue;
-                _presenter.ChangeKillDuration(eve.newValue);
-            });
-            _visualElement.KillDurationRow.ResetButton.SetOnClick(() => _presenter.ResetKillDuration());
-            
-            _visualElement.IdleCheckRow.Slider.slider.RegisterCallback<ChangeEvent<int>>((eve) =>
-            {
-                _visualElement.IdleCheckRow.IntegerField.value = eve.newValue;
-                _presenter.ChangeIdleCheckInterval(eve.newValue);
-            });
-            _visualElement.IdleCheckRow.IntegerField.RegisterCallback<ChangeEvent<int>>((eve) =>
-            {
-                _visualElement.IdleCheckRow.Slider.slider.value = eve.newValue;
-                _presenter.ChangeIdleCheckInterval(eve.newValue);
-            });
-            _visualElement.IdleCheckRow.ResetButton.SetOnClick(() => _presenter.ResetIdleCheckInterval());
-            
-            _visualElement.MinControllersRow.Slider.slider.RegisterCallback<ChangeEvent<int>>((eve) =>
-            {
-                _visualElement.MinControllersRow.IntegerField.value = eve.newValue;
-                _presenter.ChangeMinControllersCount(eve.newValue);
-            });
-            _visualElement.MinControllersRow.IntegerField.RegisterCallback<ChangeEvent<int>>((eve) =>
-            {
-                _visualElement.MinControllersRow.Slider.slider.value = eve.newValue;
-                _presenter.ChangeMinControllersCount(eve.newValue);
-            });
-            _visualElement.MinControllersRow.ResetButton.SetOnClick(() => _presenter.ResetMinControllersCount());
-            
-            _presenter.Initialize();
+            Root.RemoveFromHierarchy();
         }
 
         public void SetAutoKillIdleControllers(bool autoKillIdleControllers) =>
-            _visualElement.AutoKillToggle.isOn = autoKillIdleControllers;
+            Root.AutoKillToggle.isOn = autoKillIdleControllers;
 
         public void SetControllerAutoKillDuration(Vector2Int minMaxValue, int value)
         {
-            _visualElement.KillDurationRow.Slider.slider.value = value;
-            _visualElement.KillDurationRow.Slider.slider.lowValue = minMaxValue.x;
-            _visualElement.KillDurationRow.Slider.slider.highValue = minMaxValue.y;
-            _visualElement.KillDurationRow.IntegerField.value = value;
+            Root.KillDurationRow.Slider.slider.value = value;
+            Root.KillDurationRow.Slider.slider.lowValue = minMaxValue.x;
+            Root.KillDurationRow.Slider.slider.highValue = minMaxValue.y;
+            Root.KillDurationRow.IntegerField.value = value;
         }
 
         public void SetIdleCheckInterval(Vector2Int minMaxValue, int value)
         {
-            _visualElement.IdleCheckRow.Slider.slider.value = value;
-            _visualElement.IdleCheckRow.Slider.slider.lowValue = minMaxValue.x;
-            _visualElement.IdleCheckRow.Slider.slider.highValue = minMaxValue.y;
-            _visualElement.IdleCheckRow.IntegerField.value = value;
+            Root.IdleCheckRow.Slider.slider.value = value;
+            Root.IdleCheckRow.Slider.slider.lowValue = minMaxValue.x;
+            Root.IdleCheckRow.Slider.slider.highValue = minMaxValue.y;
+            Root.IdleCheckRow.IntegerField.value = value;
         }
 
         public void SetMinimumNumberOfControllers(Vector2Int minMaxValue, int value)
         {
-            _visualElement.MinControllersRow.Slider.slider.value = value;
-            _visualElement.MinControllersRow.Slider.slider.lowValue = minMaxValue.x;
-            _visualElement.MinControllersRow.Slider.slider.highValue = minMaxValue.y;
-            _visualElement.MinControllersRow.IntegerField.value = value;
-        }
-
-        public void Dispose()
-        {
-            Root.RemoveFromHierarchy();
-            _presenter.Dispose();
+            Root.MinControllersRow.Slider.slider.value = value;
+            Root.MinControllersRow.Slider.slider.lowValue = minMaxValue.x;
+            Root.MinControllersRow.Slider.slider.highValue = minMaxValue.y;
+            Root.MinControllersRow.IntegerField.value = value;
         }
     }
 }

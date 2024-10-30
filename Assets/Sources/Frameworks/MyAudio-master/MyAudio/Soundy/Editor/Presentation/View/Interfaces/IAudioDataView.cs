@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces
 {
-    public interface IAudioDataView : IView
+    public interface IAudioDataView : IView<AudioDataVisualElement>
     {
         void StopPlaySound();
         void SetSliderValue(float value);        
