@@ -52,8 +52,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
                _presenter.ChangePitch(value.newValue));
            _visualElement.SpatialBlendSlider.slider.RegisterValueChangedCallback((value)
                => _presenter.ChangeSpatialBlend(value.newValue));
-           _visualElement.HeaderVisualElement.PingAssetButton.SetOnClick(() =>
-               Selection.activeObject = _presenter.GetSoundGroupData());
+           // _visualElement.HeaderVisualElement.PingAssetButton.SetOnClick(() =>
+           //     Selection.activeObject = _presenter.GetSoundGroupData());
            
            _presenter.Initialize();
         }

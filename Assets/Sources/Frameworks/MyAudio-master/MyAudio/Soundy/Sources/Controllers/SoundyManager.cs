@@ -5,12 +5,10 @@ using Sirenix.Utilities;
 using Sources.Frameworks.GameServices.Singletones.Monobehaviours;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure.Factories;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 {
@@ -43,7 +41,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 
         public static bool IsMuteAllControllers { get; private set; }
         public static bool IsPauseAllControllers { get; private set; }
-        public static SoundyDatabase Database => SoundySettings.Database;
+        public static SoundyDataBase Database => SoundySettings.Database;
         public static SoundySettings Settings => SoundySettings.Instance;
         public SoundControllersPool Pool => _pool;
 
@@ -74,7 +72,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
         
         public static SoundyController Play(string databaseName, string soundName)
         {
-            SoundGroupData data = GetData(out SoundDatabase dataBase, databaseName, soundName);
+            SoundGroupData data = GetData(out SoundDataBase dataBase, databaseName, soundName);
             //TODO перетащить это в свойство и сделать проверку на нулувую последнюю воспроизведенную аудиодату
             data.ChangeLastPlayedAudioData();
 
@@ -90,7 +88,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
                 .Play();
         }
 
-        private static SoundGroupData GetData(out SoundDatabase database, string databaseName, string soundName)
+        private static SoundGroupData GetData(out SoundDataBase database, string databaseName, string soundName)
         {
             //TODO эта валидация должна быть в моделях
             if (soundName.Equals(SoundyManagerConstant.NoSound))

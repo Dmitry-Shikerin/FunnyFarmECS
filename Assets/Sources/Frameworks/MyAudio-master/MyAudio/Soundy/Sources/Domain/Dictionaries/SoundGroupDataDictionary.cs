@@ -5,7 +5,7 @@ using Sources.Frameworks.Utils.Dictionaries;
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Dictionaries
 {
     [Serializable]
-    public class SoundGroupDataDictionary : SerializedDictionary<string, NewSoundGroupData>
+    public class SoundGroupDataDictionary : SerializedDictionary<string, SoundGroupData>
     {
     }
 }

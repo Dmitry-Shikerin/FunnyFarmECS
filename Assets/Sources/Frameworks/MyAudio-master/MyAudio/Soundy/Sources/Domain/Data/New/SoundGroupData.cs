@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New
 {
     [Serializable]
-    public class NewSoundGroupData
+    public class SoundGroupData
     {
         public bool HasMissingAudioClips
         {

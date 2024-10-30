@@ -2,6 +2,7 @@
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -65,7 +66,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void DeleteAudioData()
         {
-            _soundGroupData.RemoveAudioData(_audioData);
+            _soundGroupData.Remove(_audioData);
             _view.Dispose();
         }
 

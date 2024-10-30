@@ -3,12 +3,13 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implem
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories
 {
     public class SoundGroupDataViewFactory
     {
-        public ISoundGroupDataView Create(SoundGroupData soundGroupData, SoundDatabase soundDatabase)
+        public ISoundGroupDataView Create(SoundGroupData soundGroupData, SoundDataBase soundDatabase)
         {
             AudioDataViewFactory audioDataViewFactory = new AudioDataViewFactory();
             

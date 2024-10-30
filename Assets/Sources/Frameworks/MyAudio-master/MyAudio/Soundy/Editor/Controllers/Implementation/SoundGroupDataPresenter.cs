@@ -4,6 +4,7 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Fac
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 
@@ -12,13 +13,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
     public class SoundGroupDataPresenter : IPresenter
     {
         private readonly SoundGroupData _soundGroupData;
-        private readonly SoundDatabase _soundDatabase;
+        private readonly SoundDataBase _soundDatabase;
         private readonly ISoundGroupDataView _view;
         private readonly AudioDataViewFactory _audioDataViewFactory;
 
         public SoundGroupDataPresenter(
             SoundGroupData soundGroupData,
-            SoundDatabase soundDatabase,
+            SoundDataBase soundDatabase,
             ISoundGroupDataView view,
             AudioDataViewFactory audioDataViewFactory)
         {

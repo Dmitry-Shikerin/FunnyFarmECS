@@ -1,6 +1,7 @@
 ﻿using System;
 using MyAudios.MyUiFramework.Utils;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
     [Serializable]
     public class SoundySettings : ScriptableObject
     {
-        [SerializeField] private SoundyDatabase _database;
+        [SerializeField] private SoundyDataBase _database;
 
         public static SoundySettings Instance
         {
@@ -44,7 +45,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         private static SoundySettings s_instance;
 
-        public static SoundyDatabase Database
+        public static SoundyDataBase Database
         {
             get
             {
@@ -59,14 +60,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         public static void UpdateDatabase()
         {
-            Instance._database = MyAssetUtils.GetScriptableObject<SoundyDatabase>(
+            Instance._database = MyAssetUtils.GetScriptableObject<SoundyDataBase>(
                 "_" + SoundyDataBaseConst.FileName, "Assets/Resources/Soundy/DataBases");
 #if UNITY_EDITOR
             if (Instance._database == null)
                 return;
             
             Instance._database.Initialize();
-            Instance._database.SearchForUnregisteredDatabases(false);
             Instance.SetDirty(true);
 #endif
         }

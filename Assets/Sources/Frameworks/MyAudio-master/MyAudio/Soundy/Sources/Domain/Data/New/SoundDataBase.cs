@@ -9,7 +9,7 @@ using UnityEngine.Audio;
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New
 {
     [Serializable]
-    public class NewSoundDataBase
+    public class SoundDataBase
     {
         public string Name;
         public AudioMixerGroup OutputAudioMixerGroup;
@@ -17,7 +17,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
 
         public bool HasSoundsWithMissingAudioClips => _dataBase.Values.Any(data => data.HasMissingAudioClips);
         
-        public bool Add(NewSoundGroupData data)
+        public List<string> GetSoundNames() =>
+            _dataBase.Keys.ToList();
+        
+        public List<SoundGroupData> GetSoundDatabases() =>
+            _dataBase.Values.ToList();
+        
+        public bool Add(SoundGroupData data)
         {
             if (data == null)
                 return false;
@@ -27,7 +33,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return true;
         }
         
-        public NewSoundGroupData Add(string soundName)
+        public SoundGroupData Add(string soundName)
         {
             soundName = soundName.Trim();
             string newName = soundName;
@@ -39,7 +45,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 newName = soundName + " (" + counter + ")";
             }
             
-            NewSoundGroupData data = new NewSoundGroupData();
+            SoundGroupData data = new SoundGroupData();
             data.DatabaseName = Name;
             data.SoundName = newName;
 
@@ -52,16 +58,16 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         public bool Contains(string soundName) =>
             _dataBase.ContainsKey(soundName);
 
-        public bool Contains(NewSoundGroupData soundGroupData) =>
+        public bool Contains(SoundGroupData soundGroupData) =>
             soundGroupData != null && _dataBase.ContainsValue(soundGroupData);
 
-        public NewSoundGroupData GetData(string soundName) =>
+        public SoundGroupData GetData(string soundName) =>
             _dataBase.GetValueOrDefault(soundName);
 
         public void Initialize() =>
             RefreshDatabase();
         
-        public bool Remove(NewSoundGroupData data)
+        public bool Remove(SoundGroupData data)
         {
             if (data == null)
                 return false;
@@ -102,7 +108,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             if (_dataBase == null)
                 _dataBase = new SoundGroupDataDictionary();
 
-            NewSoundGroupData data = new NewSoundGroupData();
+            SoundGroupData data = new SoundGroupData();
             _dataBase[SoundyManagerConstant.NoSound] = data;
             data.DatabaseName = Name;
             data.SoundName = SoundyManagerConstant.NoSound;
@@ -114,7 +120,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         {
             bool foundSoundGroupWithWrongDatabaseName = false;
 
-            foreach (NewSoundGroupData data in _dataBase.Values)
+            foreach (SoundGroupData data in _dataBase.Values)
             {
                 if (data == null)
                     continue;

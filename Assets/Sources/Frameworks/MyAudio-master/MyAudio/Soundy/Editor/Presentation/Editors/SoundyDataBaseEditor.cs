@@ -3,17 +3,17 @@ using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
 using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.UIElements.Extensions;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Editors
 {
-    [CustomEditor(typeof(SoundyDatabase))]
+    [CustomEditor(typeof(SoundyDataBase))]
     public class SoundyDataBaseEditor : UnityEditor.Editor
     {
-        public SoundyDatabase Target;
+        public SoundyDataBase Target;
 
         private SerializedProperty DatabaseNames { get; set; }
         private SerializedProperty SoundDatabases { get; set; }
@@ -47,8 +47,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
 
         private void FindProperties()
         {
-            DatabaseNames = serializedObject.FindProperty(nameof(SoundyDatabase.DatabaseNames));
-            SoundDatabases = serializedObject.FindProperty(nameof(SoundyDatabase.SoundDatabases));
+            DatabaseNames = serializedObject.FindProperty(nameof(SoundyDataBase.DatabaseNames));
+            SoundDatabases = serializedObject.FindProperty(nameof(SoundyDataBase.SoundDatabases));
         }
 
         private void InitializeEditor()

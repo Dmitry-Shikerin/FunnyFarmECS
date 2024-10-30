@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Dictionaries;
 using UnityEditor;
@@ -9,11 +10,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
 {
     [Serializable]
     [CreateAssetMenu(fileName = "SoundyDatabase", menuName = "Soundy/SoundyDatabase", order = 51)]
-    public class NewSoundyDataBase : ScriptableObject
+    public class SoundyDataBase : ScriptableObject
     {
         [HideInInspector] [SerializeField] private SoundDataBaseDictionary _dataBases = new ();
         
-        public bool AddSoundDatabase(NewSoundDataBase database)
+        public List<string> GetDatabaseNames() =>
+            _dataBases.Keys.ToList();
+        
+        public List<SoundDataBase> GetSoundDatabases() =>
+            _dataBases.Values.ToList();
+        
+        public bool AddSoundDatabase(SoundDataBase database)
         {
             if (database == null)
                 return false;
@@ -45,7 +52,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
                 return false;
             }
             
-            NewSoundDataBase soundDataBase = new NewSoundDataBase();
+            SoundDataBase soundDataBase = new SoundDataBase();
             soundDataBase.Name = databaseName;
             soundDataBase.Initialize();
             AddSoundDatabase(soundDataBase);
@@ -53,7 +60,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return true;
         }
         
-        public bool DeleteDatabase(NewSoundDataBase database)
+        public bool DeleteDatabase(SoundDataBase database)
         {
             if (database == null)
                 return false;
@@ -65,10 +72,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             return true;
         }    
         
-        public NewSoundGroupData GetAudioData(string databaseName, string soundName) => 
+        public SoundGroupData GetAudioData(string databaseName, string soundName) => 
             Contains(databaseName) == false ? null : GetSoundDatabase(databaseName).GetData(soundName);
         
-        public NewSoundDataBase GetSoundDatabase(string databaseName)
+        public SoundDataBase GetSoundDatabase(string databaseName)
         {
             if (_dataBases == null)
             {
@@ -88,7 +95,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             if (Contains(SoundyManagerConstant.General))
                 return;
 #endif
-            NewSoundDataBase soundDataBase = new NewSoundDataBase();
+            SoundDataBase soundDataBase = new SoundDataBase();
             AddSoundDatabase(soundDataBase);
             soundDataBase.Name = SoundyManagerConstant.General;
             soundDataBase.Initialize();
@@ -99,7 +106,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
             if (_dataBases == null)
                 return;
 
-            foreach (NewSoundDataBase dataBase in _dataBases.Values)
+            foreach (SoundDataBase dataBase in _dataBases.Values)
                 dataBase.Initialize();
 
             //after removing any null references the database is still empty -> initialize it and add the 'General' sound database
@@ -111,11 +118,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         {
             Initialize();
             
-            foreach (NewSoundDataBase soundDatabase in _dataBases.Values)
+            foreach (SoundDataBase soundDatabase in _dataBases.Values)
                 soundDatabase.RefreshDatabase();
         }
         
-        public bool RenameSoundDatabase(NewSoundDataBase soundDatabase, string newDatabaseName)
+        public bool RenameSoundDatabase(SoundDataBase soundDatabase, string newDatabaseName)
         {
             if (soundDatabase == null)
                 return false;

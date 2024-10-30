@@ -4,7 +4,6 @@ using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
 using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.UIElements.Extensions;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
@@ -73,8 +72,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         {
             _newSoundContentVisualElement.CreateButton.SetOnClick(() 
                 => _presenter.CreateSoundGroup(_newSoundContentVisualElement.SoundGroupTextField.value));
-            _headerVisualElement.PingAssetButton.SetOnClick(() 
-                => Selection.activeObject = _presenter.GetDataBase());
+            // _headerVisualElement.PingAssetButton.SetOnClick(() 
+            //     => Selection.activeObject = _presenter.GetDataBase());
             _headerVisualElement.RenameButton.SetOnClick(() => 
                 _presenter.RenameDataBase(_headerVisualElement.SoundGroupTextField.value));
             _headerVisualElement.RemoveButton.SetOnClick(() => _presenter.RemoveDataBase());

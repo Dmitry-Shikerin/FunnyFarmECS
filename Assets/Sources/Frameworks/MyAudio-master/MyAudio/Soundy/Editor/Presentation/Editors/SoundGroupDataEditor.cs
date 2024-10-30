@@ -2,6 +2,7 @@
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEngine.UIElements;
 
@@ -10,7 +11,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
     [CustomEditor(typeof(SoundGroupData))]
     public class SoundGroupDataEditor : UnityEditor.Editor
     {
-        private SoundDatabase _soundDatabase;
+        private SoundDataBase _soundDatabase;
         private SoundGroupData _soundGroupData;
         private VisualElement _root;
 

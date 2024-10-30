@@ -3,19 +3,20 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interf
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation
 {
     public class SoundyDataBasePresenter : IPresenter
     {
-        private readonly SoundyDatabase _soundyDatabase;
+        private readonly SoundyDataBase _soundyDatabase;
         private readonly SoundySettings _soundySettings;
         private readonly ISoundyDataBaseView _view;
         private readonly SoundDataBaseViewFactory _soundDataBaseViewFactory;
         private readonly SoundySettingsViewFactory _soundySettingsViewFactory;
 
         public SoundyDataBasePresenter(
-            SoundyDatabase soundyDatabase,
+            SoundyDataBase soundyDatabase,
             SoundySettings soundySettings,
             ISoundyDataBaseView view,
             SoundDataBaseViewFactory soundDataBaseViewFactory,
@@ -39,7 +40,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             
         }
 
-        private void CreateView(SoundDatabase soundDatabase)
+        private void CreateView(SoundDataBase soundDatabase)
         {
             _view.SettingsView?.Dispose();
             ISoundDataBaseView view = _soundDataBaseViewFactory.Create(soundDatabase, _soundyDatabase);
@@ -49,13 +50,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         private void AddDataBasesButtons()
         {
-            foreach (SoundDatabase database in _soundyDatabase.SoundDatabases)
-                _view.AddDataBaseButton(database.DatabaseName,() => CreateView(database));
+            foreach (SoundDataBase database in _soundyDatabase.GetSoundDatabases())
+                _view.AddDataBaseButton(database.Name,() => CreateView(database));
         }
 
         public void CreateNewDataBase()
         {
-            _soundyDatabase.CreateSoundDatabase("Default", true, true);
+            _soundyDatabase.CreateSoundDatabase("Default");
             _view.RefreshDataBasesButtons();
             AddDataBasesButtons();
         }
@@ -66,7 +67,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         public void RenameButtons()
         {
             for (int i = 0; i < _view.DatabaseButtons.Count; i++)
-                _view.DatabaseButtons[i].SetLabelText(_soundyDatabase.SoundDatabases[i].DatabaseName);
+                _view.DatabaseButtons[i].SetLabelText(_soundyDatabase.GetSoundDatabases()[i].Name);
         }
 
         public void UpdateDataBase()

@@ -2,6 +2,7 @@
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
 {
     public class SoundyDataBaseEditorWindow : FluidWindow<SoundyDataBaseEditorWindow>
     {
-        private SoundyDatabase _database;
+        private SoundyDataBase _database;
         private AudioClip _plugAudio;
 
         [MenuItem("Tools/SoundyDataBase")]

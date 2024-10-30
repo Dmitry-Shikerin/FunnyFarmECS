@@ -5,6 +5,7 @@ using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure
 {
@@ -63,9 +64,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
         {
             List<string> soundNames = new List<string>();
 
-            foreach (SoundDatabase soundDatabase in SoundySettings.Database.SoundDatabases)
+            foreach (SoundDataBase soundDatabase in SoundySettings.Database.GetSoundDatabases())
             {
-                foreach (SoundGroupData soundGroupData in soundDatabase.Database)
+                foreach (SoundGroupData soundGroupData in soundDatabase.GetSoundDatabases())
                 {
                     if (soundGroupData.SoundName == _musicSoundName)
                         continue;

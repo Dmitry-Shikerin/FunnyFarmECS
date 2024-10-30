@@ -4,20 +4,21 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interf
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEngine.Audio;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation
 {
     public class SoundDataBasePresenter : IPresenter
     {
-        private readonly SoundDatabase _soundDatabase;
-        private readonly SoundyDatabase _soundyDatabase;
+        private readonly SoundDataBase _soundDatabase;
+        private readonly SoundyDataBase _soundyDatabase;
         private readonly ISoundDataBaseView _view;
         private readonly SoundGroupViewFactory _soundGroupViewFactory;
 
         public SoundDataBasePresenter(
-            SoundDatabase soundDatabase,
-            SoundyDatabase soundyDatabase,
+            SoundDataBase soundDatabase,
+            SoundyDataBase soundyDatabase,
             ISoundDataBaseView view,
             SoundGroupViewFactory soundGroupViewFactory)
         {
@@ -30,7 +31,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         public void Initialize()
         {
             CreateSoundGroups();
-            _view.SetName(_soundDatabase.DatabaseName);
+            _view.SetName(_soundDatabase.Name);
             _view.SetAudioMixerGroup(_soundDatabase.OutputAudioMixerGroup);
         }
 
@@ -40,11 +41,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         private void CreateSoundGroups()
         {
-            foreach (SoundGroupData soundGroup in _soundDatabase.Database)
+            foreach (SoundGroupData soundGroup in _soundDatabase.GetSoundDatabases())
                 CreateView(soundGroup);
         }
 
-        public SoundDatabase GetDataBase() =>
+        public SoundDataBase GetDataBase() =>
             _soundDatabase;
 
         public void RenameDataBase(string name)
@@ -58,7 +59,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void CreateSoundGroup(string value)
         {
-            SoundGroupData soundGroup = _soundDatabase.Add(value, true, true);
+            SoundGroupData soundGroup = _soundDatabase.Add(value);
             CreateView(soundGroup);
         }
 

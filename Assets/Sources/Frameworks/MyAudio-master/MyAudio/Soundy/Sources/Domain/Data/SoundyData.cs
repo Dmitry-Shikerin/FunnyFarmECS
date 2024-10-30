@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -100,9 +101,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         }
 
         private List<string> GetDataBases() =>
-            SoundySettings.Database.DatabaseNames;
+            SoundySettings.Database.GetDatabaseNames();
         
         private List<string> GetSoundNames() =>
-            SoundySettings.Database.GetSoundDatabase(DatabaseName).SoundNames;
+            SoundySettings.Database.GetSoundDatabase(DatabaseName).GetSoundNames();
     }
 }

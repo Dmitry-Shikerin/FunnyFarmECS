@@ -3,6 +3,7 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interf
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Editors;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -13,13 +14,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
     public class SoundGroupPresenter : IPresenter
     {
         private readonly SoundGroupData _soundGroupData;
-        private readonly SoundDatabase _soundDatabase;
+        private readonly SoundDataBase _soundDatabase;
         private readonly ISoundGroupView _view;
         private readonly AudioSource _audioSource;
 
         public SoundGroupPresenter(
             SoundGroupData soundGroup,
-            SoundDatabase soundDatabase,
+            SoundDataBase soundDatabase,
             ISoundGroupView view)
         {
             _soundGroupData = soundGroup ?? throw new ArgumentNullException(nameof(soundGroup));
