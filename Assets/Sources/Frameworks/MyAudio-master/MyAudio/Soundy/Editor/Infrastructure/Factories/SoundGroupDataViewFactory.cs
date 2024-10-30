@@ -9,13 +9,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
 {
     public class SoundGroupDataViewFactory
     {
-        public ISoundGroupDataView Create(SoundGroupData soundGroupData, SoundDataBase soundDatabase)
+        public ISoundGroupDataView Create(SoundGroupData soundGroupData)
         {
             AudioDataViewFactory audioDataViewFactory = new AudioDataViewFactory();
             
             SoundGroupDataView view = new SoundGroupDataView();
             SoundGroupDataPresenter presenter = new SoundGroupDataPresenter(
-                soundGroupData, soundDatabase, view, audioDataViewFactory);
+                soundGroupData, view, audioDataViewFactory);
             view.Construct(presenter);
             
             return view;

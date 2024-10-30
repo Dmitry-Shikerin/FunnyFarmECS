@@ -25,11 +25,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
 
             _database = SoundySettings.Database;
             _plugAudio = Resources.Load<AudioClip>("MyAudios/Soundy/Resources/Soundy/Plugs/Christmas Villain Loop");
-            SoundyDataBaseEditor editor = 
-                (SoundyDataBaseEditor)UnityEditor.Editor.CreateEditor(_database);
-            VisualElement editorRoot = editor.CreateInspectorGUI();
-            editorRoot
-                .Bind(editor.serializedObject);
+            // SoundyDataBaseEditor editor = 
+            //     (SoundyDataBaseEditor)UnityEditor.Editor.CreateEditor(_database);
+            // VisualElement editorRoot = editor.CreateInspectorGUI();
+            // editorRoot
+            //     .Bind(editor.serializedObject);
 
             ISoundyDataBaseView view = new SoundyDataBaseViewFactory().Create(
                 _database, SoundySettings.Instance);

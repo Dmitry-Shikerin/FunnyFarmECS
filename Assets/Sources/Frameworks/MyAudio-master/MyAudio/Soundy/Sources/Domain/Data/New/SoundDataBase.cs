@@ -17,11 +17,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
 
         public bool HasSoundsWithMissingAudioClips => _dataBase.Values.Any(data => data.HasMissingAudioClips);
         
-        public List<string> GetSoundNames() =>
-            _dataBase.Keys.ToList();
+        public IEnumerable<string> GetSoundNames() =>
+            _dataBase.Keys;
         
-        public List<SoundGroupData> GetSoundDatabases() =>
-            _dataBase.Values.ToList();
+        public IEnumerable<SoundGroupData> GetSoundDatabases() =>
+            _dataBase.Values;
         
         public bool Add(SoundGroupData data)
         {
@@ -84,11 +84,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
         public void RefreshDatabase()
         {
             AddNoSound();
-            RemoveUnnamedEntries();
-            RemoveDuplicateEntries();
+            // RemoveUnnamedEntries();
+            // RemoveDuplicateEntries();
             CheckAllDataForCorrectDatabaseName();
         }
         
+        //TODO сделать конвертацию для этих методов
         public void RemoveDuplicateEntries() =>
             _dataBase = (SoundGroupDataDictionary)_dataBase.Values
                 .GroupBy(data => data.SoundName)

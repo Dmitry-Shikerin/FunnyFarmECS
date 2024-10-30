@@ -103,7 +103,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         private List<string> GetDataBases() =>
             SoundySettings.Database.GetDatabaseNames();
         
-        private List<string> GetSoundNames() =>
+        private IEnumerable<string> GetSoundNames() =>
             SoundySettings.Database.GetSoundDatabase(DatabaseName).GetSoundNames();
     }
 }

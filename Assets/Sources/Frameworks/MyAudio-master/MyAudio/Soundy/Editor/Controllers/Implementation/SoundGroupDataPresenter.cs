@@ -13,18 +13,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
     public class SoundGroupDataPresenter : IPresenter
     {
         private readonly SoundGroupData _soundGroupData;
-        private readonly SoundDataBase _soundDatabase;
         private readonly ISoundGroupDataView _view;
         private readonly AudioDataViewFactory _audioDataViewFactory;
 
         public SoundGroupDataPresenter(
             SoundGroupData soundGroupData,
-            SoundDataBase soundDatabase,
             ISoundGroupDataView view,
             AudioDataViewFactory audioDataViewFactory)
         {
             _soundGroupData = soundGroupData ?? throw new ArgumentNullException(nameof(soundGroupData));
-            _soundDatabase = soundDatabase ?? throw new ArgumentNullException(nameof(soundDatabase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _audioDataViewFactory = audioDataViewFactory ?? throw new ArgumentNullException(nameof(audioDataViewFactory));
         }
@@ -85,9 +82,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void ChangeSpatialBlend(float value) =>
             _soundGroupData.SpatialBlend = value;
-
-        public SoundGroupData GetSoundGroupData() =>
-            _soundGroupData;
 
         public void ChangeLoopState(bool value) =>
             _soundGroupData.Loop = value;

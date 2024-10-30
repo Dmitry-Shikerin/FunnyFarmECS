@@ -12,7 +12,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
     [CreateAssetMenu(fileName = "SoundyDatabase", menuName = "Soundy/SoundyDatabase", order = 51)]
     public class SoundyDataBase : ScriptableObject
     {
-        [HideInInspector] [SerializeField] private SoundDataBaseDictionary _dataBases = new ();
+        [SerializeField] private SoundDataBaseDictionary _dataBases = new ();
         
         public List<string> GetDatabaseNames() =>
             _dataBases.Keys.ToList();
