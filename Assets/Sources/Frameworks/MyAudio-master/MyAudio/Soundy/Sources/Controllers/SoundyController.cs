@@ -1,235 +1,105 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Sirenix.Utilities;
+﻿using System;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
 {
-    /// <inheritdoc />
-    /// <summary>
-    ///     This is an audio controller used by the Soundy system to play sounds. Each sound has its own controller that handles it.
-    ///     Every SoundyController is also added to the SoundyPooler to work seamlessly with the dynamic sound pooling system.
-    /// </summary>
     [DefaultExecutionOrder(SoundyExecutionOrder.SoundyController)]
     public class SoundyController : MonoBehaviour
     {
-        private static List<SoundyController> s_database = new List<SoundyController>();
-        private static bool s_pauseAllControllers;
-        private static bool s_muteAllControllers;
-
-        public static bool PauseAllControllers
-        {
-            get => s_pauseAllControllers;
-            set
-            {
-                s_pauseAllControllers = value;
-                
-                if (s_pauseAllControllers) 
-                    return;
-                
-                RemoveNullControllersFromDatabase();
-                
-                foreach (SoundyController controller in s_database)
-                    controller.Unpause();
-            }
-        }
-
-        public static bool MuteAllControllers
-        {
-            get => s_muteAllControllers;
-            set
-            {
-                s_muteAllControllers = value;
-                
-                if (s_muteAllControllers) 
-                    return;
-                
-                RemoveNullControllersFromDatabase();
-                
-                foreach (SoundyController controller in s_database)
-                    controller.Unmute();
-            }
-        }
-        
         private Transform _transform;
         private Transform _followTarget;
-        private AudioSource _audioSource;
-        private bool _inUse;
-        private float _playProgress;
-        private bool _isPaused;
-        private bool _isMuted;
-        private float _lastPlayedTime;
-        private bool _isPlaying;
         private bool _autoPaused;
-        private bool _muted;
-        private bool _paused;
-        private string _name;
         private float _savedClipTime;
-
-        public bool IsPlaying => _isPlaying;
+        private SoundControllersPool _pool;
+        private SoundyManager _manager;
         
-        public string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
-        
-        public AudioSource AudioSource
-        {
-            get => _audioSource;
-            private set => _audioSource = value;
-        }
-
-        public bool InUse
-        {
-            get => _inUse;
-            private set => _inUse = value;
-        }
-
-        public float PlayProgress
-        {
-            get => _playProgress;
-            private set => _playProgress = value;
-        }
-
-        public bool IsPaused
-        {
-            get => _isPaused || s_pauseAllControllers;
-            private set => _isPaused = value;
-        }
-
-        public bool IsMuted
-        {
-            get => _isMuted || MuteAllControllers;
-            private set => _isMuted = value;
-        }
-
-        public float LastPlayedTime
-        {
-            get => _lastPlayedTime;
-            private set => _lastPlayedTime = value;
-        }
-
+        public string Name { get; set; }
+        //Todo добавить это в едитор виндов и устанавливать это значение в фабрике
+        public SoundType SoundType { get; private set; }
+        public AudioSource AudioSource { get; private set; }
+        public bool IsPlaying => AudioSource.isPlaying;
+        public bool InUse { get; private set; }
+        public float PlayProgress { get; private set; }
+        public bool IsPaused { get; private set; }
+        public bool IsMuted => AudioSource.mute;
+        public float LastPlayedTime { get; private set; }
         public float IdleDuration => Time.realtimeSinceStartup - LastPlayedTime;
-        
 
+        public void Construct(SoundyManager manager, SoundControllersPool pool)
+        {
+            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            _pool = pool ?? throw new ArgumentNullException(nameof(pool));
+        }
+        
         private void Reset() =>
             ResetController();
 
         private void Awake()
         {
-            s_database.Add(this);
             _transform = transform;
             AudioSource = gameObject.GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
             ResetController();
         }
 
-        private void OnDestroy() =>
-            s_database.Remove(this);
-
-        private void Update()
+        private void OnEnable()
         {
-            if (IsMuted || IsPaused || AudioSource.isPlaying)
-                UpdateLastPlayedTime();
+            if (_manager == null)
+                return;
             
-            if (IsMuted != _muted)
+            _manager.Running += Run;
+        }
+
+        private void OnDisable()
+        {
+            if (_manager == null)
+                return;
+            
+            _manager.Running -= Run;
+        }
+
+        public void Run(float deltaTime)
+        {
+            if (AudioSource.clip == null)
             {
-                AudioSource.mute = IsMuted;
-                _muted = IsMuted;
+                Stop();
+                return;
             }
-
-            if (IsPaused != _paused)
-            {
-                if (IsPaused && AudioSource.isPlaying)
-                {
-                    _savedClipTime = AudioSource.time;
-                    AudioSource.Pause();
-                }
-
-                if (IsPaused == false)
-                {
-                    AudioSource.time = _savedClipTime;
-                    AudioSource.UnPause();
-                } 
-                
-                _paused = IsPaused;
-            }
-
+            
+            UpdateLastPlayedTime();
             UpdatePlayProgress();
-
-            if (PlayProgress >= 1f) //check if the sound finished playing
-            {
-                Stop();
-                PlayProgress = 0;
-                
-                return;
-            }
-
-            _autoPaused = InUse && _isPlaying && !AudioSource.isPlaying && PlayProgress > 0;
-
-            if (InUse && !_autoPaused && !AudioSource.isPlaying && !IsPaused && !IsMuted) //second check if the sound finished playing
-            {
-                Stop();
-                
-                return;
-            }
-
             FollowTarget();
         }
 
-        public void Kill()
+        public void Destroy()
         {
             Stop();
             Destroy(gameObject);
         }
 
-        public void Mute()
-        {
-            IsMuted = true;
-        }
-
-        public void Pause()
-        {
-            IsPaused = true;
-        }
-
-        public void Play()
+        public SoundyController Play()
         {
             InUse = true;
             IsPaused = false;
-            _isPlaying = true;
             AudioSource.Play();
+            return this;
         }
 
-        public void SetFollowTarget(Transform followTarget) =>
+        public SoundyController SetFollowTarget(Transform followTarget)
+        {
             _followTarget = followTarget;
+            return this;
+        }
 
-        public void SetOutputAudioMixerGroup(AudioMixerGroup outputAudioMixerGroup)
+        public SoundyController SetOutputAudioMixerGroup(AudioMixerGroup outputAudioMixerGroup)
         {
             if (outputAudioMixerGroup == null)
-                return;
+                return this;
             
             AudioSource.outputAudioMixerGroup = outputAudioMixerGroup;
-        }
-
-        public void SetPosition(Vector3 position) =>
-            _transform.position = position;
-
-        public void SetSourceProperties(AudioClip clip, float volume, float pitch, bool loop, float spatialBlend)
-        {
-            if (clip == null)
-            {
-                Stop();
-                return;
-            }
-
-            AudioSource.clip = clip;
-            AudioSource.volume = volume;
-            AudioSource.pitch = pitch;
-            AudioSource.loop = loop;
-            AudioSource.spatialBlend = spatialBlend;
+            return this;
         }
 
         public void Stop()
@@ -237,19 +107,80 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
             Unpause();
             Unmute();
             AudioSource.Stop();
-            _isPlaying = false;
             ResetController();
-            SoundyPooler.PutControllerInPool(this);
+            UpdateLastPlayedTime();
+            _pool.ReturnToPool(this);
+        }
+        
+        public SoundyController SetName(string soundName, string audioClipName)
+        {
+            Name = soundName;
+            gameObject.name = $"[{soundName}]-({audioClipName})";
+            return this;
+        }
+        
+        public SoundyController SetSpatialBlend(float spatialBlend)
+        {
+            AudioSource.spatialBlend = spatialBlend;
+            return this;
+        }
+        
+        public SoundyController SetPitch(float pitch)
+        {
+            AudioSource.pitch = pitch;
+            return this;
+        }
+        
+        public SoundyController SetLoop(bool loop)
+        {
+            AudioSource.loop = loop;
+            return this;
         }
 
-        public void Unmute()
+        public SoundyController SetVolume(float volume)
         {
-            IsMuted = false;
+            AudioSource.volume = volume;
+            return this;
         }
 
-        public void Unpause()
+        public SoundyController SetAudioClip(AudioClip audioClip)
         {
+            AudioSource.clip = audioClip;
+            return this;
+        }
+
+        public SoundyController SetPosition(Vector3 position)
+        {
+            _transform.position = position;
+            return this;
+        }
+
+        public SoundyController Mute()
+        {
+            AudioSource.mute = true;
+            return this;
+        }
+
+        public SoundyController Unmute()
+        {
+            AudioSource.mute = false;
+            return this;
+        }
+
+        public SoundyController Pause()
+        {
+            _savedClipTime = AudioSource.time;
+            AudioSource.Pause();
+            IsPaused = true;
+            return this;
+        }
+
+        public SoundyController Unpause()
+        {
+            AudioSource.time = _savedClipTime;
             IsPaused = false;
+            AudioSource.UnPause();
+            return this; 
         }
 
         private void FollowTarget()
@@ -265,11 +196,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
             InUse = false;
             IsPaused = false;
             _followTarget = null;
-            UpdateLastPlayedTime();
         }
 
-        private void UpdateLastPlayedTime() =>
+        private void UpdateLastPlayedTime()
+        {
+            if ((IsMuted || IsPaused || AudioSource.isPlaying) == false)
+                return;
+            
             LastPlayedTime = Time.realtimeSinceStartup;
+        }
 
         private void UpdatePlayProgress()
         {
@@ -280,92 +215,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers
                 return;
             
             PlayProgress = Mathf.Clamp01(AudioSource.time / AudioSource.clip.length);
-        }
+            // Debug.Log($"PlayProgress: {PlayProgress}, AudioSource.time: {AudioSource.time}, AudioSource.clip.length: {AudioSource.clip.length}, IsPlaying: {AudioSource.isPlaying}");
 
-        public static SoundyController CreateController()
-        {
-            SoundyController controller = new GameObject(
-                "SoundyController", 
-                typeof(AudioSource), 
-                typeof(SoundyController)).GetComponent<SoundyController>();
-            
-            return controller;
-        }
-
-        public static void Pause(string soundName)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Pause());
-        }
-        
-        public static void Unpause(string soundName)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Unpause());
-        }
-
-        public static SoundyController GetControllerByName(string name) =>
-            s_database.First(controller => controller.Name == name);
-
-        public static void KillAll()
-        {
-            RemoveNullControllersFromDatabase();
-            
-            foreach (SoundyController controller in s_database)
-                controller.Kill();
-        }
-
-        public static void MuteAll()
-        {
-            RemoveNullControllersFromDatabase();
-            MuteAllControllers = true;
-        }
-
-        public static void PauseAll()
-        {
-            RemoveNullControllersFromDatabase();
-            PauseAllControllers = true;
-        }
-
-        public static void RemoveNullControllersFromDatabase() =>
-            s_database = s_database.Where(sc => sc != null).ToList();
-
-        public static void StopAll()
-        {
-            RemoveNullControllersFromDatabase();
-            
-            foreach (SoundyController controller in s_database)
+            if (PlayProgress >= 1f) //check if the sound finished playing
             {
-                if (!controller.AudioSource.isPlaying)
-                    return;
-                
-                controller.Stop();
+                Stop();
+                PlayProgress = 0;
             }
-        }
 
-        public static void UnmuteAll()
-        {
-            RemoveNullControllersFromDatabase();
-            MuteAllControllers = false;
-        }
-
-        public static void UnpauseAll() =>
-            PauseAllControllers = false;
-        
-        public static void Stop(string databaseName, string soundName)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.Stop());
-        }
-        
-        public static void SetVolume(string soundName, float volume)
-        {
-            s_database
-                .Where(controller => controller.Name == soundName)
-                .ForEach(controller => controller.AudioSource.volume = volume);
+            //TODO костыль, но работает
+            if (IsPaused == false && IsPlaying == false)
+            {
+                Stop();
+                PlayProgress = 0;
+            }
         }
     }
 }

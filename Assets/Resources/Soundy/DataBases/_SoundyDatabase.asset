@@ -9,10 +9,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4c2d9ce944146ff90950f0f03051619, type: 3}
+  m_Script: {fileID: 11500000, guid: f0d45fb514dc4102abfef5fba19dfca3, type: 3}
   m_Name: _SoundyDatabase
   m_EditorClassIdentifier: 
-  DatabaseNames:
-  - Sounds
-  SoundDatabases:
-  - {fileID: 11400000, guid: 9539482cc41b57640b665e10eb87275b, type: 2}
+  _dataBases:
+    _keys:
+    - Default
+    _values:
+    - Name: Default
+      OutputAudioMixerGroup: {fileID: 0}
+      _dataBase:
+        _keys:
+        - No Sound
+        _values:
+        - DatabaseName: Default
+          SoundName: No Sound
+          IgnoreListenerPause: 0
+          Volume:
+            MinValue: 0
+            MaxValue: 0
+          Pitch:
+            MinValue: 0
+            MaxValue: 0
+          SpatialBlend: 0
+          Loop: 0
+          Mode: 0
+          ResetSequenceAfterInactiveTime: 0
+          SequenceResetTime: 0
+          Sounds:
+          - AudioClip: {fileID: 0}
+            Weight: 1
+            IsPlaying: 0
+          IsPlaying: 0

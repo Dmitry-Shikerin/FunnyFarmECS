@@ -1,4 +1,5 @@
 ﻿using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants
 {
@@ -17,7 +18,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Consta
         public const float MinPitch = -24;
         public const float MinSpatialBlend = 0;
         public const float MinVolume = -80;
-        public const SoundGroupData.PlayMode DefaultPlayMode = SoundGroupData.PlayMode.Random;
+        public const SoundPlayMode DefaultPlayMode = SoundPlayMode.Random;
         public const string DefaultSoundName = SoundyManagerConstant.NoSound;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using MyAudios.MyUiFramework.Utils;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
     [Serializable]
     public class SoundySettings : ScriptableObject
     {
-        [SerializeField] private SoundyDatabase _database;
+        [SerializeField] private SoundyDataBase _database;
 
         public static SoundySettings Instance
         {
@@ -45,7 +45,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         private static SoundySettings s_instance;
 
-        public static SoundyDatabase Database
+        public static SoundyDataBase Database
         {
             get
             {
@@ -60,40 +60,28 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         public static void UpdateDatabase()
         {
-            Instance._database = MyAssetUtils.GetScriptableObject<SoundyDatabase>(
+            Instance._database = MyAssetUtils.GetScriptableObject<SoundyDataBase>(
                 "_" + SoundyDataBaseConst.FileName, "Assets/Resources/Soundy/DataBases");
 #if UNITY_EDITOR
             if (Instance._database == null)
                 return;
             
             Instance._database.Initialize();
-            Instance._database.SearchForUnregisteredDatabases(false);
             Instance.SetDirty(true);
 #endif
         }
 
-        public const bool AUTO_KILL_IDLE_CONTROLLERS_DEFAULT_VALUE = true;
-        public const float CONTROLLER_IDLE_KILL_DURATION_DEFAULT_VALUE = 20f;
-        public const float CONTROLLER_IDLE_KILL_DURATION_MIN = 0f;
-        public const float CONTROLLER_IDLE_KILL_DURATION_MAX = 300f;
-        public const float IDLE_CHECK_INTERVAL_DEFAULT_VALUE = 5f;
-        public const float IDLE_CHECK_INTERVAL_MIN = 0.1f;
-        public const float IDLE_CHECK_INTERVAL_MAX = 60f;
-        public const int MINIMUM_NUMBER_OF_CONTROLLERS_DEFAULT_VALUE = 3;
-        public const int MINIMUM_NUMBER_OF_CONTROLLERS_MIN = 0;
-        public const int MINIMUM_NUMBER_OF_CONTROLLERS_MAX = 20;
-
-        public bool AutoKillIdleControllers = AUTO_KILL_IDLE_CONTROLLERS_DEFAULT_VALUE;
-        public float ControllerIdleKillDuration = CONTROLLER_IDLE_KILL_DURATION_DEFAULT_VALUE;
-        public float IdleCheckInterval = IDLE_CHECK_INTERVAL_DEFAULT_VALUE;
-        public int MinimumNumberOfControllers = MINIMUM_NUMBER_OF_CONTROLLERS_DEFAULT_VALUE;
+        public bool AutoKillIdleControllers = SoundySettingsConst.AutoKillIdleControllersDefaultValue;
+        public float ControllerIdleKillDuration = SoundySettingsConst.ControllerIdleKillDurationDefaultValue;
+        public float IdleCheckInterval = SoundySettingsConst.IdleCheckIntervalDefaultValue;
+        public int MinimumNumberOfControllers = SoundySettingsConst.MinimumNumberOfControllersDefaultValue;
 
         private void Reset()
         {
-            AutoKillIdleControllers = AUTO_KILL_IDLE_CONTROLLERS_DEFAULT_VALUE;
-            ControllerIdleKillDuration = CONTROLLER_IDLE_KILL_DURATION_DEFAULT_VALUE;
-            IdleCheckInterval = IDLE_CHECK_INTERVAL_DEFAULT_VALUE;
-            MinimumNumberOfControllers = MINIMUM_NUMBER_OF_CONTROLLERS_DEFAULT_VALUE;
+            ResetAutoKillIdleControllers();
+            ResetControllerIdleKillDuration();
+            ResetIdleCheckInterval();
+            ResetMinimumNumberOfControllers();
         }
         
         public void Reset(bool saveAssets)
@@ -102,10 +90,22 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             SetDirty(saveAssets);
         }
 
-        public void ResetComponent(SoundyPooler pooler)
+        public void ResetComponent()
         {
             
         }
+        
+        public void ResetControllerIdleKillDuration() =>
+            ControllerIdleKillDuration = SoundySettingsConst.ControllerIdleKillDurationDefaultValue;
+        
+        public void ResetAutoKillIdleControllers() =>
+            AutoKillIdleControllers = SoundySettingsConst.AutoKillIdleControllersDefaultValue;
+        
+        public void ResetIdleCheckInterval() =>
+            IdleCheckInterval = SoundySettingsConst.IdleCheckIntervalDefaultValue;
+        
+        public void ResetMinimumNumberOfControllers() =>
+            MinimumNumberOfControllers = SoundySettingsConst.MinimumNumberOfControllersDefaultValue;
         
         /// <summary> [Editor Only] Marks target object as dirty. (Only suitable for non-scene objects) </summary>
         /// <param name="saveAssets"> Write all unsaved asset changes to disk? </param>

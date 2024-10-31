@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
-using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using UnityEngine;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure
 {
@@ -24,18 +22,19 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
         private string _musicSoundName;
 
         public SoundyService(
-            IEntityRepository entityRepository)
+            Pause pause, 
+            Volume soundsVolume,
+            Volume musicVolume)
         {
-            _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
+            _pause = pause;
+            _soundsVolume = soundsVolume;
+            _musicVolume = musicVolume;
             _tokens = new Dictionary<string, Dictionary<string, CancellationTokenSource>>();
         }
 
         public void Initialize()
         {
-            _pause = _entityRepository.Get<Pause>(ModelId.Pause);
             _soundNames = GetSoundNames();
-            _musicVolume = _entityRepository.Get<Volume>(ModelId.MusicVolume);
-            _soundsVolume = _entityRepository.Get<Volume>(ModelId.SoundsVolume);
             OnSoundsVolumeChanged();
             _pause.PauseChanged += OnPause;
             _pause.PauseSoundChanged += OnPauseSound;
@@ -53,11 +52,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
             _soundsVolume.VolumeChanged -= OnSoundsVolumeChanged;
             _musicVolume.VolumeMuted -= OnMusicVolumeMuted;
             _soundsVolume.VolumeMuted -= OnSoundsVolumeMuted;
-            SoundyManager.ClearTokens();
         }
-
-        public void Play(string databaseName, string soundName, Vector3 position) =>
-            SoundyManager.Play(databaseName, soundName, position);
 
         public void Play(string databaseName, string soundName)
         {
@@ -69,9 +64,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
         {
             List<string> soundNames = new List<string>();
 
-            foreach (SoundDatabase soundDatabase in SoundySettings.Database.SoundDatabases)
+            foreach (SoundDataBase soundDatabase in SoundySettings.Database.GetSoundDatabases())
             {
-                foreach (SoundGroupData soundGroupData in soundDatabase.Database)
+                foreach (SoundGroupData soundGroupData in soundDatabase.GetSoundDatabases())
                 {
                     if (soundGroupData.SoundName == _musicSoundName)
                         continue;
@@ -82,16 +77,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
 
             return soundNames;
         }
-
-        public void PlaySequence(string databaseName, string soundName)
-        {
-            _musicSoundName = soundName;
-            _soundNames = GetSoundNames();
-            SoundyManager.PlaySequence(databaseName, soundName, _musicVolume);
-        }
-
-        public void StopSequence(string databaseName, string soundName) =>
-            SoundyManager.StopSequence(databaseName, soundName);
 
         public void Stop(string database, string sound) =>
             SoundyManager.Stop(database, sound);
@@ -112,12 +97,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
         {
             if (isPausedSound)
             {
-                SoundyManager.PauseAllControllers();
+                SoundyManager.PauseAll();
                 
                 return;
             }
             
-            SoundyManager.UnpauseAllControllers();
+            SoundyManager.UnpauseAll();
         }
 
 
@@ -131,9 +116,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
 
         private void OnMusicVolumeChanged()
         {
-            SoundyController
-                .GetControllerByName(_musicSoundName)
-                .AudioSource.volume = _musicVolume.VolumeValue;
+            // NewSoundyManager
+            //     .GetControllerByName(_musicSoundName)
+            //     .AudioSource.volume = _musicVolume.VolumeValue;
         }
 
         private void OnSoundsVolumeMuted()
@@ -145,9 +130,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
 
         private void OnMusicVolumeMuted()
         {
-            SoundyController
-                .GetControllerByName(_musicSoundName)
-                .AudioSource.mute = _musicVolume.IsVolumeMuted;
+            // NewSoundyManager
+            //     .GetControllerByName(_musicSoundName)
+            //     .AudioSource.mute = _musicVolume.IsVolumeMuted;
             OnSoundsVolumeMuted();
         }
     }

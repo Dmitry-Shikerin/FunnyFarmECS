@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEngine;
 
 namespace Sources.Frameworks.Utils.CodeGen
@@ -13,8 +14,8 @@ namespace Sources.Frameworks.Utils.CodeGen
         {
             List<string> soundNames = new List<string>();
 
-            foreach (SoundDatabase soundDatabase in SoundySettings.Database.SoundDatabases)
-            foreach (SoundGroupData soundGroupData in soundDatabase.Database)
+            foreach (SoundDataBase soundDatabase in SoundySettings.Database.GetSoundDatabases())
+            foreach (SoundGroupData soundGroupData in soundDatabase.GetSoundDatabases())
             {
                 if (soundNames.Contains(soundGroupData.SoundName))
                     continue;

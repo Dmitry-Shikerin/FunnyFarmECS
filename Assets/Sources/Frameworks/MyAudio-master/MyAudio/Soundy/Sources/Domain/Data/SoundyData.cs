@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -14,8 +15,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
     [Serializable]
     public class SoundyData
     {
-        #region Public Variables
-
         /// <summary> Selects the sound source that will provide the sound that will get played </summary>
         public SoundSource SoundSource;
 
@@ -32,20 +31,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 
         /// <summary> Direct reference to an AudioMixerGroup that the referenced AudioClip will get routed through when played (enabled only for SoundSource.AudioClip) </summary>
         public AudioMixerGroup OutputAudioMixerGroup;
-
-        #endregion
-
-        #region Constructors
+        
 
         /// <summary> Creates a new instance for this class </summary>
         public SoundyData()
         {
             Reset();
         }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         ///     Returns a SoundGroupData reference from the database with the set DatabaseName and SoundName.
@@ -108,12 +100,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             return this;
         }
 
-        private List<string> GetDataBases() =>
-            SoundySettings.Database.DatabaseNames;
+        private IEnumerable<string> GetDataBases() =>
+            SoundySettings.Database.GetDatabaseNames();
         
-        private List<string> GetSoundNames() =>
-            SoundySettings.Database.GetSoundDatabase(DatabaseName).SoundNames;
-
-        #endregion
+        private IEnumerable<string> GetSoundNames() =>
+            SoundySettings.Database.GetSoundDatabase(DatabaseName).GetSoundNames();
     }
 }
