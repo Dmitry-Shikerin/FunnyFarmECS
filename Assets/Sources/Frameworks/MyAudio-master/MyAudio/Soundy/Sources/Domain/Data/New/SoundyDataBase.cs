@@ -14,10 +14,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.N
     {
         [SerializeField] private SoundDataBaseDictionary _dataBases = new ();
         
-        public List<string> GetDatabaseNames() =>
+        public IEnumerable<string> GetDatabaseNames() =>
             _dataBases.Keys.ToList();
         
-        public List<SoundDataBase> GetSoundDatabases() =>
+        public IEnumerable<SoundDataBase> GetSoundDatabases() =>
             _dataBases.Values.ToList();
         
         public bool AddSoundDatabase(SoundDataBase database)

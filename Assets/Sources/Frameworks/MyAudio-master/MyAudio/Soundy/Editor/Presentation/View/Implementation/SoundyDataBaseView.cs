@@ -1,88 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
-using Doozy.Editor.EditorUI.Components.Internal;
 using Doozy.Runtime.UIElements.Extensions;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation
 {
-    public class SoundyDataBaseView : ISoundyDataBaseView
+    public class SoundyDataBaseView : EditorPresentableView<SoundyDataBasePresenter, SoundyDataBaseWindowLayout>, ISoundyDataBaseView
     {
-        private SoundyDataBasePresenter _presenter;
-        private SoundyDataBaseWindowLayout _fluidWindowLayout;
-        private List<FluidToggleButtonTab> _fluidToggleButtonTabs;
-        private List<SoundGroupVisualElement> _soundGroups;
-        private List<FluidToggleButtonTab> _databasesButtons;
-        
-        public IReadOnlyList<FluidToggleButtonTab> DatabaseButtons => _databasesButtons;
+        public IReadOnlyList<FluidToggleButtonTab> DatabaseButtons => Root.DatabaseButtons;
         public ISoundySettingsView SettingsView { get; private set; }
         public ISoundDataBaseView SoundDataBaseView { get; private set; }
 
-        public VisualElement Root { get; private set; }
-
-        public void Construct(SoundyDataBasePresenter presenter)
+        protected override void Initialize()
         {
-            _presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
-
-            CreateView();
-            Initialize();
+            Root.SettingsButton.SetOnClick(() => Presenter.OpenSettings());
+            Root.NewDataBaseButton.SetOnClick(() => Presenter.CreateNewDataBase());
+            Root.RefreshButton.SetOnClick(() => Presenter.RefreshDataBases());
+            Presenter.Initialize();
         }
 
-        public void CreateView()
+        protected override void DisposeView()
         {
-            _fluidWindowLayout = new SoundyDataBaseWindowLayout();
-            _fluidWindowLayout
-                .sideMenu
-                .SetMenuLevel(FluidSideMenu.MenuLevel.Level_2)
-                .IsCollapsable(false);
-            _soundGroups = new List<SoundGroupVisualElement>();
-            _databasesButtons = new List<FluidToggleButtonTab>();
-            Root = _fluidWindowLayout;
-        }
-
-        public void Initialize()
-        {
-            _fluidWindowLayout.SettingsButton.SetOnClick(() => _presenter.OpenSettings());
-            _fluidWindowLayout.NewDataBaseButton.SetOnClick(() => _presenter.CreateNewDataBase());
-            _fluidWindowLayout.RefreshButton.SetOnClick(() => _presenter.RefreshDataBases());
-            _presenter.Initialize();
-        }
-
-        public void Dispose()
-        {
-            _presenter?.Dispose();
         }
 
         public void RefreshDataBasesButtons()
         {
-            foreach (FluidToggleButtonTab button in _databasesButtons)
-                button.Recycle();
-
-            _databasesButtons.Clear();
+            Root.RefreshDataBasesButtons();
         }
 
         public void RenameButtons()
         {
-            _presenter.RenameButtons();
+            Presenter.RenameButtons();
         }
 
         public void UpdateDataBase()
         {
-            _presenter.UpdateDataBase();
+            Presenter.UpdateDataBase();
         }
 
         public void ClearButtons()
         {
-            foreach (FluidToggleButtonTab button in _databasesButtons)
+            foreach (FluidToggleButtonTab button in DatabaseButtons)
             {
-                _fluidWindowLayout.sideMenu.buttons.Remove(button);
+                Root.sideMenu.buttons.Remove(button);
                 button.RemoveFromHierarchy();
             }
         }
@@ -92,19 +57,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             SettingsView?.Dispose();
             SoundDataBaseView?.Dispose();
             SettingsView = soundySettingsView ?? throw new ArgumentNullException(nameof(soundySettingsView));
-            _fluidWindowLayout.content.AddChild(SettingsView.Root);
+            Root.content.AddChild(SettingsView.Root);
         }
 
         public void AddDataBaseButton(string name, UnityAction callback)
         {
-            FluidToggleButtonTab button =
-                _fluidWindowLayout.sideMenu
-                    .AddButton(name, EditorSelectableColors.EditorUI.Orange)
-                    .SetElementSize(ElementSize.Normal)
-                    .SetIcon(EditorSpriteSheets.EditorUI.Icons.ToggleON)
-                    .AddOnClick(() => callback?.Invoke());
-            
-            _databasesButtons.Add(button);
+            Root.AddDataBaseButton(name, callback);
         }
 
         public void SetSoundDataBase(ISoundDataBaseView dataBaseView)
@@ -112,7 +70,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             SettingsView?.Dispose();
             SoundDataBaseView?.Dispose();
             SoundDataBaseView = dataBaseView;
-            _fluidWindowLayout.content.AddChild(dataBaseView.Root);
+            Root.content.AddChild(dataBaseView.Root);
         }
     }
 }

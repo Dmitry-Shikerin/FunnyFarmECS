@@ -1,16 +1,25 @@
 ﻿using System.Collections.Generic;
 using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
+using Doozy.Editor.EditorUI.Components.Internal;
 using Doozy.Editor.EditorUI.ScriptableObjects.Colors;
 using Doozy.Runtime.UIElements.Extensions;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls
 {
     public class SoundyDataBaseWindowLayout : FluidWindowLayout
     {
+        public List<FluidToggleButtonTab> FluidToggleButtonTabs { get; }
+        private List<SoundGroupVisualElement> _soundGroups;
+        public List<FluidToggleButtonTab> DatabaseButtons { get; }
+        
         public SoundyDataBaseWindowLayout()
         {
+            _soundGroups = new List<SoundGroupVisualElement>();
+            DatabaseButtons = new List<FluidToggleButtonTab>();
+            
             AddHeader("Soundy Database", "Sound Groups", animatedIconTextures);
             sideMenu.RemoveSearch();
             
@@ -56,5 +65,25 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
         public FluidButton SettingsButton { get; }
         public FluidButton RefreshButton { get; }
         public FluidButton NewDataBaseButton { get; }
+        
+        public void RefreshDataBasesButtons()
+        {
+            foreach (FluidToggleButtonTab button in DatabaseButtons)
+                button.Recycle();
+
+            DatabaseButtons.Clear();
+        }
+
+        public void AddDataBaseButton(string buttonName, UnityAction callback)
+        {
+            FluidToggleButtonTab button =
+                sideMenu
+                    .AddButton(buttonName, EditorSelectableColors.EditorUI.Orange)
+                    .SetElementSize(ElementSize.Normal)
+                    .SetIcon(EditorSpriteSheets.EditorUI.Icons.ToggleON)
+                    .AddOnClick(() => callback?.Invoke());
+            
+            DatabaseButtons.Add(button);
+        }
     }
 }

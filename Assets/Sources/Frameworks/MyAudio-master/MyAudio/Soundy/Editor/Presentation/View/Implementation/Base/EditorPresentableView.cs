@@ -23,6 +23,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         public virtual void Dispose()
         {
             DisposeView();
+            Root.RemoveFromHierarchy();
             Presenter.Dispose();
         }
 

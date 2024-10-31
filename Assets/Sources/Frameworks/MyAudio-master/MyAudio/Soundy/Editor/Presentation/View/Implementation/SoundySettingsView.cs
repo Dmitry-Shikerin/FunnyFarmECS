@@ -51,7 +51,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
 
         protected override void DisposeView()
         {
-            Root.RemoveFromHierarchy();
         }
 
         public void SetAutoKillIdleControllers(bool autoKillIdleControllers) =>

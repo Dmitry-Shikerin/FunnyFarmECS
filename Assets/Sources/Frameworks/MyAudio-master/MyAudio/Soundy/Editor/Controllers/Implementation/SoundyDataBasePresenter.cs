@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
@@ -67,7 +68,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         public void RenameButtons()
         {
             for (int i = 0; i < _view.DatabaseButtons.Count; i++)
-                _view.DatabaseButtons[i].SetLabelText(_soundyDatabase.GetSoundDatabases()[i].Name);
+                _view.DatabaseButtons[i].SetLabelText(_soundyDatabase.GetSoundDatabases().ToList()[i].Name);
         }
 
         public void UpdateDataBase()
