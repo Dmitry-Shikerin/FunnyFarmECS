@@ -1,9 +1,9 @@
 ﻿using System;
 using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -11,54 +11,38 @@ using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation
 {
-    public class AudioDataView : IAudioDataView
+    public class AudioDataView : EditorPresentableView<AudioDataPresenter, AudioDataVisualElement>, IAudioDataView
     {
-        private AudioDataPresenter _presenter;
-        private AudioDataVisualElement _visualElement;
         private FluidButton _playButton;
         private FluidButton _deleteButton;
         private FluidRangeSlider _topSlider;
         private AudioClip _audioClip;
-        private bool _isPlaying;
         private ObjectField _objectField;
-        private Label _label;
         private ISoundGroupDataView _soundGroupDataView;
 
-        public VisualElement Root { get; private set; }
-
-        public void Construct(AudioDataPresenter audioDataPresenter)
+        protected override void Initialize()
         {
-            _presenter = audioDataPresenter ?? throw new ArgumentNullException(nameof(audioDataPresenter));
-            
-            CreateView();
-            Initialize();
-        }
-
-        public void CreateView()
-        {
-            _visualElement = new AudioDataVisualElement();
-            Root = _visualElement;
-            _deleteButton = _visualElement.DeleteButton;
-            _playButton = _visualElement.PlayButton;
-            _topSlider = _visualElement.Slider;
-            _objectField = _visualElement.ObjectField;
-        }
-
-        public void Initialize()
-        {
+            _deleteButton = Root.DeleteButton;
+            _playButton = Root.PlayButton;
+            _topSlider = Root.Slider;
+            _objectField = Root.ObjectField;
             _playButton.SetOnClick(ChangeSoundGroupState);
-            _deleteButton.SetOnClick(_presenter.DeleteAudioData);
+            _deleteButton.SetOnClick(Presenter.DeleteAudioData);
             _objectField.RegisterValueChangedCallback((value) => 
-                _presenter.SetAudioClip(value.newValue as AudioClip));
-            _presenter.Initialize();
+                Presenter.SetAudioClip(value.newValue as AudioClip));
+            Presenter.Initialize();
+        }
+
+        protected override void DisposeView()
+        {
         }
 
         private void ChangeSoundGroupState() =>
-            _presenter.ChangeSoundGroupState();
+            Presenter.ChangeSoundGroupState();
 
         public void StopPlaySound()
         {
-            _presenter.StopSound();
+            Presenter.StopSound();
         }
 
         public void SetSliderValue(float value) =>
@@ -86,14 +70,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         public void SetSoundGroupData(ISoundGroupDataView soundGroupDataView)
         {
             _soundGroupDataView = soundGroupDataView ?? throw new ArgumentNullException(nameof(soundGroupDataView));
-        }
-
-        public void Dispose()
-        {
-            _playButton?.Dispose();
-            _deleteButton?.Dispose();
-            Root.RemoveFromHierarchy();
-            _presenter?.Dispose();
         }
     }
 }

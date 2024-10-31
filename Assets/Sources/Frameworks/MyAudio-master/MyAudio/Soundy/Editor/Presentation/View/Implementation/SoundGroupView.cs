@@ -4,62 +4,43 @@ using Doozy.Editor.EditorUI.Components;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation
 {
-    public class SoundGroupView : ISoundGroupView
+    public class SoundGroupView : EditorPresentableView<SoundGroupPresenter, SoundGroupVisualElement>, ISoundGroupView
     {
-        private SoundGroupPresenter _presenter;
-        private SoundGroupVisualElement _visualElement;
         private ISoundDataBaseView _soundDataBaseView;
         
-        public VisualElement Root { get; private set; }
-
-        public void Construct(SoundGroupPresenter presenter)
+        protected override void Initialize()
         {
-            _presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
-            CreateView();
-            Initialize();
+            Root.PlayButton
+                .SetOnClick(() => Presenter.ChangeSoundGroupState());
+            Root.DeleteButton.SetOnClick(() => Presenter.RemoveSoundGroup());
+            Root.SoundGroupDataButton.SetOnClick(() => Presenter.ShowSoundGroupData());
+            Root.Slider.sliderTracker.RegisterCallback<MouseDownEvent>((mouse) => Presenter.MouseDown(mouse.button)); ;
         }
 
-        public void CreateView()
+        protected override void DisposeView()
         {
-            _visualElement = new SoundGroupVisualElement();
-            Root = _visualElement;
-        }
-
-        public void Initialize()
-        {
-            _visualElement.PlayButton
-                .SetOnClick(() => _presenter.ChangeSoundGroupState());
-            _visualElement.DeleteButton.SetOnClick(() => _presenter.RemoveSoundGroup());
-            _visualElement.SoundGroupDataButton.SetOnClick(() => _presenter.ShowSoundGroupData());
-            _visualElement.Slider.sliderTracker.RegisterCallback<MouseDownEvent>((mouse) => _presenter.MouseDown(mouse.button)); ;
-            _presenter.Initialize();
-        }
-
-        public void Dispose()
-        {
-            Root.RemoveFromHierarchy();
-            _presenter.Dispose();
         }
 
         public void SetPlayIcon() =>
-            _visualElement.PlayButton.SetIcon(EditorSpriteSheets.EditorUI.Icons.Play);
+            Root.PlayButton.SetIcon(EditorSpriteSheets.EditorUI.Icons.Play);
 
         public void SetStopIcon() =>
-            _visualElement.PlayButton.SetIcon(EditorSpriteSheets.EditorUI.Icons.Stop);
+            Root.PlayButton.SetIcon(EditorSpriteSheets.EditorUI.Icons.Stop);
 
         public void SetSliderValue(float audioSourceTime) =>
-            _visualElement.Slider.SetSliderValue(audioSourceTime);
+            Root.Slider.SetSliderValue(audioSourceTime);
 
         public void SetSliderMaxValue(float maxValue)
         {
-            _visualElement.Slider.slider.value = 0;
-            _visualElement.Slider.slider.lowValue = 0;
-            _visualElement.Slider.slider.highValue = maxValue;
+            Root.Slider.slider.value = 0;
+            Root.Slider.slider.lowValue = 0;
+            Root.Slider.slider.highValue = maxValue;
         }
 
         public void StopAllAudioGroup() =>
@@ -69,18 +50,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             _soundDataBaseView = soundDataBaseView;
 
         public void StopPlaySound() =>
-            _presenter.StopSound();
+            Presenter.StopSound();
 
         public void SetSoundGroupName(string soundGroupName)
         {
-            _visualElement
+            Root
                 .SoundGroupDataButton
                 .SetLabelText(soundGroupName);
         }
 
         public void StopAllAudioData()
         {
-            
         }
     }
 }

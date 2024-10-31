@@ -6,6 +6,7 @@ using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.UIElements.Extensions;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using UnityEditor;
 using UnityEngine.Audio;
@@ -13,75 +14,29 @@ using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation
 {
-    public class SoundDataBaseView : ISoundDataBaseView
+    public class SoundDataBaseView : EditorPresentableView<SoundDataBasePresenter, SoundDataBaseVisualElement>, ISoundDataBaseView
     {
-        private SoundDataBasePresenter _presenter;
-        private SoundDataBaseHeaderVisualElement _headerVisualElement;
-        private NewSoundContentVisualElement _newSoundContentVisualElement;
-        private SoundDataBaseAudioMixerVisualElement _audioMixerVisualElement;
-        private VisualElement _spaseElement;
-        private ScrollView _scrollView;
-        private VisualElement _soundGroupsContainer;
         private List<ISoundGroupView> _soundGroups;
         private ISoundyDataBaseView _soundyDataBaseView;
 
-        public VisualElement Root { get; private set; }
-
-        public void Construct(SoundDataBasePresenter presenter)
+        protected override void Initialize()
         {
-            _presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
-            CreateView();
-            Initialize();
-        }
-
-        public void CreateView()
-        {
-            _headerVisualElement = new SoundDataBaseHeaderVisualElement();
-            _newSoundContentVisualElement = new NewSoundContentVisualElement();
-            _audioMixerVisualElement = new SoundDataBaseAudioMixerVisualElement();
-            VisualElement spaseLine = DesignUtils.row
-                .SetStyleMaxHeight(4)
-                .SetStyleMinHeight(4)
-                .SetStyleBackgroundColor(EditorColors.Default.Background)
-                .SetStyleBorderRadius(4,4,4,4);
-            _spaseElement = DesignUtils.column
-                .SetStyleMinWidth(25)
-                .SetStyleMaxHeight(25)
-                .AddChild(DesignUtils.row)
-                .AddChild(spaseLine)
-                .AddChild(DesignUtils.row);
-            _scrollView = new ScrollView();
-            _soundGroupsContainer = DesignUtils
-                .column
-                .SetStyleBackgroundColor(EditorColors.Default.Background)
-                .AddSpace(4)
-                .AddChild(_scrollView);
-            
-            Root = DesignUtils.column
-                .AddChild(_headerVisualElement)
-                .AddSpace(4)
-                .AddChild(_audioMixerVisualElement)
-                .AddSpace(4)
-                .AddChild(_spaseElement)
-                .AddSpace(4)
-                .AddChild(_newSoundContentVisualElement)
-                .AddChild(_soundGroupsContainer);
-        }
-
-        public void Initialize()
-        {
-            _newSoundContentVisualElement.CreateButton.SetOnClick(() 
-                => _presenter.CreateSoundGroup(_newSoundContentVisualElement.SoundGroupTextField.value));
+            Root.NewSoundContentVisualElement.CreateButton.SetOnClick(() 
+                => Presenter.CreateSoundGroup(Root.NewSoundContentVisualElement.SoundGroupTextField.value));
             // _headerVisualElement.PingAssetButton.SetOnClick(() 
             //     => Selection.activeObject = _presenter.GetDataBase());
-            _headerVisualElement.RenameButton.SetOnClick(() => 
-                _presenter.RenameDataBase(_headerVisualElement.SoundGroupTextField.value));
-            _headerVisualElement.RemoveButton.SetOnClick(() => _presenter.RemoveDataBase());
-            _audioMixerVisualElement.ObjectField
+            Root.HeaderVisualElement.RenameButton.SetOnClick(() => 
+                Presenter.RenameDataBase(Root.HeaderVisualElement.SoundGroupTextField.value));
+            Root.HeaderVisualElement.RemoveButton.SetOnClick(() => Presenter.RemoveDataBase());
+            Root.AudioMixerVisualElement.ObjectField
                 .RegisterCallback<ChangeEvent<AudioMixerGroup>>((value) 
-                    => _presenter.ChangeAudioMixerGroup(value.newValue));
+                    => Presenter.ChangeAudioMixerGroup(value.newValue));
             _soundGroups = new List<ISoundGroupView>();
-            _presenter.Initialize();
+        }
+
+        protected override void DisposeView()
+        {
+            _soundyDataBaseView.UpdateDataBase();
         }
 
         public void RemoveSoundGroup(ISoundGroupView soundGroupView)
@@ -97,10 +52,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         }
 
         public void SetName(string name) =>
-            _headerVisualElement.SoundGroupTextField.value = name;
+            Root.HeaderVisualElement.SoundGroupTextField.value = name;
 
         public void SetAudioMixerGroup(AudioMixerGroup audioMixerGroup) =>
-            _audioMixerVisualElement.ObjectField.SetValueWithoutNotify(audioMixerGroup);
+            Root.AudioMixerVisualElement.ObjectField.SetValueWithoutNotify(audioMixerGroup);
 
         public void RenameDataBaseButtons() =>
             _soundyDataBaseView.RenameButtons();
@@ -110,17 +65,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
 
         public void AddSoundGroup(ISoundGroupView soundGroupView)
         {
-            _scrollView
+            Root.ScrollView
                 .AddChild(soundGroupView.Root)
                 .AddSpace(4);
             _soundGroups.Add(soundGroupView);
-        }
-        
-        public void Dispose()
-        {
-            Root.RemoveFromHierarchy();
-            _soundyDataBaseView.UpdateDataBase();
-            _presenter.Dispose();
         }
     }
 }

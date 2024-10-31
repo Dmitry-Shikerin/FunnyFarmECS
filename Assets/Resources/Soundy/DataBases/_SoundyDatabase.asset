@@ -13,5 +13,31 @@ MonoBehaviour:
   m_Name: _SoundyDatabase
   m_EditorClassIdentifier: 
   _dataBases:
-    _keys: []
-    _values: []
+    _keys:
+    - Default
+    _values:
+    - Name: Default
+      OutputAudioMixerGroup: {fileID: 0}
+      _dataBase:
+        _keys:
+        - No Sound
+        _values:
+        - DatabaseName: Default
+          SoundName: No Sound
+          IgnoreListenerPause: 0
+          Volume:
+            MinValue: 0
+            MaxValue: 0
+          Pitch:
+            MinValue: 0
+            MaxValue: 0
+          SpatialBlend: 0
+          Loop: 0
+          Mode: 0
+          ResetSequenceAfterInactiveTime: 0
+          SequenceResetTime: 0
+          Sounds:
+          - AudioClip: {fileID: 0}
+            Weight: 1
+            IsPlaying: 0
+          IsPlaying: 0

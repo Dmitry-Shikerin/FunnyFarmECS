@@ -1,5 +1,6 @@
 ﻿using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
@@ -16,7 +17,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             SoundGroupDataView view = new SoundGroupDataView();
             SoundGroupDataPresenter presenter = new SoundGroupDataPresenter(
                 soundGroupData, view, audioDataViewFactory);
-            view.Construct(presenter);
+            SoundGroupDataVisualElement visualElement = new SoundGroupDataVisualElement();
+            view.Construct(presenter, visualElement);
             
             return view;
         }

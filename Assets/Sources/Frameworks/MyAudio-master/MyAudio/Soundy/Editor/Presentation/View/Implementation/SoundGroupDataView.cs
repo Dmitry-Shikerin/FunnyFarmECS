@@ -6,6 +6,7 @@ using Doozy.Editor.EditorUI.Events;
 using Doozy.Runtime.UIElements.Extensions;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEditor;
@@ -14,83 +15,63 @@ using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation
 {
-    public class SoundGroupDataView : ISoundGroupDataView
+    public class SoundGroupDataView : EditorPresentableView<SoundGroupDataPresenter, SoundGroupDataVisualElement>, ISoundGroupDataView
     {
-        private SoundGroupDataPresenter _presenter;
-        private SoundGroupDataVisualElement _visualElement;
-        private SerializedProperty _sequenceResetTime;
-        private List<IAudioDataView> _audioDataViews = new List<IAudioDataView>();
-        public VisualElement Root { get; private set; }
+        private readonly List<IAudioDataView> _audioDataViews = new ();
 
         public IReadOnlyList<IAudioDataView> AudioDataViews => _audioDataViews;
 
-        public void Construct(SoundGroupDataPresenter presenter)
+        protected override void Initialize()
         {
-            _presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
-            CreateView();
-            Initialize();
-        }
-
-        public void CreateView()
-        {
-            _visualElement = new SoundGroupDataVisualElement();
-            Root = _visualElement;
-        }
-
-        public void Initialize()
-        {
-            _visualElement.RandomButtonTab.SetOnClick(() => 
-                _presenter.SetPlayMode(SoundPlayMode.Random));
-           _visualElement.SequenceButtonTab.SetOnClick(() => 
-               _presenter.SetPlayMode(SoundPlayMode.Sequence));
-           _visualElement.LoopToggle.OnValueChanged += ChangeLoop;
-           _visualElement.NewSoundContentVisualElement.CreateButton.SetOnClick(
-               () => _presenter.CreateAudioData());
-           _visualElement.VolumeSlider.slider.RegisterValueChangedCallback((value) => 
-               _presenter.ChangeVolume(value.newValue));
-           _visualElement.PitchSlider.slider.RegisterValueChangedCallback((value) => 
-               _presenter.ChangePitch(value.newValue));
-           _visualElement.SpatialBlendSlider.slider.RegisterValueChangedCallback((value)
-               => _presenter.ChangeSpatialBlend(value.newValue));
+            Root.RandomButtonTab.SetOnClick(() => 
+                Presenter.SetPlayMode(SoundPlayMode.Random));
+            Root.SequenceButtonTab.SetOnClick(() => 
+                Presenter.SetPlayMode(SoundPlayMode.Sequence));
+            Root.LoopToggle.OnValueChanged += ChangeLoop;
+            Root.NewSoundContentVisualElement.CreateButton.SetOnClick(
+               () => Presenter.CreateAudioData());
+            Root.VolumeSlider.slider.RegisterValueChangedCallback((value) => 
+                Presenter.ChangeVolume(value.newValue));
+            Root.PitchSlider.slider.RegisterValueChangedCallback((value) => 
+                Presenter.ChangePitch(value.newValue));
+            Root.SpatialBlendSlider.slider.RegisterValueChangedCallback((value)
+               => Presenter.ChangeSpatialBlend(value.newValue));
            // _visualElement.HeaderVisualElement.PingAssetButton.SetOnClick(() =>
            //     Selection.activeObject = _presenter.GetSoundGroupData());
-           
-           _presenter.Initialize();
+        }
+
+        protected override void DisposeView()
+        {
+            Root.LoopToggle.OnValueChanged -= ChangeLoop;
         }
 
         private void ChangeLoop(FluidBoolEvent fluidBoolEvent) =>
-            _presenter.ChangeLoopState(fluidBoolEvent.newValue);
-
-        public void Dispose()
-        {
-            _visualElement.LoopToggle.OnValueChanged -= ChangeLoop;
-            _presenter.Dispose();
-        }
+            Presenter.ChangeLoopState(fluidBoolEvent.newValue);
         
         public void SetVolume(Vector2 volume, Vector2 minMaxVolume)
         {
-            _visualElement.VolumeSlider.slider.value = volume;
-            _visualElement.VolumeSlider.slider.lowLimit = minMaxVolume.x;
-            _visualElement.VolumeSlider.slider.highLimit = minMaxVolume.y;
+            Root.VolumeSlider.slider.value = volume;
+            Root.VolumeSlider.slider.lowLimit = minMaxVolume.x;
+            Root.VolumeSlider.slider.highLimit = minMaxVolume.y;
         }
 
         public void SetPitch(Vector2 volume, Vector2 minMaxVolume)
         {
-            _visualElement.PitchSlider.slider.value = volume;
-            _visualElement.PitchSlider.slider.lowLimit = minMaxVolume.x;
-            _visualElement.PitchSlider.slider.highLimit = minMaxVolume.y;
+            Root.PitchSlider.slider.value = volume;
+            Root.PitchSlider.slider.lowLimit = minMaxVolume.x;
+            Root.PitchSlider.slider.highLimit = minMaxVolume.y;
         }
 
         public void SetSpatialBlend(float spatialBlend, Vector2 minMaxSpatialBlend)
         {
-            _visualElement.SpatialBlendSlider.slider.value = spatialBlend;
-            _visualElement.SpatialBlendSlider.slider.lowValue = minMaxSpatialBlend.x;
-            _visualElement.SpatialBlendSlider.slider.highValue = minMaxSpatialBlend.y;
+            Root.SpatialBlendSlider.slider.value = spatialBlend;
+            Root.SpatialBlendSlider.slider.lowValue = minMaxSpatialBlend.x;
+            Root.SpatialBlendSlider.slider.highValue = minMaxSpatialBlend.y;
         }
 
         public void SetSoundName(string name)
         {
-            _visualElement.HeaderVisualElement.SoundGroupTextField.value = name;
+            Root.HeaderVisualElement.SoundGroupTextField.value = name;
         }
 
         public void StopAllAudioData()
@@ -100,14 +81,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         }
 
         public void SetLoop(bool loop) =>
-            _visualElement.LoopToggle.isOn = loop;
+            Root.LoopToggle.isOn = loop;
 
         public void SetIsOnButtonTab(SoundPlayMode playMode)
         {
             Action changePlayMode = playMode switch
             {
-                SoundPlayMode.Random => () => _visualElement.RandomButtonTab.isOn = true,
-                SoundPlayMode.Sequence => () => _visualElement.SequenceButtonTab.isOn = true,
+                SoundPlayMode.Random => () => Root.RandomButtonTab.isOn = true,
+                SoundPlayMode.Sequence => () => Root.SequenceButtonTab.isOn = true,
                 _ => throw new ArgumentOutOfRangeException()
             };
             
@@ -116,7 +97,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         
         public void AddAudioData(IAudioDataView audioDataView)
         {
-            _visualElement
+            Root
                 .AudioDataContent
                 .AddChild(audioDataView.Root)
                 .AddSpace(2);
