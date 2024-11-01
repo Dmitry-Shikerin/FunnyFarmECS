@@ -15,36 +15,32 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         private readonly AudioSource _audioSource;
 
         private Action<float> SliderValueChange;
+        private Action Stopped;
 
         public PreviewSoundPlayerService(EditorUpdateService updateService)
         {
             _updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
             _soundController = Object.FindObjectOfType<SoundyController>() ??
                                new GameObject().AddComponent<SoundyController>();
-            _audioSource = _soundController.gameObject.AddComponent<AudioSource>();
+            _audioSource = _soundController.gameObject.GetComponent<AudioSource>() 
+                           ?? _soundController.gameObject.AddComponent<AudioSource>();
         }
 
-        public void Initialize()
-        {
+        public void Initialize() =>
             _updateService.Register(UpdateSlider);
-        }
 
-        public void Destroy()
-        {
+        public void Destroy() =>
             _updateService.UnRegister(UpdateSlider);
-        }
 
         private void UpdateSlider(float deltaTime)
         {
             SliderValueChange?.Invoke(_audioSource.time);
 
             if (_audioSource.time + 0.1f >= _audioSource.clip.length)
-            {
                 Stop();
-            }
         }
 
-        public AudioSource Play(SoundGroupData soundGroupData, Action<float> sliderValueChange)
+        public AudioSource Play(SoundGroupData soundGroupData, Action<float> sliderValueChange, Action stopAction = null)
         {
             soundGroupData.ChangeLastPlayedAudioData();
             _audioSource.clip = soundGroupData.LastPlayedAudioData.AudioClip;
@@ -58,6 +54,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             _audioSource.transform.position = main == null ? Vector3.zero : main.transform.position;
             
             //TODO апдейт слайдера
+            Stopped?.Invoke();
+            Stopped = stopAction;
             SliderValueChange?.Invoke(0);
             SliderValueChange = sliderValueChange;
             
@@ -66,7 +64,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             return _audioSource;
         }
 
-        public AudioSource Play(AudioClip audioClip, SoundGroupData soundGroupData,
+        public AudioSource Play(AudioClip audioClip, 
+            SoundGroupData soundGroupData,
+            Action<float> sliderValueChange, 
+            Action stopAction = null,
             AudioMixerGroup outputAudioMixerGroup = null)
         {
             if (audioClip != null)
@@ -91,6 +92,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             _audioSource.spatialBlend = soundGroupData.SpatialBlend;
             Camera main = Camera.main;
             _audioSource.transform.position = main == null ? Vector3.zero : main.transform.position;
+            
+            //TODO апдейт слайдера
+            Stopped?.Invoke();
+            Stopped = stopAction;
+            SliderValueChange?.Invoke(0);
+            SliderValueChange = sliderValueChange;
+            
             _audioSource.Play();
 
             return _audioSource;

@@ -11,15 +11,19 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
     public class SoundGroupDataViewFactory
     {
         private readonly EditorUpdateService _editorUpdateService;
+        private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
-        public SoundGroupDataViewFactory(EditorUpdateService editorUpdateService)
+        public SoundGroupDataViewFactory(
+            EditorUpdateService editorUpdateService,
+            PreviewSoundPlayerService previewSoundPlayerService)
         {
             _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
+            _previewSoundPlayerService = previewSoundPlayerService ?? throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
 
         public ISoundGroupDataView Create(SoundGroupData soundGroupData)
         {
-            AudioDataViewFactory audioDataViewFactory = new AudioDataViewFactory();
+            AudioDataViewFactory audioDataViewFactory = new AudioDataViewFactory(_previewSoundPlayerService);
             
             SoundGroupDataView view = new SoundGroupDataView();
             SoundGroupDataPresenter presenter = new SoundGroupDataPresenter(

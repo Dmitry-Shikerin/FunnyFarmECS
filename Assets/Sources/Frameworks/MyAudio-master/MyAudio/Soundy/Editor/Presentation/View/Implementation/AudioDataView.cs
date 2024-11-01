@@ -40,11 +40,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         private void ChangeSoundGroupState() =>
             Presenter.ChangeSoundGroupState();
 
-        public void StopPlaySound()
-        {
-            Presenter.StopSound();
-        }
-
         public void SetSliderValue(float value) =>
             _topSlider.slider.value = value;
 
@@ -63,13 +58,5 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
 
         public void SetAudioClip(AudioClip audioClip) =>
             _objectField.SetValueWithoutNotify(audioClip);
-
-        public void StopAllSounds() =>
-            _soundGroupDataView.StopAllAudioData();
-
-        public void SetSoundGroupData(ISoundGroupDataView soundGroupDataView)
-        {
-            _soundGroupDataView = soundGroupDataView ?? throw new ArgumentNullException(nameof(soundGroupDataView));
-        }
     }
 }

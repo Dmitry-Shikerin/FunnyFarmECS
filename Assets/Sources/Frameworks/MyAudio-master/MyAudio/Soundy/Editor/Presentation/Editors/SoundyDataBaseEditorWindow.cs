@@ -31,12 +31,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
         {
             base.OnEnable();
             _updateService.Initialize();
+            _previewSoundPlayerService.Initialize();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             _updateService.Destroy();
+            _previewSoundPlayerService.Destroy();
         }
 
         protected override void CreateGUI()

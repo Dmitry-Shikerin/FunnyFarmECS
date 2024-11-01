@@ -1,12 +1,10 @@
 ﻿using System;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Audio;
-using Object = UnityEngine.Object;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation
 {
@@ -15,17 +13,18 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private AudioData _audioData;
         private SoundGroupData _soundGroupData;
         private IAudioDataView _view;
-        private AudioSource _audioSource;
+        private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
         public AudioDataPresenter(
             AudioData audioData,
             SoundGroupData soundGroupData,
-            IAudioDataView view)
+            IAudioDataView view,
+            PreviewSoundPlayerService previewSoundPlayerService)
         {
             _audioData = audioData ?? throw new ArgumentNullException(nameof(audioData));
             _soundGroupData = soundGroupData ?? throw new ArgumentNullException(nameof(soundGroupData));
             _view = view ?? throw new ArgumentNullException(nameof(view));
-            _audioSource = Object.FindObjectOfType<AudioSource>();
+            _previewSoundPlayerService = previewSoundPlayerService ?? throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
 
         public void Initialize()
@@ -40,28 +39,22 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             _audioData = null;
             _soundGroupData = null;
             _view = null;
-            EditorApplication.update -= SetSliderValue;
         }
 
-        public void PlaySound()
+        private void PlaySound()
         {
-            _view.StopAllSounds();
-            
             _audioData.IsPlaying = true;
-            _soundGroupData.IsPlaying = true;
-            EditorApplication.update += SetSliderValue;
             _view.SetStopIcon();
-            PlaySoundPreview(_audioSource, null, _audioData.AudioClip);
+            _previewSoundPlayerService.Play(
+                _audioData.AudioClip, _soundGroupData, _view.SetSliderValue, StopSound);
         }
 
-        public void StopSound()
+        private void StopSound()
         {
             _audioData.IsPlaying = false;
-            _soundGroupData.IsPlaying = false;
-            EditorApplication.update -= SetSliderValue;
             _view.SetPlayIcon();
-            StopSoundPreview(_audioSource);
             _view.SetSliderValue(0);
+            _previewSoundPlayerService.Stop();
         }
 
         public void DeleteAudioData()
@@ -81,11 +74,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
                 StopSound();
         }
 
-        private void SetSliderValue()
-        {
-            _view.SetSliderValue(_audioSource.time);
-        }
-
         private void InitializeSliderValue()
         {
             float maxValue = 0;
@@ -94,47 +82,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
                 maxValue = _audioData.AudioClip.length;
             
             _view.SetSliderValue(new Vector2(0, maxValue), 0);
-        }
-        
-        public void PlaySoundPreview(AudioSource audioSource, AudioMixerGroup outputAudioMixerGroup, AudioClip audioClip)
-        {
-            if (audioSource == null)
-                return;
-            
-            if (audioClip != null)
-            {
-                audioSource.clip = audioClip;
-            }
-            else
-            {
-                _soundGroupData.ChangeLastPlayedAudioData();
-                
-                if (_soundGroupData.LastPlayedAudioData == null)
-                    return;
-                
-                audioSource.clip = _soundGroupData.LastPlayedAudioData.AudioClip;
-            }
-
-            audioSource.ignoreListenerPause = _soundGroupData.IgnoreListenerPause;
-            audioSource.outputAudioMixerGroup = outputAudioMixerGroup;
-            audioSource.volume = _soundGroupData.RandomVolume;
-            audioSource.pitch = _soundGroupData.RandomPitch;
-            audioSource.loop = _soundGroupData.Loop;
-            audioSource.spatialBlend = _soundGroupData.SpatialBlend;
-            Camera main = Camera.main;
-            audioSource.transform.position = main == null ? Vector3.zero : main.transform.position;
-            audioSource.Play();
-        }
-        
-        public void PlaySoundPreview(AudioSource audioSource, AudioMixerGroup outputAudioMixerGroup) =>
-            PlaySoundPreview(audioSource, outputAudioMixerGroup, null);
-        
-        public void StopSoundPreview(AudioSource audioSource)
-        {
-            if (audioSource == null)
-                return;
-            
-            audioSource.Stop();
         }
     }
 }

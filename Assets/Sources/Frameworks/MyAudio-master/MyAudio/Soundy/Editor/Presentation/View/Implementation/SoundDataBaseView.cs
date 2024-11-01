@@ -44,12 +44,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             _soundGroups.Remove(soundGroupView);
             Root.Remove(soundGroupView.Root);
         }
-        
-        public void StopAllSoundGroup()
-        {
-            foreach (ISoundGroupView soundGroup in _soundGroups)
-                soundGroup.StopPlaySound();
-        }
 
         public void SetName(string name) =>
             Root.HeaderVisualElement.SoundGroupTextField.value = name;

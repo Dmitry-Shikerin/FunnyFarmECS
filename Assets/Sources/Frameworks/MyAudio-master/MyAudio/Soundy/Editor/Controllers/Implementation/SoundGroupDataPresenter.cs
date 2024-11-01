@@ -58,7 +58,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             foreach (AudioData audioData in _soundGroupData.Sounds)
             {
                 IAudioDataView view = _audioDataViewFactory.Create(audioData, _soundGroupData);
-                view.SetSoundGroupData(_view);
                 _view.AddAudioData(view);
             }
         }

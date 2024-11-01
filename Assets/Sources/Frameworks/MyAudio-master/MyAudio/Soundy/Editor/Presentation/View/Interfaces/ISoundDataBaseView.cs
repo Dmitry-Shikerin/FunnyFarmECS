@@ -7,7 +7,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
     {
         void AddSoundGroup(ISoundGroupView soundGroupView);
         public void RemoveSoundGroup(ISoundGroupView soundGroupView);
-        void StopAllSoundGroup();
         void SetName(string name);
         void SetAudioMixerGroup(AudioMixerGroup audioMixerGroup);
         void RenameDataBaseButtons();

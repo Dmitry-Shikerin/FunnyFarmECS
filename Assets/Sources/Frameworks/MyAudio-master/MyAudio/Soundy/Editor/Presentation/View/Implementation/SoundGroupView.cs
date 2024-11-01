@@ -43,9 +43,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             Root.Slider.slider.highValue = maxValue;
         }
 
-        public void StopAllAudioGroup() =>
-            _soundDataBaseView.StopAllSoundGroup();
-
         public void SetDataBase(ISoundDataBaseView soundDataBaseView) =>
             _soundDataBaseView = soundDataBaseView;
 

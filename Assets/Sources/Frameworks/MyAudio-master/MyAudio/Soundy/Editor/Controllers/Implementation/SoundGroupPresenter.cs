@@ -38,16 +38,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void Dispose()
         {
-            
         }
 
         public void ShowSoundGroupData() =>
-            SoundGroupDataEditorWindow.Open(_soundGroupData, _editorUpdateService);
+            SoundGroupDataEditorWindow.Open(
+                _soundGroupData, _editorUpdateService, _previewSoundPlayerService);
         
         public void StopSound()
         {
-            // _soundGroupData.IsPlaying = false;
-            // EditorApplication.update -= SetSliderValue;
+            _soundGroupData.IsPlaying = false;
             _view.SetPlayIcon();
             _previewSoundPlayerService.Stop();
             _view.SetSliderValue(0);
@@ -55,10 +54,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         private void PlaySound()
         {
-            _view.StopAllAudioGroup();
-            var audioSource = _previewSoundPlayerService.Play(_soundGroupData, _view.SetSliderValue);
+            var audioSource = _previewSoundPlayerService.Play(_soundGroupData, SetSliderValue, StopSound);
+            _soundGroupData .IsPlaying = true;
             _view.SetSliderMaxValue(audioSource.clip.length);
+            _view.SetStopIcon();
         }
+        
+        private void SetSliderValue(float value) =>
+            _view.SetSliderValue(value);
 
         public void ChangeSoundGroupState()
         {

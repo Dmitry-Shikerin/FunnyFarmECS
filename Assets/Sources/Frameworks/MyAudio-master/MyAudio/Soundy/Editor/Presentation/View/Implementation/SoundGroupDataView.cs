@@ -19,8 +19,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
     {
         private readonly List<IAudioDataView> _audioDataViews = new ();
 
-        public IReadOnlyList<IAudioDataView> AudioDataViews => _audioDataViews;
-
         protected override void Initialize()
         {
             Root.RandomButtonTab.SetOnClick(() => 
@@ -72,12 +70,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         public void SetSoundName(string name)
         {
             Root.HeaderVisualElement.SoundGroupTextField.value = name;
-        }
-
-        public void StopAllAudioData()
-        {
-            foreach (IAudioDataView audioDataView in _audioDataViews)
-                audioDataView.StopPlaySound();
         }
 
         public void SetLoop(bool loop) =>

@@ -6,7 +6,7 @@ namespace Sources.Frameworks.GameServices.ActionRegisters.Implementation
 {
     public abstract class ActionRegisterer<T> : IActionRegister<T>
     {
-        protected readonly List<Action<T>> Actions = new List<Action<T>>();
+        protected readonly List<Action<T>> Actions = new ();
         
         public void UnRegister(Action<T> action) => 
             Actions.Remove(action);
