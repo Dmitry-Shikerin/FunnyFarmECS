@@ -3,7 +3,6 @@ using Doozy.Runtime.UIElements.Extensions;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,11 +13,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
     {
         private static SoundGroupData SoundGroupData { get; set; }
         
-        public static void Open(SoundGroupData soundGroupData, EditorUpdateService editorUpdateService, PreviewSoundPlayerService previewSoundPlayerService)
+        public static void Open(SoundGroupData soundGroupData)
         {
             SoundGroupData = soundGroupData;
-            _editorUpdateService = editorUpdateService;
-            _previewSoundPlayerService = previewSoundPlayerService;
             SoundGroupDataEditorWindow window = GetWindow<SoundGroupDataEditorWindow>();
             window.titleContent = new GUIContent("Sound Group");
             window.Show();
@@ -31,8 +28,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
             root.Clear();
             
             // SoundGroupDataEditor editor = (SoundGroupDataEditor)UnityEditor.Editor.CreateEditor(SoundGroupData);
-            VisualElement editorRoot = new SoundGroupDataViewFactory(
-                _editorUpdateService, _previewSoundPlayerService)
+            VisualElement editorRoot = EditorServiceLocator
+                .Get<SoundGroupDataViewFactory>()
                 .Create(SoundGroupData).Root;
             // editorRoot
             //     .Bind(editor.serializedObject);
@@ -46,8 +43,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
         private SoundDataBase _soundDatabase;
         private SoundGroupData _soundGroupData;
         private VisualElement _root;
-        private static PreviewSoundPlayerService _previewSoundPlayerService;
-        private static EditorUpdateService _editorUpdateService;
 
         // public override VisualElement CreateInspectorGUI()
         // {

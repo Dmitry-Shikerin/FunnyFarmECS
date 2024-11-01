@@ -3,7 +3,6 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Fac
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,33 +12,10 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
     {
         private SoundyDataBase _database;
         private AudioClip _plugAudio;
-        private EditorUpdateService _updateService;
-        private PreviewSoundPlayerService _previewSoundPlayerService;
 
         [MenuItem("Tools/SoundyDataBase")]
         public static void ShowWindow() =>
             GetWindow<SoundyDataBaseEditorWindow>("Soundy Data Base");
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _updateService = new EditorUpdateService();
-            _previewSoundPlayerService = new PreviewSoundPlayerService(_updateService);
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            _updateService.Initialize();
-            _previewSoundPlayerService.Initialize();
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            _updateService.Destroy();
-            _previewSoundPlayerService.Destroy();
-        }
 
         protected override void CreateGUI()
         {
@@ -48,8 +24,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
             _database = SoundySettings.Database;
             _plugAudio = Resources.Load<AudioClip>("MyAudios/Soundy/Resources/Soundy/Plugs/Christmas Villain Loop");
 
-            ISoundyDataBaseView view = new SoundyDataBaseViewFactory(
-                _updateService, _previewSoundPlayerService)
+            ISoundyDataBaseView view = EditorServiceLocator
+                .Get<SoundyDataBaseViewFactory>()
                 .Create(_database, SoundySettings.Instance);
             
             root

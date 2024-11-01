@@ -9,7 +9,6 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Contr
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
-using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.UIElements.Extensions;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
-using UnityEditor;
 using UnityEngine.Audio;
 using UnityEngine.UIElements;
 

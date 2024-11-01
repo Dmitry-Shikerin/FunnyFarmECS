@@ -1,7 +1,7 @@
 ﻿using System;
 using Sources.Frameworks.MVPPassiveView.Controllers.Interfaces.ControllerLifetimes;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Controllers;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEngine;
 using UnityEngine.Audio;
 using Object = UnityEngine.Object;

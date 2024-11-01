@@ -9,7 +9,7 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Utils;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 {
     [Serializable]
     public class SoundGroupData

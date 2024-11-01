@@ -6,7 +6,7 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Dictionari
 using UnityEditor;
 using UnityEngine;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 {
     [Serializable]
     [CreateAssetMenu(fileName = "SoundyDatabase", menuName = "Soundy/SoundyDatabase", order = 51)]

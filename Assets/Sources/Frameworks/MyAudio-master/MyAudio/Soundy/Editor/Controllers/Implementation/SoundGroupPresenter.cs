@@ -3,7 +3,7 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interf
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Editors;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation
@@ -42,7 +42,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void ShowSoundGroupData() =>
             SoundGroupDataEditorWindow.Open(
-                _soundGroupData, _editorUpdateService, _previewSoundPlayerService);
+                _soundGroupData);
         
         public void StopSound()
         {

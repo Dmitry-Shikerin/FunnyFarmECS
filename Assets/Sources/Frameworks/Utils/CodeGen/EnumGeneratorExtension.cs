@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEngine;
 
 namespace Sources.Frameworks.Utils.CodeGen

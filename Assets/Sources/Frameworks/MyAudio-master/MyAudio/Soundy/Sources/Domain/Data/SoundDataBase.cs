@@ -6,7 +6,7 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Dictionari
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
 {
     [Serializable]
     public class SoundDataBase
