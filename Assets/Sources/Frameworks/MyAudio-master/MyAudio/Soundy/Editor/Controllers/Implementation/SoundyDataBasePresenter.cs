@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
@@ -15,13 +17,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly ISoundyDataBaseView _view;
         private readonly SoundDataBaseViewFactory _soundDataBaseViewFactory;
         private readonly SoundySettingsViewFactory _soundySettingsViewFactory;
+        private readonly EditorUpdateService _editorUpdateService;
 
         public SoundyDataBasePresenter(
             SoundyDataBase soundyDatabase,
             SoundySettings soundySettings,
             ISoundyDataBaseView view,
             SoundDataBaseViewFactory soundDataBaseViewFactory,
-            SoundySettingsViewFactory soundySettingsViewFactory)
+            SoundySettingsViewFactory soundySettingsViewFactory,
+            EditorUpdateService editorUpdateService)
         {
             _soundyDatabase = soundyDatabase ?? throw new ArgumentNullException(nameof(soundyDatabase));
             _soundySettings = soundySettings ?? throw new ArgumentNullException(nameof(soundySettings));
@@ -29,6 +33,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             _soundDataBaseViewFactory = soundDataBaseViewFactory ?? 
                                         throw new ArgumentNullException(nameof(soundDataBaseViewFactory));
             _soundySettingsViewFactory = soundySettingsViewFactory ?? throw new ArgumentNullException(nameof(soundySettingsViewFactory));
+            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
         }
 
         public void Initialize()

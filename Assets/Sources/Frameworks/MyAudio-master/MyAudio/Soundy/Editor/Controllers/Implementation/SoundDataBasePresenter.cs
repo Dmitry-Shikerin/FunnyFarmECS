@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
@@ -15,17 +17,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly SoundyDataBase _soundyDatabase;
         private readonly ISoundDataBaseView _view;
         private readonly SoundGroupViewFactory _soundGroupViewFactory;
+        private readonly EditorUpdateService _editorUpdateService;
 
         public SoundDataBasePresenter(
             SoundDataBase soundDatabase,
             SoundyDataBase soundyDatabase,
             ISoundDataBaseView view,
-            SoundGroupViewFactory soundGroupViewFactory)
+            SoundGroupViewFactory soundGroupViewFactory,
+            EditorUpdateService editorUpdateService)
         {
             _soundDatabase = soundDatabase ?? throw new ArgumentNullException(nameof(soundDatabase));
             _soundyDatabase = soundyDatabase ?? throw new ArgumentNullException(nameof(soundyDatabase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _soundGroupViewFactory = soundGroupViewFactory;
+            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
         }
 
         public void Initialize()
