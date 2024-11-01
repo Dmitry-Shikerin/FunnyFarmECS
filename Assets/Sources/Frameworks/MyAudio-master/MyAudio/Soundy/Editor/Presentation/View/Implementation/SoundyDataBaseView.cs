@@ -12,7 +12,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
 {
     public class SoundyDataBaseView : EditorPresentableView<SoundyDataBasePresenter, SoundyDataBaseWindowLayout>, ISoundyDataBaseView
     {
-        public IReadOnlyList<FluidToggleButtonTab> DatabaseButtons => Root.DatabaseButtons;
+        public IEnumerable<FluidToggleButtonTab> DatabaseButtons => Root.DatabaseButtons.Values;
         public ISoundySettingsView SettingsView { get; private set; }
         public ISoundDataBaseView SoundDataBaseView { get; private set; }
 
@@ -21,7 +21,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             Root.SettingsButton.SetOnClick(() => Presenter.OpenSettings());
             Root.NewDataBaseButton.SetOnClick(() => Presenter.CreateNewDataBase());
             Root.RefreshButton.SetOnClick(() => Presenter.RefreshDataBases());
-            Presenter.Initialize();
         }
 
         protected override void DisposeView()
@@ -58,6 +57,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             SoundDataBaseView?.Dispose();
             SettingsView = soundySettingsView ?? throw new ArgumentNullException(nameof(soundySettingsView));
             Root.content.AddChild(SettingsView.Root);
+        }
+
+        public void ClickDataBaseButton(string name)
+        {
+            Root.ClickDataBaseButton(name);
         }
 
         public void AddDataBaseButton(string name, UnityAction callback)

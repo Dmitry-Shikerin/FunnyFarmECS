@@ -10,8 +10,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
 {
     public class SoundGroupView : EditorPresentableView<SoundGroupPresenter, SoundGroupVisualElement>, ISoundGroupView
     {
-        private ISoundDataBaseView _soundDataBaseView;
-        
         protected override void Initialize()
         {
             Root.PlayButton
@@ -41,21 +39,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             Root.Slider.slider.highValue = maxValue;
         }
 
-        public void SetDataBase(ISoundDataBaseView soundDataBaseView) =>
-            _soundDataBaseView = soundDataBaseView;
-
-        public void StopPlaySound() =>
-            Presenter.StopSound();
-
         public void SetSoundGroupName(string soundGroupName)
         {
             Root
                 .SoundGroupDataButton
                 .SetLabelText(soundGroupName);
-        }
-
-        public void StopAllAudioData()
-        {
         }
     }
 }

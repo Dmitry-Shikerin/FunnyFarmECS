@@ -10,11 +10,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
 {
     public class SoundGroupDataEditorWindow : FluidWindow<SoundGroupDataEditorWindow>
     {
-        private static SoundGroupData SoundGroupData { get; set; }
-        
-        public static void Open(SoundGroupData soundGroupData)
+        public static void Open()
         {
-            SoundGroupData = soundGroupData;
             SoundGroupDataEditorWindow window = GetWindow<SoundGroupDataEditorWindow>();
             window.titleContent = new GUIContent("Sound Group");
             window.Show();
@@ -23,10 +20,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
         protected override void CreateGUI()
         {
             root.Clear();
+            string soundGroupDataName = EditorServiceLocator.Get<SoundyPrefsStorage>().GetLastSoundGroupData();
+            var soundGroupData = SoundySettings.Database.GetSoundGroupData(soundGroupDataName);
             
             VisualElement editorRoot = EditorServiceLocator
                 .Get<SoundGroupDataViewFactory>()
-                .Create(SoundGroupData, SoundySettings.Database).Root;
+                .Create(soundGroupData, SoundySettings.Database).Root;
 
             root
                 .AddChild(editorRoot)

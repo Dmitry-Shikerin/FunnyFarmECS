@@ -47,7 +47,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void Dispose()
         {
-            
         }
 
         private void AddAudioDatas()
@@ -60,11 +59,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             }
         }
         
-        public void SetPlayMode(SoundPlayMode playMode)
-        {
+        public void SetPlayMode(SoundPlayMode playMode) =>
             _soundGroupData.Mode = playMode;
-            _soundyDataBase.Save();
-        }
 
         public void CreateAudioData()
         {

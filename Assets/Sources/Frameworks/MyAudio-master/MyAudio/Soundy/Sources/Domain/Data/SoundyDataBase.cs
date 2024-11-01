@@ -80,6 +80,22 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         
         public SoundGroupData GetAudioData(string databaseName, string soundName) => 
             Contains(databaseName) == false ? null : GetSoundDatabase(databaseName).GetData(soundName);
+
+        public SoundGroupData GetSoundGroupData(string soundName)
+        {
+            foreach (SoundDataBase dataBase in _dataBases.Values)
+            {
+                foreach (SoundGroupData soundGroupData in dataBase.GetSoundDatabases())
+                {
+                    if (soundGroupData.SoundName != soundName)
+                        continue;
+                    
+                    return soundGroupData;
+                }
+            }
+
+            throw new NullReferenceException();
+        }
         
         public SoundDataBase GetSoundDatabase(string databaseName)
         {

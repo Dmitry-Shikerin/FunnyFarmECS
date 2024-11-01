@@ -67,7 +67,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private void CreateView(SoundGroupData soundGroup)
         {
             ISoundGroupView view = _soundGroupViewFactory.Create(soundGroup, _soundDatabase);
-            view.SetDataBase(_view);
             _view.AddSoundGroup(view);
         }
 

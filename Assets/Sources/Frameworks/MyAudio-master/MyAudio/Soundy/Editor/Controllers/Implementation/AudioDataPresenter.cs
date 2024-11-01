@@ -63,15 +63,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         public void DeleteAudioData()
         {
             _soundGroupData.Remove(_audioData);
-            _soundyDataBase.Save();
             _view.Dispose();
         }
 
-        public void SetAudioClip(AudioClip audioClip)
-        {
+        public void SetAudioClip(AudioClip audioClip) =>
             _audioData.AudioClip = audioClip;
-            _soundyDataBase.Save();
-        }
 
         public void ChangeSoundGroupState()
         {

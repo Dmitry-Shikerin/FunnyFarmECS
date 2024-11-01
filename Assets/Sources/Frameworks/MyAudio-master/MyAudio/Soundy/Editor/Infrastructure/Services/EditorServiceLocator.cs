@@ -50,21 +50,24 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             
             if (Instance._isInitialized)
                 return;
-            
+
             EditorApplication.quitting += Instance.Uninitialize;
             
             Bind(new EditorUpdateService());
+            Bind(new SoundyPrefsStorage());
             Bind(new PreviewSoundPlayerService(Get<EditorUpdateService>()));
             Bind(new AudioDataViewFactory(Get<PreviewSoundPlayerService>()));
             Bind(new SoundDataBaseViewFactory(
+                Get<SoundyPrefsStorage>(),
                 Get<PreviewSoundPlayerService>()));
             Bind(new SoundGroupDataViewFactory(
                 Get<EditorUpdateService>(),
                 Get<PreviewSoundPlayerService>()));
             Bind(new SoundGroupViewFactory(
+                Get<SoundyPrefsStorage>(),
                 Get<PreviewSoundPlayerService>()));
             Bind(new SoundyDataBaseViewFactory(
-                Get<EditorUpdateService>(), 
+                Get<SoundyPrefsStorage>(),
                 Get<PreviewSoundPlayerService>()));
             Bind(new SoundySettingsViewFactory());
             

@@ -1,5 +1,6 @@
 ﻿using System;
 using Doozy.Editor.EditorUI.Components;
+using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
@@ -11,14 +12,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
 {
     public class SoundyDataBaseViewFactory
     {
-        private readonly EditorUpdateService _editorUpdateService;
+        private readonly SoundyPrefsStorage _soundyPrefsStorage;
         private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
         public SoundyDataBaseViewFactory(
-            EditorUpdateService editorUpdateService,
+            SoundyPrefsStorage soundyPrefsStorage,
             PreviewSoundPlayerService previewSoundPlayerService)
         {
-            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
+            _soundyPrefsStorage = soundyPrefsStorage ?? throw new ArgumentNullException(nameof(soundyPrefsStorage));
             _previewSoundPlayerService = previewSoundPlayerService ?? 
                                          throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
@@ -27,7 +28,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         {
             SoundySettingsViewFactory soundySettingsViewFactory = new SoundySettingsViewFactory();
             SoundDataBaseViewFactory soundDataBaseViewFactory = new SoundDataBaseViewFactory(
-                _previewSoundPlayerService);
+                _soundyPrefsStorage, _previewSoundPlayerService);
             
             var fluidWindowLayout = new SoundyDataBaseWindowLayout();
             fluidWindowLayout
@@ -36,7 +37,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
                 .IsCollapsable(false);
             SoundyDataBaseView view = new SoundyDataBaseView();
             SoundyDataBasePresenter presenter = new SoundyDataBasePresenter(
-                soundyDatabase, soundySettings, view, soundDataBaseViewFactory, soundySettingsViewFactory, _editorUpdateService);
+                soundyDatabase, soundySettings, view, soundDataBaseViewFactory, soundySettingsViewFactory, _soundyPrefsStorage);
             view.Construct(presenter, fluidWindowLayout);
             
             return view;

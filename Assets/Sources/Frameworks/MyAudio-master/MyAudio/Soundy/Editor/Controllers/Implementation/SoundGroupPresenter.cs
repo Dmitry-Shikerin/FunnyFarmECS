@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Editors;
@@ -14,17 +15,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly SoundDataBase _soundDatabase;
         private readonly ISoundGroupView _view;
         private readonly PreviewSoundPlayerService _previewSoundPlayerService;
+        private readonly SoundyPrefsStorage _soundyPrefsStorage;
 
         public SoundGroupPresenter(
             SoundGroupData soundGroup,
             SoundDataBase soundDatabase,
             ISoundGroupView view,
-            PreviewSoundPlayerService previewSoundPlayerService)
+            PreviewSoundPlayerService previewSoundPlayerService,
+            SoundyPrefsStorage soundyPrefsStorage)
         {
             _soundGroupData = soundGroup ?? throw new ArgumentNullException(nameof(soundGroup));
             _soundDatabase = soundDatabase ?? throw new ArgumentNullException(nameof(soundDatabase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _previewSoundPlayerService = previewSoundPlayerService ?? throw new ArgumentNullException(nameof(previewSoundPlayerService));
+            _soundyPrefsStorage = soundyPrefsStorage ?? throw new ArgumentNullException(nameof(soundyPrefsStorage));
         }
 
         public void Initialize()
@@ -37,10 +41,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         {
         }
 
-        public void ShowSoundGroupData() =>
-            SoundGroupDataEditorWindow.Open(
-                _soundGroupData);
-        
+        public void ShowSoundGroupData()
+        {
+            _soundyPrefsStorage.SaveLastSoundGroupData(_soundGroupData.SoundName);
+            SoundGroupDataEditorWindow.Open();
+        }
+
         public void StopSound()
         {
             _soundGroupData.IsPlaying = false;

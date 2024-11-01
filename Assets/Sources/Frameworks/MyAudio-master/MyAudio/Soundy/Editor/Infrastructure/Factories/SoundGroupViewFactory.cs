@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
@@ -10,11 +11,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
 {
     public class SoundGroupViewFactory
     {
+        private readonly SoundyPrefsStorage _soundyPrefsStorage;
         private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
         public SoundGroupViewFactory(
+            SoundyPrefsStorage soundyPrefsStorage,
             PreviewSoundPlayerService previewSoundPlayerService)
         {
+            _soundyPrefsStorage = soundyPrefsStorage ?? throw new ArgumentNullException(nameof(soundyPrefsStorage));
             _previewSoundPlayerService = previewSoundPlayerService ?? 
                                          throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
@@ -23,7 +27,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         {
             SoundGroupView view = new SoundGroupView();
             SoundGroupPresenter presenter = new SoundGroupPresenter(
-                soundGroup, soundDatabase, view, _previewSoundPlayerService);
+                soundGroup, soundDatabase, view, _previewSoundPlayerService, _soundyPrefsStorage);
             SoundGroupVisualElement visualElement = new SoundGroupVisualElement();
             view.Construct(presenter, visualElement);
             
