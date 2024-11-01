@@ -30,6 +30,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             
             return true;
         }
+
+        public void Save()
+        {
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
+        }
         
         public bool Contains(string databaseName) =>
             _dataBases.ContainsKey(databaseName);
@@ -155,6 +161,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
             _dataBases.Remove(soundDatabase.Name);
             soundDatabase.Name = newDatabaseName;
             _dataBases[soundDatabase.Name] = soundDatabase;
+            Save();
 #endif
             return true;
         }

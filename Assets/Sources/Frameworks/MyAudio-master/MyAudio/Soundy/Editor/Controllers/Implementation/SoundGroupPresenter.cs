@@ -13,20 +13,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly SoundGroupData _soundGroupData;
         private readonly SoundDataBase _soundDatabase;
         private readonly ISoundGroupView _view;
-        private readonly EditorUpdateService _editorUpdateService;
         private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
         public SoundGroupPresenter(
             SoundGroupData soundGroup,
             SoundDataBase soundDatabase,
             ISoundGroupView view,
-            EditorUpdateService editorUpdateService,
             PreviewSoundPlayerService previewSoundPlayerService)
         {
             _soundGroupData = soundGroup ?? throw new ArgumentNullException(nameof(soundGroup));
             _soundDatabase = soundDatabase ?? throw new ArgumentNullException(nameof(soundDatabase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
-            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
             _previewSoundPlayerService = previewSoundPlayerService ?? throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
 

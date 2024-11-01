@@ -36,6 +36,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         {
             SliderValueChange?.Invoke(_audioSource.time);
 
+            if (_audioSource.clip == null)
+                return;
+            
             if (_audioSource.time + 0.1f >= _audioSource.clip.length)
                 Stop();
         }

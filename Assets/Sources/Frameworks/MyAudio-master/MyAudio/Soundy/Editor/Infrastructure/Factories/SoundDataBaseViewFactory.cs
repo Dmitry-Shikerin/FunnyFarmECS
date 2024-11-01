@@ -10,24 +10,21 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
 {
     public class SoundDataBaseViewFactory
     {
-        private readonly EditorUpdateService _editorUpdateService;
         private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
         public SoundDataBaseViewFactory(
-            EditorUpdateService editorUpdateService,
             PreviewSoundPlayerService previewSoundPlayerService)
         {
-            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
             _previewSoundPlayerService = previewSoundPlayerService ?? throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
 
         public ISoundDataBaseView Create(SoundDataBase soundDatabase, SoundyDataBase soundyDatabase)
         {
             SoundGroupViewFactory soundGroupViewFactory = new SoundGroupViewFactory(
-                _editorUpdateService, _previewSoundPlayerService);
+                _previewSoundPlayerService);
             SoundDataBaseView view = new SoundDataBaseView();
             SoundDataBasePresenter presenter = new SoundDataBasePresenter(
-                soundDatabase, soundyDatabase, view,  soundGroupViewFactory, _editorUpdateService);
+                soundDatabase, soundyDatabase, view,  soundGroupViewFactory);
             SoundDataBaseVisualElement visualElement = new SoundDataBaseVisualElement();
             view.Construct(presenter, visualElement);
             

@@ -18,11 +18,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
                                          throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
         
-        public IAudioDataView Create(AudioData audioData, SoundGroupData soundGroupData)
+        public IAudioDataView Create(AudioData audioData, SoundGroupData soundGroupData, SoundyDataBase soundyDataBase)
         {
             AudioDataView audioDataView = new AudioDataView();
             AudioDataPresenter presenter = new AudioDataPresenter(
-                audioData, soundGroupData, audioDataView, _previewSoundPlayerService);
+                audioData, soundGroupData, soundyDataBase, audioDataView, _previewSoundPlayerService);
             AudioDataVisualElement visualElement = new AudioDataVisualElement();
             audioDataView.Construct(presenter, visualElement);
             

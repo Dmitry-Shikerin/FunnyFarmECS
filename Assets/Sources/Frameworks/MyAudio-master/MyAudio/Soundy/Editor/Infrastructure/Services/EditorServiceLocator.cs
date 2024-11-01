@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Sources.Frameworks.GameServices.Singletones.ScriptableObjects;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Domain;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
@@ -47,7 +48,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             AssetName = "EditorServiceLocator";
             ResourcesPath = "Services";
             
-            Debug.Log($"Initialize");
             if (Instance._isInitialized)
                 return;
             
@@ -57,13 +57,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             Bind(new PreviewSoundPlayerService(Get<EditorUpdateService>()));
             Bind(new AudioDataViewFactory(Get<PreviewSoundPlayerService>()));
             Bind(new SoundDataBaseViewFactory(
-                Get<EditorUpdateService>(), 
                 Get<PreviewSoundPlayerService>()));
             Bind(new SoundGroupDataViewFactory(
                 Get<EditorUpdateService>(),
                 Get<PreviewSoundPlayerService>()));
             Bind(new SoundGroupViewFactory(
-                Get<EditorUpdateService>(),
                 Get<PreviewSoundPlayerService>()));
             Bind(new SoundyDataBaseViewFactory(
                 Get<EditorUpdateService>(), 
@@ -72,6 +70,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             
             Instance.Enable();
             Instance._isInitialized = true;
+            Debug.Log($"Initialize");
         }
 
         private void Uninitialize()
@@ -93,10 +92,18 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             Get<PreviewSoundPlayerService>().Destroy();
         }
 
+        [Button(ButtonSizes.Large)]
         private void Reset()
         {
             _isInitialized = false;
             _container.Clear();
+            Initialize();
+        }
+
+        [Button(ButtonSizes.Large)]
+        private void Init()
+        {
+            Initialize();
         }
     }
 }

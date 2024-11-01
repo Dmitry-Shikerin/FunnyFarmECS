@@ -10,14 +10,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
 {
     public class SoundGroupViewFactory
     {
-        private readonly EditorUpdateService _editorUpdateService;
         private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
         public SoundGroupViewFactory(
-            EditorUpdateService editorUpdateService,
             PreviewSoundPlayerService previewSoundPlayerService)
         {
-            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
             _previewSoundPlayerService = previewSoundPlayerService ?? 
                                          throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
@@ -26,7 +23,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         {
             SoundGroupView view = new SoundGroupView();
             SoundGroupPresenter presenter = new SoundGroupPresenter(
-                soundGroup, soundDatabase, view, _editorUpdateService, _previewSoundPlayerService);
+                soundGroup, soundDatabase, view, _previewSoundPlayerService);
             SoundGroupVisualElement visualElement = new SoundGroupVisualElement();
             view.Construct(presenter, visualElement);
             

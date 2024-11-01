@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
@@ -11,17 +12,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
     {
         private AudioData _audioData;
         private SoundGroupData _soundGroupData;
+        private readonly SoundyDataBase _soundyDataBase;
         private IAudioDataView _view;
         private readonly PreviewSoundPlayerService _previewSoundPlayerService;
 
         public AudioDataPresenter(
             AudioData audioData,
             SoundGroupData soundGroupData,
+            SoundyDataBase soundyDataBase,
             IAudioDataView view,
             PreviewSoundPlayerService previewSoundPlayerService)
         {
             _audioData = audioData ?? throw new ArgumentNullException(nameof(audioData));
             _soundGroupData = soundGroupData ?? throw new ArgumentNullException(nameof(soundGroupData));
+            _soundyDataBase = soundyDataBase ?? throw new ArgumentNullException(nameof(soundyDataBase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _previewSoundPlayerService = previewSoundPlayerService ?? throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
@@ -59,11 +63,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         public void DeleteAudioData()
         {
             _soundGroupData.Remove(_audioData);
+            _soundyDataBase.Save();
             _view.Dispose();
         }
 
-        public void SetAudioClip(AudioClip audioClip) =>
+        public void SetAudioClip(AudioClip audioClip)
+        {
             _audioData.AudioClip = audioClip;
+            _soundyDataBase.Save();
+        }
 
         public void ChangeSoundGroupState()
         {

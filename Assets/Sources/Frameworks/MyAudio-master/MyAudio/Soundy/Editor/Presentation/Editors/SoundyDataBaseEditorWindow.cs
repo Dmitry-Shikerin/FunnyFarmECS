@@ -31,5 +31,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
             root
                 .Add(view.Root);
         }
+
+        protected override void OnDisable()
+        {
+            base.OnEnable();
+            SoundySettings.Database.Save();
+        }
     }
 }

@@ -15,20 +15,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly SoundyDataBase _soundyDatabase;
         private readonly ISoundDataBaseView _view;
         private readonly SoundGroupViewFactory _soundGroupViewFactory;
-        private readonly EditorUpdateService _editorUpdateService;
 
         public SoundDataBasePresenter(
             SoundDataBase soundDatabase,
             SoundyDataBase soundyDatabase,
             ISoundDataBaseView view,
-            SoundGroupViewFactory soundGroupViewFactory,
-            EditorUpdateService editorUpdateService)
+            SoundGroupViewFactory soundGroupViewFactory)
         {
             _soundDatabase = soundDatabase ?? throw new ArgumentNullException(nameof(soundDatabase));
             _soundyDatabase = soundyDatabase ?? throw new ArgumentNullException(nameof(soundyDatabase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _soundGroupViewFactory = soundGroupViewFactory;
-            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
         }
 
         public void Initialize()

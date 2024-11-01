@@ -1,7 +1,6 @@
 ﻿using System;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
@@ -13,20 +12,20 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
     public class SoundGroupDataPresenter : IPresenter
     {
         private readonly SoundGroupData _soundGroupData;
+        private readonly SoundyDataBase _soundyDataBase;
         private readonly ISoundGroupDataView _view;
         private readonly AudioDataViewFactory _audioDataViewFactory;
-        private readonly EditorUpdateService _editorUpdateService;
 
         public SoundGroupDataPresenter(
             SoundGroupData soundGroupData,
+            SoundyDataBase soundyDataBase,
             ISoundGroupDataView view,
-            AudioDataViewFactory audioDataViewFactory,
-            EditorUpdateService editorUpdateService)
+            AudioDataViewFactory audioDataViewFactory)
         {
             _soundGroupData = soundGroupData ?? throw new ArgumentNullException(nameof(soundGroupData));
+            _soundyDataBase = soundyDataBase ?? throw new ArgumentNullException(nameof(soundyDataBase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _audioDataViewFactory = audioDataViewFactory ?? throw new ArgumentNullException(nameof(audioDataViewFactory));
-            _editorUpdateService = editorUpdateService ?? throw new ArgumentNullException(nameof(editorUpdateService));
         }
 
         public void Initialize()
@@ -55,18 +54,23 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         {
             foreach (AudioData audioData in _soundGroupData.Sounds)
             {
-                IAudioDataView view = _audioDataViewFactory.Create(audioData, _soundGroupData);
+                IAudioDataView view = _audioDataViewFactory.Create(
+                    audioData, _soundGroupData, _soundyDataBase);
                 _view.AddAudioData(view);
             }
         }
         
-        public void SetPlayMode(SoundPlayMode playMode) =>
+        public void SetPlayMode(SoundPlayMode playMode)
+        {
             _soundGroupData.Mode = playMode;
+            _soundyDataBase.Save();
+        }
 
         public void CreateAudioData()
         {
             AudioData audioData = _soundGroupData.AddAudioData();
-            IAudioDataView view = _audioDataViewFactory.Create(audioData, _soundGroupData);
+            IAudioDataView view = _audioDataViewFactory.Create(
+                audioData, _soundGroupData, _soundyDataBase);
             _view.AddAudioData(view);
         }
 

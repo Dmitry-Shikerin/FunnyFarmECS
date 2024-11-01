@@ -27,7 +27,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         {
             SoundySettingsViewFactory soundySettingsViewFactory = new SoundySettingsViewFactory();
             SoundDataBaseViewFactory soundDataBaseViewFactory = new SoundDataBaseViewFactory(
-                _editorUpdateService, _previewSoundPlayerService);
+                _previewSoundPlayerService);
             
             var fluidWindowLayout = new SoundyDataBaseWindowLayout();
             fluidWindowLayout

@@ -22,13 +22,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
                                          throw new ArgumentNullException(nameof(previewSoundPlayerService));
         }
 
-        public ISoundGroupDataView Create(SoundGroupData soundGroupData)
+        public ISoundGroupDataView Create(SoundGroupData soundGroupData, SoundyDataBase soundyDataBase)
         {
             AudioDataViewFactory audioDataViewFactory = new AudioDataViewFactory(_previewSoundPlayerService);
             
             SoundGroupDataView view = new SoundGroupDataView();
             SoundGroupDataPresenter presenter = new SoundGroupDataPresenter(
-                soundGroupData, view, audioDataViewFactory, _editorUpdateService);
+                soundGroupData, soundyDataBase, view, audioDataViewFactory);
             SoundGroupDataVisualElement visualElement = new SoundGroupDataVisualElement();
             view.Construct(presenter, visualElement);
             
