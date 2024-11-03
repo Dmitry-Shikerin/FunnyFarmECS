@@ -78,9 +78,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             foreach (SoundDataBase database in _soundyDatabase.GetSoundDatabases())
                 _view.AddDataBaseButton(database.Name, () =>
                 {
-                    if (database.Name ==_soundyPrefsStorage.GetLastDataTab())
-                        return;
-                    
                     CreateView(database);
                     _soundyPrefsStorage.SaveLastDataTab(database.Name);
                     Debug.Log($"Create view {database.Name}");

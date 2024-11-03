@@ -43,13 +43,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         }
 
         [InitializeOnLoadMethod]
-        private static void Initialize()
+        public static void Initialize()
         {
             AssetName = "EditorServiceLocator";
             ResourcesPath = "Services";
             
             if (Instance._isInitialized)
-                return;
+                return; 
 
             EditorApplication.quitting += Instance.Uninitialize;
             
