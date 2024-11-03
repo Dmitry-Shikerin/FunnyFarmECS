@@ -1,9 +1,8 @@
 ﻿using Doozy.Editor.EditorUI.Windows.Internal;
 using Doozy.Runtime.UIElements.Extensions;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,11 +10,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
 {
     public class SoundGroupDataEditorWindow : FluidWindow<SoundGroupDataEditorWindow>
     {
-        private static SoundGroupData SoundGroupData { get; set; }
-        
-        public static void Open(SoundGroupData soundGroupData)
+        public static void Open()
         {
-            SoundGroupData = soundGroupData;
             SoundGroupDataEditorWindow window = GetWindow<SoundGroupDataEditorWindow>();
             window.titleContent = new GUIContent("Sound Group");
             window.Show();
@@ -23,39 +19,24 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
         
         protected override void CreateGUI()
         {
-            
-            FindProperties();
             root.Clear();
+            string soundGroupDataName = EditorServiceLocator.Get<SoundyPrefsStorage>().GetLastSoundGroupData();
+            var soundGroupData = SoundySettings.Database.GetSoundGroupData(soundGroupDataName);
             
-            // SoundGroupDataEditor editor = (SoundGroupDataEditor)UnityEditor.Editor.CreateEditor(SoundGroupData);
-            VisualElement editorRoot = new SoundGroupDataViewFactory().Create(SoundGroupData).Root;
-            // editorRoot
-            //     .Bind(editor.serializedObject);
-            //
+            VisualElement editorRoot = EditorServiceLocator
+                .Get<SoundGroupDataViewFactory>()
+                .Create(soundGroupData, SoundySettings.Database).Root;
+
             root
                 .AddChild(editorRoot)
                 .SetStylePadding(15, 15, 15, 15)
                 ;
         }
-        
-        private SoundDataBase _soundDatabase;
-        private SoundGroupData _soundGroupData;
-        private VisualElement _root;
 
-        // public override VisualElement CreateInspectorGUI()
-        // {
-        //     FindProperties();
-        //     ISoundGroupDataView view = new SoundGroupDataViewFactory().Create(_soundGroupData, _soundDatabase);
-        //     _root = new VisualElement()
-        //         .AddChild(view.Root);
-        //
-        //     return _root;
-        // }
-        //
-        private void FindProperties()
+        protected override void OnDisable()
         {
-            // _soundGroupData = (SoundGroupData)serializedObject.targetObject;
-            _soundDatabase = SoundySettings.Database.GetSoundDatabase(SoundGroupData.DatabaseName);
+            base.OnDisable();
+            SoundySettings.Database.Save();
         }
     }
 }

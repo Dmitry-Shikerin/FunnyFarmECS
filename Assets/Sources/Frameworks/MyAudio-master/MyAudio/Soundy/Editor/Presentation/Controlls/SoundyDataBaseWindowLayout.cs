@@ -13,12 +13,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
     {
         public List<FluidToggleButtonTab> FluidToggleButtonTabs { get; }
         private List<SoundGroupVisualElement> _soundGroups;
-        public List<FluidToggleButtonTab> DatabaseButtons { get; }
+        public Dictionary<string, FluidToggleButtonTab> DatabaseButtons { get; }
         
         public SoundyDataBaseWindowLayout()
         {
             _soundGroups = new List<SoundGroupVisualElement>();
-            DatabaseButtons = new List<FluidToggleButtonTab>();
+            DatabaseButtons = new Dictionary<string, FluidToggleButtonTab>();
             
             AddHeader("Soundy Database", "Sound Groups", animatedIconTextures);
             sideMenu.RemoveSearch();
@@ -68,10 +68,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
         
         public void RefreshDataBasesButtons()
         {
-            foreach (FluidToggleButtonTab button in DatabaseButtons)
+            foreach (FluidToggleButtonTab button in DatabaseButtons.Values)
                 button.Recycle();
 
             DatabaseButtons.Clear();
+        }
+        
+        public void ClickDataBaseButton(string buttonName)
+        {
+            DatabaseButtons[buttonName].isOn = true;
+            DatabaseButtons[buttonName].OnClick.Invoke();
+            Debug.Log($"Click {buttonName}");
         }
 
         public void AddDataBaseButton(string buttonName, UnityAction callback)
@@ -83,7 +90,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.C
                     .SetIcon(EditorSpriteSheets.EditorUI.Icons.ToggleON)
                     .AddOnClick(() => callback?.Invoke());
             
-            DatabaseButtons.Add(button);
+            DatabaseButtons[buttonName] = button;
         }
     }
 }

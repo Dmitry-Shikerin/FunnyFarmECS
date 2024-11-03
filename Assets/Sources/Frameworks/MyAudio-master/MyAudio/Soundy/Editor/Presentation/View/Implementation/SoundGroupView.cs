@@ -1,7 +1,5 @@
-﻿using System;
-using Doozy.Editor.EditorUI;
+﻿using Doozy.Editor.EditorUI;
 using Doozy.Editor.EditorUI.Components;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
@@ -12,8 +10,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
 {
     public class SoundGroupView : EditorPresentableView<SoundGroupPresenter, SoundGroupVisualElement>, ISoundGroupView
     {
-        private ISoundDataBaseView _soundDataBaseView;
-        
         protected override void Initialize()
         {
             Root.PlayButton
@@ -43,24 +39,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             Root.Slider.slider.highValue = maxValue;
         }
 
-        public void StopAllAudioGroup() =>
-            _soundDataBaseView.StopAllSoundGroup();
-
-        public void SetDataBase(ISoundDataBaseView soundDataBaseView) =>
-            _soundDataBaseView = soundDataBaseView;
-
-        public void StopPlaySound() =>
-            Presenter.StopSound();
-
         public void SetSoundGroupName(string soundGroupName)
         {
             Root
                 .SoundGroupDataButton
                 .SetLabelText(soundGroupName);
-        }
-
-        public void StopAllAudioData()
-        {
         }
     }
 }

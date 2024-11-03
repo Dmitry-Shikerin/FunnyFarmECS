@@ -7,10 +7,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
 {
     public interface ISoundyDataBaseView : IView<SoundyDataBaseWindowLayout>
     {
-        public IReadOnlyList<FluidToggleButtonTab> DatabaseButtons { get; }
+        public IEnumerable<FluidToggleButtonTab> DatabaseButtons { get; }
         public ISoundySettingsView SettingsView { get; }
         public ISoundDataBaseView SoundDataBaseView { get; }
         
+        void ClickDataBaseButton(string name);
         void AddDataBaseButton(string name, UnityAction callback);
         void SetSoundDataBase(ISoundDataBaseView dataBaseView);
         void RefreshDataBasesButtons();

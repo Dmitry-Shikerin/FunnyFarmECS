@@ -1,12 +1,10 @@
 ﻿using Doozy.Editor.EditorUI.Windows.Internal;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Editors
 {
@@ -25,17 +23,19 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.E
 
             _database = SoundySettings.Database;
             _plugAudio = Resources.Load<AudioClip>("MyAudios/Soundy/Resources/Soundy/Plugs/Christmas Villain Loop");
-            // SoundyDataBaseEditor editor = 
-            //     (SoundyDataBaseEditor)UnityEditor.Editor.CreateEditor(_database);
-            // VisualElement editorRoot = editor.CreateInspectorGUI();
-            // editorRoot
-            //     .Bind(editor.serializedObject);
 
-            ISoundyDataBaseView view = new SoundyDataBaseViewFactory().Create(
-                _database, SoundySettings.Instance);
+            ISoundyDataBaseView view = EditorServiceLocator
+                .Get<SoundyDataBaseViewFactory>()
+                .Create(_database, SoundySettings.Instance);
             
             root
                 .Add(view.Root);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnEnable();
+            SoundySettings.Database.Save();
         }
     }
 }

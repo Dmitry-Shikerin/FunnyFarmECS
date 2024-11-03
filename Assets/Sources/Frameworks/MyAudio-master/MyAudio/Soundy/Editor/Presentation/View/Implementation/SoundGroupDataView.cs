@@ -9,7 +9,6 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Contr
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,8 +17,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
     public class SoundGroupDataView : EditorPresentableView<SoundGroupDataPresenter, SoundGroupDataVisualElement>, ISoundGroupDataView
     {
         private readonly List<IAudioDataView> _audioDataViews = new ();
-
-        public IReadOnlyList<IAudioDataView> AudioDataViews => _audioDataViews;
 
         protected override void Initialize()
         {
@@ -72,12 +69,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         public void SetSoundName(string name)
         {
             Root.HeaderVisualElement.SoundGroupTextField.value = name;
-        }
-
-        public void StopAllAudioData()
-        {
-            foreach (IAudioDataView audioDataView in _audioDataViews)
-                audioDataView.StopPlaySound();
         }
 
         public void SetLoop(bool loop) =>

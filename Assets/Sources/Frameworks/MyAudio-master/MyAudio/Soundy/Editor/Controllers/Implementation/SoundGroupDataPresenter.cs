@@ -4,7 +4,6 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Fac
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data.New;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 
@@ -13,15 +12,18 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
     public class SoundGroupDataPresenter : IPresenter
     {
         private readonly SoundGroupData _soundGroupData;
+        private readonly SoundyDataBase _soundyDataBase;
         private readonly ISoundGroupDataView _view;
         private readonly AudioDataViewFactory _audioDataViewFactory;
 
         public SoundGroupDataPresenter(
             SoundGroupData soundGroupData,
+            SoundyDataBase soundyDataBase,
             ISoundGroupDataView view,
             AudioDataViewFactory audioDataViewFactory)
         {
             _soundGroupData = soundGroupData ?? throw new ArgumentNullException(nameof(soundGroupData));
+            _soundyDataBase = soundyDataBase ?? throw new ArgumentNullException(nameof(soundyDataBase));
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _audioDataViewFactory = audioDataViewFactory ?? throw new ArgumentNullException(nameof(audioDataViewFactory));
         }
@@ -45,15 +47,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void Dispose()
         {
-            
         }
 
         private void AddAudioDatas()
         {
             foreach (AudioData audioData in _soundGroupData.Sounds)
             {
-                IAudioDataView view = _audioDataViewFactory.Create(audioData, _soundGroupData);
-                view.SetSoundGroupData(_view);
+                IAudioDataView view = _audioDataViewFactory.Create(
+                    audioData, _soundGroupData, _soundyDataBase);
                 _view.AddAudioData(view);
             }
         }
@@ -64,7 +65,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         public void CreateAudioData()
         {
             AudioData audioData = _soundGroupData.AddAudioData();
-            IAudioDataView view = _audioDataViewFactory.Create(audioData, _soundGroupData);
+            IAudioDataView view = _audioDataViewFactory.Create(
+                audioData, _soundGroupData, _soundyDataBase);
             _view.AddAudioData(view);
         }
 
