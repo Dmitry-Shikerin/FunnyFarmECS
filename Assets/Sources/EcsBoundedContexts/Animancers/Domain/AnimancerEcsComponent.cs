@@ -1,12 +1,13 @@
 ﻿using System;
+using Animancer;
 using Leopotam.EcsProto.Unity;
 
 namespace Sources.EcsBoundedContexts.Animancers.Domain
 {
     [Serializable] 
     [ProtoUnityAuthoring("Animancer")]
-    public struct AnimancerComponent
+    public struct AnimancerEcsComponent
     {
-        public Animancer.AnimancerComponent Animancer;
+        public AnimancerComponent Animancer;
     }
 }

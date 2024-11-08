@@ -34,8 +34,8 @@ namespace Sources.EcsBoundedContexts.Dogs.Controllers
             
             // Debug.Log($"Idle enter change");
             dog.AnimalState = AnimalState.Idle;
-            ref AnimancerComponent animancer = ref _mainAspect.Animancer.Get(_entity);
-            animancer.Animancer.Play(_animalConfig.Idle);
+            ref AnimancerEcsComponent animancerEcs = ref _mainAspect.Animancer.Get(_entity);
+            animancerEcs.Animancer.Play(_animalConfig.Idle);
         }
 
         public override void Exit()

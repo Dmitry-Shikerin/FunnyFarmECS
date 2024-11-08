@@ -33,8 +33,8 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
             ref EntityLinkComponent entityLink = ref Aspect.EntityLink.Add(entity);
             entityLink.EntityLink = view.EntityLink;
             entityLink.EntityId = entity.GetHashCode();
-            ref AnimancerComponent animancer = ref Aspect.Animancer.Add(entity);
-            animancer.Animancer = view.Animancer;
+            ref AnimancerEcsComponent animancerEcs = ref Aspect.Animancer.Add(entity);
+            animancerEcs.Animancer = view.Animancer;
             ref AnimalTypeComponent animalType = ref Aspect.AnimalType.Add(entity);
             animalType.AnimalType = view.AnimalType;
             ref NavMeshComponent navMesh = ref Aspect.NavMesh.Add(entity);
