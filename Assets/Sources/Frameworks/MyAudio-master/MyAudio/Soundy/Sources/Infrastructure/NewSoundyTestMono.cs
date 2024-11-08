@@ -1,4 +1,5 @@
 ﻿using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
+using Sources.Frameworks.GameServices.Repositories.Services.Implementation;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
 using UnityEngine;
 
@@ -17,8 +18,8 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
             _pause = new Pause();
             _soundsVolume = new Volume();
             _musicVolume = new Volume();
-            _soundyService = new SoundyService(_pause, _soundsVolume, _musicVolume);
-            _soundyService.Initialize();
+            _soundyService = new SoundyService(new EntityRepository());
+            // _soundyService.Initialize();
         }
 
         private void Update()
