@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using JetBrains.Annotations;
+using Sources.Frameworks.GameServices.Loads.Domain.Constant;
 using Sources.Frameworks.GameServices.Pauses.Services.Implementation;
 using Sources.Frameworks.GameServices.Repositories.Services.Interfaces;
 using Sources.Frameworks.GameServices.Volumes.Domain.Models.Implementation;
@@ -21,18 +24,18 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructur
         private string _musicSoundName;
 
         public SoundyService(
-            Pause pause, 
-            Volume soundsVolume,
-            Volume musicVolume)
+            IEntityRepository entityRepository)
         {
-            _pause = pause;
-            _soundsVolume = soundsVolume;
-            _musicVolume = musicVolume;
+            _entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
             _tokens = new Dictionary<string, Dictionary<string, CancellationTokenSource>>();
         }
 
         public void Initialize()
         {
+            _pause = _entityRepository.Get<Pause>(ModelId.Pause);
+            _musicVolume = _entityRepository.Get<Volume>(ModelId.MusicVolume);
+            _soundsVolume = _entityRepository.Get<Volume>(ModelId.SoundsVolume);
+            
             _soundNames = GetSoundNames();
             OnSoundsVolumeChanged();
             _pause.PauseChanged += OnPause;
