@@ -17,7 +17,7 @@ namespace Sources.EcsBoundedContexts.Dogs.Infrastructure
     {
         [DI] private readonly MainAspect _mainAspect = default;
         [DI] private readonly ProtoIt _dogIt = 
-            new (It.Inc<DogComponent, AnimancerComponent>());
+            new (It.Inc<DogComponent, AnimancerEcsComponent>());
         private readonly AnimalConfig _animalConfig;
         
         private ContextStateMachine _dogStateMachine;
@@ -35,9 +35,9 @@ namespace Sources.EcsBoundedContexts.Dogs.Infrastructure
             foreach (ProtoEntity entity in _dogIt)
             {
                 ref DogComponent dog = ref _mainAspect.Dog.Get(entity);
-                ref AnimancerComponent animancer = ref _mainAspect.Animancer.Get(entity);
+                ref AnimancerEcsComponent animancerEcs = ref _mainAspect.Animancer.Get(entity);
                 dog.AnimalState = AnimalState.Walk;
-                animancer.Animancer.Play(_animalConfig.Walk);
+                animancerEcs.Animancer.Play(_animalConfig.Walk);
             }
             
             _dogStateMachine = CreateStateMachine();

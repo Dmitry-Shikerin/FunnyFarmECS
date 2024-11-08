@@ -19,7 +19,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         [DI] private readonly ProtoIt _animalIt = 
             new (It.Inc<
                 AnimalTypeComponent, 
-                AnimancerComponent, 
+                AnimancerEcsComponent, 
                 AnimalEnumStateComponent, 
                 MovementPointComponent,
                 NavMeshComponent>());

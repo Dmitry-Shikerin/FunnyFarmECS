@@ -26,7 +26,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         [DI] private readonly ProtoIt _animalIt = 
             new (It.Inc<
                 AnimalTypeComponent, 
-                AnimancerComponent, 
+                AnimancerEcsComponent, 
                 AnimalEnumStateComponent, 
                 MovementPointComponent,
                 NavMeshComponent>());
@@ -53,10 +53,10 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         {
             ref AnimalEnumStateComponent enumState = ref _aspect.AnimalState.Get(entity);
             AnimalTypeComponent animalType = _aspect.AnimalType.Get(entity);
-            AnimancerComponent animancer = _aspect.Animancer.Get(entity);
+            AnimancerEcsComponent animancerEcs = _aspect.Animancer.Get(entity);
             
             AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Idle;
-            animancer.Animancer.Play(clip);
+            animancerEcs.Animancer.Play(clip);
             enumState.TargetIdleTime = 5f;
             enumState.CurentIdleTime = 0;
         }

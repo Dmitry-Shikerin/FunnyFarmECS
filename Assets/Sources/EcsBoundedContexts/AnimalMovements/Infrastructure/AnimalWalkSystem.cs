@@ -29,7 +29,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         [DI] private readonly ProtoIt _animalIt =
             new(It.Inc<
                 AnimalTypeComponent,
-                AnimancerComponent,
+                AnimancerEcsComponent,
                 AnimalEnumStateComponent,
                 MovementPointComponent,
                 NavMeshComponent,
@@ -62,11 +62,11 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         {
             ref MovementPointComponent target = ref _aspect.MovementPoints.Get(entity);
             AnimalTypeComponent animalType = _aspect.AnimalType.Get(entity);
-            AnimancerComponent animancer = _aspect.Animancer.Get(entity);
+            AnimancerEcsComponent animancerEcs = _aspect.Animancer.Get(entity);
 
             target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
             AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Walk;
-            animancer.Animancer.Play(clip);
+            animancerEcs.Animancer.Play(clip);
         }
 
         protected override void Update(ProtoEntity entity)
