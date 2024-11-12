@@ -59,65 +59,65 @@ namespace Sources.BoundedContexts.TomatoPatchs.Controllers
         private void SelectView() =>
             _selectableService.Select(_view);
 
-        private async void Sow()
-        {
-            if (_tomatoPatch.CanGrow == false)
-                return;
-            
-            _tomatoPatch.CanGrow = false;
-            SetStartScale();
-            _view.ProgressBarr.SetFillAmount(0);
-            Show();
-            await Grow(_token.Token);
-        }
-
-        private void Harvest()
-        {
-            if (_tomatoPatch.HasGrownUp == false)
-                return;
-            
-            Hide();
-            _inventory.Add(ModelId.Tomato, _tomatoPatch.PumpkinsCount);
-            _tomatoPatch.CanGrow = true;
-            _tomatoPatch.HasGrownUp = false;
-            _tomatoPatch.PumpkinsCount = 0;
-        }
-
-        private async UniTask Grow(CancellationToken token)
-        {
-            while (_view.Pumpkins.Any(item => item.transform.localScale != item.StartScale))
-            {
-                foreach (ItemView item in _view.Pumpkins)
-                {
-                    item.transform.localScale = Vector3.MoveTowards(
-                        item.transform.localScale, item.StartScale, 0.005f);
-                }
-
-                float filled = _view.Pumpkins[0]
-                    .transform
-                    .localScale
-                    .x.
-                    FloatToPercent(_view.Pumpkins[0].StartScale.x - 0.5f, _view.Pumpkins[0].StartScale.x)
-                    .FloatPercentToUnitPercent();
-                Debug.Log($"{filled}");
-                _view.ProgressBarr.SetFillAmount(filled);
-                
-                await UniTask.Yield(token);
-            }
-
-            _tomatoPatch.HasGrownUp = true;
-            //TODO сделать это значение изменямым
-            _tomatoPatch.PumpkinsCount = 3;
-        }
-
-        private void Show() =>
-            _view.Pumpkins.ForEach(item => item.Show());
-
-        private void Hide() =>
-            _view.Pumpkins.ForEach(item => item.Hide());
-
-        private void SetStartScale() =>
-            _view.Pumpkins.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
+        // private async void Sow()
+        // {
+        //     if (_tomatoPatch.CanGrow == false)
+        //         return;
+        //     
+        //     _tomatoPatch.CanGrow = false;
+        //     SetStartScale();
+        //     _view.ProgressBarr.SetFillAmount(0);
+        //     Show();
+        //     await Grow(_token.Token);
+        // }
+        //
+        // private void Harvest()
+        // {
+        //     if (_tomatoPatch.HasGrownUp == false)
+        //         return;
+        //     
+        //     Hide();
+        //     _inventory.Add(ModelId.Tomato, _tomatoPatch.PumpkinsCount);
+        //     _tomatoPatch.CanGrow = true;
+        //     _tomatoPatch.HasGrownUp = false;
+        //     _tomatoPatch.PumpkinsCount = 0;
+        // }
+        //
+        // private async UniTask Grow(CancellationToken token)
+        // {
+        //     while (_view.Pumpkins.Any(item => item.transform.localScale != item.StartScale))
+        //     {
+        //         foreach (ItemView item in _view.Pumpkins)
+        //         {
+        //             item.transform.localScale = Vector3.MoveTowards(
+        //                 item.transform.localScale, item.StartScale, 0.005f);
+        //         }
+        //
+        //         float filled = _view.Pumpkins[0]
+        //             .transform
+        //             .localScale
+        //             .x.
+        //             FloatToPercent(_view.Pumpkins[0].StartScale.x - 0.5f, _view.Pumpkins[0].StartScale.x)
+        //             .FloatPercentToUnitPercent();
+        //         Debug.Log($"{filled}");
+        //         _view.ProgressBarr.SetFillAmount(filled);
+        //         
+        //         await UniTask.Yield(token);
+        //     }
+        //
+        //     _tomatoPatch.HasGrownUp = true;
+        //     //TODO сделать это значение изменямым
+        //     _tomatoPatch.PumpkinsCount = 3;
+        // }
+        //
+        // private void Show() =>
+        //     _view.Pumpkins.ForEach(item => item.Show());
+        //
+        // private void Hide() =>
+        //     _view.Pumpkins.ForEach(item => item.Hide());
+        //
+        // private void SetStartScale() =>
+        //     _view.Pumpkins.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
 
         public async void Select()
         {

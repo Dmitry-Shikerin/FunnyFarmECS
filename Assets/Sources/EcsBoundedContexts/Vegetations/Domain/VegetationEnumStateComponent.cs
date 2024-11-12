@@ -4,6 +4,7 @@ namespace Sources.EcsBoundedContexts.Vegetations.Domain
 {
     public struct VegetationEnumStateComponent : IEnumStateComponent<VegetationState>
     {
+        public VegetationType Type;
         public float Timer { get; set; }
         
         public VegetationState State { get; set; }

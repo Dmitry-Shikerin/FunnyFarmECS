@@ -11,9 +11,9 @@ using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
-using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
+using Sources.Frameworks.MyLeoEcsProto.Features;
 
 namespace Sources.App.Installers.Gameplay
 {
@@ -30,9 +30,9 @@ namespace Sources.App.Installers.Gameplay
             container.Bind(systems);
             container.Bind<IEventBuffer, EventBuffer>();
             container.Bind<SystemsCollector>();
+            container.Bind<IFeatureService, FeatureService>();
             
             //Test
-            container.Bind<TestEventSystem>();
             
             //Animals
             container.Bind<AnimalEntityFactory>();
@@ -54,6 +54,7 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<VegetationEntityFactory>();
             container.Bind<VegetationFeature>();
             
+            container.Bind<ChangeVegetationStateSystem>();
             container.Bind<VegetationInitializeSystem>();
             container.Bind<VegetationIdleSystem>();
             container.Bind<VegetationGrowSystem>();

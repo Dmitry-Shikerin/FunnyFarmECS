@@ -14,6 +14,7 @@ using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.EcsBoundedContexts.Scales;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
 using Sources.EcsBoundedContexts.Vegetations.Domain;
+using Sources.EcsBoundedContexts.Vegetations.Domain.Events;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Transforms;
@@ -23,7 +24,6 @@ namespace Sources.EcsBoundedContexts.Core
 {
     public class MainAspect : ProtoAspectInject
     {
-        public readonly ProtoPool<TestEvent> TestEvent = new ();
         public readonly ProtoPool<EventBufferTag> EventBuffer = new ();
         public readonly ProtoPool<AnimancerEcsComponent> Animancer = new ();
         public readonly ProtoPool<NavMeshComponent> NavMesh = new ();
@@ -42,6 +42,7 @@ namespace Sources.EcsBoundedContexts.Core
         public readonly ProtoPool<AnimalEnumStateComponent> AnimalState = new ();
         //Vegetations
         public readonly ProtoPool<VegetationEnumStateComponent> VegetationState = new();
+        public readonly ProtoPool<ChangeVegetationStateEvent> ChangeVegetationState = new();
 
         //Farmers
         public readonly ProtoPool<FarmerEnumStateComponent> FarmerState = new ();

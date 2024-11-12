@@ -59,65 +59,65 @@ namespace Sources.BoundedContexts.OnionPatches.Controllers
             _onionPatch.Selected -= SelectView;
         }
 
-        private async void Sow()
-        {
-            if (_onionPatch.CanGrow == false)
-                return;
-            
-            _onionPatch.CanGrow = false;
-            SetStartScale();
-            _view.ProgressBarr.SetFillAmount(0);
-            Show();
-            await Grow(_token.Token);
-        }
-
-        private void Harvest()
-        {
-            if (_onionPatch.HasGrownUp == false)
-                return;
-            
-            Hide();
-            _inventory.Add(ModelId.Pumpkin, _onionPatch.PumpkinsCount);
-            _onionPatch.CanGrow = true;
-            _onionPatch.HasGrownUp = false;
-            _onionPatch.PumpkinsCount = 0;
-        }
-
-        private async UniTask Grow(CancellationToken token)
-        {
-            while (_view.Onions.Any(item => item.transform.localScale != item.StartScale))
-            {
-                foreach (ItemView item in _view.Onions)
-                {
-                    item.transform.localScale = Vector3.MoveTowards(
-                        item.transform.localScale, item.StartScale, 0.005f);
-                }
-
-                float filled = _view.Onions[0]
-                    .transform
-                    .localScale
-                    .x.
-                    FloatToPercent(_view.Onions[0].StartScale.x - 0.5f, _view.Onions[0].StartScale.x)
-                    .FloatPercentToUnitPercent();
-                Debug.Log($"{filled}");
-                _view.ProgressBarr.SetFillAmount(filled);
-                
-                await UniTask.Yield(token);
-            }
-
-            _onionPatch.HasGrownUp = true;
-            //TODO сделать это значение изменямым
-            _onionPatch.PumpkinsCount = 3;
-        }
-
-        private void Show() =>
-            _view.Onions.ForEach(item => item.Show());
-
-        private void Hide() =>
-            _view.Onions.ForEach(item => item.Hide());
-
-        private void SetStartScale() =>
-            _view.Onions.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
+        // private async void Sow()
+        // {
+        //     if (_onionPatch.CanGrow == false)
+        //         return;
+        //     
+        //     _onionPatch.CanGrow = false;
+        //     SetStartScale();
+        //     _view.ProgressBarr.SetFillAmount(0);
+        //     Show();
+        //     await Grow(_token.Token);
+        // }
+        //
+        // private void Harvest()
+        // {
+        //     if (_onionPatch.HasGrownUp == false)
+        //         return;
+        //     
+        //     Hide();
+        //     _inventory.Add(ModelId.Pumpkin, _onionPatch.PumpkinsCount);
+        //     _onionPatch.CanGrow = true;
+        //     _onionPatch.HasGrownUp = false;
+        //     _onionPatch.PumpkinsCount = 0;
+        // }
+        //
+        // private async UniTask Grow(CancellationToken token)
+        // {
+        //     while (_view.Onions.Any(item => item.transform.localScale != item.StartScale))
+        //     {
+        //         foreach (ItemView item in _view.Onions)
+        //         {
+        //             item.transform.localScale = Vector3.MoveTowards(
+        //                 item.transform.localScale, item.StartScale, 0.005f);
+        //         }
+        //
+        //         float filled = _view.Onions[0]
+        //             .transform
+        //             .localScale
+        //             .x.
+        //             FloatToPercent(_view.Onions[0].StartScale.x - 0.5f, _view.Onions[0].StartScale.x)
+        //             .FloatPercentToUnitPercent();
+        //         Debug.Log($"{filled}");
+        //         _view.ProgressBarr.SetFillAmount(filled);
+        //         
+        //         await UniTask.Yield(token);
+        //     }
+        //
+        //     _onionPatch.HasGrownUp = true;
+        //     //TODO сделать это значение изменямым
+        //     _onionPatch.PumpkinsCount = 3;
+        // }
+        //
+        // private void Show() =>
+        //     _view.Onions.ForEach(item => item.Show());
+        //
+        // private void Hide() =>
+        //     _view.Onions.ForEach(item => item.Hide());
+        //
+        // private void SetStartScale() =>
+        //     _view.Onions.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
 
         public async void Select()
         {

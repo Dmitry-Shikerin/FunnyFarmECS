@@ -1,26 +1,23 @@
 ﻿using System.Collections.Generic;
-using Doozy.Runtime.UIManager.Components;
 using HighlightPlus;
 using Sirenix.OdinInspector;
 using Sources.BoundedContexts.CabbagePatches.Controllers;
 using Sources.BoundedContexts.Cameras.Presentation;
-using Sources.BoundedContexts.Items.Presentation;
 using Sources.BoundedContexts.SelectableItems.Presentation;
+using Sources.EcsBoundedContexts.Vegetations.Presentation;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.UI.Images;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Sources.BoundedContexts.CabbagePatches.Presentation
 {
     public class CabbagePatchView : PresentableView<CabbagePatchPresenter>, ISelectableItem
     {
-        [SerializeField] private List<ItemView> _cabbages;
+        [field: SerializeField] public List<VegetationView> Cabbages { get; private set; }
         [Required] [SerializeField] private LookAtCamera _lookAtCamera;
         [Required] [SerializeField] private ImageView _progressBarr;
         [Required] [SerializeField] private HighlightEffect _highlightEffect;
         
-        public IReadOnlyList<ItemView> Cabbages => _cabbages;
         public LookAtCamera LookAtCamera => _lookAtCamera;
         public ImageView ProgressBarr => _progressBarr;
         public HighlightEffect HighlightEffect => _highlightEffect;

@@ -6,6 +6,8 @@ using Sources.BoundedContexts.SelectableItems.Infrastructure;
 using Sources.BoundedContexts.TestSignals;
 using Sources.BoundedContexts.Tutorials.Services.Interfaces;
 using Sources.EcsBoundedContexts.Core;
+using Sources.EcsBoundedContexts.Vegetations.Domain;
+using Sources.EcsBoundedContexts.Vegetations.Domain.Events;
 using Sources.Frameworks.DoozyWrappers.SignalBuses.Controllers.Interfaces.Collectors;
 using Sources.Frameworks.GameServices.Cameras.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.GameServices.Curtains.Presentation.Interfaces;
@@ -17,10 +19,7 @@ using Sources.Frameworks.GameServices.Scenes.Infrastructure.Views.Interfaces;
 using Sources.Frameworks.GameServices.SignalBuses.StreamBuses.Interfaces;
 using Sources.Frameworks.GameServices.UpdateServices.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure;
-using Sources.Frameworks.MyGameCreator.Achievements.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.MyGameCreator.SkyAndWeathers.Infrastructure.Services.Implementation;
-using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
-using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
 using Sources.Frameworks.MyLocalization.Infrastructure.Services.Interfaces;
 using Sources.Frameworks.YandexSdkFramework.Advertisings.Services.Interfaces;
@@ -151,10 +150,12 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _ecsGameStartUp.Update(deltaTime);
             _inputService.Update(deltaTime);
             
-            // if (Input.GetMouseButtonDown(0))
-            // {
-            //     _eventBuffer.Send(new TestEvent());
-            // }
+            if (Input.GetMouseButtonDown(0))
+            {
+                _eventBuffer.Send(new ChangeVegetationStateEvent(
+                    VegetationState.Grow, VegetationType.Cabbage));
+                Debug.Log($"Change");
+            }
         }
 
         public void UpdateLate(float deltaTime)

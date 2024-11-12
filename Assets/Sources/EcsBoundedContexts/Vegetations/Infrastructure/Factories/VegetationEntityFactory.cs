@@ -21,6 +21,7 @@ namespace Sources.EcsBoundedContexts.Vegetations.Infrastructure.Factories
         {
             ref VegetationEnumStateComponent vegetationState = ref Aspect.VegetationState.NewEntity(out ProtoEntity entity);
             vegetationState.State = view.State;
+            vegetationState.Type = view.Type;
             view.EntityLink.Construct(entity, Aspect, World);
             
             ref TransformComponent transform = ref Aspect.Transform.Add(entity);

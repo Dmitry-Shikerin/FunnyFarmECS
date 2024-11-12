@@ -6,12 +6,14 @@ namespace Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features
     {
         public VegetationFeature(
             VegetationInitializeSystem initializeSystem,
+            ChangeVegetationStateSystem changeVegetationStateSystem,
             VegetationIdleSystem idleSystem,
             VegetationGrowSystem growSystem,
             IFeatureService featureService) 
             : base(featureService)
         {
             AddSystem(initializeSystem);
+            AddSystem(changeVegetationStateSystem);
             AddSystem(idleSystem);
             AddSystem(growSystem);
         }

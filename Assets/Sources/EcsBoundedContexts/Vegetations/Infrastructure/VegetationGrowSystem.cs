@@ -47,7 +47,7 @@ namespace Sources.EcsBoundedContexts.Vegetations.Infrastructure
             transformComponent.Transform.localScale = Vector3.MoveTowards(
                 transformComponent.Transform.localScale, 
                 scaleComponent.TargetScale,
-                2f * Time.deltaTime);
+                0.5f * Time.deltaTime);
         }
 
         private Transition<VegetationState> ToReadyTransition()
