@@ -4,10 +4,13 @@ using MyDependencies.Sources.Containers.Extensions;
 using MyDependencies.Sources.Installers;
 using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure;
+using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
-using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Services;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
+using Sources.EcsBoundedContexts.Vegetations.Infrastructure;
+using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Factories;
+using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
@@ -33,6 +36,7 @@ namespace Sources.App.Installers.Gameplay
             
             //Animals
             container.Bind<AnimalEntityFactory>();
+            container.Bind<AnimalFeature>();
             
             container.Bind<AnimalInitializeSystem>();
             container.Bind<AnimalRunSystem>();
@@ -42,10 +46,17 @@ namespace Sources.App.Installers.Gameplay
 
             //Trees
             container.Bind<TreeSwingEntityFactory>();
-            container.Bind<TreeSwingService>();
             
             container.Bind<TreeSwingInitSystem>();
             container.Bind<TreeSwingerSystem>();
+            
+            //Vegetations
+            container.Bind<VegetationEntityFactory>();
+            container.Bind<VegetationFeature>();
+            
+            container.Bind<VegetationInitializeSystem>();
+            container.Bind<VegetationIdleSystem>();
+            container.Bind<VegetationGrowSystem>();
         }
     }
 }

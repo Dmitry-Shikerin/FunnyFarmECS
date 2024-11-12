@@ -1,10 +1,10 @@
-﻿using Sources.MyLeoEcsProto.States.Domain;
+﻿using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Domain;
 
 namespace Sources.EcsBoundedContexts.Farmers.Domain
 {
     public struct FarmerEnumStateComponent : IEnumStateComponent<FarmerState>
     {
-        public FarmerState CurrentState { get; set; }
+        public FarmerState State { get; set; }
         public bool IsEntered { get; set; }
     }
 }

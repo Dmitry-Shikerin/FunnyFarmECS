@@ -25,7 +25,7 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
         public ProtoEntity Create(AnimalView view)
         {
             ref AnimalEnumStateComponent enumState = ref Aspect.AnimalState.NewEntity(out ProtoEntity entity);
-            enumState.CurrentState = AnimalState.ChangeState;
+            enumState.State = AnimalState.ChangeState;
             view.EntityLink.Construct(entity, Aspect, World);
             
             ref GameObjectComponent gameObject = ref Aspect.GameObject.Add(entity);

@@ -1,9 +1,6 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using MyDependencies.Sources.Containers;
-using MyDependencies.Sources.Containers.Extensions;
 using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
@@ -12,12 +9,12 @@ using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
 using Sources.MyLeoEcsProto.States.Controllers;
-using Sources.MyLeoEcsProto.States.Controllers.Transitions;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;
 using UnityEngine;
 
-namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
+namespace Sources.EcsBoundedContexts.Animals.Infrastructure
 {
     public class AnimalIdleSystem : EnumStateSystem<AnimalState, AnimalEnumStateComponent>
     {
@@ -47,7 +44,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         }
 
         protected override bool IsState(ProtoEntity entity) =>
-            _aspect.AnimalState.Get(entity).CurrentState == AnimalState.Idle;
+            _aspect.AnimalState.Get(entity).State == AnimalState.Idle;
 
         protected override void Enter(ProtoEntity entity)
         {
@@ -57,15 +54,14 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             
             AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Idle;
             animancerEcs.Animancer.Play(clip);
-            enumState.TargetIdleTime = 5f;
-            enumState.CurentIdleTime = 0;
+            enumState.Timer = 5f;
         }
 
         protected override void Update(ProtoEntity entity)
         {
             ref AnimalEnumStateComponent enumState = ref _aspect.AnimalState.Get(entity);
             
-            enumState.CurentIdleTime += Time.deltaTime;
+            enumState.Timer -= Time.deltaTime;
         }
 
         private Transition<AnimalState> ToChangeTransition()
@@ -76,7 +72,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 {
                     AnimalEnumStateComponent enumState = _aspect.AnimalState.Get(entity);
 
-                    return enumState.CurentIdleTime >= enumState.TargetIdleTime;
+                    return enumState.Timer <= 0;
                 });
         }
     }

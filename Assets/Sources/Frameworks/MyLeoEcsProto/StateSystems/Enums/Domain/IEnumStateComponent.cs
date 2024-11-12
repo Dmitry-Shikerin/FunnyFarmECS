@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Sources.MyLeoEcsProto.States.Domain
+namespace Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Domain
 {
     public interface IEnumStateComponent<TEnumState>
         where TEnumState : Enum
     {
-        TEnumState CurrentState { get; set; }
+        TEnumState State { get; set; }
         bool IsEntered { get; set; }
     }
 }

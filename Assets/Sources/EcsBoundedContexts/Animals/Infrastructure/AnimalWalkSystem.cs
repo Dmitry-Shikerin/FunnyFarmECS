@@ -12,6 +12,7 @@ using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
 using Sources.MyLeoEcsProto.States.Controllers;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;
 using Sources.Transforms;
@@ -56,7 +57,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         }
 
         protected override bool IsState(ProtoEntity entity) =>
-            _aspect.AnimalState.Get(entity).CurrentState == AnimalState.Walk;
+            _aspect.AnimalState.Get(entity).State == AnimalState.Walk;
 
         protected override void Enter(ProtoEntity entity)
         {

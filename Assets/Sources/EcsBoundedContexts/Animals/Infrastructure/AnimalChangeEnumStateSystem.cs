@@ -31,7 +31,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
             AddTransition(ToRandomStateTransition());
 
         protected override bool IsState(ProtoEntity entity) =>
-            _aspect.AnimalState.Get(entity).CurrentState == AnimalState.ChangeState;
+            _aspect.AnimalState.Get(entity).State == AnimalState.ChangeState;
 
         protected override void Update(ProtoEntity entity)
         {

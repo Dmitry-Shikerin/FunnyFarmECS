@@ -19,7 +19,7 @@ namespace Sources.Farmers.Infrastructure
         public ProtoEntity Create(FarmerView view)
         {
             ref FarmerEnumStateComponent state = ref Aspect.FarmerState.NewEntity(out ProtoEntity entity);
-            state.CurrentState = FarmerState.Idle;
+            state.State = FarmerState.Idle;
             
             ref TransformComponent transform = ref Aspect.Transform.Add(entity);
             transform.Transform = view.Transform;

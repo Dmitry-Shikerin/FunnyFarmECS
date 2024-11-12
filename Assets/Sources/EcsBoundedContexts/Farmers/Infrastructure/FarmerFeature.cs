@@ -1,10 +1,12 @@
 ﻿using Sources.Frameworks.MyLeoEcsProto.Features;
 
-namespace Sources.Farmers.Infrastructure
+namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
 {
     public class FarmerFeature : EcsFeature
     {
-        public FarmerFeature()
+        public FarmerFeature(
+            IFeatureService featureService) 
+            : base(featureService)
         {
         }
 

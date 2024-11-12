@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Domain;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions.Interfaces;
-using Sources.MyLeoEcsProto.States.Domain;
 using UnityEngine;
 
 namespace Sources.MyLeoEcsProto.States.Controllers
@@ -55,7 +55,7 @@ namespace Sources.MyLeoEcsProto.States.Controllers
                 
                 Exit(entity);
                 state.IsEntered = false;
-                state.CurrentState = nextState;
+                state.State = nextState;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 
@@ -7,12 +8,18 @@ namespace Sources.Frameworks.MyLeoEcsProto.Features
 {
     public abstract class EcsFeature : IEcsFeature
     {
+        private readonly IFeatureService _featureService;
         private readonly List<IProtoSystem> _systems = new ();
         private readonly List<IProtoInitSystem> _initSystems = new ();
         private readonly List<IProtoRunSystem> _runSystems = new ();
         private readonly List<IProtoDestroySystem> _destroySystems = new ();
         
         private bool _enabled = true;
+
+        protected EcsFeature(IFeatureService featureService)
+        {
+            _featureService = featureService ?? throw new ArgumentNullException(nameof(featureService));
+        }
 
         public void Enable() =>
             _enabled = true;
@@ -22,6 +29,7 @@ namespace Sources.Frameworks.MyLeoEcsProto.Features
 
         public void Init(IProtoSystems systems)
         {
+            _featureService.Add(this);
             Register();
             Inject(systems);
             
