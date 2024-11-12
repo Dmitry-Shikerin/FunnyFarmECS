@@ -18,8 +18,7 @@ namespace Sources.EcsBoundedContexts.Core
             AnimalFeature animalFeature,
             VegetationFeature vegetationFeature,
             TreeSwingInitSystem treeSwingInitSystem,
-            TreeSwingerSystem treeSwingerSystem,
-            TestEventSystem testEventSystem)
+            TreeSwingerSystem treeSwingerSystem)
         {
             _protoSystems = protoSystems;
             _systems = new IProtoSystem[]
@@ -28,7 +27,6 @@ namespace Sources.EcsBoundedContexts.Core
                  vegetationFeature,
                  treeSwingInitSystem,
                  treeSwingerSystem,
-                 testEventSystem,
             };
         }
 

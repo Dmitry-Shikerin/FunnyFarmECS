@@ -17,6 +17,6 @@ namespace Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation
 
         public void Send<T>(T @event)
             where T : struct, IEvent =>
-            _entity.Add<T>();
+            _entity.Add(@event);
     }
 }

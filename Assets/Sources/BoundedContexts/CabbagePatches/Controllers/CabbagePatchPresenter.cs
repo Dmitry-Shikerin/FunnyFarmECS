@@ -57,65 +57,65 @@ namespace Sources.BoundedContexts.CabbagePatches.Controllers
             _cabbagePatch.Selected -= SelectView;
         }
 
-        private async void Sow()
-        {
-            if (_cabbagePatch.CanGrow == false)
-                return;
-            
-            _cabbagePatch.CanGrow = false;
-            SetStartScale();
-            _view.ProgressBarr.SetFillAmount(0);
-            Show();
-            await Grow(_token.Token);
-        }
+        // private async void Sow()
+        // {
+        //     if (_cabbagePatch.CanGrow == false)
+        //         return;
+        //     
+        //     _cabbagePatch.CanGrow = false;
+        //     SetStartScale();
+        //     _view.ProgressBarr.SetFillAmount(0);
+        //     Show();
+        //     await Grow(_token.Token);
+        // }
+        //
+        // private void Harvest()
+        // {
+        //     if (_cabbagePatch.HasGrownUp == false)
+        //         return;
+        //     
+        //     Hide();
+        //     _inventory.Add(ModelId.Pumpkin, _cabbagePatch.PumpkinsCount);
+        //     _cabbagePatch.CanGrow = true;
+        //     _cabbagePatch.HasGrownUp = false;
+        //     _cabbagePatch.PumpkinsCount = 0;
+        // }
 
-        private void Harvest()
-        {
-            if (_cabbagePatch.HasGrownUp == false)
-                return;
-            
-            Hide();
-            _inventory.Add(ModelId.Pumpkin, _cabbagePatch.PumpkinsCount);
-            _cabbagePatch.CanGrow = true;
-            _cabbagePatch.HasGrownUp = false;
-            _cabbagePatch.PumpkinsCount = 0;
-        }
-
-        private async UniTask Grow(CancellationToken token)
-        {
-            while (_view.Cabbages.Any(item => item.transform.localScale != item.StartScale))
-            {
-                foreach (ItemView item in _view.Cabbages)
-                {
-                    item.transform.localScale = Vector3.MoveTowards(
-                        item.transform.localScale, item.StartScale, 0.005f);
-                }
-
-                float filled = _view.Cabbages[0]
-                    .transform
-                    .localScale
-                    .x.
-                    FloatToPercent(_view.Cabbages[0].StartScale.x - 0.5f, _view.Cabbages[0].StartScale.x)
-                    .FloatPercentToUnitPercent();
-                Debug.Log($"{filled}");
-                _view.ProgressBarr.SetFillAmount(filled);
-                
-                await UniTask.Yield(token);
-            }
-
-            _cabbagePatch.HasGrownUp = true;
-            //TODO сделать это значение изменямым
-            _cabbagePatch.PumpkinsCount = 3;
-        }
-
-        private void Show() =>
-            _view.Cabbages.ForEach(item => item.Show());
-
-        private void Hide() =>
-            _view.Cabbages.ForEach(item => item.Hide());
-
-        private void SetStartScale() =>
-            _view.Cabbages.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
+        // private async UniTask Grow(CancellationToken token)
+        // {
+        //     while (_view.Cabbages.Any(item => item.transform.localScale != item.StartScale))
+        //     {
+        //         foreach (ItemView item in _view.Cabbages)
+        //         {
+        //             item.transform.localScale = Vector3.MoveTowards(
+        //                 item.transform.localScale, item.StartScale, 0.005f);
+        //         }
+        //
+        //         float filled = _view.Cabbages[0]
+        //             .transform
+        //             .localScale
+        //             .x.
+        //             FloatToPercent(_view.Cabbages[0].StartScale.x - 0.5f, _view.Cabbages[0].StartScale.x)
+        //             .FloatPercentToUnitPercent();
+        //         Debug.Log($"{filled}");
+        //         _view.ProgressBarr.SetFillAmount(filled);
+        //         
+        //         await UniTask.Yield(token);
+        //     }
+        //
+        //     _cabbagePatch.HasGrownUp = true;
+        //     //TODO сделать это значение изменямым
+        //     _cabbagePatch.PumpkinsCount = 3;
+        // }
+        //
+        // private void Show() =>
+        //     _view.Cabbages.ForEach(item => item.Show());
+        //
+        // private void Hide() =>
+        //     _view.Cabbages.ForEach(item => item.Hide());
+        //
+        // private void SetStartScale() =>
+        //     _view.Cabbages.ForEach(item => item.SetScale(item.StartScale - new Vector3(0.5f, 0.5f, 0.5f)));
 
         public async void Select()
         {
