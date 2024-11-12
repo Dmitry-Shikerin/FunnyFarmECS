@@ -11,7 +11,9 @@ using Sources.EcsBoundedContexts.Farmers.Domain;
 using Sources.EcsBoundedContexts.GameObjects;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
+using Sources.EcsBoundedContexts.Scales;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
+using Sources.EcsBoundedContexts.Vegetations.Domain;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Transforms;
@@ -23,20 +25,24 @@ namespace Sources.EcsBoundedContexts.Core
     {
         public readonly ProtoPool<TestEvent> TestEvent = new ();
         public readonly ProtoPool<EventBufferTag> EventBuffer = new ();
-        public readonly ProtoPool<TreeTag> Tree = new ();
-        public readonly ProtoPool<JumpEvent> JumpEvent = new ();
-        public readonly ProtoPool<SweengingTreeComponent> TreeSwinger = new ();
-        public readonly ProtoPool<DogComponent> Dog = new ();
         public readonly ProtoPool<AnimancerEcsComponent> Animancer = new ();
         public readonly ProtoPool<NavMeshComponent> NavMesh = new ();
         public readonly ProtoPool<MovementPointComponent> MovementPoints = new ();
         public readonly ProtoPool<MoveSpeedComponent> MoveSpeed = new ();
-        public readonly ProtoPool<AnimalTypeComponent> AnimalType = new ();
-        public readonly ProtoPool<AnimalEnumStateComponent> AnimalState = new ();
         public readonly ProtoPool<TransformComponent> Transform = new ();
         public readonly ProtoPool<EntityLinkComponent> EntityLink = new ();
         public readonly ProtoPool<GameObjectComponent> GameObject = new ();
-        
+        public readonly ProtoPool<ScaleComponent> Scale = new();
+        //SwingTree
+        public readonly ProtoPool<TreeTag> Tree = new ();
+        public readonly ProtoPool<SweengingTreeComponent> TreeSwinger = new ();
+        //Animals
+        public readonly ProtoPool<DogComponent> Dog = new ();
+        public readonly ProtoPool<AnimalTypeComponent> AnimalType = new ();
+        public readonly ProtoPool<AnimalEnumStateComponent> AnimalState = new ();
+        //Vegetations
+        public readonly ProtoPool<VegetationEnumStateComponent> VegetationState = new();
+
         //Farmers
         public readonly ProtoPool<FarmerEnumStateComponent> FarmerState = new ();
 

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Leopotam.EcsProto;
 using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
+using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
+using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 
 namespace Sources.EcsBoundedContexts.Core
@@ -13,11 +15,8 @@ namespace Sources.EcsBoundedContexts.Core
         
         public SystemsCollector(
             ProtoSystems protoSystems,
-            AnimalInitializeSystem animalInitializeSystem,
-            AnimalRunSystem animalRunSystem,
-            AnimalWalkSystem animalWalkSystem,
-            AnimalChangeEnumStateSystem animalChangeEnumStateSystem,
-            AnimalIdleSystem animalIdleSystem,
+            AnimalFeature animalFeature,
+            VegetationFeature vegetationFeature,
             TreeSwingInitSystem treeSwingInitSystem,
             TreeSwingerSystem treeSwingerSystem,
             TestEventSystem testEventSystem)
@@ -25,11 +24,8 @@ namespace Sources.EcsBoundedContexts.Core
             _protoSystems = protoSystems;
             _systems = new IProtoSystem[]
             {
-                 animalInitializeSystem,
-                 animalRunSystem,
-                 animalWalkSystem,
-                 animalChangeEnumStateSystem,
-                 animalIdleSystem,
+                 animalFeature,
+                 vegetationFeature,
                  treeSwingInitSystem,
                  treeSwingerSystem,
                  testEventSystem,

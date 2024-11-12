@@ -2,7 +2,7 @@
 using Leopotam.EcsProto;
 using Sources.MyLeoEcsProto.States.Controllers.Transitions.Interfaces;
 
-namespace Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation
+namespace Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation
 {
     public readonly struct Transition<TEnumState> : ITransition<TEnumState>
         where TEnumState : Enum

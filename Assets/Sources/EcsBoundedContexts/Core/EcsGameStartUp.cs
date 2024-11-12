@@ -4,11 +4,7 @@ using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Leopotam.EcsProto.Unity;
 using MyDependencies.Sources.Containers;
-using Sirenix.Utilities;
-using Sources.App.Installers.Gameplay;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
-using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
-using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure;
 
 namespace Sources.EcsBoundedContexts.Core
 {
@@ -72,7 +68,7 @@ namespace Sources.EcsBoundedContexts.Core
 
         private void AddOneFrame()
         {
-            _systems.DelHere<JumpEvent>();
+            //_systems.DelHere<JumpEvent>();
         }
         
         private async void Init()
