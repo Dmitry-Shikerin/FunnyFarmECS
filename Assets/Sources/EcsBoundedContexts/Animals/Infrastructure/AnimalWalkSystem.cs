@@ -14,7 +14,6 @@ using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
 using Sources.MyLeoEcsProto.States.Controllers;
-using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;
 using Sources.Transforms;
 using UnityEngine;
 using UnityEngine.AI;

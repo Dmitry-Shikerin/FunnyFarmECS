@@ -19,6 +19,8 @@
         public const string AchievementConfigCollector = "Configs/Achievements/AchievementConfigCollector";
         public const string UpgradeConfigContainer = "Configs/Upgrades/UpgradeConfigContainer";
         public const string EnemySpawnStrategyCollector = 
-            "Configs/EnemySpawnerWaves/SpawnStrategies/EnemySpawnStrategyCollector";
+            "Configs/EnemySpawnerWaves/SpawnStrategies/EnemySpawnStrategyCollector";        
+        public const string FarmerConfig = 
+            "Configs/Farmers/FarmerConfig";
     }
 }

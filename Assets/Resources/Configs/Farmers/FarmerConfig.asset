@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6bc09eeecf94585b5aab84e14f7f141, type: 3}
+  m_Name: FarmerConfig
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _enable: 0
+  _id: 
+  _parent: {fileID: 0}
+  <Idle>k__BackingField:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 02c4619ccbcb81e44966f96929a30aee, type: 3}
+    _NormalizedStartTime: NaN
+  <Move>k__BackingField:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400004, guid: 02c4619ccbcb81e44966f96929a30aee, type: 3}
+    _NormalizedStartTime: NaN
+  <WorkEnter>k__BackingField:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 240665802584752382, guid: 7148096d041a045499c6954108eacb49, type: 3}
+    _NormalizedStartTime: NaN
+  <WorkLoop>k__BackingField:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 22631868940892379, guid: 7148096d041a045499c6954108eacb49, type: 3}
+    _NormalizedStartTime: NaN
+  <MoveSpeed>k__BackingField: 0
+  <IdleTimeRange>k__BackingField: {x: 5, y: 10}
+  <WorkTimeRange>k__BackingField: {x: 5, y: 10}
+  references:
+    version: 2
+    RefIds: []

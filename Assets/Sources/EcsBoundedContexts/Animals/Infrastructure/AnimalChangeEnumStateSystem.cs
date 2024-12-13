@@ -6,12 +6,11 @@ using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
 using Sources.MyLeoEcsProto.States.Controllers;
-using Sources.MyLeoEcsProto.States.Controllers.Transitions;
-using Sources.MyLeoEcsProto.States.Controllers.Transitions.Implementation;
 using UnityEngine;
 
-namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
+namespace Sources.EcsBoundedContexts.Animals.Infrastructure
 {
     public class AnimalChangeEnumStateSystem : EnumStateSystem<AnimalState, AnimalEnumStateComponent>
     {
@@ -40,7 +39,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
         private MutableStateTransition<AnimalState> ToRandomStateTransition() =>
             new(GetRandomState, _ => true);
 
-        private AnimalState GetRandomState()
+        private AnimalState GetRandomState(ProtoEntity entity)
         {
             return Random.Range(0, 100) switch
             {

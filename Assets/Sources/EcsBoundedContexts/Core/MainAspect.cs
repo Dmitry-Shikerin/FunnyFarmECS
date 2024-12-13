@@ -46,6 +46,7 @@ namespace Sources.EcsBoundedContexts.Core
 
         //Farmers
         public readonly ProtoPool<FarmerEnumStateComponent> FarmerState = new ();
+        public readonly ProtoPool<FarmerMovePointComponent> FarmerMovePoint = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
         

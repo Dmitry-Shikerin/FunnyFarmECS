@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.BoundedContexts.Prefabs;
-using Sources.Domain.Models.Constants;
+using Sources.EcsBoundedContexts.Farmers.Domain;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Configs;
 using Sources.Frameworks.GameServices.ObjectPools.Implementation.Managers;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
@@ -11,8 +11,6 @@ using Sources.Frameworks.MyGameCreator.Achievements.Domain.Configs;
 using Sources.Frameworks.MyGameCreator.SkyAndWeawers.Domain;
 using Sources.Frameworks.MyLocalization.Domain.Constant;
 using Sources.Frameworks.MyLocalization.Domain.Data;
-using Sources.SwingingTrees.Domain.Configs;
-using UnityEngine;
 
 namespace Sources.Frameworks.GameServices.Prefabs.Implementation.Composites
 {
@@ -40,8 +38,8 @@ namespace Sources.Frameworks.GameServices.Prefabs.Implementation.Composites
                 _resourcesAssetLoader.LoadAsset<PoolManagerCollector>(PrefabPath.PoolManagerCollector),
                 _resourcesAssetLoader.LoadAsset<AnimalConfigCollector>(PrefabPath.AnimalConfigCollector),
                 _resourcesAssetLoader.LoadAsset<TreeSwingerCollector>(PrefabPath.TreeSwingerCollector),
-                _resourcesAssetLoader.LoadAsset<LocalizationDataBase>(LocalizationConst.LocalizationDataBaseAssetPath));
-            Debug.Log($"CompositeAssetService: Loaded all assets");
+                _resourcesAssetLoader.LoadAsset<LocalizationDataBase>(LocalizationConst.LocalizationDataBaseAssetPath),
+                _resourcesAssetLoader.LoadAsset<FarmerConfig>(PrefabPath.FarmerConfig));
         }
 
         public void Release()
