@@ -6,6 +6,8 @@ using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Core;
+using Sources.EcsBoundedContexts.Farmers.Infrastructure;
+using Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure;
@@ -58,6 +60,15 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<VegetationInitializeSystem>();
             container.Bind<VegetationIdleSystem>();
             container.Bind<VegetationGrowSystem>();
+            
+            //Farmers
+            container.Bind<FarmerEntityFactory>();
+            container.Bind<FarmerFeature>();
+            
+            container.Bind<FarmerInitializeSystem>();
+            container.Bind<FarmerIdleSystem>();
+            container.Bind<FarmerWorkSystem>();
+            container.Bind<FarmerMoveSystem>();
         }
     }
 }

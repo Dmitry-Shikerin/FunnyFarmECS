@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Domain;
-using Sources.MyLeoEcsProto.States.Controllers.Transitions.Interfaces;
 using UnityEngine;
 
 namespace Sources.MyLeoEcsProto.States.Controllers
@@ -69,7 +69,7 @@ namespace Sources.MyLeoEcsProto.States.Controllers
                 if (transition.CanTransit(entity) == false)
                     continue;
                 
-                nextState = transition.NextState;
+                nextState = transition.GetNextState(entity);
                 return true;
             }
 

@@ -14,11 +14,11 @@ Material:
   m_ValidKeywords:
   - _MK_ARTISTIC_ANIMATION_STUTTER
   - _MK_DETAIL_BLEND_MIX
+  - _MK_DISSOLVE_DEFAULT
   - _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
   - _MK_FRESNEL_HIGHLIGHTS
   - _MK_LIGHT_CEL
   - _MK_OUTLINE_HULL_CLIP
-  - _MK_SPECULAR_ISOTROPIC
   - _MK_WRAPPED_DIFFUSE
   m_InvalidKeywords:
   - _FRESNELHIGHLIGHTS_ON
@@ -203,7 +203,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AdvancedTab: 0
+    - _AdvancedTab: 1
     - _AlbedoGloss: 0
     - _AlbedoGlossIntensity: 1
     - _AlbedoMapIntensity: 1
@@ -232,7 +232,7 @@ Material:
     - _Diffuse: 0
     - _DiffuseSmoothness: 0
     - _DiffuseThresholdOffset: 0.25
-    - _Dissolve: 0
+    - _Dissolve: 1
     - _DissolveAmount: 0.5
     - _DissolveBorderSize: 0.25
     - _DissolveMapScale: 1
@@ -260,7 +260,7 @@ Material:
     - _Light: 1
     - _LightBands: 4
     - _LightBandsScale: 0.5
-    - _LightThreshold: 0.5
+    - _LightThreshold: 0.66
     - _LightTransmission: 0
     - _LightTransmissionDistortion: 0.25
     - _LightTransmissionIntensity: 1
@@ -282,7 +282,7 @@ Material:
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: 0
     - _OutlineSize: 5
-    - _OutlineTab: 0
+    - _OutlineTab: 1
     - _OutlineWidth: 0
     - _Parallax: 0.02
     - _ReceiveShadows: 1
@@ -299,7 +299,7 @@ Material:
     - _SketchMapScale: 1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
-    - _Specular: 1
+    - _Specular: 0
     - _SpecularHighlights: 1
     - _SpecularIntensity: 1
     - _SpecularSmoothness: 0
@@ -313,7 +313,7 @@ Material:
     - _StencilRef: 0
     - _StencilWriteMask: 255
     - _StencilZFail: 0
-    - _StylizeTab: 0
+    - _StylizeTab: 1
     - _Surface: 0
     - _ThresholdMapScale: 1
     - _UVSec: 0

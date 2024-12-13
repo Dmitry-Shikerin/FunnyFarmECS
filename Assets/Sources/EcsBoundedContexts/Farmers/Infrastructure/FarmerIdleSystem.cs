@@ -1,0 +1,79 @@
+﻿using System;
+using Leopotam.EcsProto;
+using Leopotam.EcsProto.QoL;
+using Sources.EcsBoundedContexts.Animancers.Domain;
+using Sources.EcsBoundedContexts.Core;
+using Sources.EcsBoundedContexts.Farmers.Domain;
+using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
+using Sources.MyLeoEcsProto.States.Controllers;
+using Sources.Transforms;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
+{
+    public class FarmerIdleSystem : EnumStateSystem<FarmerState, FarmerEnumStateComponent>
+    {
+        [DI] private readonly ProtoIt _protoIt 
+            = new (It.Inc<
+            FarmerEnumStateComponent,
+            TransformComponent,
+            AnimancerEcsComponent>());
+        [DI] private readonly MainAspect _aspect;
+        private readonly IAssetCollector _assetCollector;
+        
+        private FarmerConfig _config;
+
+        public FarmerIdleSystem(IAssetCollector assetCollector)
+        {
+            _assetCollector = assetCollector;
+        }
+
+        protected override ProtoIt ProtoIt => _protoIt;
+        protected override ProtoPool<FarmerEnumStateComponent> Pool => _aspect.FarmerState;
+
+        public override void Init(IProtoSystems systems)
+        {
+            _config = _assetCollector.Get<FarmerConfig>();
+            AddTransition(ToRandomTransition());
+        }
+
+        protected override bool IsState(ProtoEntity entity) =>
+            Pool.Get(entity).State == FarmerState.Idle;
+
+        protected override void Enter(ProtoEntity entity)
+        {
+            _aspect.Animancer.Get(entity).Animancer.Play(_config.Idle);
+            ref FarmerEnumStateComponent state = ref Pool.Get(entity);
+            state.Timer = Random.Range(_config.IdleTimeRange.x, _config.IdleTimeRange.y);
+        }
+
+        protected override void Update(ProtoEntity entity)
+        {
+            ref FarmerEnumStateComponent state = ref Pool.Get(entity);
+            state.Timer -= Time.deltaTime;
+        }
+
+        private MutableStateTransition<FarmerState> ToRandomTransition()
+        {
+            return new MutableStateTransition<FarmerState>(
+                (_) =>
+                {
+                    int changeState = Random.Range(0, 100);
+
+                    return changeState switch
+                    {
+                        < 50 => FarmerState.Idle,
+                        > 50 => FarmerState.Move,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                },
+                (entity) =>
+                {
+                    ref FarmerEnumStateComponent stateComponent = ref Pool.Get(entity);
+                    return stateComponent.Timer <= 0;
+                });
+        }
+    }
+}
