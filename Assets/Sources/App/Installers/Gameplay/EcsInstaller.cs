@@ -1,18 +1,24 @@
-﻿using Leopotam.EcsProto;
+﻿using System.Timers;
+using Leopotam.EcsProto;
 using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
 using MyDependencies.Sources.Installers;
 using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
+using Sources.EcsBoundedContexts.Commons;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Features;
+using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure;
+using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Factories;
+using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
+using Sources.EcsBoundedContexts.Timers.Infrastructure;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
@@ -37,7 +43,10 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<SystemsCollector>();
             container.Bind<IFeatureService, FeatureService>();
             
-            //Test
+            //Common
+            container.Bind<CommonFeature>();
+            
+            container.Bind<TimerSystem>();
             
             //Animals
             container.Bind<AnimalEntityFactory>();
@@ -82,6 +91,16 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<DeliveryCarExitIdleSystem>();
             container.Bind<DeliveryCarMoveToExitSystem>();
             container.Bind<DeliveryCarHomeIdleSystem>();
+            
+            //DeliveryWaterTractor
+            container.Bind<DeliveryWaterTractorEntityFactory>();
+            container.Bind<DeliveryWaterTractorFeature>();
+            
+            container.Bind<DeliveryWaterTractorInitializeSystem>();
+            container.Bind<DeliveryWaterTractorHomeSystem>();
+            container.Bind<DeliveryWaterTractorPondSystem>();
+            container.Bind<DeliveryWaterTractorMoveToHomeSystem>();
+            container.Bind<DeliveryWaterTractorMoveToPondSystem>();
         }
     }
 }

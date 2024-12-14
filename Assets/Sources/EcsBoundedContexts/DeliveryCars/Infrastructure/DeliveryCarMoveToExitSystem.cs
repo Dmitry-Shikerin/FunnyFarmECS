@@ -63,11 +63,6 @@ namespace Sources.EcsBoundedContexts.DeliveryCars.Infrastructure
                 targetPoint, 
                 _config.MoveSpeed * Time.deltaTime);
             
-            // transform.forward = Vector3.MoveTowards(
-            //     transform.forward,
-            //     targetPoint - transform.position,
-            //     _config.MoveSpeed * Time.deltaTime);
-            
             Vector3 targetDirection = targetPoint - transform.position;
             float angle = Vector3.SignedAngle(Vector3.forward, targetDirection, Vector3.up);
             Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
