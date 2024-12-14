@@ -6,6 +6,7 @@ using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.DeliveryCars.Domain;
+using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.EntityLinks.Domain;
 using Sources.EcsBoundedContexts.Farmers.Domain;
@@ -14,9 +15,9 @@ using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.EcsBoundedContexts.Scales;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
+using Sources.EcsBoundedContexts.Timers.Domain;
 using Sources.EcsBoundedContexts.Vegetations.Domain;
 using Sources.EcsBoundedContexts.Vegetations.Domain.Events;
-using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Transforms;
 using Sources.Trees.Components;
@@ -34,6 +35,7 @@ namespace Sources.EcsBoundedContexts.Core
         public readonly ProtoPool<EntityLinkComponent> EntityLink = new ();
         public readonly ProtoPool<GameObjectComponent> GameObject = new ();
         public readonly ProtoPool<ScaleComponent> Scale = new();
+        public readonly ProtoPool<TimerComponent> Timer = new ();
         //SwingTree
         public readonly ProtoPool<TreeTag> Tree = new ();
         public readonly ProtoPool<SweengingTreeComponent> TreeSwinger = new ();
@@ -51,6 +53,9 @@ namespace Sources.EcsBoundedContexts.Core
         
         //DeliveryCars
         public readonly ProtoPool<DeliveryCarEnumStateComponent> DeliveryCarState = new ();
+        
+        //DeliveryWaterTractor
+        public readonly ProtoPool<DeliveryWaterTractorEnumStateComponent> DeliveryWaterTractorState = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
         

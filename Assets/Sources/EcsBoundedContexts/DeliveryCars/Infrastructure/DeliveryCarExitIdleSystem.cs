@@ -3,6 +3,7 @@ using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.DeliveryCars.Domain;
 using Sources.EcsBoundedContexts.GameObjects;
+using Sources.EcsBoundedContexts.Timers.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
@@ -43,8 +44,8 @@ namespace Sources.EcsBoundedContexts.DeliveryCars.Infrastructure
 
         protected override void Enter(ProtoEntity entity)
         {
-            ref DeliveryCarEnumStateComponent state = ref Pool.Get(entity);
-            state.Timer = Random.Range(_config.ExitIdleTime.x, _config.ExitIdleTime.y);
+            ref TimerComponent timer = ref _aspect.Timer.Add(entity);
+            timer.Value = Random.Range(_config.ExitIdleTime.x, _config.ExitIdleTime.y);
             
             ref GameObjectComponent gameObject = ref _aspect.GameObject.Get(entity);
             gameObject.GameObject.SetActive(false);
@@ -52,8 +53,6 @@ namespace Sources.EcsBoundedContexts.DeliveryCars.Infrastructure
 
         protected override void Update(ProtoEntity entity)
         {
-            ref DeliveryCarEnumStateComponent state = ref Pool.Get(entity);
-            state.Timer -= Time.deltaTime;
         }
         
         protected override void Exit(ProtoEntity entity)
@@ -66,7 +65,7 @@ namespace Sources.EcsBoundedContexts.DeliveryCars.Infrastructure
         {
             return new Transition<DeliveryCarState>(
                 DeliveryCarState.MoveToHome,
-                entity => Pool.Get(entity).Timer <= 0);
+                entity => _aspect.Timer.Has(entity) == false);
         }
     }
 }
