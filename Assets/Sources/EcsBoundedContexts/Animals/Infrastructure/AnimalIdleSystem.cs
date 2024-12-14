@@ -9,8 +9,8 @@ using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
-using Sources.MyLeoEcsProto.States.Controllers;
 using UnityEngine;
 
 namespace Sources.EcsBoundedContexts.Animals.Infrastructure

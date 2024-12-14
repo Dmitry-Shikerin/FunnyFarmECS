@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Leopotam.EcsProto;
-using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
+using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
-using Sources.Frameworks.MyLeoEcsProto.EventBuffers;
 
 namespace Sources.EcsBoundedContexts.Core
 {
@@ -20,7 +19,8 @@ namespace Sources.EcsBoundedContexts.Core
             VegetationFeature vegetationFeature,
             TreeSwingInitSystem treeSwingInitSystem,
             TreeSwingerSystem treeSwingerSystem,
-            FarmerFeature farmerFeature)
+            FarmerFeature farmerFeature,
+            DeliveryCarFeature deliveryCarFeature)
         {
             _protoSystems = protoSystems;
             _systems = new IProtoSystem[]
@@ -30,6 +30,7 @@ namespace Sources.EcsBoundedContexts.Core
                  treeSwingInitSystem,
                  treeSwingerSystem,
                  farmerFeature,
+                 deliveryCarFeature,
             };
         }
 

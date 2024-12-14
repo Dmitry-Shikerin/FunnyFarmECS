@@ -6,8 +6,8 @@ using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Farmers.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
-using Sources.MyLeoEcsProto.States.Controllers;
 using Sources.Transforms;
 using UnityEngine;
 using UnityEngine.AI;
@@ -54,8 +54,10 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
 
         protected override void Update(ProtoEntity entity)
         {
-            ref FarmerEnumStateComponent state = ref Pool.Get(entity);
-            state.Timer -= Time.deltaTime;
+            ref NavMeshComponent navMesh = ref _aspect.NavMesh.Get(entity);
+            ref FarmerMovePointComponent movePoint = ref _aspect.FarmerMovePoint.Get(entity);
+            
+            navMesh.Agent.destination = movePoint.TargetPoint.Transform.position;
         }
 
         private MutableStateTransition<FarmerState> ToRandomTransition()

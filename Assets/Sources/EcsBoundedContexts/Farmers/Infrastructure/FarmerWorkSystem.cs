@@ -6,8 +6,8 @@ using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Farmers.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
-using Sources.MyLeoEcsProto.States.Controllers;
 using Sources.Transforms;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -64,11 +64,11 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
                 (_) =>
                 {
                     int changeState = Random.Range(0, 100);
-
+                    
                     return changeState switch
                     {
-                        < 50 => FarmerState.Work,
-                        > 50 => FarmerState.Move,
+                        < 40 => FarmerState.Work,
+                        > 40 => FarmerState.Move,
                         _ => throw new ArgumentOutOfRangeException()
                     };
                 },

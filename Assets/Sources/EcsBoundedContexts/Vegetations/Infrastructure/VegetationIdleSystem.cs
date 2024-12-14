@@ -3,7 +3,7 @@ using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Scales;
 using Sources.EcsBoundedContexts.Vegetations.Domain;
-using Sources.MyLeoEcsProto.States.Controllers;
+using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Transforms;
 using UnityEngine;
 
