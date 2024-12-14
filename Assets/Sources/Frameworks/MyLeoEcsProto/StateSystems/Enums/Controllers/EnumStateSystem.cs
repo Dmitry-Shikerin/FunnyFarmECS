@@ -4,9 +4,8 @@ using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Domain;
-using UnityEngine;
 
-namespace Sources.MyLeoEcsProto.States.Controllers
+namespace Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers
 {
     public abstract class EnumStateSystem<TEnumState, TComponent> : IProtoInitSystem, IProtoRunSystem, IProtoDestroySystem
         where TEnumState : Enum

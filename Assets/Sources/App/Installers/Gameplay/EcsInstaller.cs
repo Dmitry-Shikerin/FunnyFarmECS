@@ -6,6 +6,9 @@ using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Core;
+using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure;
+using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Factories;
+using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
@@ -69,6 +72,16 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<FarmerIdleSystem>();
             container.Bind<FarmerWorkSystem>();
             container.Bind<FarmerMoveSystem>();
+            
+            //DeliveryCars
+            container.Bind<DeliveryCarFeature>();
+            container.Bind<DeliveryCarEntityFactory>();
+            
+            container.Bind<DeliveryCarInitializeSystem>();
+            container.Bind<DeliveryCarMoveToHomeSystem>();
+            container.Bind<DeliveryCarExitIdleSystem>();
+            container.Bind<DeliveryCarMoveToExitSystem>();
+            container.Bind<DeliveryCarHomeIdleSystem>();
         }
     }
 }

@@ -20,7 +20,7 @@
         public const string UpgradeConfigContainer = "Configs/Upgrades/UpgradeConfigContainer";
         public const string EnemySpawnStrategyCollector = 
             "Configs/EnemySpawnerWaves/SpawnStrategies/EnemySpawnStrategyCollector";        
-        public const string FarmerConfig = 
-            "Configs/Farmers/FarmerConfig";
+        public const string FarmerConfig = "Configs/Farmers/FarmerConfig";
+        public const string DeliveryCarConfig = "Configs/DeliveryCars/DeliveryCarConfig";
     }
 }

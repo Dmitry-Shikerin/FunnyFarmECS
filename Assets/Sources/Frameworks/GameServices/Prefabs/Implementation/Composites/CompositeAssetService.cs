@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.BoundedContexts.Prefabs;
+using Sources.EcsBoundedContexts.DeliveryCars.Domain;
 using Sources.EcsBoundedContexts.Farmers.Domain;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Configs;
 using Sources.Frameworks.GameServices.ObjectPools.Implementation.Managers;
@@ -39,7 +40,8 @@ namespace Sources.Frameworks.GameServices.Prefabs.Implementation.Composites
                 _resourcesAssetLoader.LoadAsset<AnimalConfigCollector>(PrefabPath.AnimalConfigCollector),
                 _resourcesAssetLoader.LoadAsset<TreeSwingerCollector>(PrefabPath.TreeSwingerCollector),
                 _resourcesAssetLoader.LoadAsset<LocalizationDataBase>(LocalizationConst.LocalizationDataBaseAssetPath),
-                _resourcesAssetLoader.LoadAsset<FarmerConfig>(PrefabPath.FarmerConfig));
+                _resourcesAssetLoader.LoadAsset<FarmerConfig>(PrefabPath.FarmerConfig),
+                _resourcesAssetLoader.LoadAsset<DeliveryCarConfig>(PrefabPath.DeliveryCarConfig));
         }
 
         public void Release()

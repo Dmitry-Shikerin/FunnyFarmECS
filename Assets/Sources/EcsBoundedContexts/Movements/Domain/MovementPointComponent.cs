@@ -9,6 +9,7 @@ namespace Sources.EcsBoundedContexts.Movements.Domain
     public struct MovementPointComponent
     {
         public Vector3 TargetPoint;
+        public int TargetPointIndex;
         public Vector3[] Points;
     }
 }

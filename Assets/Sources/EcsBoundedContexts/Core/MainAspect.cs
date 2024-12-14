@@ -5,6 +5,7 @@ using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
+using Sources.EcsBoundedContexts.DeliveryCars.Domain;
 using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.EntityLinks.Domain;
 using Sources.EcsBoundedContexts.Farmers.Domain;
@@ -47,6 +48,9 @@ namespace Sources.EcsBoundedContexts.Core
         //Farmers
         public readonly ProtoPool<FarmerEnumStateComponent> FarmerState = new ();
         public readonly ProtoPool<FarmerMovePointComponent> FarmerMovePoint = new ();
+        
+        //DeliveryCars
+        public readonly ProtoPool<DeliveryCarEnumStateComponent> DeliveryCarState = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
         
