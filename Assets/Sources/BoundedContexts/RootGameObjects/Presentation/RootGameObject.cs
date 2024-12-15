@@ -20,6 +20,7 @@ using Sources.BoundedContexts.Trucks.Presentation;
 using Sources.BoundedContexts.Watermills.Presentation;
 using Sources.BoundedContexts.Woodsheds.Presentation;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Presentation;
+using Sources.EcsBoundedContexts.WaterTractors.Presentation;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -69,7 +70,10 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         
         [field: FoldoutGroup("ThirdLocation")]
         [field: Required] 
-        [field: SerializeField] public DeliveryWaterTractorView DeliveryWaterTractorView { get; private set; }
+        [field: SerializeField] public DeliveryWaterTractorView DeliveryWaterTractorView { get; private set; }        
+        [field: FoldoutGroup("ThirdLocation")]
+        [field: Required] 
+        [field: SerializeField] public WaterTractorView WaterTractorView { get; private set; }
         
         //FirstLocation
         public PumpkinPatchView PumpkinPatchView => _pumpkinPatchView;

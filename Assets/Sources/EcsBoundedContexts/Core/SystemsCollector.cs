@@ -3,11 +3,11 @@ using Leopotam.EcsProto;
 using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Commons;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Features;
-using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
+using Sources.EcsBoundedContexts.WaterTractors.Infrastructure.Features;
 
 namespace Sources.EcsBoundedContexts.Core
 {
@@ -25,7 +25,8 @@ namespace Sources.EcsBoundedContexts.Core
             TreeSwingerSystem treeSwingerSystem,
             FarmerFeature farmerFeature,
             DeliveryCarFeature deliveryCarFeature,
-            DeliveryWaterTractorFeature deliveryWaterTractorFeature)
+            DeliveryWaterTractorFeature deliveryWaterTractorFeature,
+            WaterTractorFeature waterTractorFeature)
         {
             _protoSystems = protoSystems;
             _systems = new IProtoSystem[]
@@ -38,6 +39,7 @@ namespace Sources.EcsBoundedContexts.Core
                  farmerFeature,
                  deliveryCarFeature,
                  deliveryWaterTractorFeature,
+                 waterTractorFeature,
             };
         }
 

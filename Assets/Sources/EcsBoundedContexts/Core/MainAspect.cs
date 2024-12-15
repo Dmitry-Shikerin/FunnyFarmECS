@@ -18,6 +18,7 @@ using Sources.EcsBoundedContexts.SwingingTrees.Domain.Components;
 using Sources.EcsBoundedContexts.Timers.Domain;
 using Sources.EcsBoundedContexts.Vegetations.Domain;
 using Sources.EcsBoundedContexts.Vegetations.Domain.Events;
+using Sources.EcsBoundedContexts.WaterTractors.Domain;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Transforms;
 using Sources.Trees.Components;
@@ -56,6 +57,10 @@ namespace Sources.EcsBoundedContexts.Core
         
         //DeliveryWaterTractor
         public readonly ProtoPool<DeliveryWaterTractorEnumStateComponent> DeliveryWaterTractorState = new ();
+        
+        //WaterTractor
+        public readonly ProtoPool<WaterTractorEnumStateComponent> WaterTractorState = new ();
+        public readonly ProtoPool<WaterTractorMovePointComponent> WaterTractorMovePoint = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
         

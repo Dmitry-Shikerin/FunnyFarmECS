@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 
