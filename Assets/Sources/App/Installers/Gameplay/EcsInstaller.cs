@@ -1,5 +1,4 @@
-﻿using System.Timers;
-using Leopotam.EcsProto;
+﻿using Leopotam.EcsProto;
 using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
 using MyDependencies.Sources.Installers;
@@ -22,6 +21,9 @@ using Sources.EcsBoundedContexts.Timers.Infrastructure;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
+using Sources.EcsBoundedContexts.WaterTractors.Infrastructure;
+using Sources.EcsBoundedContexts.WaterTractors.Infrastructure.Factories;
+using Sources.EcsBoundedContexts.WaterTractors.Infrastructure.Features;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Implementation;
 using Sources.Frameworks.MyLeoEcsProto.EventBuffers.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.Features;
@@ -101,6 +103,15 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<DeliveryWaterTractorPondSystem>();
             container.Bind<DeliveryWaterTractorMoveToHomeSystem>();
             container.Bind<DeliveryWaterTractorMoveToPondSystem>();
+            
+            //WaterTractor
+            container.Bind<WaterTractorFeature>();
+            container.Bind<WaterTractorEntityFactory>();
+            
+            container.Bind<WaterTractorInitializeSystem>();
+            container.Bind<WaterTractorHomeSystem>();
+            container.Bind<WaterTractorMoveToFieldSystem>();
+            container.Bind<WaterTractorMoveToHomeSystem>();
         }
     }
 }
