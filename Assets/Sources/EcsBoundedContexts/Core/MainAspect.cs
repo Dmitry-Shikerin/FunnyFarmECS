@@ -11,6 +11,7 @@ using Sources.EcsBoundedContexts.Dogs.Domain;
 using Sources.EcsBoundedContexts.EntityLinks.Domain;
 using Sources.EcsBoundedContexts.Farmers.Domain;
 using Sources.EcsBoundedContexts.GameObjects;
+using Sources.EcsBoundedContexts.Harvesters.Domain;
 using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.EcsBoundedContexts.Scales;
@@ -61,6 +62,10 @@ namespace Sources.EcsBoundedContexts.Core
         //WaterTractor
         public readonly ProtoPool<WaterTractorEnumStateComponent> WaterTractorState = new ();
         public readonly ProtoPool<WaterTractorMovePointComponent> WaterTractorMovePoint = new ();
+        
+        //Harvester
+        public readonly ProtoPool<HarvesterEnumStateComponent> HarvesterState = new ();
+        public readonly ProtoPool<HarvesterMovePointComponent> HarvesterMovePoint = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
         

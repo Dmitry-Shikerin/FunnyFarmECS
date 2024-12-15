@@ -15,6 +15,8 @@ using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories;
+using Sources.EcsBoundedContexts.Harvesters.Controllers;
+using Sources.EcsBoundedContexts.Harvesters.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Timers.Infrastructure;
@@ -112,6 +114,15 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<WaterTractorHomeSystem>();
             container.Bind<WaterTractorMoveToFieldSystem>();
             container.Bind<WaterTractorMoveToHomeSystem>();
+            
+            //Harvester
+            container.Bind<HarvesterEntityFactory>();
+            container.Bind<HarvesterFeature>();
+            
+            container.Bind<HarvesterInitializeSystem>();
+            container.Bind<HarvesterHomeSystem>();
+            container.Bind<HarvesterMoveToFieldSystem>();
+            container.Bind<HarvesterMoveToHomeSystem>();
         }
     }
 }

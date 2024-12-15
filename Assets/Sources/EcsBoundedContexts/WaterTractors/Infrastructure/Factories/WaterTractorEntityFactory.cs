@@ -34,7 +34,7 @@ namespace Sources.EcsBoundedContexts.WaterTractors.Infrastructure.Factories
             ref GameObjectComponent gameObject = ref Aspect.GameObject.Add(entity);
             gameObject.GameObject = view.gameObject;
             
-            return new ProtoEntity();
+            return entity;
         }
     }
 }

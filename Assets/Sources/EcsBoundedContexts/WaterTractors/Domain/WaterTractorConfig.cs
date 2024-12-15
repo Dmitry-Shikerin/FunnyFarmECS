@@ -1,5 +1,4 @@
 ﻿using Sirenix.OdinInspector;
-using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
 using Sources.Frameworks.GameServices.ConfigCollectors.Domain.ScriptableObjects;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ namespace Sources.EcsBoundedContexts.WaterTractors.Domain
     public class WaterTractorConfig : Config
     {
         [field: MinMaxSlider(3, 10, true)] 
-        [field: SerializeField] public Vector2 HomeIdleTime { get; private set; } = new Vector2(2, 4);        
+        [field: SerializeField] public Vector2 HomeIdleTime { get; private set; } = new Vector2(2, 4);
         [field: MinMaxSlider(3, 10, true)] 
         [field: SerializeField] public Vector2 PondIdleTime { get; private set; } = new Vector2(2, 4);
         [field: Range(2, 15)]
