@@ -5,6 +5,7 @@ using Sources.EcsBoundedContexts.Commons;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Features;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure;
+using Sources.EcsBoundedContexts.Harvesters.Infrastructure;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
 using Sources.EcsBoundedContexts.WaterTractors.Infrastructure.Features;
@@ -26,7 +27,8 @@ namespace Sources.EcsBoundedContexts.Core
             FarmerFeature farmerFeature,
             DeliveryCarFeature deliveryCarFeature,
             DeliveryWaterTractorFeature deliveryWaterTractorFeature,
-            WaterTractorFeature waterTractorFeature)
+            WaterTractorFeature waterTractorFeature,
+            HarvesterFeature harvesterFeature)
         {
             _protoSystems = protoSystems;
             _systems = new IProtoSystem[]
@@ -40,6 +42,7 @@ namespace Sources.EcsBoundedContexts.Core
                  deliveryCarFeature,
                  deliveryWaterTractorFeature,
                  waterTractorFeature,
+                 harvesterFeature,
             };
         }
 

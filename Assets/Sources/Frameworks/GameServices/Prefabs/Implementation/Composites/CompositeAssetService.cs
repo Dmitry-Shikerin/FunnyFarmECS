@@ -5,6 +5,7 @@ using Sources.BoundedContexts.Prefabs;
 using Sources.EcsBoundedContexts.DeliveryCars.Domain;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
 using Sources.EcsBoundedContexts.Farmers.Domain;
+using Sources.EcsBoundedContexts.Harvesters.Domain;
 using Sources.EcsBoundedContexts.SwingingTrees.Domain.Configs;
 using Sources.EcsBoundedContexts.WaterTractors.Domain;
 using Sources.Frameworks.GameServices.ObjectPools.Implementation.Managers;
@@ -45,7 +46,8 @@ namespace Sources.Frameworks.GameServices.Prefabs.Implementation.Composites
                 _resourcesAssetLoader.LoadAsset<FarmerConfig>(PrefabPath.FarmerConfig),
                 _resourcesAssetLoader.LoadAsset<DeliveryCarConfig>(PrefabPath.DeliveryCarConfig),
                 _resourcesAssetLoader.LoadAsset<DeliveryWaterTractorConfig>(PrefabPath.DeliveryWaterTractorConfig),
-                _resourcesAssetLoader.LoadAsset<WaterTractorConfig>(PrefabPath.WaterTractorConfig));
+                _resourcesAssetLoader.LoadAsset<WaterTractorConfig>(PrefabPath.WaterTractorConfig),
+                _resourcesAssetLoader.LoadAsset<HarvesterConfig>(PrefabPath.HarvesterConfig));
         }
 
         public void Release()
