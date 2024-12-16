@@ -3,8 +3,10 @@
     public enum PathOwnerType
     {
         Default = 0,
-        DeliveryWaterTractor = 1,
-        WaterTractor = 2,
-        Harvester = 3
+        FirstLocationJeepDeliveryCar = 1,
+        FirstLocationTruckDeliveryCar = 2,
+        ThirdLocationDeliveryWaterTractor = 3,
+        ThirdLocationWaterTractor = 4,
+        ThirdLocationHarvester = 5,
     }
 }

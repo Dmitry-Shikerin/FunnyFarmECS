@@ -31,7 +31,8 @@ namespace Sources.EcsBoundedContexts.Core
         public readonly ProtoPool<EventBufferTag> EventBuffer = new ();
         public readonly ProtoPool<AnimancerEcsComponent> Animancer = new ();
         public readonly ProtoPool<NavMeshComponent> NavMesh = new ();
-        public readonly ProtoPool<MovementPointComponent> MovementPoints = new ();
+        public readonly ProtoPool<TargetPointComponent> TargetPoint = new ();
+        public readonly ProtoPool<PointPathComponent> PointsPath = new ();
         public readonly ProtoPool<MoveSpeedComponent> MoveSpeed = new ();
         public readonly ProtoPool<TransformComponent> Transform = new ();
         public readonly ProtoPool<EntityLinkComponent> EntityLink = new ();
@@ -48,24 +49,17 @@ namespace Sources.EcsBoundedContexts.Core
         //Vegetations
         public readonly ProtoPool<VegetationEnumStateComponent> VegetationState = new();
         public readonly ProtoPool<ChangeVegetationStateEvent> ChangeVegetationState = new();
-
         //Farmers
         public readonly ProtoPool<FarmerEnumStateComponent> FarmerState = new ();
         public readonly ProtoPool<FarmerMovePointComponent> FarmerMovePoint = new ();
-        
         //DeliveryCars
         public readonly ProtoPool<DeliveryCarEnumStateComponent> DeliveryCarState = new ();
-        
         //DeliveryWaterTractor
         public readonly ProtoPool<DeliveryWaterTractorEnumStateComponent> DeliveryWaterTractorState = new ();
-        
         //WaterTractor
         public readonly ProtoPool<WaterTractorEnumStateComponent> WaterTractorState = new ();
-        public readonly ProtoPool<WaterTractorMovePointComponent> WaterTractorMovePoint = new ();
-        
         //Harvester
         public readonly ProtoPool<HarvesterEnumStateComponent> HarvesterState = new ();
-        public readonly ProtoPool<HarvesterMovePointComponent> HarvesterMovePoint = new ();
 
         public readonly Dictionary<Type, IProtoPool> Pools = new();
         

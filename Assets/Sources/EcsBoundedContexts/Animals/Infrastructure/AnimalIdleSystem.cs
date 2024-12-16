@@ -24,7 +24,7 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
                 AnimalTypeComponent, 
                 AnimancerEcsComponent, 
                 AnimalEnumStateComponent, 
-                MovementPointComponent,
+                TargetPointComponent,
                 NavMeshComponent>());
         private AnimalConfigCollector _configs;
 

@@ -40,9 +40,9 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
             ref NavMeshComponent navMesh = ref Aspect.NavMesh.Add(entity);
             navMesh.Agent = view.Agent;
             ref MoveSpeedComponent moveSpeed = ref Aspect.MoveSpeed.Add(entity);
-            moveSpeed.Current = 3f;
-            ref MovementPointComponent movementPoint = ref Aspect.MovementPoints.Add(entity);
-            movementPoint.TargetPoint = Vector3.zero;
+            moveSpeed.MoveSpeed = 3f;
+            ref TargetPointComponent movementPoint = ref Aspect.TargetPoint.Add(entity);
+            movementPoint.Value = Vector3.zero;
             ref TransformComponent transform = ref Aspect.Transform.Add(entity);
             transform.Transform = view.Transform;
             

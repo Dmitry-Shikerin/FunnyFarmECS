@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using Sources.BoundedContexts.AnimalMovePoints;
+﻿using Sirenix.OdinInspector;
 using Sources.BoundedContexts.CabbagePatches.Presentation;
 using Sources.BoundedContexts.Cats.Presentation;
 using Sources.BoundedContexts.ChikenCorrals.Presentation;
@@ -10,6 +8,7 @@ using Sources.BoundedContexts.GoosePens.Presentation;
 using Sources.BoundedContexts.Houses.Presentation;
 using Sources.BoundedContexts.Jeeps.Presentation;
 using Sources.BoundedContexts.OnionPatches.Presentation;
+using Sources.BoundedContexts.Paths.Presentation;
 using Sources.BoundedContexts.PigPens.Presentation;
 using Sources.BoundedContexts.PumpkinsPatchs.Presentation;
 using Sources.BoundedContexts.RabbitPens.Presentation;
@@ -23,12 +22,14 @@ using Sources.EcsBoundedContexts.DeliveryWaterTractors.Presentation;
 using Sources.EcsBoundedContexts.Harvesters.Presentation;
 using Sources.EcsBoundedContexts.WaterTractors.Presentation;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Sources.BoundedContexts.RootGameObjects.Presentation
 {
     public class RootGameObject : MonoBehaviour
     {
+        [field: FoldoutGroup("Common")]
+        [field: Required] 
+        [field: SerializeField] public PathCollectorView PathCollector { get; private set; }
         [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private PumpkinPatchView _pumpkinPatchView;
         [FoldoutGroup("FirstLocation")] 
@@ -54,8 +55,8 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         [FoldoutGroup("FirstLocation")] 
         [Required] [SerializeField] private StableView _stableView;
         [FoldoutGroup("FirstLocation")] 
-        [Required] [SerializeField] private GameObject _firsLocationRootTrees;
         
+        [Required] [SerializeField] private GameObject _firsLocationRootTrees;
         [FoldoutGroup("SecondLocation")]
         [Required] [SerializeField] private PigPenView _pigPenView;
         [FoldoutGroup("SecondLocation")]
@@ -68,7 +69,7 @@ namespace Sources.BoundedContexts.RootGameObjects.Presentation
         [Required] [SerializeField] private GoosePenView _goosePenView;
         [FoldoutGroup("SecondLocation")]
         [Required] [SerializeField] private WatermillView _watermillView;
-        
+
         [field: FoldoutGroup("ThirdLocation")]
         [field: Required] 
         [field: SerializeField] public DeliveryWaterTractorView DeliveryWaterTractorView { get; private set; }        

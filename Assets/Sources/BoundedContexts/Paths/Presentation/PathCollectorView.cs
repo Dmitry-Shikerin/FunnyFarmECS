@@ -1,4 +1,5 @@
-﻿using Sources.BoundedContexts.Paths.Domain;
+﻿using System.Collections.Generic;
+using Sources.BoundedContexts.Paths.Domain;
 using Sources.Frameworks.MVPPassiveView.Presentations.Implementation.Views;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace Sources.BoundedContexts.Paths.Presentation
     public class PathCollectorView : View
     {
         [SerializeField] private PathsSerializedDictionary _paths;
+        
+        public IReadOnlyDictionary<PathOwnerType, PathData> Paths => _paths;
 
         private void OnDrawGizmos()
         {
@@ -42,6 +45,8 @@ namespace Sources.BoundedContexts.Paths.Presentation
         private void DrawArrow(Vector3 start, Vector3 end)
         {
             Vector3 direction = end - start;
+            //TODO обратить внимание на этот метод
+            //var project = Vector3.Project();
             
             Vector3 right = Vector3.Cross(direction, Vector3.up).normalized;
             

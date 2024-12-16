@@ -20,7 +20,7 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
                 AnimalTypeComponent, 
                 AnimancerEcsComponent, 
                 AnimalEnumStateComponent, 
-                MovementPointComponent,
+                TargetPointComponent,
                 NavMeshComponent>());
 
         protected override ProtoIt ProtoIt => _animalIt;
