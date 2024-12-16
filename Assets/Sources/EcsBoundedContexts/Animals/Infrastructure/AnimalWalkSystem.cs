@@ -31,7 +31,7 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
                 AnimalTypeComponent,
                 AnimancerEcsComponent,
                 AnimalEnumStateComponent,
-                MovementPointComponent,
+                TargetPointComponent,
                 NavMeshComponent,
                 TransformComponent>());
 
@@ -60,21 +60,21 @@ namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
 
         protected override void Enter(ProtoEntity entity)
         {
-            ref MovementPointComponent target = ref _aspect.MovementPoints.Get(entity);
+            ref TargetPointComponent target = ref _aspect.TargetPoint.Get(entity);
             AnimalTypeComponent animalType = _aspect.AnimalType.Get(entity);
             AnimancerEcsComponent animancerEcs = _aspect.Animancer.Get(entity);
 
-            target.TargetPoint = GetNextMovePoint(animalType.AnimalType);
+            target.Value = GetNextMovePoint(animalType.AnimalType);
             AnimationClip clip = _configs.GetById(animalType.AnimalType.ToString()).Walk;
             animancerEcs.Animancer.Play(clip);
         }
 
         protected override void Update(ProtoEntity entity)
         {
-            ref MovementPointComponent target = ref _aspect.MovementPoints.Get(entity);
+            ref TargetPointComponent target = ref _aspect.TargetPoint.Get(entity);
             NavMeshAgent agent = _aspect.NavMesh.Get(entity).Agent;
 
-            agent.SetDestination(target.TargetPoint);
+            agent.SetDestination(target.Value);
         }
 
         private Vector3 GetNextMovePoint(AnimalType animal)

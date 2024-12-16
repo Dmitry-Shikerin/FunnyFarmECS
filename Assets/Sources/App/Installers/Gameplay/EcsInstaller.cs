@@ -7,9 +7,11 @@ using Sources.EcsBoundedContexts.Animals.Infrastructure;
 using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Commons;
 using Sources.EcsBoundedContexts.Core;
+using Sources.EcsBoundedContexts.DeliveryCars.Controllers;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.DeliveryCars.Infrastructure.Features;
+using Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Features;
@@ -17,12 +19,14 @@ using Sources.EcsBoundedContexts.Farmers.Infrastructure;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Harvesters.Controllers;
 using Sources.EcsBoundedContexts.Harvesters.Infrastructure;
+using Sources.EcsBoundedContexts.MoveAlongPaths.Controllers;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Timers.Infrastructure;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Vegetations.Infrastructure.Features;
+using Sources.EcsBoundedContexts.WaterTractors.Controllers;
 using Sources.EcsBoundedContexts.WaterTractors.Infrastructure;
 using Sources.EcsBoundedContexts.WaterTractors.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.WaterTractors.Infrastructure.Features;
@@ -51,6 +55,7 @@ namespace Sources.App.Installers.Gameplay
             container.Bind<CommonFeature>();
             
             container.Bind<TimerSystem>();
+            container.Bind<MoveAlongPathSystem>();
             
             //Animals
             container.Bind<AnimalEntityFactory>();

@@ -1,5 +1,6 @@
 ﻿using System;
 using Leopotam.EcsProto.Unity;
+using UnityEngine.Serialization;
 
 namespace Sources.EcsBoundedContexts.Movements.Domain
 {
@@ -7,7 +8,7 @@ namespace Sources.EcsBoundedContexts.Movements.Domain
     [ProtoUnityAuthoring("MoveSpeed")]
     public struct MoveSpeedComponent
     {
-        public float Current;
-        public float Target;
+        public float MoveSpeed;
+        public float RotationSpeed;
     }
 }
