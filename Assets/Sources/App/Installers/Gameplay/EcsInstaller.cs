@@ -2,8 +2,9 @@
 using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
 using MyDependencies.Sources.Installers;
-using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
+using Sources.EcsBoundedContexts.Animals.Controllers;
 using Sources.EcsBoundedContexts.Animals.Infrastructure;
+using Sources.EcsBoundedContexts.Animals.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Animals.Infrastructure.Features;
 using Sources.EcsBoundedContexts.Commons;
 using Sources.EcsBoundedContexts.Core;
@@ -15,11 +16,14 @@ using Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Features;
+using Sources.EcsBoundedContexts.Farmers.Controllers;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Harvesters.Controllers;
 using Sources.EcsBoundedContexts.Harvesters.Infrastructure;
 using Sources.EcsBoundedContexts.MoveAlongPaths.Controllers;
+using Sources.EcsBoundedContexts.NavMeshes.Controllers;
+using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.SwingingTrees.Infrastructure.Systems;
 using Sources.EcsBoundedContexts.Timers.Infrastructure;
@@ -56,6 +60,7 @@ namespace Sources.App.Installers.Gameplay
             
             container.Bind<TimerSystem>();
             container.Bind<MoveAlongPathSystem>();
+            container.Bind<NavMeshMoveSystem>(); 
             
             //Animals
             container.Bind<AnimalEntityFactory>();

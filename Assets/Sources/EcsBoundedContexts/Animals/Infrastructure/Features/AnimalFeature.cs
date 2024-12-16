@@ -1,4 +1,4 @@
-﻿using Sources.EcsBoundedContexts.AnimalMovements.Infrastructure;
+﻿using Sources.EcsBoundedContexts.Animals.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.Features;
 
 namespace Sources.EcsBoundedContexts.Animals.Infrastructure.Features

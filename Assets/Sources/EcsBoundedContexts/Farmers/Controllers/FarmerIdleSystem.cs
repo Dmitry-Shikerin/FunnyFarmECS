@@ -4,14 +4,14 @@ using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Farmers.Domain;
+using Sources.EcsBoundedContexts.Timers.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
 using Sources.Transforms;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
+namespace Sources.EcsBoundedContexts.Farmers.Controllers
 {
     public class FarmerIdleSystem : EnumStateSystem<FarmerState, FarmerEnumStateComponent>
     {
@@ -21,6 +21,7 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
             TransformComponent,
             AnimancerEcsComponent>());
         [DI] private readonly MainAspect _aspect;
+        
         private readonly IAssetCollector _assetCollector;
         
         private FarmerConfig _config;
@@ -44,21 +45,20 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
 
         protected override void Enter(ProtoEntity entity)
         {
+            ref TimerComponent timer = ref _aspect.Timer.Add(entity);
+            
             _aspect.Animancer.Get(entity).Animancer.Play(_config.Idle);
-            ref FarmerEnumStateComponent state = ref Pool.Get(entity);
-            state.Timer = Random.Range(_config.IdleTimeRange.x, _config.IdleTimeRange.y);
+            timer.Value = Random.Range(_config.IdleTimeRange.x, _config.IdleTimeRange.y);
         }
 
         protected override void Update(ProtoEntity entity)
         {
-            ref FarmerEnumStateComponent state = ref Pool.Get(entity);
-            state.Timer -= Time.deltaTime;
         }
 
         private MutableStateTransition<FarmerState> ToRandomTransition()
         {
             return new MutableStateTransition<FarmerState>(
-                (_) =>
+                _ =>
                 {
                     int changeState = Random.Range(0, 100);
                     
@@ -69,11 +69,7 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
                         _ => throw new ArgumentOutOfRangeException()
                     };
                 },
-                (entity) =>
-                {
-                    ref FarmerEnumStateComponent stateComponent = ref Pool.Get(entity);
-                    return stateComponent.Timer <= 0;
-                });
+                entity => _aspect.Timer.Has(entity) == false);
         }
     }
 }

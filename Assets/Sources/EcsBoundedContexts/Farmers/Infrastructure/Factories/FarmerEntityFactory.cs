@@ -31,7 +31,7 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories
             ref AnimancerEcsComponent animancer = ref Aspect.Animancer.Add(entity);
             animancer.Animancer = view.Animancer;
             ref NavMeshComponent navMesh = ref Aspect.NavMesh.Add(entity);
-            navMesh.Agent = view.Agent; 
+            navMesh.Value = view.Agent; 
             
             return new ProtoEntity();
         }

@@ -1,10 +1,10 @@
 ﻿using System;
 using Leopotam.EcsProto;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
-using Sources.EcsBoundedContexts.Animals.Infrastructure;
+using Sources.EcsBoundedContexts.Animals.Infrastructure.Factories;
 using Sources.EcsBoundedContexts.Animals.Presentation;
 
-namespace Sources.EcsBoundedContexts.AnimalMovements.Infrastructure
+namespace Sources.EcsBoundedContexts.Animals.Controllers
 {
     public class AnimalInitializeSystem : IProtoInitSystem
     {

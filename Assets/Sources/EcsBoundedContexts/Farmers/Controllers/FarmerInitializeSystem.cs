@@ -2,7 +2,7 @@
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.EcsBoundedContexts.Farmers.Infrastructure.Factories;
 
-namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
+namespace Sources.EcsBoundedContexts.Farmers.Controllers
 {
     public class FarmerInitializeSystem : IProtoInitSystem
     {
