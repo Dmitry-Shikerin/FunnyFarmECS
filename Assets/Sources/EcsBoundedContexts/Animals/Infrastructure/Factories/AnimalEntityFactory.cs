@@ -1,5 +1,4 @@
-﻿using System;
-using Leopotam.EcsProto;
+﻿using Leopotam.EcsProto;
 using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animals.Presentation;
 using Sources.EcsBoundedContexts.Animancers.Domain;
@@ -13,7 +12,7 @@ using Sources.MyLeoEcsProto.Factories;
 using Sources.Transforms;
 using UnityEngine;
 
-namespace Sources.EcsBoundedContexts.Animals.Infrastructure
+namespace Sources.EcsBoundedContexts.Animals.Infrastructure.Factories
 {
     public class AnimalEntityFactory : EntityFactory
     {
@@ -38,11 +37,9 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
             ref AnimalTypeComponent animalType = ref Aspect.AnimalType.Add(entity);
             animalType.AnimalType = view.AnimalType;
             ref NavMeshComponent navMesh = ref Aspect.NavMesh.Add(entity);
-            navMesh.Agent = view.Agent;
+            navMesh.Value = view.Agent;
             ref MoveSpeedComponent moveSpeed = ref Aspect.MoveSpeed.Add(entity);
             moveSpeed.MoveSpeed = 3f;
-            ref TargetPointComponent movementPoint = ref Aspect.TargetPoint.Add(entity);
-            movementPoint.Value = Vector3.zero;
             ref TransformComponent transform = ref Aspect.Transform.Add(entity);
             transform.Transform = view.Transform;
             

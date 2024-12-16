@@ -4,13 +4,12 @@ using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Dogs.Domain;
-using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.EcsBoundedContexts.NavMeshes.Domain;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
 using UnityEngine;
 
-namespace Sources.EcsBoundedContexts.Animals.Infrastructure
+namespace Sources.EcsBoundedContexts.Animals.Controllers
 {
     public class AnimalChangeEnumStateSystem : EnumStateSystem<AnimalState, AnimalEnumStateComponent>
     {
@@ -20,7 +19,6 @@ namespace Sources.EcsBoundedContexts.Animals.Infrastructure
                 AnimalTypeComponent, 
                 AnimancerEcsComponent, 
                 AnimalEnumStateComponent, 
-                TargetPointComponent,
                 NavMeshComponent>());
 
         protected override ProtoIt ProtoIt => _animalIt;

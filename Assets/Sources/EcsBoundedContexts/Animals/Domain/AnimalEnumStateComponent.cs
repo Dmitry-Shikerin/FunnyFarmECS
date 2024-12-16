@@ -9,8 +9,6 @@ namespace Sources.EcsBoundedContexts.Animals.Domain
     [ProtoUnityAuthoring("AnimalState")]
     public struct AnimalEnumStateComponent : IEnumStateComponent<AnimalState>
     {
-        public float Timer;
-        
         public AnimalState State { get; set; }
         public bool IsEntered { get; set; }
     }

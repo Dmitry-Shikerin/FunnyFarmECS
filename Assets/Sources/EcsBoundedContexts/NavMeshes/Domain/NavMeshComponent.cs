@@ -8,6 +8,6 @@ namespace Sources.EcsBoundedContexts.NavMeshes.Domain
     [ProtoUnityAuthoring("NavMeshAgent")]
     public struct NavMeshComponent
     {
-        public NavMeshAgent Agent;
+        public NavMeshAgent Value;
     }
 }

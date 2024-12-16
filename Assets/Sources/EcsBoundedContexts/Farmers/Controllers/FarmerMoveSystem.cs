@@ -4,16 +4,14 @@ using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Farmers.Domain;
-using Sources.EcsBoundedContexts.NavMeshes.Domain;
+using Sources.EcsBoundedContexts.Movements.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
 using Sources.Transforms;
-using UnityEngine;
-using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
+namespace Sources.EcsBoundedContexts.Farmers.Controllers
 {
     public class FarmerMoveSystem : EnumStateSystem<FarmerState, FarmerEnumStateComponent>
     {
@@ -24,6 +22,7 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
             AnimancerEcsComponent,
             FarmerMovePointComponent>());
         [DI] private readonly MainAspect _aspect;
+        
         private readonly IAssetCollector _assetCollector;
         
         private FarmerConfig _config;
@@ -47,23 +46,22 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
 
         protected override void Enter(ProtoEntity entity)
         {
-            _aspect.Animancer.Get(entity).Animancer.Play(_config.Move);
             ref FarmerMovePointComponent movePoint = ref _aspect.FarmerMovePoint.Get(entity);
+            ref TargetPointComponent targetPoint = ref _aspect.TargetPoint.Add(entity);
+            
             movePoint.TargetPoint = movePoint.Points[Random.Range(0, movePoint.Points.Length)];
+            targetPoint.Value = movePoint.TargetPoint.Transform.position;
+            _aspect.Animancer.Get(entity).Animancer.Play(_config.Move);
         }
 
         protected override void Update(ProtoEntity entity)
         {
-            ref NavMeshComponent navMesh = ref _aspect.NavMesh.Get(entity);
-            ref FarmerMovePointComponent movePoint = ref _aspect.FarmerMovePoint.Get(entity);
-            
-            navMesh.Agent.destination = movePoint.TargetPoint.Transform.position;
         }
 
         private MutableStateTransition<FarmerState> ToRandomTransition()
         {
             return new MutableStateTransition<FarmerState>(
-                (entity) =>
+                entity =>
                 {
                     ref FarmerMovePointComponent movePoint = ref _aspect.FarmerMovePoint.Get(entity);
 
@@ -75,13 +73,7 @@ namespace Sources.EcsBoundedContexts.Farmers.Infrastructure
                             _ => throw new ArgumentOutOfRangeException()
                         };
                 },
-                (entity) =>
-                {
-                    NavMeshComponent navMesh = _aspect.NavMesh.Get(entity);
-                    NavMeshAgent agent = navMesh.Agent;
-                    
-                    return Vector3.Distance(agent.transform.position, agent.destination) <= agent.stoppingDistance + 0.1f;
-                });
+                entity => _aspect.TargetPoint.Has(entity) == false);
         }
     }
 }
