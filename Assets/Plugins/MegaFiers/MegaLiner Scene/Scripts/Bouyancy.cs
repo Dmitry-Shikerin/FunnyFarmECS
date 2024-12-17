@@ -35,7 +35,7 @@ namespace MegaFiers
 		
 			if ( forceFactor > 0.0f )
 			{
-				Vector3 uplift = -Physics.gravity * (forceFactor - rbody.velocity.y * bounceDamp);
+				Vector3 uplift = -Physics.gravity * (forceFactor - rbody.linearVelocity.y * bounceDamp);
 				rbody.AddForceAtPosition(uplift, actionPoint);
 			}
 		}

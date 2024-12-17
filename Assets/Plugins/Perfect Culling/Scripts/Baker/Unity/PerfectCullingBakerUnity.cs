@@ -43,8 +43,8 @@ namespace Koenigz.PerfectCulling
         public PerfectCullingBakerUnity(PerfectCullingBakeSettings perfectCullingBakeSettings) : 
             base(perfectCullingBakeSettings)
         {
-            m_activeGraphicsPipeline = GraphicsSettings.renderPipelineAsset;
-            GraphicsSettings.renderPipelineAsset = null;
+            m_activeGraphicsPipeline = GraphicsSettings.defaultRenderPipeline;
+            GraphicsSettings.defaultRenderPipeline = null;
             
 #if UNITY_2019_3_OR_NEWER
             m_activeQualityPipeline = QualitySettings.renderPipeline;
@@ -113,7 +113,7 @@ namespace Koenigz.PerfectCulling
 
         public override void Dispose()
         {
-            GraphicsSettings.renderPipelineAsset = m_activeGraphicsPipeline;
+            GraphicsSettings.defaultRenderPipeline = m_activeGraphicsPipeline;
             
 #if UNITY_2019_3_OR_NEWER
             QualitySettings.renderPipeline = m_activeQualityPipeline;
