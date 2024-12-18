@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Doozy.Runtime.UIManager.Components;
 using HighlightPlus;
 using Sirenix.OdinInspector;
-using Sources.BoundedContexts.AnimalMovePoints;
 using Sources.BoundedContexts.Cameras.Presentation;
 using Sources.BoundedContexts.Items.Presentation;
 using Sources.BoundedContexts.SelectableItems.Presentation;
@@ -21,9 +19,7 @@ namespace Sources.BoundedContexts.SheepPens.Presentation
         [Required] [SerializeField] private ImageView _progressBarr;
         [Required] [SerializeField] private HighlightEffect _highlightEffect;
         [SerializeField] private List<AnimalView> _ships;
-        [SerializeField] private List<AnimalMovePoint> _points;
         
-        public IReadOnlyList<AnimalMovePoint> Points => _points;
         public IReadOnlyList<AnimalView> Ships => _ships;
         public IReadOnlyList<ItemView> Pumpkins => _pumpkins;
         public LookAtCamera LookAtCamera => _lookAtCamera;

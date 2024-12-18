@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Leopotam.EcsProto;
+﻿using Leopotam.EcsProto;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Presentation;
@@ -31,7 +30,8 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Infrastructure.Factor
             ref DeliveryWaterTractorEnumStateComponent state = ref Aspect.DeliveryWaterTractorState.NewEntity(out ProtoEntity entity);
             state.State = DeliveryWaterTractorState.Home;
             
-            Aspect.PointsPath.Add(entity);
+            ref PointPathComponent pointPath = ref Aspect.PointsPath.Add(entity);
+            pointPath.PathOwnerType = view.PathOwnerType;
             ref MoveSpeedComponent moveSpeed = ref Aspect.MoveSpeed.Add(entity);
             moveSpeed.MoveSpeed = config.MoveSpeed;
             moveSpeed.RotationSpeed = config.RotationSpeed;

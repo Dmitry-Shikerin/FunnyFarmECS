@@ -15,12 +15,10 @@ namespace Sources.BoundedContexts.ChikenCorrals.Presentation
     public class ChickenCorralView : PresentableView<ChickenCorralPresenter>, ISelectableItem
     {
         [SerializeField] private List<AnimalView> _chickens;
-        [SerializeField] private List<AnimalMovePoint> _points;
         [Required] [SerializeField] private LookAtCamera _lookAtCamera;
         [Required] [SerializeField] private ImageView _progressBarr;
         [Required] [SerializeField] private HighlightEffect _highlightEffect;
         
-        public IReadOnlyList<AnimalMovePoint> Points => _points;
         public IReadOnlyList<AnimalView> Chickens => _chickens;
         public LookAtCamera LookAtCamera => _lookAtCamera;
         public ImageView ProgressBarr => _progressBarr;

@@ -6,5 +6,6 @@
         Points = 1,
         ToFieldPoints = 2,
         ToHomePoints = 3,
+        PathPoints = 4,
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Sources.BoundedContexts.Paths.Domain;
+using Sources.BoundedContexts.Paths.Presentation;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.DeliveryCars.Domain;
@@ -23,12 +24,12 @@ namespace Sources.EcsBoundedContexts.DeliveryCars.Controllers
                 TransformComponent>());
         [DI] private readonly MainAspect _aspect;
         
-        private readonly RootGameObject _rootGameObject;
+        private readonly PathCollectorView _pathCollector;
         private readonly Dictionary<PathOwnerType, Vector3[]> _paths = new();
 
         public DeliveryCarMoveToExitSystem(RootGameObject rootGameObject)
         {
-            _rootGameObject = rootGameObject;
+            _pathCollector = rootGameObject.PathCollector;
         }
 
         protected override ProtoIt ProtoIt => _protoIt;
@@ -69,13 +70,7 @@ namespace Sources.EcsBoundedContexts.DeliveryCars.Controllers
             if (_paths.TryGetValue(pathOwnerType, out Vector3[] path))
                 return path;
             
-            _paths[pathOwnerType] = _rootGameObject
-                .PathCollector
-                .Paths[pathOwnerType]
-                .PathTypes[PathType.Points]
-                .Points
-                .Select(pointData => pointData.Transform.position)
-                .ToArray();
+            _paths[pathOwnerType] = _pathCollector.GetPath(pathOwnerType, PathType.PathPoints);
             
             return _paths[pathOwnerType];
         }

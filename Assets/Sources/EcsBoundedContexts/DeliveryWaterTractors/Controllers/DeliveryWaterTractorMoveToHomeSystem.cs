@@ -2,6 +2,7 @@
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
 using Sources.BoundedContexts.Paths.Domain;
+using Sources.BoundedContexts.Paths.Presentation;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
@@ -15,19 +16,18 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers
 {
     public class DeliveryWaterTractorMoveToHomeSystem : EnumStateSystem<DeliveryWaterTractorState, DeliveryWaterTractorEnumStateComponent>
     {
-        private readonly RootGameObject _rootGameObject;
-
         [DI] private readonly ProtoIt _protoIt =
             new(It.Inc<
                 DeliveryWaterTractorEnumStateComponent,
                 TransformComponent>());
         [DI] private readonly MainAspect _aspect;
         
+        private readonly PathCollectorView _pathCollector;
         private Vector3[] _path;
 
         public DeliveryWaterTractorMoveToHomeSystem(RootGameObject rootGameObject)
         {
-            _rootGameObject = rootGameObject;
+            _pathCollector = rootGameObject.PathCollector;
         }
 
         protected override ProtoIt ProtoIt => _protoIt;
@@ -35,14 +35,7 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers
 
         public override void Init(IProtoSystems systems)
         {
-            _path = _rootGameObject
-                .PathCollector
-                .Paths[PathOwnerType.ThirdLocationDeliveryWaterTractor]
-                .PathTypes[PathType.Points]
-                .Points
-                .Select(pointData => pointData.Transform.position)
-                .Reverse()
-                .ToArray();;
+            _path = _pathCollector.GetPath(PathOwnerType.ThirdLocationDeliveryWaterTractor, PathType.PathPoints, true);
 
             AddTransition(ToMoveToExitTransition());
         }

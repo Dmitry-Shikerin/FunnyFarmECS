@@ -3,7 +3,6 @@ using Leopotam.EcsProto.QoL;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
 using Sources.EcsBoundedContexts.GameObjects;
-using Sources.EcsBoundedContexts.Timers.Domain;
 using Sources.Frameworks.GameServices.Prefabs.Interfaces;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers;
 using Sources.Frameworks.MyLeoEcsProto.StateSystems.Enums.Controllers.Transitions.Implementation;
@@ -43,8 +42,8 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers
 
         protected override void Enter(ProtoEntity entity)
         {
-            ref TimerComponent timer = ref _aspect.Timer.Add(entity);
-            timer.Value = Random.Range(_config.HomeIdleTime.x, _config.HomeIdleTime.y);
+            var timer = Random.Range(_config.HomeIdleTime.x, _config.HomeIdleTime.y);
+            entity.AddTimer(timer);
         }
 
         protected override void Update(ProtoEntity entity)
@@ -55,7 +54,7 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers
         {
             return new Transition<DeliveryWaterTractorState>(
                 DeliveryWaterTractorState.MoveToPont,
-                entity => _aspect.Timer.Has(entity) == false);
+                entity => entity.HasTimer() == false);
         }
     }
 }

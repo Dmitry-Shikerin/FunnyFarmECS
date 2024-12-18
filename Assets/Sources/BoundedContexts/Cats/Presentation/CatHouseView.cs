@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using HighlightPlus;
+﻿using HighlightPlus;
 using Sirenix.OdinInspector;
-using Sources.BoundedContexts.AnimalMovePoints;
 using Sources.BoundedContexts.Cats.Controllers;
 using Sources.BoundedContexts.SelectableItems.Presentation;
 using Sources.EcsBoundedContexts.Animals.Presentation;
@@ -14,10 +12,8 @@ namespace Sources.BoundedContexts.Cats.Presentation
     {
         [Required] [SerializeField] private HighlightEffect _highlightEffect;
         [Required] [SerializeField] private AnimalView _animalView;
-        [SerializeField] private List<AnimalMovePoint> points;
 
         public AnimalView AnimalView => _animalView;
-        public List<AnimalMovePoint> Points => points;
         public HighlightEffect HighlightEffect => _highlightEffect;
 
         public void Select() =>

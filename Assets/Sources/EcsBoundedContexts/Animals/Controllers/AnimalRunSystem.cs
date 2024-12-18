@@ -72,7 +72,7 @@ namespace Sources.EcsBoundedContexts.Animals.Controllers
         {
             return new Transition<AnimalState>(
                 AnimalState.ChangeState,
-                entity => _aspect.TargetPoint.Has(entity) == false);
+                entity => entity.HasTargetPoint() == false);
         }
     }
 }
