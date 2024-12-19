@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Sources.Frameworks.GameServices.Singletones.Monobehaviours;
+using Sources.Frameworks.MyAudio_master.MyAudio.MyUiFramework;
 using UnityEngine;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Infrastructure

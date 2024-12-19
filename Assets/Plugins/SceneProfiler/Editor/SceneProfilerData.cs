@@ -127,8 +127,8 @@ namespace SceneProfiler.Editor
             isActive = rb.gameObject.activeInHierarchy;
             isKinematic = rb.isKinematic;
             mass = rb.mass;
-            drag = rb.drag;
-            angularDrag = rb.angularDrag;
+            drag = rb.linearDamping;
+            angularDrag = rb.angularDamping;
             interpolation = rb.interpolation;
             collisionDetectionMode = rb.collisionDetectionMode;
             colliderType = GetColliderType(rb);

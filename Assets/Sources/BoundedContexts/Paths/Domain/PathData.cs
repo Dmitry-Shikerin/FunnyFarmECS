@@ -18,7 +18,7 @@ namespace Sources.BoundedContexts.Paths.Domain
         {
             IsDrawGizmos = true;
             SphereColor = Color.green;
-            SphereRadius = 0.3f;
+            SphereRadius = 0.15f;
             LineColor = Color.green;
         }
     }

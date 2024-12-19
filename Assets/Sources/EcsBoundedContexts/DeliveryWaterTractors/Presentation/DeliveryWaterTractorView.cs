@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Sources.BoundedContexts.Paths.Domain;
 using Sources.EcsBoundedContexts.EntityLinks;
 using UnityEngine;
 
@@ -6,6 +6,6 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Presentation
 {
     public class DeliveryWaterTractorView : EntityView
     {
-        [field: SerializeField] public List<Transform> MovePoints { get; private set; }
+        [field: SerializeField] public PathOwnerType PathOwnerType { get; private set; }
     }
 }

@@ -165,7 +165,7 @@ namespace MegaFiers
 					}
 
 					if ( drag != 0.0f )
-						rb.AddForce(-rb.velocity * drag);
+						rb.AddForce(-rb.linearVelocity * drag);
 
 					if ( drive != 0.0f )
 						rb.AddForce((np - p1).normalized * drive, ForceMode.Force);

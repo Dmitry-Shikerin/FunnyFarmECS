@@ -43,8 +43,8 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers
 
         protected override void Enter(ProtoEntity entity)
         {
-            ref TimerComponent timer = ref _aspect.Timer.Add(entity);
-            timer.Value = Random.Range(_config.PondIdleTime.x, _config.PondIdleTime.y);
+            var timer = Random.Range(_config.PondIdleTime.x, _config.PondIdleTime.y);
+            entity.AddTimer(timer);
         }
 
         protected override void Update(ProtoEntity entity)
@@ -55,7 +55,7 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers
         {
             return new Transition<DeliveryWaterTractorState>(
                 DeliveryWaterTractorState.MoveToHome,
-                entity => _aspect.Timer.Has(entity) == false);
+                entity => entity.HasTimer() == false);
         }
     }
 }

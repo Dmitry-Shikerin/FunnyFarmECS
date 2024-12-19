@@ -19,5 +19,6 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         void UpdateDataBase();
         void ClearButtons();
         void AddSettings(ISoundySettingsView soundySettingsView);
+        void RenameDataBaseButtons(IReadOnlyList<string> names);
     }
 }

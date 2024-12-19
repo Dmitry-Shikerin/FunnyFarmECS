@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
@@ -14,14 +13,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private SoundGroupData _soundGroupData;
         private readonly SoundyDataBase _soundyDataBase;
         private IAudioDataView _view;
-        private readonly PreviewSoundPlayerService _previewSoundPlayerService;
+        private readonly IPreviewSoundPlayerService _previewSoundPlayerService;
 
         public AudioDataPresenter(
             AudioData audioData,
             SoundGroupData soundGroupData,
             SoundyDataBase soundyDataBase,
             IAudioDataView view,
-            PreviewSoundPlayerService previewSoundPlayerService)
+            IPreviewSoundPlayerService previewSoundPlayerService)
         {
             _audioData = audioData ?? throw new ArgumentNullException(nameof(audioData));
             _soundGroupData = soundGroupData ?? throw new ArgumentNullException(nameof(soundGroupData));

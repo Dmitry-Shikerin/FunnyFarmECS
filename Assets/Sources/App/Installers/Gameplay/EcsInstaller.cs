@@ -65,6 +65,7 @@ namespace Sources.App.Installers.Gameplay
             //Animals
             container.Bind<AnimalEntityFactory>();
             container.Bind<AnimalFeature>();
+            container.Bind<AnimalPointsService>();
             
             container.Bind<AnimalInitializeSystem>();
             container.Bind<AnimalRunSystem>();

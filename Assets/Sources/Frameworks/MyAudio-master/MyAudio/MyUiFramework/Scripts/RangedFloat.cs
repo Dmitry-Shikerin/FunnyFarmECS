@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyAudios.Scripts
+namespace Sources.Frameworks.MyAudio_master.MyAudio.MyUiFramework.Scripts
 {
     [Serializable]
     public struct RangedFloat
