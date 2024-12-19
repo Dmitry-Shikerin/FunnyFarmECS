@@ -30,8 +30,10 @@ namespace Sources.EcsBoundedContexts.NavMeshes.Controllers
                 
                 float stoppingDistance = agent.stoppingDistance + 0.1f;
 
-                if (Vector3.Distance(agent.destination, agent.transform.position) <= stoppingDistance)
-                    _aspect.TargetPoint.Del(entity);
+                if (Vector3.Distance(agent.destination, agent.transform.position) > stoppingDistance)
+                    continue;
+                    
+                entity.DelTargetPoint();
             }
         }
     }

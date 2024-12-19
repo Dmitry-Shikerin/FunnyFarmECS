@@ -8,7 +8,6 @@ using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implem
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.Controlls;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Implementation.Base;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.View.Interfaces;
-using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,9 +20,9 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         protected override void Initialize()
         {
             Root.RandomButtonTab.SetOnClick(() => 
-                Presenter.SetPlayMode(SoundPlayMode.Random));
+                Presenter.SetRandomPlayMode());
             Root.SequenceButtonTab.SetOnClick(() => 
-                Presenter.SetPlayMode(SoundPlayMode.Sequence));
+                Presenter.SetSequencePlayMode());
             Root.LoopToggle.OnValueChanged += ChangeLoop;
             Root.NewSoundContentVisualElement.CreateButton.SetOnClick(
                () => Presenter.CreateAudioData());
@@ -74,18 +73,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         public void SetLoop(bool loop) =>
             Root.LoopToggle.isOn = loop;
 
-        public void SetIsOnButtonTab(SoundPlayMode playMode)
-        {
-            Action changePlayMode = playMode switch
-            {
-                SoundPlayMode.Random => () => Root.RandomButtonTab.isOn = true,
-                SoundPlayMode.Sequence => () => Root.SequenceButtonTab.isOn = true,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            
-            changePlayMode?.Invoke();
-        }
+        public void SetRandomIsOn() =>
+            Root.RandomButtonTab.isOn = true;        
         
+        public void SetSequenceIsOn() =>
+            Root.SequenceButtonTab.isOn = true;
+
         public void AddAudioData(IAudioDataView audioDataView)
         {
             Root

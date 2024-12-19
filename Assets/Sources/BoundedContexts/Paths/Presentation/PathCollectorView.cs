@@ -21,6 +21,9 @@ namespace Sources.BoundedContexts.Paths.Presentation
         
         [Space(10)]
         [SerializeField] private PathsSerializedDictionary _paths;
+        
+        private Dictionary<PathOwnerType, Vector3[]> _pointPaths = new ();
+        private Dictionary<PathOwnerType, Vector3[]> _reversePointPaths = new ();
 
         public IReadOnlyDictionary<PathOwnerType, PathData> Paths => _paths;
 
@@ -54,7 +57,10 @@ namespace Sources.BoundedContexts.Paths.Presentation
                 .Select(pointData => pointData.Transform.position);
 
             if (isReverse)
+            {
+                
                 path = path.Reverse();
+            }
             
             return path.ToArray();
         }

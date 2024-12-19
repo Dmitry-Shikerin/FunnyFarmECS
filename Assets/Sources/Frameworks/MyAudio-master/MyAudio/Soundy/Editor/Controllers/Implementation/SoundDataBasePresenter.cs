@@ -14,13 +14,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly SoundDataBase _soundDatabase;
         private readonly SoundyDataBase _soundyDatabase;
         private readonly ISoundDataBaseView _view;
-        private readonly SoundGroupViewFactory _soundGroupViewFactory;
+        private readonly ISoundGroupViewFactory _soundGroupViewFactory;
 
         public SoundDataBasePresenter(
             SoundDataBase soundDatabase,
             SoundyDataBase soundyDatabase,
             ISoundDataBaseView view,
-            SoundGroupViewFactory soundGroupViewFactory)
+            ISoundGroupViewFactory soundGroupViewFactory)
         {
             _soundDatabase = soundDatabase ?? throw new ArgumentNullException(nameof(soundDatabase));
             _soundyDatabase = soundyDatabase ?? throw new ArgumentNullException(nameof(soundyDatabase));

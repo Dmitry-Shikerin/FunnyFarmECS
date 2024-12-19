@@ -1,5 +1,5 @@
 ﻿using System;
-using Sources.Frameworks.Utils.Dictionaries;
+using Sources.Frameworks.MyAudio_master.MyAudio.MyUiFramework.Dictionaries;
 
 namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Domain
 {

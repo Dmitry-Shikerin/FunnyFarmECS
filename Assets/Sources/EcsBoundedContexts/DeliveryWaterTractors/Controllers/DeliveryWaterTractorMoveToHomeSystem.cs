@@ -62,7 +62,7 @@ namespace Sources.EcsBoundedContexts.DeliveryWaterTractors.Controllers
         {
             return new Transition<DeliveryWaterTractorState>(
                 DeliveryWaterTractorState.Home,
-                entity => _aspect.TargetPoint.Has(entity) == false);
+                entity => entity.HasTargetPoint() == false);
         }
     }
 }

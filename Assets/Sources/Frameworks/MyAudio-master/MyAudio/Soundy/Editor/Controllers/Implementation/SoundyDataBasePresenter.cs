@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Interfaces;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
@@ -14,17 +15,17 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly SoundyDataBase _soundyDatabase;
         private readonly SoundySettings _soundySettings;
         private readonly ISoundyDataBaseView _view;
-        private readonly SoundDataBaseViewFactory _soundDataBaseViewFactory;
-        private readonly SoundySettingsViewFactory _soundySettingsViewFactory;
-        private readonly SoundyPrefsStorage _soundyPrefsStorage;
+        private readonly ISoundDataBaseViewFactory _soundDataBaseViewFactory;
+        private readonly ISoundySettingsViewFactory _soundySettingsViewFactory;
+        private readonly ISoundyPrefsStorage _soundyPrefsStorage;
 
         public SoundyDataBasePresenter(
             SoundyDataBase soundyDatabase,
             SoundySettings soundySettings,
             ISoundyDataBaseView view,
-            SoundDataBaseViewFactory soundDataBaseViewFactory,
-            SoundySettingsViewFactory soundySettingsViewFactory,
-            SoundyPrefsStorage soundyPrefsStorage)
+            ISoundDataBaseViewFactory soundDataBaseViewFactory,
+            ISoundySettingsViewFactory soundySettingsViewFactory,
+            ISoundyPrefsStorage soundyPrefsStorage)
         {
             _soundyDatabase = soundyDatabase ?? throw new ArgumentNullException(nameof(soundyDatabase));
             _soundySettings = soundySettings ?? throw new ArgumentNullException(nameof(soundySettings));
@@ -55,7 +56,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             if (string.IsNullOrEmpty(tabName))
                 return;
 
-            if (tabName == SoundyPrefsStorage.SoundySettings)
+            if (tabName == ISoundyPrefsStorage.SoundySettings)
             {
                 OpenSettings();
 
@@ -96,8 +97,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
 
         public void RenameButtons()
         {
-            for (int i = 0; i < _view.DatabaseButtons.Count(); i++)
-                _view.DatabaseButtons.ToList()[i].SetLabelText(_soundyDatabase.GetSoundDatabases().ToList()[i].Name);
+            List<string> names = _soundyDatabase
+                .GetSoundDatabases()
+                .Select(database => database.Name)
+                .ToList();
+            _view.RenameDataBaseButtons(names);
         }
 
         public void UpdateDataBase()
@@ -110,7 +114,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         {
             ISoundySettingsView view = _soundySettingsViewFactory.Create(_soundySettings);
             _view.AddSettings(view);
-            _soundyPrefsStorage.SaveLastDataTab(SoundyPrefsStorage.SoundySettings);
+            _soundyPrefsStorage.SaveLastDataTab(ISoundyPrefsStorage.SoundySettings);
         }
     }
 }

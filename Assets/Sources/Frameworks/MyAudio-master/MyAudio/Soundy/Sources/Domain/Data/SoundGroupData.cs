@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyAudios.MyUiFramework.Attributes;
-using MyAudios.Scripts;
+using Sources.Frameworks.MyAudio_master.MyAudio.MyUiFramework.Scripts;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Constants;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Enums;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Utils;
@@ -63,9 +62,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain.Data
         public string SoundName;
         public bool IgnoreListenerPause;
         
-        [MinMaxRange(SoundGroupDataConst.MinVolume, SoundGroupDataConst.MaxVolume)]
         public RangedFloat Volume;
-        [MinMaxRange(SoundGroupDataConst.MinPitch, SoundGroupDataConst.MaxPitch)]
         public RangedFloat Pitch;
         [Range(SoundGroupDataConst.MinSpatialBlend, SoundGroupDataConst.MaxSpatialBlend)]
         public float SpatialBlend;

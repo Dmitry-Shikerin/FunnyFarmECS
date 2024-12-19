@@ -99,5 +99,8 @@ namespace Sources.EcsBoundedContexts.Core
             ref TargetPointComponent targetPoint = ref _mainAspect.TargetPoint.Get(entity);
             targetPoint.Value = value;
         }
+        
+        public static void DelTargetPoint(this ProtoEntity entity) =>
+            _mainAspect.TargetPoint.Del(entity);
     }
 }

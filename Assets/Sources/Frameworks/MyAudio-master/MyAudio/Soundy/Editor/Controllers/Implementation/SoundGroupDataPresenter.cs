@@ -14,13 +14,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
         private readonly SoundGroupData _soundGroupData;
         private readonly SoundyDataBase _soundyDataBase;
         private readonly ISoundGroupDataView _view;
-        private readonly AudioDataViewFactory _audioDataViewFactory;
+        private readonly IAudioDataViewFactory _audioDataViewFactory;
 
         public SoundGroupDataPresenter(
             SoundGroupData soundGroupData,
             SoundyDataBase soundyDataBase,
             ISoundGroupDataView view,
-            AudioDataViewFactory audioDataViewFactory)
+            IAudioDataViewFactory audioDataViewFactory)
         {
             _soundGroupData = soundGroupData ?? throw new ArgumentNullException(nameof(soundGroupData));
             _soundyDataBase = soundyDataBase ?? throw new ArgumentNullException(nameof(soundyDataBase));
@@ -33,7 +33,15 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             AddAudioDatas();
             _view.SetLoop(_soundGroupData.Loop);
             _view.SetSoundName(_soundGroupData.SoundName);
-            _view.SetIsOnButtonTab(_soundGroupData.Mode);
+            switch (_soundGroupData.Mode)
+            {
+                case SoundPlayMode.Random:
+                    _view.SetRandomIsOn();
+                    break;
+                case SoundPlayMode.Sequence:
+                    _view.SetSequenceIsOn();
+                    break;
+            }
             _view.SetVolume(
                 new Vector2(_soundGroupData.Volume.MinValue, _soundGroupData.Volume.MaxValue),
                 new Vector2(SoundGroupDataConst.MinVolume, SoundGroupDataConst.MaxVolume));
@@ -59,8 +67,11 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Im
             }
         }
         
-        public void SetPlayMode(SoundPlayMode playMode) =>
-            _soundGroupData.Mode = playMode;
+        public void SetRandomPlayMode() =>
+            _soundGroupData.Mode = SoundPlayMode.Random;
+        
+        public void SetSequencePlayMode() =>
+            _soundGroupData.Mode = SoundPlayMode.Sequence;
 
         public void CreateAudioData()
         {

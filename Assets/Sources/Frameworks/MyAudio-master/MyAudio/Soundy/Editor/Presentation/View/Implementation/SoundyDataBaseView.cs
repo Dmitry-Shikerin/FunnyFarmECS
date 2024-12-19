@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Doozy.Editor.EditorUI.Components;
 using Doozy.Runtime.UIElements.Extensions;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Controllers.Implementation;
@@ -27,20 +28,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
         {
         }
 
-        public void RefreshDataBasesButtons()
-        {
+        public void RefreshDataBasesButtons() =>
             Root.RefreshDataBasesButtons();
-        }
 
-        public void RenameButtons()
-        {
+        public void RenameButtons() =>
             Presenter.RenameButtons();
-        }
 
-        public void UpdateDataBase()
-        {
+        public void UpdateDataBase() =>
             Presenter.UpdateDataBase();
-        }
 
         public void ClearButtons()
         {
@@ -57,6 +52,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Presentation.V
             SoundDataBaseView?.Dispose();
             SettingsView = soundySettingsView ?? throw new ArgumentNullException(nameof(soundySettingsView));
             Root.content.AddChild(SettingsView.Root);
+        }
+
+        public void RenameDataBaseButtons(IReadOnlyList<string> names)
+        {
+            List<FluidToggleButtonTab> buttons = DatabaseButtons.ToList();
+            
+            for (int i = 0; i < buttons.Count; i++)
+                buttons[i].SetLabelText(names[i]);
         }
 
         public void ClickDataBaseButton(string name)
