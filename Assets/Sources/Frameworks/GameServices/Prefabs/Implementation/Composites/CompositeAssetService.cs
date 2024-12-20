@@ -1,7 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.BoundedContexts.Prefabs;
+using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.DeliveryCars.Domain;
 using Sources.EcsBoundedContexts.DeliveryWaterTractors.Domain;
 using Sources.EcsBoundedContexts.Farmers.Domain;

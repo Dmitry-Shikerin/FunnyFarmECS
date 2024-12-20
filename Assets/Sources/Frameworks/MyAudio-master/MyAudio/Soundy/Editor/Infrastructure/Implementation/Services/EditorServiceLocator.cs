@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Domain;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Factories;
+using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services;
 using Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Sources.Domain;
 using UnityEditor;
 using UnityEngine;
 
-namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Services
+namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure.Implementation.Services
 {
     [CreateAssetMenu(fileName = "EditorServiceLocator", menuName = "MyAudio/EditorServiceLocator", order = 51)]
     public class EditorServiceLocator : ScriptableObjectSingleton<EditorServiceLocator>
@@ -20,10 +21,12 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
         public static T Get<T>()
             where T : class
         {
+            Initialize();
+            
             Type type = typeof(T);
 
             if (s_container.TryGetValue(type, out object service) == false)
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException(type.Name);
 
             if (service is not T result)
                 throw new InvalidCastException();
@@ -40,8 +43,7 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
 
             s_container[typeof(TInterface)] = service;
         }
-
-        [InitializeOnLoadMethod]
+        
         public static void Initialize()
         {
             AssetName = "EditorServiceLocator";
@@ -56,10 +58,13 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
             Bind<IEditorUpdateService, EditorUpdateService>(new EditorUpdateService());
             Bind<ISoundyPrefsStorage, SoundyPrefsStorage>(new SoundyPrefsStorage());
             Bind<IPreviewSoundPlayerService, PreviewSoundPlayerService>(
-                new PreviewSoundPlayerService(Get<IEditorUpdateService>()));
+                new PreviewSoundPlayerService(
+                    Get<IEditorUpdateService>()));
             Bind<IAudioDataViewFactory, AudioDataViewFactory>(
-                new AudioDataViewFactory(Get<PreviewSoundPlayerService>()));
-            Bind<ISoundDataBaseViewFactory, SoundDataBaseViewFactory>(new SoundDataBaseViewFactory(
+                new AudioDataViewFactory(
+                    Get<IPreviewSoundPlayerService>()));
+            Bind<ISoundDataBaseViewFactory, SoundDataBaseViewFactory>(
+                new SoundDataBaseViewFactory(
                 Get<IWindowService>(),
                 Get<ISoundyPrefsStorage>(),
                 Get<IPreviewSoundPlayerService>()));
@@ -94,14 +99,14 @@ namespace Sources.Frameworks.MyAudio_master.MyAudio.Soundy.Editor.Infrastructure
 
         private void Enable()
         {
-            Get<EditorUpdateService>().Initialize();
-            Get<PreviewSoundPlayerService>().Initialize();
+            Get<IEditorUpdateService>().Initialize();
+            Get<IPreviewSoundPlayerService>().Initialize();
         }
 
         private void Disable()
         {
-            Get<EditorUpdateService>().Destroy();
-            Get<PreviewSoundPlayerService>().Destroy();
+            Get<IEditorUpdateService>().Destroy();
+            Get<IPreviewSoundPlayerService>().Destroy();
         }
 
         [Button(ButtonSizes.Large)]

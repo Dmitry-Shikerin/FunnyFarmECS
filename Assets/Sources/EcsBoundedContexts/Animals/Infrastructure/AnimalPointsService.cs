@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sources.BoundedContexts.AnimalMovePoints;
 using Sources.BoundedContexts.Paths.Domain;
 using Sources.BoundedContexts.Paths.Presentation;
 using Sources.BoundedContexts.RootGameObjects.Presentation;

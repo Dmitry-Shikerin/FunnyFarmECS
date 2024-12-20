@@ -2,7 +2,7 @@
 using Leopotam.EcsProto.QoL;
 using MyDependencies.Sources.Containers;
 using MyDependencies.Sources.Containers.Extensions;
-using Sources.BoundedContexts.AnimalAnimations.Domain;
+using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
 using Sources.EcsBoundedContexts.Dogs.Controllers;
