@@ -1,5 +1,4 @@
 ﻿using System;
-using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.RootGameObjects.Presentation;
 using Sources.BoundedContexts.SaveAfterWaves.Infrastructure.Services;
 using Sources.BoundedContexts.SelectableItems.Infrastructure;
@@ -41,7 +40,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
         private readonly IAdvertisingService _advertisingService;
         private readonly ILocalizationService _localizationService;
         private readonly ITutorialService _tutorialService;
-        private readonly IGameCompletedService _gameCompletedService;
         private readonly ICurtainView _curtainView;
         private readonly ISignalControllersCollector _signalControllersCollector;
         private readonly ICameraService _cameraService;
@@ -64,7 +62,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             IAdvertisingService advertisingService,
             ILocalizationService localizationService,
             ITutorialService tutorialService,
-            IGameCompletedService gameCompletedService,
             ICurtainView curtainView,
             ISignalControllersCollector signalControllersCollector,
             ICameraService cameraService,
@@ -88,8 +85,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
                                   throw new ArgumentNullException(nameof(advertisingService));
             _localizationService = localizationService ?? 
                                    throw new ArgumentNullException(nameof(localizationService));
-            _gameCompletedService = gameCompletedService ??
-                                    throw new ArgumentNullException(nameof(gameCompletedService));
             _curtainView = curtainView ?? throw new ArgumentNullException(nameof(curtainView));
             _signalControllersCollector = signalControllersCollector ?? 
                                           throw new ArgumentNullException(nameof(signalControllersCollector));
@@ -116,7 +111,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _ecsGameStartUp.Initialize();
             await _curtainView.HideAsync();
             _selectableService.Initialize();
-            _gameCompletedService.Initialize();
             _saveAfterWaveService.Initialize();
             _signalBus
                 .GetStream<TestSignal>()
@@ -134,7 +128,6 @@ namespace Sources.BoundedContexts.Scenes.Controllers
             _soundyService.Destroy();
             _skyAndWeatherService.Destroy();
             //_achievementService.Destroy();
-            _gameCompletedService.Destroy();
             _saveAfterWaveService.Destroy();
             _compositeAssetService.Release();
             _cameraService.Destroy();

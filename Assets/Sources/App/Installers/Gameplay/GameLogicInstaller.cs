@@ -8,9 +8,6 @@ using Sources.BoundedContexts.Cats.Infrastructure;
 using Sources.BoundedContexts.ChikenCorrals.Infrastructure;
 using Sources.BoundedContexts.CowPens.Infrastructure;
 using Sources.BoundedContexts.Dogs.Infrastructure;
-using Sources.BoundedContexts.ExplosionBodies.Infrastructure.Factories.Views.Implementation;
-using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Implementation;
-using Sources.BoundedContexts.GameCompleted.Infrastructure.Services.Interfaces;
 using Sources.BoundedContexts.GoosePens.Infrastructure;
 using Sources.BoundedContexts.Healths.Infrastructure.Factories.Views;
 using Sources.BoundedContexts.Houses.Infrastructure;
@@ -36,18 +33,11 @@ namespace Sources.App.Installers.Gameplay
     {
         public override void InstallBindings(DiContainer container)
         {
-            //GameCompleted
-            container.Bind<IGameCompletedService, GameCompletedService>();
-            
             //PlayerWallet
             container.Bind<PlayerWalletViewFactory>();
             
             //Healths
             container.Bind<HealthBarViewFactory>();
-            
-            //ExplosionBodyBloody
-            container.Bind<ExplosionBodyBloodyViewFactory>();
-            container.Bind<ExplosionBodyViewFactory>();
             
             //ApplyAbilities
             container.Bind<AbilityApplierPresenterFactory>();

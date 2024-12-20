@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using HighlightPlus;
 using Sirenix.OdinInspector;
-using Sources.BoundedContexts.AnimalMovePoints;
 using Sources.BoundedContexts.Cameras.Presentation;
 using Sources.BoundedContexts.ChikenCorrals.Controllers;
 using Sources.BoundedContexts.SelectableItems.Presentation;

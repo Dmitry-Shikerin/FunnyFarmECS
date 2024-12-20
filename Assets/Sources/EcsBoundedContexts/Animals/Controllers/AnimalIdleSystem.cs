@@ -1,7 +1,6 @@
 ﻿using System;
 using Leopotam.EcsProto;
 using Leopotam.EcsProto.QoL;
-using Sources.BoundedContexts.AnimalAnimations.Domain;
 using Sources.EcsBoundedContexts.Animals.Domain;
 using Sources.EcsBoundedContexts.Animancers.Domain;
 using Sources.EcsBoundedContexts.Core;
